@@ -27,7 +27,7 @@ const AddService = () => {
     useEffect(() => {
     axios
         .get(
-            `http://localhost:5000/api/getservice/${id}`
+            `https://crud-operation-wn6g.onrender.com/api/getservice/${id}`
         )
         .then((resp) => {
             console.log(resp.data);
@@ -85,7 +85,7 @@ const AddService = () => {
 
                 try {
                     await axios.post(
-                        "http://localhost:5000/api/service_d",
+                        "https://crud-operation-wn6g.onrender.com/api/service_d",
                         state
                     );
 
@@ -100,7 +100,7 @@ const AddService = () => {
 
                 try {
                     await axios.put(
-                        `http://localhost:5000/api/update_ser/${id}`,
+                        `https://crud-operation-wn6g.onrender.com/api/update_ser/${id}`,
                         state
                     );
 

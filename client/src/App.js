@@ -14,9 +14,9 @@ import Services from "./pages/Services";
 import AddService from "./pages/AddService";
 import SView from "./pages/SView";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Home_l from "./pages/Home_l";
+import Homel from "./pages/Home_l";
 import Add from "./pages/Add";
-import Home_z from "./pages/Home_z";
+import Homez from "./pages/Home_z";
 import Out from "./pages/Out";
 import Status from "./pages/Status";
 import History from "./pages/History";
@@ -30,10 +30,10 @@ import SearchModel from "./pages/SearchModel";
 import RMASummary from "./pages/RMADetails1";
 import RMADetails1 from "./pages/RMADetails1";
 import RMADetails from "./pages/RMADetails";
-import RmaOut_Update from "./pages/RmaOut_Update";
-import RmaIn_Update from "./pages/RmaIn_Update";
+import RmaOutUpdate from "./pages/RmaOut_Update";
+import RmaInUpdate from "./pages/RmaIn_Update";
 import DashPending from "./pages/DashPending";
-import DashPending_o from "./pages/DashPending_o";
+import DashPendingo from "./pages/DashPending_o";
 import DashIrma from "./pages/DashIrma";
 import DashOrma from "./pages/DashOrma";
 
@@ -47,8 +47,8 @@ function App() {
           <Route path="/" element={<Login />} />
 
           <Route path="/home" element={<Home />} />
-          <Route path="/home/home_l" element={<Home_l />} />
-          <Route path="/home/home_z" element={<Home_z />} />
+          <Route path="/home/homel" element={<Home_l />} />
+          <Route path="/home/homez" element={<Home_z />} />
           <Route path="/home/addCustomer" element={<AddEdit />} />
           <Route path="/home/staff" element={<Staff />} />
           <Route path="/home/addstaff" element={<AddStaff />} />
@@ -118,13 +118,13 @@ function App() {
 />
 <Route path="/rma-details/:rma_no" element={<RMADetails1/>}/>
 <Route path="/update-rma-status_l/:rma_no" element={<RMADetails/>}/>
-<Route path="/update-rma/:rma_no" element={<RmaOut_Update/>}/>
+<Route path="/update-rma/:rma_no" element={<RmaOutUpdate />}/>
 <Route path="/update-rma_in/:rma_no" element={<RmaIn_Update/>}/>
 <Route path="/pending-serials" element={<DashPending/>}/>
 <Route path="/complete-serials" element={<DashPending/>}/>
 
-<Route path="/pending-serials_o" element={<DashPending_o/>}/>
-<Route path="/complete-serials_o" element={<DashPending_o/>}/>
+<Route path="/pending-serials_o" element={<DashPendingO />}/>
+<Route path="/complete-serials_o" element={<DashPendingO />}/>
 <Route path="/all-irma-data_pending" element={<DashIrma/>}/>
 <Route path="/all-irma-data_complete" element={<DashIrma/>}/>
 <Route path="/all-orma-data_pending" element={<DashOrma/>}/>

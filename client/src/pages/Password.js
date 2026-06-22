@@ -36,7 +36,7 @@ const Password = () => {
 
     axios
         .get(
-            `http://localhost:5000/api/password/${id}`
+            `https://crud-operation-wn6g.onrender.com/api/password/${id}`
         )
         .then((resp) => {
 
@@ -104,7 +104,7 @@ const Password = () => {
         try {
 
             await axios.put(
-                `http://localhost:5000/api/password/${id}`,
+                `https://crud-operation-wn6g.onrender.com/api/password/${id}`,
                 {
                     password:
                         state.password

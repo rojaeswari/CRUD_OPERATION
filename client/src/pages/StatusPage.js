@@ -20,7 +20,7 @@ const navigate = useNavigate();
 //     useState({ item_id: id });
 
 const loadData = () => {
-  axios.get("http://localhost:5000/reminders_lsr")
+  axios.get("https://crud-operation-wn6g.onrender.com/reminders_lsr")
     .then(res => setData(res.data));
 };
 
@@ -31,7 +31,7 @@ useEffect(() => {
   useEffect(() => {
 
     axios
-      .get(`http://localhost:5000/reminders_lsr`)
+      .get(`https://crud-operation-wn6g.onrender.com/reminders_lsr`)
       .then((res) => {
         setData(res.data);
       });
@@ -41,7 +41,7 @@ useEffect(() => {
   const saveStatus = async () => {  
 try{
     await axios.post(
-  `http://localhost:5000/update-status_lsr/${item_id}`,
+  `https://crud-operation-wn6g.onrender.com/update-status_lsr/${item_id}`,
   {
     item_id,
     reminder_id,
@@ -74,7 +74,7 @@ try{
   console.log("DATA:", data);
 
   await axios.post(
-    "http://localhost:5000/update-status_l",
+    "https://crud-operation-wn6g.onrender.com/update-status_l",
     {
       reminder_id: item_id,
       rma_id: data.rma_id,

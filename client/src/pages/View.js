@@ -9,7 +9,7 @@ const View = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/get/${id}`)
+        axios.get(`https://crud-operation-wn6g.onrender.com/api/get/${id}`)
             .then((resp) => setUser({ ...resp.data[0] }))
     }, [id]);
     return (

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+
 import "./Add.css";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 const Add= () => {
@@ -13,7 +13,7 @@ console.log("Logged User:", userId);
 
     const [customerId, setCustomerId] = useState("");
     const [customerDcNo, setCustomerDcNo] = useState("");
-    const [entryDate, setEntryDate] = useState("");
+   // const [entryDate, setEntryDate] = useState("");
     //   const [servicesId, setServicesId] = useState("");
     const [services, setServices] = useState([]);
     const [products, setProducts] = useState([
@@ -66,7 +66,7 @@ console.log("Logged User:", userId);
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/get-services_r")
+            .get("https://crud-operation-wn6g.onrender.com/get-services_r")
             .then((res) => {
                 setServices(res.data);
             });
@@ -137,7 +137,7 @@ console.log("USER ID FROM STORAGE:", userId);
 
 
             const res = await axios.post(
-                "http://localhost:5000/api/entry_in",
+                "https://crud-operation-wn6g.onrender.com/api/entry_in",
                 payload
             );
 
