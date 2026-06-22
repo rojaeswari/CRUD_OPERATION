@@ -33,7 +33,7 @@ const Status = () => {
 
         loadData();
 
-    }, []);
+    }, [id]);
 
     const loadData =
         async () => {

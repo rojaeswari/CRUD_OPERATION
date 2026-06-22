@@ -25,7 +25,7 @@ const loadData = () => {
 
 useEffect(() => {
   loadData();
-}, []);
+}, [loadData]);
 
   useEffect(() => {
 
@@ -70,22 +70,22 @@ try{
 
 
 
-  const completeStatus = async () => {
+  // const completeStatus = async () => {
 
-  console.log("DATA:", data);
+  // console.log("DATA:", data);
 
-  await axios.post(
-    "https://crud-operation-wn6g.onrender.com/update-status_l",
-    {
-      reminder_id: item_id,
-      rma_id: data.rma_id,
-      status_text: status,
-      completed: true
-    }
-  );
+  // await axios.post(
+  //   "https://crud-operation-wn6g.onrender.com/update-status_l",
+  //   {
+  //     reminder_id: item_id,
+  //     rma_id: data.rma_id,
+  //     status_text: status,
+  //     completed: true
+  //   }
+  // );
 
-  alert("Completed");
-};
+//   alert("Completed");
+// };
 
   return (
     // <div>

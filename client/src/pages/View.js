@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, data } from 'react-router-dom';
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "./View.css";
 
 const View = () => {
+
     const [user, setUser] = useState({});
 
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`https://crud-operation-wn6g.onrender.com/api/get/${id}`)
-            .then((resp) => setUser({ ...resp.data[0] }))
+        axios
+            .get(`https://crud-operation-wn6g.onrender.com/api/get/${id}`)
+            .then((resp) =>
+                setUser({ ...resp.data[0] })
+            );
     }, [id]);
     return (
         <div className="details-container">

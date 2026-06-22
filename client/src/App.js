@@ -47,8 +47,8 @@ function App() {
           <Route path="/" element={<Login />} />
 
           <Route path="/home" element={<Home />} />
-          <Route path="/home/homel" element={<Home_l />} />
-          <Route path="/home/homez" element={<Home_z />} />
+          <Route path="/home/homel" element={<Homel />} />
+          <Route path="/home/homez" element={<Homez />} />
           <Route path="/home/addCustomer" element={<AddEdit />} />
           <Route path="/home/staff" element={<Staff />} />
           <Route path="/home/addstaff" element={<AddStaff />} />
@@ -119,12 +119,12 @@ function App() {
 <Route path="/rma-details/:rma_no" element={<RMADetails1/>}/>
 <Route path="/update-rma-status_l/:rma_no" element={<RMADetails/>}/>
 <Route path="/update-rma/:rma_no" element={<RmaOutUpdate />}/>
-<Route path="/update-rma_in/:rma_no" element={<RmaIn_Update/>}/>
+<Route path="/update-rma_in/:rma_no" element={<RmaInUpdate/>}/>
 <Route path="/pending-serials" element={<DashPending/>}/>
 <Route path="/complete-serials" element={<DashPending/>}/>
 
-<Route path="/pending-serials_o" element={<DashPendingO />}/>
-<Route path="/complete-serials_o" element={<DashPendingO />}/>
+<Route path="/pending-serials_o" element={<DashPendingo />}/>
+<Route path="/complete-serials_o" element={<DashPendingo />}/>
 <Route path="/all-irma-data_pending" element={<DashIrma/>}/>
 <Route path="/all-irma-data_complete" element={<DashIrma/>}/>
 <Route path="/all-orma-data_pending" element={<DashOrma/>}/>
