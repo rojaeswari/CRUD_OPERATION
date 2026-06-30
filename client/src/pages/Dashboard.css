@@ -101,77 +101,59 @@ body{
     color:#fff;
 } */
 
-.dashboard-cards{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:30px;
-    width:100%;
+
+
+/* Dashboard Cards Layout */
+.dashboard-cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
-.total-card{
-    width:500px;
-    height:170px;
-    border-radius:22px;
-    background:linear-gradient(135deg,#8b5cf6,#4338ca);
-    color:#fff;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    box-shadow:0 10px 25px rgba(0,0,0,.18);
+/* Each Row */
+.row-cards {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.row-cards{
-    width:100%;
-    display:flex;
-    justify-content:center;
-    gap:30px;
-    flex-wrap:wrap;
+.total-card {
+    width: calc(25% - 15px);   /* 4 cards per row */
+    min-width: 220px;          /* Prevents cards from becoming too small */
+    height: 120px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #8b5cf6, #453cca);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(124,58,237,0.25);
+    transition: 0.3s;
 }
 
-.row-cards .card{
-    width:260px;
-    height:170px;
-    border-radius:22px;
-    background:linear-gradient(135deg,#8b5cf6,#4338ca);
-    color:white;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    box-shadow:0 10px 25px rgba(0,0,0,.18);
-    transition:.3s;
+.total-card:hover {
+    transform: translateY(-5px);
 }
 
-.row-cards .card:hover{
-    transform:translateY(-8px);
+.total-card:hover {
+    transform: translateY(-5px);
 }
 
-.row-cards .card h2{
-    font-size:55px;
-    margin:0;
+.total-card h2 {
+    font-size: 38px;
+    margin: 0;
+    color: white;
 }
 
-.row-cards .card p{
-    font-size:24px;
-    margin-top:12px;
-    text-align:center;
+.total-card p {
+    font-size: 15px;
+    margin-top: 8px;
+    text-align: center;
+    color: white;
 }
-
-@media(max-width:768px){
-
-.total-card{
-    width:90%;
-}
-
-.row-cards .card{
-    width:90%;
-}
-
-}
-
-
 /* Reminder Section */
 .reminder-section{
     flex:1;

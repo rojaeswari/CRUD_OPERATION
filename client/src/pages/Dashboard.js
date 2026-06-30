@@ -352,201 +352,86 @@ const getSerialCompletedOutCount = async () => {
          <div className="dashboard-cards">
 
     {/* Row 1 */}
-   
-        <div className="card total-card">
-    <h1>{count}</h1>
-    <p>Total Customers</p>
-  </div>
-
-  <div className="card-row">
-    <div className="card">
-      <h1>{pencount}</h1>
-      <p>Pending Inward</p>
+    <div className="row-cards">
+        <div className="total-card">
+            <h2>{count}</h2>
+            <p>Total Customers</p>
+        </div>
     </div>
 
-    <div className="card">
-      <h1>{comcount}</h1>
-      <p>Complete Inward</p>
+    {/* Row 2 */}
+    <div className="row-cards">
+
+        <Link to="/pending-rma">
+            <div className="total-card">
+                <h2>{pencount}</h2>
+                <p>Pending Inward</p>
+            </div>
+        </Link>
+
+        <Link to="/completed-rma">
+            <div className="total-card">
+                <h2>{comcount}</h2>
+                <p>Complete Inward</p>
+            </div>
+        </Link>
+
+        <Link to="/pending-rma-out">
+            <div className="total-card">
+                <h2>{outPenCount}</h2>
+                <p>Pending Outward</p>
+            </div>
+        </Link>
+
+        <Link to="/completed-rma-out">
+            <div className="total-card">
+                <h2>{outComCount}</h2>
+                <p>Complete Outward</p>
+            </div>
+        </Link>
+
     </div>
 
-    <div className="card">
-      <h1>{outPenCount}</h1>
-      <p>Pending Outward</p>
-    </div>
+    {/* Row 3 */}
+    <div className="row-cards">
 
-    <div className="card">
-      <h1>{outComCount}</h1>
-      <p>Complete Outward</p>
-    </div>
-  </div>
+        <Link to="/serial-pending-rma">
+            <div className="total-card">
+                <h2>{serialPendingCount}</h2>
+                <p>S.No Pending Inward</p>
+            </div>
+        </Link>
 
-  <div className="card-row">
-    <div className="card">
-      <h1>{serialPendingCount}</h1>
-      <p>S.No Pending Inward</p>
-    </div>
+        <Link to="/serial-completed-rma">
+            <div className="total-card">
+                <h2>{serialCompletedCount}</h2>
+                <p>S.No Complete Inward</p>
+            </div>
+        </Link>
 
-    <div className="card">
-      <h1>{serialCompletedCount}</h1>
-      <p>S.No Complete Inward</p>
-    </div>
+        <Link to="/serial-pending-rma-out">
+            <div className="total-card">
+                <h2>{serialPendingOutCount}</h2>
+                <p>S.No Pending Outward</p>
+            </div>
+        </Link>
 
-    <div className="card">
-      <h1>{serialPendingOutCount}</h1>
-      <p>S.No Pending Outward</p>
-    </div>
-
-    <div className="card">
-      <h1>{serialCompletedOutCount}</h1>
-      <p>S.No Complete Outward</p>
-    </div>
+        <Link to="/serial-completed-rma-out">
+            <div className="total-card">
+                <h2>{serialCompletedOutCount}</h2>
+                <p>S.No Complete Outward</p>
+            </div>
+        </Link>
 
     </div>
 
 </div>
-          {/* Reminder Section */}
-          {/* <div className="reminder-section">
-            <h2>RMA-OutWard Reminders</h2>
-
-            {reminders.length === 0 ? (
-  <p>No active reminders</p>
-) : ( */}
-
-{/* <table className="table table-bordered">
-
-  <thead>
-    <tr>
-      <th>RMA No</th>
-      <th>Serial No</th>
-      <th>Reminders</th> */}
-      {/* <th>Status</th>
-      <th>Action</th> */}
-    {/* </tr>
-  </thead>
-
-  <tbody>
-
-    {reminders.map((item) => (
-
-      <tr key={item.reminder_id}>
-
-        <td>{item.rma_no}</td>
-
-        <td>{item.serial_no}</td>
-
-        <td>
-  {item.reminder_day} Day Reminder */}
-
-  {/* <button
-    className="btn btn-warning btn-sm ms-2"
-    onClick={() =>
-      nav(`/statuspage1/${item.item_id}/${item.reminder_id}`)
-    }
-  >
-    Update Status
-  </button>
-</td> */}
-
-        {/* <td>{item.item_status}</td>
-
-        <td>
-
-          <button
-            className="btn btn-warning btn-sm"
-            onClick={() =>
-              openStatus(item)
-            }
-          >
-            Update
-          </button>
-
-        </td> */}
-
-      {/* </tr>
-
-    ))}
-
-  </tbody>
-
-</table>
-
-)}
-
-    </div> */}
-
-    {/* <div className="reminder-section">
-            <h2>RMA-InWard Reminders</h2>
-
-            {inreminders.length === 0 ? (
-  <p>No active reminders</p>
-) : (
-
-<table className="table table-bordered">
-
-  <thead>
-    <tr>
-      <th>RMA No</th>
-      <th>Serial No</th>
-      <th>Reminders</th> */}
-      {/* <th>Status</th>
-      <th>Action</th> */}
-    {/* </tr>
-  </thead>
-
-  <tbody>
-
-    {inreminders.map((item) => (
-
-      <tr key={item.reminder_id}>
-
-        <td>{item.rma_no}</td>
-
-        <td>{item.serial_no}</td>
-
-        <td>
-  {item.reminder_day} Day Reminder
-
-  <button
-    className="btn btn-warning btn-sm ms-2"
-    onClick={() =>
-      nav(`/statuspage/${item.item_id}/${item.reminder_id}`)
-    }
-  >
-    Update Status
-  </button>
-</td> */}
-
-        {/* <td>{item.item_status}</td>
-
-        <td>
-
-          <button
-            className="btn btn-warning btn-sm"
-            onClick={() =>
-              openStatus(item)
-            }
-          >
-            Update
-          </button>
-
-        </td> */}
-
-      {/* </tr>
-
-    ))}
-
-  </tbody>
-
-</table>
-
-)}
-
-    </div>
-    </div> */}
+         
     </div>
     </div>
     </div>
 
   );
 };
+
 export default Dashboard;
