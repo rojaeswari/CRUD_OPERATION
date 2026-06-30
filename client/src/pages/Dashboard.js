@@ -352,7 +352,7 @@ const getSerialCompletedOutCount = async () => {
          <div className="dashboard-cards">
 
     {/* Row 1 */}
-    <div className="row-cards">
+    <div className="row-cards first-row">
         <div className="total-card">
             <h2>{count}</h2>
             <p>Total Customers</p>
