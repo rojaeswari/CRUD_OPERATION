@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams,Link } from "react-router-dom";
 
 
-function RMA_Inupdata() {
+function RMAInupdata() {
 
   const { rma_no } = useParams();
 
@@ -162,4 +162,4 @@ const updateStatus = async () => {
 );
 }
 
-export default RMA_Inupdata;
+export default RMAInupdata;

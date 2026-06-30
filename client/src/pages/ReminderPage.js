@@ -9,7 +9,7 @@ export default function ReminderPage() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [load]);
 
   const load = async () => {
     const res = await getReminder(id);

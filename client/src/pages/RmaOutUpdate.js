@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams,Link } from "react-router-dom";
 
 
-function RmaOut_Update() {
+function RmaOutUpdate() {
 
   const { rma_no } = useParams();
 
@@ -208,4 +208,4 @@ const updateStatus = async () => {
   );
 }
 
-export default RmaOut_Update;
+export default RmaOutUpdate;

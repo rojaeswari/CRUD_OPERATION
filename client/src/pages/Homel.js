@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "./Home_z.css";
+import "./Home_l.css";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-const Home_z = () => {
+const Homel = () => {
 
     const [data, setData] = useState([]); // MUST BE []
 
@@ -28,9 +28,9 @@ const Home_z = () => {
     const loadData = async () => {
         try {
             const response = await axios.get(
-                "https://smazo.onrender.com/api/get_o"
+                "https://smazo.onrender.com/api/get_P"
             );
-  console.log("API DATA =", response.data);
+
             console.log(response.data);
 
             // Safety check
@@ -55,7 +55,7 @@ const Home_z = () => {
         try {
 
             await axios.delete(
-                `https://smazo.onrender.com/delete-rma/${rma_no}`
+                `https://smazo.onrender.com/delete-rma_r/${rma_no}`
             );
 
             alert("Deleted Successfully");
@@ -69,29 +69,33 @@ const Home_z = () => {
         }
 
     };
+
     const generatePDF = async (item) => {
-        console.log("ITEM =", item);
-        console.log("RMA NO =", item.rma_no);
-        // console.log("RMA NO:", rma_no);
 
         try {
 
             const resp = await axios.get(
-                `https://smazo.onrender.com/api/pdf1/${item.rma_no}`
+                `https://smazo.onrender.com/api/pdf/${item.rma_no}`
             );
 
-
             const pdfData = resp.data;
-            console.log("PDF DATA:", pdfData);
+
+            console.log("RESP DATA:", pdfData);
 
             if (!pdfData || pdfData.length === 0) {
-                alert("No data found");
+                alert("No Data Found");
                 return;
             }
-            const header = pdfData[0];
-            const entryDate = header.entry_date
-                ? header.entry_date.substring(0, 10)
+
+            const headerData = pdfData[0];
+            console.log("Raw Date =", headerData.entry_date);
+
+            const entryDate = headerData.entry_date
+                ? headerData.entry_date.substring(0, 10)
                 : "";
+
+
+
 
             const doc = new jsPDF({
                 orientation: "landscape",
@@ -126,54 +130,48 @@ const Home_z = () => {
                 { align: "center" }
             );
 
-            //    doc.text(
-            //        "GSTIN: 33DSEPK8530C1Z1",
-            //        105,
-            //        27,
-            //        { align: "center" }
-            //    );
+            // doc.text(
+            //     "GSTIN: 33DSEPK8530C1Z1",
+            //     105,
+            //     27,
+            //     { align: "center" }
+            // );
 
             doc.text(
                 "Contact: 9003838352, 9500508118, 9003866653",
                 105,
-                32,
+                27,
                 { align: "center" }
             );
 
-            //    doc.text(
-            //        "Email: smazosecurityservices@gmail.com",
-            //        105,
-            //        37,
-            //        { align: "center" }
-            //    );
+            // doc.text(
+            //     "Email: smazosecurityservices@gmail.com",
+            //     105,
+            //     37,
+            //     { align: "center" }
+            // );
             // RMA
 
             // doc.rect(10, 45, 120, 35);
-            doc.rect(135, 45, 60, 35);
+            doc.rect(135, 35, 60, 35);
             doc.setFontSize(8);
 
             doc.text(
-                `RMA No : ${header.rma_no}`,
+                `RMA No : ${headerData.rma_no}`,
                 140,
-                55
+                45
             );
-
-            //     doc.text(
-            //        `Cus Dc No : ${header.customer_dc_no}`,
-            //        140,
-            //        60
-            //    );
 
             doc.text(
                 `Entry Date : ${entryDate}`,
                 140,
-                65
+                55
             );
 
             doc.text(
-                `Staff Name : ${header.created_by_name || ""}`,
+                `Staff Name : ${headerData.created_by_name || ""}`,
                 140,
-                75
+                65
             );
 
 
@@ -196,11 +194,11 @@ const Home_z = () => {
                 doc.setFont(undefined, "normal");
 
                 // Single Line
-                doc.text(`Customer : ${header.center_name || ""}`, 11, 12);
+                doc.text(`Customer : ${headerData.customer_name || ""}`, 11, 12);
 
-                doc.text(`Phone : ${header.phone_no || ""}`, 60, 12);
+                doc.text(`Phone : ${headerData.phone_no || ""}`, 60, 12);
 
-                doc.text(`RMA No : ${header.rma_no || ""}`, 110, 12);
+                doc.text(`RMA No : ${headerData.rma_no || ""}`, 110, 12);
 
                 doc.text(`Entry Date : ${entryDate}`, 155, 12);
 
@@ -225,47 +223,47 @@ const Home_z = () => {
 
             // Customer Details Table
             // -------- Customer Details (Text Format) --------
-            doc.rect(10, 45, 120, 35);
+            doc.rect(13, 35, 120, 35);
             doc.setFontSize(10);
             doc.setFont(undefined, "bold");
 
             doc.text(
-                "Center Details",
-                15,
-                53
+                "Customer Details",
+                17,
+                43
             );
 
             doc.setFont(undefined, "normal");
             doc.setFontSize(8);
 
             doc.text(
-                `Center Name : ${header.center_name || ""}`,
-                15,
+                `Customer : ${headerData.customer_name || ""}`,
+                17,
+                52
+            );
+
+            doc.text(
+                `Phone : ${headerData.phone_no || ""}`,
+                75,
+                52
+            );
+
+            doc.text(
+                `Email : ${headerData.email || ""}`,
+                17,
                 62
             );
 
             doc.text(
-                `Phone : ${header.phone_no || ""}`,
+                `Address : ${headerData.address || ""}`,
                 75,
                 62
-            );
-
-            doc.text(
-                `Email : ${header.email || ""}`,
-                15,
-                72
-            );
-
-            doc.text(
-                `Address : ${header.address || ""}`,
-                75,
-                72
             );
 
 
             // RMA Details Table
             autoTable(doc, {
-                startY: 88,
+                startY: 78,
 
                 theme: "grid",
 
@@ -351,6 +349,7 @@ const Home_z = () => {
     };
 
 
+
     const shareWhatsApp = (item) => {
 
         const message = `
@@ -363,7 +362,7 @@ Quantity: ${item.quantity_no}
 Serial No: ${item.serial_no}
 Accessory: ${item.accessory}
 Customer DC No: ${item.customer_dc_no}
-Entry Date: ${item.entry_date}
+Reminder Date: ${item.reminder_date}
 `;
 
         const whatsappUrl =
@@ -374,7 +373,7 @@ Entry Date: ${item.entry_date}
     };
 
     return (
-        <div className="home-container">
+        <div className="top-btns">
             <div className="top-buttons">
 
                 <Link to="/Dashboard">
@@ -383,27 +382,40 @@ Entry Date: ${item.entry_date}
                     </button>
                 </Link>
 
+                <Link to={`/supporter`}>
+                    <button className="view-btn"
+                    >
+                        supporter
+                    </button>
+                </Link>
 
-                <Link to="/home/Out">
+
+
+                <Link to="/home/add">
                     <button className="add-btn">
-                        + Add RMA outer
+                        Add RMA Entry
                     </button>
                 </Link>
 
             </div>
-            <table>
+
+            <table className="rma-table">
                 <thead>
                     <tr>
                         <th>RMA NO</th>
-                        <th>Center Name</th>
+                        <th>Customer Name</th>
                         <th>Product Name</th>
                         <th>Model Number</th>
                         <th>Quantity</th>
-
-                        <th>status</th>
+                        {/* <th>Serial No</th>
+                        <th>Accessory</th> */}
+                        <th>Status</th>
                         <th>Entry Date</th>
-                        <th>view</th>
+                        <th>status</th>
+                        <th>Summary</th>
                         <th>Action</th>
+
+
 
                         <th>View</th>
                         <th>Share</th>
@@ -413,60 +425,56 @@ Entry Date: ${item.entry_date}
 
                 <tbody>
                     {data.map((item, index) => {
-                          console.log("ITEM =", item);
-    console.log("RMA NO =", item.rma_no);
-
                         return (
-                          
-                        <tr key={item.id}>
-                            <td>{item.rma_no}</td>
-                            <td>{item.center_name}</td>
-                            <td>{item.product_name}</td>
-                            <td>{item.model_number}</td>
-                            <td>{item.quantity_no}</td>
+                            <tr key={item.id}>
+                                <td>{item.rma_no}</td>
+                                <td>{item.customer_name}</td>
+                                <td>{item.product_name}</td>
+                                <td>{item.model_number}</td>
+                                <td>{item.quantity_no}</td>
+                                {/* <td>{item.serial_no}</td>
+                                <td>{item.accessory}</td> */}
+                                <td>{item.status}</td>
 
+                                <td>
+                                    {item.entry_date
+                                        ? new Date(item.entry_date).toLocaleDateString("en-GB")
+                                        : "-"}
+                                </td>
 
-                            <td>{item.status}</td>
+                                <td>{item.status}</td>
+                                <td>
+                                    <Link
 
-                            <td>
-                                {item.entry_date
-                                    ? new Date(item.entry_date).toLocaleDateString("en-GB")
-                                    : "-"}
-                            </td>
-                            <td>
+                                        to={`/rma-details_r/${item.rma_no}`}
+                                    >
+                                        View
+                                    </Link>
+                                </td>
 
-                                <Link
+                                <td>
+                                    <Link to={`/update-rma1/${item.rma_no}`}>
+                                        <button className="edit-btn">
+                                            Edit
+                                        </button>
+                                    </Link>
 
-                                    to={`/rma-details/${item.rma_no}`}
-                                >
-                                    View
-                                </Link>
-
-                            </td>
-
-                            <td>
-                                <Link to={`/update-rma/${item.rma_no}`}>
-                                    <button className="edit-btn">
-                                        Edit
+                                    <button
+                                        className="delete-btn"
+                                        onClick={() =>
+                                            deleteRMA(item.rma_no)
+                                        }
+                                    >
+                                        Delete
                                     </button>
-                                </Link>
-
-                                <button
-    className="delete-btn"
-    onClick={() => {
-        console.log("ITEM =", item);
-        console.log("RMA NO =", item.rma_no);
-        deleteRMA(item.rma_no);
-    }}
->
-    Delete
-</button>
 
 
 
-                            </td>
-                            {/* <td>
-                                    <Link to={`/history_l/${item.id}`}>
+
+                                </td>
+
+                                {/* <td>
+                                    <Link to={`/status-history_lsr/${item.id}`}>
                                         <button className="btn btn-view">
                                             View History
                                         </button>
@@ -475,22 +483,32 @@ Entry Date: ${item.entry_date}
 
 
                                 </td> */}
-                            <td>
-                                <button className="view-btn"
-                                    onClick={() => generatePDF(item)}
-                                >
-                                    PDF
-                                </button>
-                            </td>
-                            <td>
-                                <button
-                                    className="share-btn"
-                                    onClick={() => shareWhatsApp(item)}
-                                >
-                                    WhatsApp
-                                </button>
-                            </td>
-                        </tr>
+                                {/* <td>
+                                    <Link to={`/search-model/${item.model_number}`}>
+                                        <button className="edit-btn">
+                                            search
+                                        </button>
+                                    </Link>
+                                </td> */}
+
+                                <td>
+                                    <button
+                                        className="view-btn"
+                                        onClick={() => generatePDF(item)}
+                                    >
+                                        View
+                                    </button>
+                                </td>
+                                <td>
+                                    <button
+                                        className="share-btn"
+                                        onClick={() => shareWhatsApp(item)}
+                                    >
+                                        WhatsApp
+                                    </button>
+                                </td>
+                            </tr>
+
 
 
                         );
@@ -502,4 +520,4 @@ Entry Date: ${item.entry_date}
 
 }
 
-export default Home_z;
+export default Homel;
