@@ -5,17 +5,18 @@ import "./Add.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 
-const Add= () => {
+const Add = () => {
     const today = new Date().toISOString().split("T")[0];
 
-
+const username = localStorage.getItem("username");
 
     const [customerId, setCustomerId] = useState("");
-    //   const [customerDcNo, setCustomerDcNo] = useState("");
+    const [customerDcNo, setCustomerDcNo] = useState("");
     const [entryDate, setEntryDate] = useState("");
     //   const [servicesId, setServicesId] = useState("");
     const [services, setServices] = useState([]);
     const [products, setProducts] = useState([
+
         {
             product_name: "",
             model_number: "",
@@ -127,8 +128,11 @@ const Add= () => {
             const payload = {
                 customer_id: customerId,
 
+                customer_dc_no: customerDcNo,
+
                 entry_date: entryDate,
-                products
+                products,
+                created_by:username
             };
 
 
@@ -179,19 +183,37 @@ const Add= () => {
                     </option>
                 ))}
             </select>
+
+
+
+            <div className="col-md-4">
+                {/* <label>Customer DC No</label> */}
+
+                <input
+                    type="text"
+                    className="form-control"
+                    value={customerDcNo}
+                    onChange={(e) =>
+                        setCustomerDcNo(e.target.value)
+                    }
+                    placeholder="Enter Customer DC No"
+                />
+            </div>
+
+
             <div className="mb-3">
 
                 <label>Entry Date</label>
-            <input
-                type="date"
-                className="form-control"
-                value={entryDate}
-                onChange={(e) =>
-                    setEntryDate(e.target.value)
-                }
-            />
-            
-            {/* <div className="mb-3">
+                <input
+                    type="date"
+                    className="form-control"
+                    value={entryDate}
+                    onChange={(e) =>
+                        setEntryDate(e.target.value)
+                    }
+                />
+
+                {/* <div className="mb-3">
 
                 <label>Entry Date</label>
 
@@ -202,120 +224,35 @@ const Add= () => {
                     readOnly
                 /> */}
 
-    </div>
+            </div>
 
             {
-        products.map((product, pIndex) => (
+                products.map((product, pIndex) => (
 
-            <div
-                key={pIndex}
-                className="card p-3 mb-4"
-            >
+                    <div
+                        key={pIndex}
+                        className="card p-3 mb-4"
+                    >
 
-                <h5>
-                    Product {pIndex + 1}
-                </h5>
+                        <h5>
+                            Product {pIndex + 1}
+                        </h5>
 
-                <div className="row">
-
-                    <div className="col-md-4">
-
-                        <label>
-                            Product Name
-                        </label>
-
-                        <input
-                            className="form-control"
-                            value={product.product_name}
-                            onChange={(e) =>
-                                handleProductChange(
-                                    pIndex,
-                                    "product_name",
-                                    e.target.value
-                                )
-                            }
-                        />
-
-                    </div>
-
-                    <div className="col-md-4">
-
-                        <label>
-                            Model Number
-                        </label>
-
-                        <input
-                            className="form-control"
-                            value={product.model_number}
-                            onChange={(e) =>
-                                handleProductChange(
-                                    pIndex,
-                                    "model_number",
-                                    e.target.value
-                                )
-                            }
-                        />
-
-                    </div>
-                    {/* <div className="col-md-4">
-                            <label>Customer DC No</label>
-
-                            <input
-                                className="form-control"
-                                value={products.customer_dc_no}
-                                onChange={(e) =>
-                                    handleProductChange(
-                                        pIndex,
-                                        "customer_dc_no",
-                                        e.target.value
-                                    )
-                                }
-                            />
-                        </div> */}
-
-                    <div className="col-md-4">
-
-                        <label>
-                            Quantity
-                        </label>
-
-                        <input
-                            type="number"
-                            className="form-control"
-                            value={product.quantity_no}
-                            onChange={(e) =>
-                                handleQuantityChange(pIndex, e.target.value)
-                            }
-                        />
-
-                    </div>
-
-                </div>
-
-                <hr />
-
-                {product.items.map(
-                    (item, iIndex) => (
-
-                        <div
-                            className="row mb-3"
-                            key={iIndex}
-                        >
+                        <div className="row">
 
                             <div className="col-md-4">
 
                                 <label>
-                                    Serial No
+                                    Product Name
                                 </label>
 
                                 <input
                                     className="form-control"
-                                    value={item.serial_no}
+                                    value={product.product_name}
                                     onChange={(e) =>
-                                        handleItemChange(
+                                        handleProductChange(
                                             pIndex,
-                                            iIndex,
-                                            "serial_no",
+                                            "product_name",
                                             e.target.value
                                         )
                                     }
@@ -326,40 +263,48 @@ const Add= () => {
                             <div className="col-md-4">
 
                                 <label>
-                                    Accessory
+                                    Model Number
                                 </label>
 
                                 <input
                                     className="form-control"
-                                    value={item.accessory}
+                                    value={product.model_number}
                                     onChange={(e) =>
-                                        handleItemChange(
+                                        handleProductChange(
                                             pIndex,
-                                            iIndex,
-                                            "accessory",
+                                            "model_number",
                                             e.target.value
                                         )
                                     }
                                 />
 
                             </div>
+                            {/* <div className="col-md-4">
+                                <label>Customer DC No</label>
+
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={customerDcNo}
+                                    onChange={(e) =>
+                                        setCustomerDcNo(e.target.value)
+                                    }
+                                    placeholder="Enter Customer DC No"
+                                />
+                            </div> */}
 
                             <div className="col-md-4">
 
                                 <label>
-                                    Issues
+                                    Quantity
                                 </label>
 
                                 <input
+                                    type="number"
                                     className="form-control"
-                                    value={item.issues}
+                                    value={product.quantity_no}
                                     onChange={(e) =>
-                                        handleItemChange(
-                                            pIndex,
-                                            iIndex,
-                                            "issues",
-                                            e.target.value
-                                        )
+                                        handleQuantityChange(pIndex, e.target.value)
                                     }
                                 />
 
@@ -367,10 +312,85 @@ const Add= () => {
 
                         </div>
 
-                    )
-                )}
+                        <hr />
 
-                {/* <button
+                        {product.items.map(
+                            (item, iIndex) => (
+
+                                <div
+                                    className="row mb-3"
+                                    key={iIndex}
+                                >
+
+                                    <div className="col-md-4">
+
+                                        <label>
+                                            Serial No
+                                        </label>
+
+                                        <input
+                                            className="form-control"
+                                            value={item.serial_no}
+                                            onChange={(e) =>
+                                                handleItemChange(
+                                                    pIndex,
+                                                    iIndex,
+                                                    "serial_no",
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+
+                                    </div>
+
+                                    <div className="col-md-4">
+
+                                        <label>
+                                            Accessory
+                                        </label>
+
+                                        <input
+                                            className="form-control"
+                                            value={item.accessory}
+                                            onChange={(e) =>
+                                                handleItemChange(
+                                                    pIndex,
+                                                    iIndex,
+                                                    "accessory",
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+
+                                    </div>
+
+                                    <div className="col-md-4">
+
+                                        <label>
+                                            Issues
+                                        </label>
+
+                                        <input
+                                            className="form-control"
+                                            value={item.issues}
+                                            onChange={(e) =>
+                                                handleItemChange(
+                                                    pIndex,
+                                                    iIndex,
+                                                    "issues",
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+
+                                    </div>
+
+                                </div>
+
+                            )
+                        )}
+
+                        {/* <button
                         className="btn btn-secondary"
                         onClick={() =>
                             addSerial(pIndex)
@@ -379,10 +399,10 @@ const Add= () => {
                         + Add Serial
                     </button> */}
 
-            </div>
+                    </div>
 
-        ))
-    }
+                ))
+            }
 
             <button
                 className="btn btn-primary me-2"
@@ -400,11 +420,11 @@ const Add= () => {
 
 
             <Link to="/home/home_l">
-                                      <button className="back-btn">
-                                          Go Back
-                                      </button>
-                                  </Link>
-            
+                <button className="back-btn">
+                    Go Back
+                </button>
+            </Link>
+
 
         </div >
     );

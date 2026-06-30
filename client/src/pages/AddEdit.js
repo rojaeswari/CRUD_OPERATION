@@ -32,10 +32,22 @@ const AddEdit = () => {
 
     const [state, setState] = useState(initialState);
     const { id } = useParams();
+
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/get/${id}`)
-            .then((resp) => setState({ ...resp.data[0] }))
+
+        if (id) {
+            axios
+                .get(`http://localhost:5000/api/get/${id}`)
+                .then((resp) => {
+                    setState(resp.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+
     }, [id]);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
@@ -65,11 +77,20 @@ const AddEdit = () => {
             toast.error(
                 "Customer Name, Address, Phone No and Location are required"
             );
-            
+            return;
+
         }
 
         if (!validatePhone(phone_no)) {
             toast.error("Phone number must contain exactly 10 digits");
+            return;
+        }
+
+        const emailRegex =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(state.email)) {
+            toast.error("Invalid Email Address");
             return;
         }
         else {
@@ -122,11 +143,14 @@ const AddEdit = () => {
                 <div className="form-grid">
 
                     <div className="form-group">
-                        <label>Customer Name</label>
+                        <label>
+                            Customer Name <span className="required">*</span>
+                        </label>
+
                         <input
                             type="text"
                             name="customer_name"
-                            value={state.customer_name || ""}
+                            value={state.customer_name}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -142,16 +166,21 @@ const AddEdit = () => {
                     </div>
 
                     <div className="form-group full-width">
-                        <label>Address</label>
+                        <label>
+                            Address <span className="required">*</span>
+                        </label>
+
                         <textarea
                             name="address"
-                            value={state.address || ""}
+                            value={state.address}
                             onChange={handleInputChange}
                         />
                     </div>
 
                     <div className="form-group">
-                        <label>Phone No</label>
+                        <label>
+                            Phone No <span className="required">*</span>
+                        </label>
                         <input
                             type="text"
                             name="phone_no"
@@ -181,11 +210,14 @@ const AddEdit = () => {
                     </div>
 
                     <div className="form-group">
-                        <label>Location</label>
+                        <label>
+                            Location <span className="required">*</span>
+                        </label>
+
                         <input
                             type="text"
                             name="location"
-                            value={state.location || ""}
+                            value={state.location}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -195,9 +227,12 @@ const AddEdit = () => {
                         <input
                             type="email"
                             name="email"
+                            placeholder="Enter Email"
                             value={state.email || ""}
                             onChange={handleInputChange}
+                            required
                         />
+
                     </div>
                 </div>
 

@@ -1,21 +1,25 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-.home-container {
-  padding: 20px;
-  min-height: 100vh;
-  background: #f4f6f9;
+body{
+  font-family:"Poppins",sans-serif;
+  background:linear-gradient(135deg,#f5f3ff,#ede9fe);
+}
+
+.home-container{
+  padding:25px;
+  min-height:100vh;
 }
 
 /* Top Buttons */
 
-.top-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+.top-buttons{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:25px;
 }
 
 .back-btn,
@@ -24,137 +28,133 @@
 .delete-btn,
 .view-btn,
 .share-btn,
-.btn-view {
-  border: none;
-  color: #fff;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin: 2px;
-  font-size: 14px;
-  transition: 0.3s;
+.btn-view{
+  border:none;
+  color:white;
+  padding:10px 16px;
+  border-radius:12px;
+  cursor:pointer;
+  margin:2px;
+  font-size:14px;
+  font-weight:600;
+  transition:.3s;
 }
 
-.back-btn {
-  background: #6c757d;
+.back-btn{
+  background:linear-gradient(135deg,#6d28d9,#8b5cf6);
 }
 
-.back-btn:hover {
-  background: #545b62;
+.add-btn{
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
 }
 
-.add-btn {
-  background: #28a745;
+.edit-btn{
+  background:linear-gradient(135deg,#9333ea,#c084fc);
 }
 
-.add-btn:hover {
-  background: #218838;
+.delete-btn{
+  background:linear-gradient(135deg,#dc2626,#f87171);
 }
 
-.edit-btn {
-  background: #007bff;
+.view-btn{
+  background:linear-gradient(135deg,#7e22ce,#d946ef);
 }
 
-.edit-btn:hover {
-  background: #0069d9;
+.share-btn{
+  background:linear-gradient(135deg,#8b5cf6,#c084fc);
 }
 
-.delete-btn {
-  background: #dc3545;
+.btn-view{
+  background:linear-gradient(135deg,#5b21b6,#8b5cf6);
 }
 
-.delete-btn:hover {
-  background: #c82333;
-}
-
-.view-btn {
-  background: #17a2b8;
-}
-
-.view-btn:hover {
-  background: #138496;
-}
-
-.share-btn {
-  background: #25d366;
-}
-
-.share-btn:hover {
-  background: #1ebe5d;
-}
-
-.btn-view {
-  background: #fd7e14;
-}
-
-.btn-view:hover {
-  background: #e36b00;
+.back-btn:hover,
+.add-btn:hover,
+.edit-btn:hover,
+.delete-btn:hover,
+.view-btn:hover,
+.share-btn:hover,
+.btn-view:hover{
+  transform:translateY(-2px);
 }
 
 /* Table */
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(124,58,237,0.15);
 }
 
-thead {
-  background: #343a40;
-  color: white;
+thead{
+  background:linear-gradient(
+    90deg,
+    #6d28d9,
+    #8b5cf6
+  );
+  color:white;
 }
 
-th,
-td {
-  border: 1px solid #dee2e6;
-  padding: 12px;
-  text-align: center;
+th{
+  padding:15px;
+  font-size:15px;
+  font-weight:600;
 }
 
-tbody tr:nth-child(even) {
-  background: #f8f9fa;
+td{
+  padding:12px;
+  text-align:center;
+  border-bottom:1px solid #ede9fe;
 }
 
-tbody tr:hover {
-  background: #e9ecef;
+tbody tr:nth-child(even){
+  background:#faf5ff;
 }
 
-/* Status Colors */
-
-.status-open {
-  color: green;
-  font-weight: bold;
+tbody tr:hover{
+  background:#f3e8ff;
+  transition:.3s;
 }
 
-.status-pending {
-  color: orange;
-  font-weight: bold;
+/* Status */
+
+.status-open{
+  color:#16a34a;
+  font-weight:bold;
 }
 
-.status-closed {
-  color: red;
-  font-weight: bold;
+.status-pending{
+  color:#ca8a04;
+  font-weight:bold;
+}
+
+.status-closed{
+  color:#dc2626;
+  font-weight:bold;
 }
 
 /* Responsive */
 
-@media (max-width: 1200px) {
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+/* @media(max-width:1200px){
+  table{
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
   }
 }
 
-@media (max-width: 768px) {
-  .top-buttons {
-    flex-direction: column;
-    gap: 10px;
+@media(max-width:768px){
+
+  .top-buttons{
+    flex-direction:column;
+    gap:10px;
   }
 
   .back-btn,
-  .add-btn {
-    width: 100%;
+  .add-btn{
+    width:100%;
   }
-}
+} */

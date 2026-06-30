@@ -9,8 +9,12 @@ const View = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/get/${id}`)
-            .then((resp) => setUser({ ...resp.data[0] }))
+       axios.get(`http://localhost:5000/api/get/${id}`)
+    .then((resp) => {
+        console.log(resp.data);
+        setUser(resp.data);
+    })
+    .catch((err) => console.log(err));
     }, [id]);
     return (
         <div className="details-container">

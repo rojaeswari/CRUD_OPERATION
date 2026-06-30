@@ -1,19 +1,24 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-.top-btns {
-  padding: 20px;
-  background: #f4f6f9;
-  min-height: 100vh;
+body{
+  font-family:"Poppins",sans-serif;
+  background:linear-gradient(135deg,#f5f3ff,#ede9fe);
 }
 
-.top-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+.top-btns{
+  padding:20px;
+  min-height:100vh;
+}
+
+/* Top Buttons */
+.top-buttons{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:20px;
 }
 
 .add-btn,
@@ -22,131 +27,124 @@
 .delete-btn,
 .view-btn,
 .share-btn,
-.btn-view {
-  border: none;
-  padding: 8px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  color: white;
-  font-size: 14px;
-  margin: 2px;
-  transition: 0.3s;
+.btn-view{
+  border:none;
+  padding:10px 16px;
+  border-radius:12px;
+  cursor:pointer;
+  color:white;
+  font-size:14px;
+  font-weight:600;
+  margin:3px;
+  transition:0.3s;
 }
 
-.add-btn {
-  background: #28a745;
+/* Button Colors */
+.add-btn{
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
 }
 
-.add-btn:hover {
-  background: #218838;
+.add-btn:hover{
+  transform:translateY(-2px);
 }
 
-.back-btn {
-  background: #6c757d;
+.back-btn{
+  background:linear-gradient(135deg,#6d28d9,#8b5cf6);
 }
 
-.back-btn:hover {
-  background: #545b62;
+.edit-btn{
+  background:linear-gradient(135deg,#9333ea,#c084fc);
 }
 
-.edit-btn {
-  background: #007bff;
+.delete-btn{
+  background:linear-gradient(135deg,#dc2626,#f87171);
 }
 
-.edit-btn:hover {
-  background: #0069d9;
+.view-btn{
+  background:linear-gradient(135deg,#7e22ce,#d946ef);
 }
 
-.delete-btn {
-  background: #dc3545;
+.share-btn{
+  background:linear-gradient(135deg,#a21caf,#e879f9);
 }
 
-.delete-btn:hover {
-  background: #c82333;
+.btn-view{
+  background:linear-gradient(135deg,#6d28d9,#c084fc);
 }
 
-.view-btn {
-  background: #17a2b8;
+/* Table */
+.rma-table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(124,58,237,0.15);
 }
 
-.view-btn:hover {
-  background: #138496;
+.rma-table thead{
+  background:linear-gradient(
+    90deg,
+    #6d28d9,
+    #8b5cf6
+  );
+  color:white;
 }
 
-.share-btn {
-  background: #25d366;
+.rma-table th{
+  padding:15px;
+  font-size:15px;
 }
 
-.share-btn:hover {
-  background: #1ebe5d;
+.rma-table td{
+  padding:12px;
+  border-bottom:1px solid #ede9fe;
+  text-align:center;
 }
 
-.btn-view {
-  background: #fd7e14;
+.rma-table tbody tr:nth-child(even){
+  background:#faf5ff;
 }
 
-.btn-view:hover {
-  background: #e96b00;
+.rma-table tbody tr:hover{
+  background:#f3e8ff;
+  transition:.3s;
 }
 
-.rma-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+/* Status Colors */
+.status-open{
+  color:#16a34a;
+  font-weight:bold;
 }
 
-.rma-table thead {
-  background: #343a40;
-  color: white;
+.status-pending{
+  color:#ca8a04;
+  font-weight:bold;
 }
 
-.rma-table th,
-.rma-table td {
-  padding: 12px;
-  border: 1px solid #dee2e6;
-  text-align: center;
+.status-close{
+  color:#dc2626;
+  font-weight:bold;
 }
 
-.rma-table tbody tr:nth-child(even) {
-  background: #f8f9fa;
-}
-
-.rma-table tbody tr:hover {
-  background: #e9ecef;
-}
-
-.status-open {
-  color: #28a745;
-  font-weight: bold;
-}
-
-.status-pending {
-  color: #ffc107;
-  font-weight: bold;
-}
-
-.status-close {
-  color: #dc3545;
-  font-weight: bold;
-}
-
-@media screen and (max-width: 1200px) {
-  .rma-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+/* Responsive */
+/* @media(max-width:1200px){
+  .rma-table{
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
   }
 }
 
-@media screen and (max-width: 768px) {
-  .top-buttons {
-    flex-direction: column;
-    gap: 10px;
+@media(max-width:768px){
+
+  .top-buttons{
+    flex-direction:column;
+    gap:10px;
   }
 
   .add-btn,
-  .back-btn {
-    width: 100%;
+  .back-btn{
+    width:100%;
   }
-}
+} */

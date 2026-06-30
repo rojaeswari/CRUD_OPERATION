@@ -10,6 +10,8 @@ function RMADetails() {
   console.log("rma_no =", rma_no);
 
   const [data, setData] = useState([]);
+     const [supporterData, setSupporterData] = useState([]);
+      const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
@@ -18,6 +20,7 @@ function RMADetails() {
       .then((res) => {
         console.log(res.data);
         setData(res.data);
+         setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -25,6 +28,24 @@ function RMADetails() {
 
   }, [rma_no]);
 
+  if (loading) {
+    return <h4>Loading...</h4>;
+  }
+
+  if (data.length === 0) {
+    return <h4>No Data Found</h4>;
+  }
+
+ const loadSupporter = async (serialNo) => {
+
+        const res = await axios.get(
+            `http://localhost:5000/api/supporter-by-serial/${serialNo}`
+        );
+        
+           console.log(res.data);  
+
+        setSupporterData(res.data);
+    };
 
 
 const updateStatus = async () => {
@@ -67,9 +88,42 @@ const updateStatus = async () => {
           <strong>Customer :</strong>{" "}
           {data[0].customer_name}
         </p>
-
-
       </div>
+
+     {supporterData.length > 0 && (
+    <div className="mt-4">
+
+        <h3>Supporter Details</h3>
+
+        <table className="table table-bordered">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Product Name</th>
+                    <th>Model No</th>
+                    <th>Serial No</th>
+                     <th> Replacement Serial No</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                {supporterData.map((row, index) => (
+                    <tr key={row.id}>
+                        <td>{index + 1}</td>
+                        <td>{row.product_name}</td>
+                        <td>{row.model_no}</td>
+                        <td>{row.serial_no}</td>
+                        <td>{row.replacement_serial_no}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+
+    </div>
+)}
+
+
 
       {/* <div className="mb-3">
 
@@ -96,6 +150,8 @@ const updateStatus = async () => {
             <th>Accessory</th>
             <th>Issues</th>
             <th>status</th>
+            <th> Status Update</th>
+            <th>Status History</th>
           </tr>
         </thead>
 
@@ -114,17 +170,55 @@ const updateStatus = async () => {
               <td>{item.serial_no}</td>
               <td>{item.accessory}</td>
               <td>{item.issues}</td>
-              <td> <Link
+
+
+              <td>
+    <button
+        onClick={() => loadSupporter(item.serial_no)}
+    >
+        View
+    </button>
+</td>
+
+
+<td>
+                <Link
+
+                to={`/statuspage/${item.item_id}`}
+              >
+                status
+              </Link>
+              </td>
+
+<td>
+
+
+    <Link to={`/serial-history/${item.serial_no}`}>
+        View
+    </Link>
+</td>
+
+
+
+
+
+
+
+
+
+              {/* <td> <Link
 
                 to={`/status-history_lsr/${item.item_id}`}
               >
                 View
-              </Link></td>
+              </Link></td> */}
             </tr>
           ))}
         </tbody>
 
       </table>
+
+      
       <Link to="/home/home_l">
                           <button className="back-btn">
                               Go Back

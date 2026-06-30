@@ -46,7 +46,7 @@ const Home = () => {
     </div>
 
    
-      <Link to="/home/addCustomer">
+      <Link to="/home/post">
         <button className="btn-phone">
           + Add Customer
         </button>

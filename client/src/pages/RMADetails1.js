@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams,Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 
 function RMADetails1() {
@@ -27,30 +27,30 @@ function RMADetails1() {
 
 
 
-const updateStatus = async () => {
+  const updateStatus = async () => {
 
     try {
 
-        await axios.put(
-            `http://localhost:5000/update-rma-status/${rma_no}`,
-            {
-                status: "Completed"
-            }
-        );
+      await axios.put(
+        `http://localhost:5000/update-rma-status/${rma_no}`,
+        {
+          status: "Completed"
+        }
+      );
 
-        alert("RMA Completed");
+      alert("RMA Completed");
 
-        window.location.reload();
+      window.location.reload();
 
     } catch (err) {
 
-        console.log(err);
+      console.log(err);
 
-        alert("Update Failed");
+      alert("Update Failed");
 
     }
 
-};
+  };
 
   if (data.length === 0) {
     return <h4>No Data Found</h4>;
@@ -95,7 +95,8 @@ const updateStatus = async () => {
             <th>Serial No</th>
             <th>Accessory</th>
             <th>Issues</th>
-            <th>status</th>
+            <th>status update</th>
+            <th>Status History</th>
           </tr>
         </thead>
 
@@ -106,30 +107,46 @@ const updateStatus = async () => {
               <td>{item.product_name}</td>
               <td>{item.model_number}</td>
               <td>
-  {index === 0 ||
-  data[index - 1].id !== item.id
-    ? item.quantity_no
-    : ""}
-</td>
+                {index === 0 ||
+                  data[index - 1].id !== item.id
+                  ? item.quantity_no
+                  : ""}
+              </td>
               <td>{item.serial_no}</td>
               <td>{item.accessory}</td>
               <td>{item.issues}</td>
-              <td> <Link
 
-                to={`/status-history_ls/${item.item_id}`}
-              >
-                View
-              </Link></td>
+              <td>
+                <Link
+
+                  to={`/statuspage1/${item.item_id}`}
+                >
+                  status
+                </Link>
+              </td>
+
+
+
+              <td>
+              
+              
+                  <Link to={`/serial-history/${item.serial_no}`}>
+                      View
+                  </Link>
+              </td>
+
+
+
             </tr>
           ))}
         </tbody>
 
       </table>
       <Link to="/home/home_z">
-                          <button className="back-btn">
-                              Go Back
-                          </button>
-                      </Link>
+        <button className="back-btn">
+          Go Back
+        </button>
+      </Link>
 
     </div>
   );

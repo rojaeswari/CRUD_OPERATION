@@ -48,7 +48,7 @@ function SearchModel() {
             doc.setFont(undefined, "bold");
 
             doc.text(
-                "M K ELECTRONICS",
+                "SMAZO",
                 105,
                 15,
                 { align: "center" }
@@ -78,7 +78,7 @@ function SearchModel() {
             { align: "center" }
         );
       doc.text(
-           "E-Mail:mkelectronicsservices@gmail.com",
+           "E-Mail:smazosecurityservices@gmail.com",
                 148,
                 40,
             { align: "center" }

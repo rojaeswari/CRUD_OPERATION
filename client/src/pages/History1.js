@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate,useParams ,Link} from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 function History1() {
     const navigate = useNavigate();
-    const { item_id } = useParams();
+    // const { item_id } = useParams();
+    const { serial_no } = useParams();
 
     const [history, setHistory] = useState([]);
 
     useEffect(() => {
 
         axios
-            .get(`http://localhost:5000/status-history_ls/${item_id}`)
-            .then((res) => {
+            .get(`http://localhost:5000/serial-history/${serial_no}`)
+            .then(res => {
+
+                console.log("HISTORY RESPONSE:", res.data);
+
                 setHistory(res.data);
+
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err);
             });
 
-    }, [item_id]);
+    }, [serial_no]);
 
     return (
 
@@ -31,9 +36,13 @@ function History1() {
 
                 <thead>
                     <tr>
+                        <th>table</th>
+                        {/* <th>created_by</th> */}
+                        <th>Updated_by</th>
                         <th>Status</th>
                         <th>Status Text</th>
                         <th>Updated At</th>
+
                     </tr>
                 </thead>
 
@@ -44,7 +53,9 @@ function History1() {
                         history.map((row, index) => (
 
                             <tr key={index}>
-
+                                <td>{row.source}</td>
+                                {/* <td>{row.created_by_name}</td> */}
+                                <td>{row.updated_by}</td>
                                 <td>{row.status}</td>
 
                                 <td>{row.status_text}</td>
@@ -54,6 +65,17 @@ function History1() {
                                         row.updated_at
                                     ).toLocaleString()}
                                 </td>
+
+
+                                {/* <td>
+                                    <Link
+
+                                        to={`/serial-history/${item.serial_no}`}
+                                    >
+                                        View
+                                    </Link>
+
+                                </td> */}
 
                             </tr>
 
@@ -69,13 +91,26 @@ function History1() {
 
                     )}
 
+
+
+
                 </tbody>
                 <button
-    className="btn btn-secondary mb-3"
-    onClick={() => navigate(-1)}
->
-    Back
-</button>
+                    className="btn btn-secondary mb-3"
+                    onClick={() => navigate(-1)}
+                >
+                    Back
+                </button>
+
+                {/* <td> 
+                    <Link
+
+                    to={`/serial-history/${item.serial_no}`}
+                >
+                    View
+                </Link>
+
+                </td> */}
 
 
             </table>

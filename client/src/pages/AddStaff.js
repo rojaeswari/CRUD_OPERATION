@@ -14,11 +14,21 @@ const AddStaff = () => {
     };
 
     const [state, setState] = useState(initialState);
-    const { id } = useParams();
-    useEffect(() => {
-        axios.get(`http://localhost:5000/api/get/${id}`)
-            .then((resp) => setState({ ...resp.data[0] }))
-    }, [id]);
+   const { id } = useParams();
+
+useEffect(() => {
+    // Add Staff page-ல் id இருக்காது
+    if (!id) return;
+
+    axios
+        .get(`http://localhost:5000/api/get_staff/${id}`)
+        .then((resp) => {
+            setState({ ...resp.data[0] });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}, [id]);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 

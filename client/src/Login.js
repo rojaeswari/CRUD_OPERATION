@@ -8,7 +8,7 @@ import {
     useNavigate
 } from "react-router-dom";
 
-import logo from "./image/logo.png";
+// import logo from "./image/logo.png";
 import "./Login.css";
 
 function Login() {
@@ -41,12 +41,16 @@ function Login() {
                 }
             )
             .then((res) => {
-
+console.log("LOGIN DATA =", res.data);
                 if (
                     res.data
                         .message ===
                     "Login Successfully"
                 ) {
+                    localStorage.setItem(
+        "username",
+        res.data.username
+    );
 
                     localStorage.setItem(
                         "role",
@@ -79,14 +83,14 @@ function Login() {
 
             <div className="login-card">
 
-                <img
+                {/* <img
                     src={logo}
                     alt="logo"
                     className="logo"
-                />
+                /> */}
 
                 <h2>
-                    MK Electronic
+                    SMAZO
                 </h2>
 
                 <form

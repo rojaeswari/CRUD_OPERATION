@@ -31,7 +31,13 @@ import RMASummary from "./pages/RMADetails1";
 import RMADetails1 from "./pages/RMADetails1";
 import RMADetails from "./pages/RMADetails";
 import RmaOut_Update from "./pages/RmaOut_Update";
-import DashPending from "./pages/DashPending";
+import RMA_Inupdata from "./pages/RMA_Inupdata";
+import Support from "./pages/support";
+import Supporter from "./pages/supporter";
+import PendingRMA from "./pages/PendingRMA";
+import TotalRMAOut from "./pages/TotalRMAOut";
+import SerialPendingRMA from "./pages/SerialPendingRMA";
+import SerialRMAOut from "./pages/SerialRMAOut";
 
 function App() {
   return (
@@ -44,7 +50,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/home/home_l" element={<Home_l />} />
           <Route path="/home/home_z" element={<Home_z />} />
-          <Route path="/home/addCustomer" element={<AddEdit />} />
+          <Route path="/home/post" element={<AddEdit />} />
           <Route path="/home/staff" element={<Staff />} />
           <Route path="/home/addstaff" element={<AddStaff />} />
           <Route path="/home/update/:id" element={<AddEdit />} />
@@ -58,6 +64,45 @@ function App() {
           <Route path="/home/pdf/:id" element={<Add />} />
           <Route path="/home/Out" element={<Out />} />
           <Route path="/home/update_o/:id" element={<Out />} />
+
+          {/* <Route path="/home/post1" element={<supporter/>}/>
+          <Route path="/home/updata1" element={<supporter/>}/>
+          <Route path="/home/get" element={<support/>}/> */}
+          <Route path="/support" element={<Support />} />
+<Route path="/supporter" element={<Supporter />} />
+<Route path="/supporter/:id" element={<Supporter />} />
+<Route
+    path="/pending-rma"
+    element={<PendingRMA />}
+/>
+<Route
+    path="/completed-rma"
+    element={<PendingRMA />}/>
+
+    <Route path="/pending-rma-out" element={<TotalRMAOut />} />
+<Route path="/completed-rma-out" element={<TotalRMAOut />} />
+
+
+<Route
+    path="/serial-pending-rma"
+    element={<SerialPendingRMA />}
+/>
+
+<Route
+    path="/serial-completed-rma"
+    element={<SerialPendingRMA />}
+/>
+
+
+<Route
+    path="/serial-pending-rma-out"
+    element={<SerialRMAOut />}
+/>
+
+<Route
+    path="/serial-completed-rma-out"
+    element={<SerialRMAOut />}
+/>
           
           <Route
             path="/home/status/:id"
@@ -74,6 +119,15 @@ function App() {
           path="/status-history_ls/:item_id"
           element={<History1 />}
         />
+
+        <Route
+          path="/serial-history/:serial_no"
+          element={<History1 />}
+        />
+
+        <Route path="/statuspage/:item_id" element={<StatusPage />} />
+        <Route path="/statuspage1/:item_id" element={<StatusPage1 />} />
+
 
           <Route
             path="/dashboard"
@@ -109,7 +163,9 @@ function App() {
 <Route path="/rma-details/:rma_no" element={<RMADetails1/>}/>
 <Route path="/update-rma-status_l/:rma_no" element={<RMADetails/>}/>
 <Route path="/update-rma/:rma_no" element={<RmaOut_Update/>}/>
-<Route path="/pending-serials" element={<DashPending/>}/>
+
+<Route path="/update-rma1/:rma_no" element={<RMA_Inupdata/>}/>
+{/* <Route path="/pending-serials" element={<DashPending/>}/> */}
         </Routes>
 
       </div>

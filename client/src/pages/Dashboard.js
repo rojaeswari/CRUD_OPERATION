@@ -8,6 +8,17 @@ const Dashboard = () => {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
   const[pencount,setPencount]=useState(0);
+  const[comcount,setComcount]=useState(0);
+  const [outPenCount, setOutPenCount] = useState(0);
+  const [outComCount, setOutComCount] = useState(0);
+  const [serialPendingCount, setSerialPendingCount] = useState(0);
+  const [serialCompletedCount, setSerialCompletedCount] = useState(0);
+
+  const [serialPendingOutCount,
+      setSerialPendingOutCount] = useState(0);
+
+const [serialCompletedOutCount,
+      setSerialCompletedOutCount] = useState(0);
 
   const role = localStorage.getItem("role");
   const nav = useNavigate();
@@ -61,23 +72,28 @@ useEffect(() => {
 }, []);
 
   // ✅ LOAD REMINDERS
-  useEffect(() => {
+ useEffect(() => {
   axios.get("http://localhost:5000/reminders")
     .then((res) => {
       console.log("RMA:", res.data);
       setRmaReminders(res.data);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log("API URL:", err.config?.url);
+      console.log("Status:", err.response?.status);
+      console.log("Response:", err.response?.data);
+      console.log(err);
+    });
 }, []);
- console.log("OUT:", rmaReminders);
-useEffect(() => {
-  axios.get("http://localhost:5000/reminders_l")
-    .then((res) => {
-      console.log("OUT:", res.data);
-      setOutReminders(res.data);
-    })
-    .catch((err) => console.log(err));
-}, []);
+//  console.log("OUT:", rmaReminders);
+// useEffect(() => {
+//   axios.get("http://localhost:5000/reminders_l")
+//     .then((res) => {
+//       console.log("OUT:", res.data);
+//       setOutReminders(res.data);
+//     })
+//     .catch((err) => console.log(err));
+// }, []);
 
 
 
@@ -87,16 +103,182 @@ useEffect(() => {
       const resp = await axios.get(
         "http://localhost:5000/api/customerCount"
       );
-      setCount(resp.data[0].total);
+      setCount(resp.data.total);
     } catch (err) {
       console.log(err);
     }
   };
 
+  const getPendingCount = async () => {
+
+    try {
+
+        const resp = await axios.get(
+            "http://localhost:5000/api/pending-count"
+        );
+
+        setPencount(resp.data.totalPending);
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+};
+
+const getCompleteCount = async () => {
+
+    try {
+
+        const resp = await axios.get(
+            "http://localhost:5000/api/completed-count"
+        );
+
+        setComcount(resp.data.totalPending);
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+};
+
+
+const getOutPendingCount = async () => {
+
+    try {
+
+        const resp = await axios.get(
+            "http://localhost:5000/api/pending-rma-out-count"
+        );
+
+        setOutPenCount(resp.data.totalPending);
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+};
+
+const getOutCompleteCount = async () => {
+
+    try {
+
+        const resp = await axios.get(
+            "http://localhost:5000/api/completed-rma-out-count"
+        );
+
+        setOutComCount(resp.data.totalCompleted);
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+};
+
+const getSerialPendingCount = async () => {
+
+    try {
+
+        const resp = await axios.get(
+            "http://localhost:5000/api/serial-pending-count"
+        );
+
+        setSerialPendingCount(resp.data.totalPending);
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+};
+
+
+const getSerialCompletedCount = async () => {
+
+    try {
+
+        const resp = await axios.get(
+            "http://localhost:5000/api/serial-completed-count"
+        );
+
+        console.log(resp.data);
+
+        setSerialCompletedCount(
+            resp.data.totalCompleted
+        );
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+};
+
+const getSerialPendingOutCount = async () => {
+
+    try {
+
+        const resp = await axios.get(
+            "http://localhost:5000/api/serial-pending-rma-out-count"
+        );
+
+        setSerialPendingOutCount(
+            resp.data.totalPending
+        );
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+};
+
+const getSerialCompletedOutCount = async () => {
+
+    try {
+
+        const resp = await axios.get(
+            "http://localhost:5000/api/serial-completed-rma-out-count"
+        );
+
+        setSerialCompletedOutCount(
+            resp.data.totalCompleted
+        );
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+};
+
+
+
   // ✅ INITIAL LOAD
   useEffect(() => {
    // loadReminders();
     getCustomerCount();
+     getPendingCount();
+     getCompleteCount();
+     getOutPendingCount();
+    getOutCompleteCount();
+    getCompleteCount();
+    getSerialPendingCount();
+    getSerialCompletedCount();
+     getSerialPendingOutCount();
+    getSerialCompletedOutCount();
+    
 
 
     
@@ -113,7 +295,7 @@ useEffect(() => {
     <div className="dashboard">
       {/* Sidebar */}
       <div className="sidebar">
-        <h2 className="logo">MK Electronic</h2>
+        <h2 className="logo">SMAZO</h2>
 
         <ul className="menu">
           <li>
@@ -167,32 +349,101 @@ useEffect(() => {
         <div className="dashboard-cards">
           
           {/* Customer Card */}
-          <div className="total-card" 
-      
-    >
+         <div className="dashboard-cards">
+
+    {/* Row 1 */}
+    <div className="row-cards">
+        <div className="total-card">
             <h2>{count}</h2>
             <p>Total Customers</p>
-          </div>
-          
+        </div>
+    </div>
 
+    {/* Row 2 */}
+    <div className="row-cards">
+
+        <Link to="/pending-rma">
+            <div className="total-card">
+                <h2>{pencount}</h2>
+                <p>Pending Inward</p>
+            </div>
+        </Link>
+
+        <Link to="/completed-rma">
+            <div className="total-card">
+                <h2>{comcount}</h2>
+                <p>Complete Inward</p>
+            </div>
+        </Link>
+
+        <Link to="/pending-rma-out">
+            <div className="total-card">
+                <h2>{outPenCount}</h2>
+                <p>Pending Outward</p>
+            </div>
+        </Link>
+
+        <Link to="/completed-rma-out">
+            <div className="total-card">
+                <h2>{outComCount}</h2>
+                <p>Complete Outward</p>
+            </div>
+        </Link>
+
+    </div>
+
+    {/* Row 3 */}
+    <div className="row-cards">
+
+        <Link to="/serial-pending-rma">
+            <div className="total-card">
+                <h2>{serialPendingCount}</h2>
+                <p>S.No Pending Inward</p>
+            </div>
+        </Link>
+
+        <Link to="/serial-completed-rma">
+            <div className="total-card">
+                <h2>{serialCompletedCount}</h2>
+                <p>S.No Complete Inward</p>
+            </div>
+        </Link>
+
+        <Link to="/serial-pending-rma-out">
+            <div className="total-card">
+                <h2>{serialPendingOutCount}</h2>
+                <p>S.No Pending Outward</p>
+            </div>
+        </Link>
+
+        <Link to="/serial-completed-rma-out">
+            <div className="total-card">
+                <h2>{serialCompletedOutCount}</h2>
+                <p>S.No Complete Outward</p>
+            </div>
+        </Link>
+
+    </div>
+
+</div>
           {/* Reminder Section */}
-          <div className="reminder-section">
+          {/* <div className="reminder-section">
             <h2>RMA-OutWard Reminders</h2>
 
             {reminders.length === 0 ? (
   <p>No active reminders</p>
-) : (
+) : ( */}
 
-<table className="table table-bordered">
+{/* <table className="table table-bordered">
 
   <thead>
     <tr>
       <th>RMA No</th>
       <th>Serial No</th>
-      <th>Reminders</th>
+      <th>Reminders</th> */}
       {/* <th>Status</th>
       <th>Action</th> */}
-    </tr>
+    {/* </tr>
   </thead>
 
   <tbody>
@@ -206,9 +457,9 @@ useEffect(() => {
         <td>{item.serial_no}</td>
 
         <td>
-  {item.reminder_day} Day Reminder
+  {item.reminder_day} Day Reminder */}
 
-  <button
+  {/* <button
     className="btn btn-warning btn-sm ms-2"
     onClick={() =>
       nav(`/statuspage1/${item.item_id}/${item.reminder_id}`)
@@ -216,7 +467,7 @@ useEffect(() => {
   >
     Update Status
   </button>
-</td>
+</td> */}
 
         {/* <td>{item.item_status}</td>
 
@@ -233,7 +484,7 @@ useEffect(() => {
 
         </td> */}
 
-      </tr>
+      {/* </tr>
 
     ))}
 
@@ -243,9 +494,9 @@ useEffect(() => {
 
 )}
 
-    </div>
+    </div> */}
 
-    <div className="reminder-section">
+    {/* <div className="reminder-section">
             <h2>RMA-InWard Reminders</h2>
 
             {inreminders.length === 0 ? (
@@ -258,10 +509,10 @@ useEffect(() => {
     <tr>
       <th>RMA No</th>
       <th>Serial No</th>
-      <th>Reminders</th>
+      <th>Reminders</th> */}
       {/* <th>Status</th>
       <th>Action</th> */}
-    </tr>
+    {/* </tr>
   </thead>
 
   <tbody>
@@ -285,7 +536,7 @@ useEffect(() => {
   >
     Update Status
   </button>
-</td>
+</td> */}
 
         {/* <td>{item.item_status}</td>
 
@@ -302,7 +553,7 @@ useEffect(() => {
 
         </td> */}
 
-      </tr>
+      {/* </tr>
 
     ))}
 
@@ -313,6 +564,7 @@ useEffect(() => {
 )}
 
     </div>
+    </div> */}
     </div>
     </div>
     </div>

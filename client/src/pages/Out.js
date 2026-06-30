@@ -1,20 +1,35 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "./Add.css";
+import "./Out.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 
+const API_URL = "http://localhost:5000";
 const Out = () => {
     const today = new Date().toISOString().split("T")[0];
+    const [serialNo, setSerialNo] = useState("");
 
-
-
+const [items, setItems] = useState([]);
     const [servicesId, setServicesId] = useState("");
     //   const [customerDcNo, setCustomerDcNo] = useState("");
     const [entryDate, setEntryDate] = useState("");
     //   const [servicesId, setServicesId] = useState("");
     const [services, setServices] = useState([]);
+    const [formData, setFormData] = useState({
+
+        services_id: "",
+
+        product_name: "",
+        model_number: "",
+        quantity_no: "",
+        
+        entry_date:"",
+        //serial_no: "",
+        accessory: "",
+        issues: ""
+
+    });
     const [products, setProducts] = useState([
         {
             product_name: "",
@@ -30,26 +45,25 @@ const Out = () => {
             ]
         }
     ]);
+    
 
-    const addProduct = () => {
-        setProducts([
-            ...products,
-            {
-                product_name: "",
-                model_number: "",
-                quantity_no: "",
+   const addProduct = () => {
 
-                items: [
-                    // {
-                    //     serial_no: "",
-                    //     accessory: "",
-                    //     issues: ""
-                    // }
-                ]
-            }
-        ]);
-    };
+  setProducts([
+    ...products,
+    {
+      product_name: formData.product_name,
+      model_number: formData.model_number,
+      serial_no: formData.serial_no,
+      accessory: formData.accessory,
+      issues: formData.issues
+    }
+  ]);
 
+};
+
+console.log("FORMDATA", formData);
+console.log("PRODUCTS", products);
 
     // const addSerial = (productIndex) => {
     //     const updated = [...products];
@@ -62,10 +76,12 @@ const Out = () => {
 
     //     setProducts(updated);
     // };
-
+const removeItem = (index) => {
+    setItems(items.filter((_, i) => i !== index));
+};
     useEffect(() => {
         axios
-            .get("http://localhost:5000/get-services")
+            .get(`${API_URL}/get-services`)
             .then((res) => {
                 setServices(res.data);
             });
@@ -99,68 +115,183 @@ const Out = () => {
 
     };
 
-    const handleQuantityChange = (pIndex, value) => {
-        const qty = parseInt(value) || 0;
 
-        const updated = [...products];
 
-        updated[pIndex].quantity_no = qty;
+    
 
-        updated[pIndex].items = Array.from(
-            { length: qty },
-            () => ({
-                serial_no: "",
-                accessory: "",
-                issues: ""
-            })
+const searchSerial = async () => {
+
+    if (!serialNo.trim()) {
+        alert("Enter Serial Number");
+        return;
+    }
+
+    try {
+
+        const res = await axios.get(
+            `${API_URL}/search-serial/${serialNo}`
         );
 
-        setProducts(updated);
-    };
+        console.log("API RESPONSE =", res.data);
 
-    const saveData = async () => {
-
-        try {
-
-
-
-            const payload = {
-                services_id: servicesId,
-
-                entry_date: entryDate,
-                products
-            };
-
-
-            const res = await axios.post(
-                "http://localhost:5000/api/entry_out",
-                payload
-            );
-
-            alert(
-                "Saved Successfully\nRMA No : " +
-                res.data.rma_no
-            );
-
-        } catch (err) {
-
-            console.log(err);
-
-            alert("Error Saving Data");
-
+        if (!res.data.success) {
+            alert(res.data.message);
+            return;
         }
 
-    };
+        const row = res.data.data;
 
+        setFormData({
+            product_name: row.product_name,
+            model_number: row.model_number,
+            serial_no: row.serial_no,
+            accessory: row.accessory,
+            issues: row.issues
+        });
+
+    } catch (err) {
+
+        console.log("ERROR =", err.response?.data);
+
+    }
+};
+        // Prepare for save
+     const addSerial = () => {
+    if (!formData.serial_no) {
+        alert("Search Serial First");
+        return;
+    }
+    const alreadyExists = items.some(
+        item => item.serial_no === formData.serial_no
+    );
+
+    if (alreadyExists) {
+        alert("This Serial Number is already added");
+        return;
+    }
+
+    setItems(prev => [
+        ...prev,
+        {
+            serial_no: formData.serial_no,
+            product_name: formData.product_name,
+            model_number: formData.model_number,
+            accessory: formData.accessory,
+            issues: formData.issues
+        
+        }
+    ]);
+       // Clear previous searched data
+    setFormData({
+        product_name: "",
+        model_number: "",
+        customer_dc_no: "",
+        serial_no: "",
+        accessory: "",
+        issues: ""
+    });
+    // optional: clear after adding
+    setSerialNo("");
+};
+
+// const exists = items.some(
+//     item => item.serial_no === formData.serial_no
+// );
+
+// if (exists) {
+//     alert("Serial already added");
+//     return;
+// }
+   const handleQuantityChange = (pIndex, value) => {
+
+    const qty = parseInt(value) || 0;
+
+    const updated = [...products];
+
+    updated[pIndex].quantity_no = qty;
+
+    updated[pIndex].items = Array.from(
+        { length: qty },
+        () => ({
+            product_name: updated[pIndex].product_name || "",
+            model_number: updated[pIndex].model_number || "",
+            serial_no: "",
+            accessory: "",
+            issues: ""
+        })
+    );
+
+    setProducts(updated);
+};
+
+   const saveData = async () => {
+
+    try {
+
+    //      if (!entryDate) {
+    //     alert("Select Entry Date");
+    //     return;
+    // }
+
+    if (!servicesId) {
+        alert("Select Service Center");
+        return;
+    }
+
+    if (items.length === 0) {
+        alert("Add Serial Number");
+        return;
+    }
+const userId = localStorage.getItem("id");
+
+console.log("USER ID FROM STORAGE:", userId);
+        const payload = {
+
+            services_id: servicesId,
+            entry_date: today,
+            items: items,
+            created_by:userId
+        };
+
+        console.log("PAYLOAD =", payload);
+        const res = await axios.post(
+    `${API_URL}/api/entry_out`,
+    payload
+);
+
+        alert(
+            "Saved Successfully\nRMA No : " +
+            res.data.rma_no
+        );
+
+    } catch (err) {
+
+    console.log("FULL ERROR:", err);
+
+    console.log("SERVER ERROR:",
+        err.response?.data
+    );
+
+    alert(
+        err.response?.data?.message ||
+        "Save Failed"
+    );
+}
+};
     return (
-        <div className="container mt-4">
+        <div className="out-page">
 
-            <h2>RMA Entry</h2>
+            <div className="out-card">
 
-            <label>Service Center</label>
+    <h2>RMA OUT ENTRY</h2>
+ <div className="top-row">
+
+        <div className="field">
+    {/* CENTER + DATE */}
+    <label>Service Center</label>
 
             <select
-                className="form-control"
+                className="out-input"
                 value={servicesId}
                 onChange={(e) =>
                     setServicesId(e.target.value)
@@ -179,239 +310,108 @@ const Out = () => {
                     </option>
                 ))}
             </select>
-            <div className="mb-3">
-
-                <label>Entry Date</label>
-            <input
-                type="date"
-                className="form-control"
-                value={entryDate}
-                onChange={(e) =>
-                    setEntryDate(e.target.value)
-                }
-            />
-            
-            {/* <div className="mb-3">
-
-                <label>Entry Date</label>
-
-                <input
+</div>
+<div className="field">
+            <label>Date</label>
+     <input
                     type="date"
                     className="form-control"
                     value={today}
                     readOnly
-                /> */}
+                />
+</div></div>
+    
+<div className="search-row">
+    {/* SERIAL SEARCH */}
+    <input
+        className="out-input"
+        placeholder="Serial No"
+        value={serialNo}
+        onChange={(e) => setSerialNo(e.target.value)}
+    />
+
+    <button className="search-btn" onClick={searchSerial}>Search</button>
+    <button className="add-btn" onClick={addSerial}>Add</button>
 
     </div>
+<div className="form-row">
 
-            {
-        products.map((product, pIndex) => (
+        <div className="field">
+    {/* AUTO FILL */}
+    <label>Product Name</label>
+    <input className="out-input" placeholder="product Name" value={formData.product_name} readOnly /></div>
+    <div className="field">
+        <label>Model number</label>
+    <input className="out-input" placeholder="Model Number" value={formData.model_number} readOnly /></div></div>
+     <div className="form-row">
 
-            <div
-                key={pIndex}
-                className="card p-3 mb-4"
-            >
+        <div className="field">
+            <label>Accessory</label>
+    <input className="out-input" placeholder="Accessory" value={formData.accessory} readOnly /></div>
+    <div className="field">
+            <label>Issues</label>
+    <input className="out-input" placeholder="Issues" value={formData.issues}  onChange={(e) =>
+        setFormData({
+            ...formData,
+            issues: e.target.value
+        })
+    } />
 
-                <h5>
-                    Product {pIndex + 1}
-                </h5>
+    <input
+    className="out-input"
+    placeholder="Serial No"
+    value={serialNo}
+    onChange={(e) => setSerialNo(e.target.value)}
+/>
 
-                <div className="row">
+    </div></div>
 
-                    <div className="col-md-4">
+    {/* TABLE */}
+    <table className="out-table">
+        <thead>
+            <tr>
+                <th>Serial</th>
+                <th>Product</th>
+                <th>Model</th>
+                <th>Accessory</th>
+                <th>Issues</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
 
-                        <label>
-                            Product Name
-                        </label>
-
-                        <input
-                            className="form-control"
-                            value={product.product_name}
-                            onChange={(e) =>
-                                handleProductChange(
-                                    pIndex,
-                                    "product_name",
-                                    e.target.value
-                                )
-                            }
-                        />
-
-                    </div>
-
-                    <div className="col-md-4">
-
-                        <label>
-                            Model Number
-                        </label>
-
-                        <input
-                            className="form-control"
-                            value={product.model_number}
-                            onChange={(e) =>
-                                handleProductChange(
-                                    pIndex,
-                                    "model_number",
-                                    e.target.value
-                                )
-                            }
-                        />
-
-                    </div>
-                    {/* <div className="col-md-4">
-                            <label>Customer DC No</label>
-
-                            <input
-                                className="form-control"
-                                value={products.customer_dc_no}
-                                onChange={(e) =>
-                                    handleProductChange(
-                                        pIndex,
-                                        "customer_dc_no",
-                                        e.target.value
-                                    )
-                                }
-                            />
-                        </div> */}
-
-                    <div className="col-md-4">
-
-                        <label>
-                            Quantity
-                        </label>
-
-                        <input
-                            type="number"
-                            className="form-control"
-                            value={product.quantity_no}
-                            onChange={(e) =>
-                                handleQuantityChange(pIndex, e.target.value)
-                            }
-                        />
-
-                    </div>
-
-                </div>
-
-                <hr />
-
-                {product.items.map(
-                    (item, iIndex) => (
-
-                        <div
-                            className="row mb-3"
-                            key={iIndex}
-                        >
-
-                            <div className="col-md-4">
-
-                                <label>
-                                    Serial No
-                                </label>
-
-                                <input
-                                    className="form-control"
-                                    value={item.serial_no}
-                                    onChange={(e) =>
-                                        handleItemChange(
-                                            pIndex,
-                                            iIndex,
-                                            "serial_no",
-                                            e.target.value
-                                        )
-                                    }
-                                />
-
-                            </div>
-
-                            <div className="col-md-4">
-
-                                <label>
-                                    Accessory
-                                </label>
-
-                                <input
-                                    className="form-control"
-                                    value={item.accessory}
-                                    onChange={(e) =>
-                                        handleItemChange(
-                                            pIndex,
-                                            iIndex,
-                                            "accessory",
-                                            e.target.value
-                                        )
-                                    }
-                                />
-
-                            </div>
-
-                            <div className="col-md-4">
-
-                                <label>
-                                    Issues
-                                </label>
-
-                                <input
-                                    className="form-control"
-                                    value={item.issues}
-                                    onChange={(e) =>
-                                        handleItemChange(
-                                            pIndex,
-                                            iIndex,
-                                            "issues",
-                                            e.target.value
-                                        )
-                                    }
-                                />
-
-                            </div>
-
-                        </div>
-
-                    )
-                )}
-
-                {/* <button
-                        className="btn btn-secondary"
-                        onClick={() =>
-                            addSerial(pIndex)
-                        }
-                    >
-                        + Add Serial
-                    </button> */}
-
-            </div>
-
-        ))
-    }
-
+        <tbody>
+            {items.map((item, index) => (
+                <tr key={index}>
+                    <td>{item.serial_no}</td>
+                    <td>{item.product_name}</td>
+                    <td>{item.model_number}</td>
+                    <td>{item.accessory}</td>
+                    <td>{item.issues}</td>
+                    <td>
             <button
-                className="btn btn-primary me-2"
-                onClick={addProduct}
+                onClick={() => removeItem(index)}
+                className="btn btn-warning btn-sm"
             >
-                + Add Product
+                CANCEL
             </button>
+        </td>
+                </tr>
+            ))}
+        </tbody>
+    </table>
 
-            <button
-                className="btn btn-success"
-                onClick={saveData}
-            >
-                Save
-            </button>
-
-
-            <Link to="/home/home_z">
+    <button onClick={saveData}>Save</button>
+    <Link to="/home/home_z">
                                       <button className="back-btn">
                                           Go Back
                                       </button>
                                   </Link>
-            
 
-        </div >
+</div>
+     </div >
     );
 }
 
 
 
 export default Out;
-
-

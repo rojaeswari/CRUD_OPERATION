@@ -46,7 +46,7 @@ const Password = () => {
 
             setState({
                 username:
-                    resp.data[0]
+                    resp.data
                         .username,
                 password: "",
                 confirmPassword:

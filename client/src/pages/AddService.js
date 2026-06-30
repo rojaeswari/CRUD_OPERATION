@@ -20,21 +20,21 @@ const AddService = () => {
     const [state, setState] = useState(initialState);
     const { id } = useParams();
 
-     const validatePhone = (phone) => {
+    const validatePhone = (phone) => {
         return /^\d{10}$/.test(phone);
     };
 
     useEffect(() => {
-    axios
-        .get(
-            `http://localhost:5000/api/getservice/${id}`
-        )
-        .then((resp) => {
-            console.log(resp.data);
-            setState(resp.data[0]);
-        })
-        .catch((err) => console.log(err));
-    }, [id]);
+    if (id) {
+        axios
+            .get(`http://localhost:5000/api/getservice/${id}`)
+            .then((res) => {
+                console.log(res.data);
+                setState(res.data);
+            });
+    }
+}, [id]);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
@@ -59,7 +59,7 @@ const AddService = () => {
         // Required validation
         if (
             !servicer_name ||
-            !center_name||
+            !center_name ||
             !address ||
             !phone_no ||
             !location
@@ -67,12 +67,25 @@ const AddService = () => {
             toast.error(
                 "Servicer Name, center Name,Address, Phone No and Location are required"
             );
-            
+
         }
-        if (!validatePhone(phone_no,mobile)) {
-                    toast.error("Phone number must contain exactly 10 digits");
-                    return;
-                }
+
+
+        const emailRegex =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (
+            state.email &&
+            !emailRegex.test(state.email)
+        ) {
+            toast.error("Invalid Email Address");
+            return;
+        }
+        if (!validatePhone(phone_no, mobile)) {
+            toast.error("Phone number must contain exactly 10 digits");
+            return;
+        }
+
         else {
             if (!id) {
 
@@ -127,7 +140,7 @@ const AddService = () => {
                         <input
                             type="text"
                             name="servicer_name"
-                            value={state?.servicer_name|| ""}
+                            value={state?.servicer_name || ""}
                             onChange={handleInputChange}
                         />
                     </div>

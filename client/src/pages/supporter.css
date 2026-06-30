@@ -1,0 +1,86 @@
+.form-container {
+    width: 450px;
+    margin: 50px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(124,58,237,0.15);
+    border: 2px solid #ede9fe;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #6d28d9;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    margin-top: 15px;
+    color: #5b21b6;
+}
+
+.form-container input {
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ddd6fe;
+    border-radius: 10px;
+    background: #faf5ff;
+    color: #4c1d95;
+    transition: 0.3s;
+}
+
+.form-container input:focus {
+    outline: none;
+    border-color: #7c3aed;
+    box-shadow: 0 0 10px rgba(124,58,237,0.25);
+}
+
+.btn-group {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-group button {
+    width: 48%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+/* Save Button */
+.btn-group button:first-child {
+    background: linear-gradient(
+        135deg,
+        #7c3aed,
+        #a855f7
+    );
+}
+
+/* Back Button */
+.btn-group button:last-child {
+    background: linear-gradient(
+        135deg,
+        #9333ea,
+        #c084fc
+    );
+}
+
+.btn-group button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(124,58,237,0.3);
+}

@@ -1,289 +1,238 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #edf1f5;
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#fdf2f8,#f3e8ff);
 }
 
 /* Dashboard Layout */
-.dashboard {
-    display: flex;
-    min-height: 100vh;
+.dashboard{
+    display:flex;
+    min-height:100vh;
 }
 
 /* Sidebar */
-.sidebar {
-    width: 250px;
-    background: #1d2b44;
-    color: white;
-    padding: 25px 20px;
+.sidebar{
+    width:260px;
+    background:linear-gradient(180deg,#4c1d95,#7c3aed);
+    color:white;
+    padding:30px 20px;
+    box-shadow:5px 0 20px rgba(0,0,0,0.15);
 }
 
-.logo {
-    text-align: center;
-    margin-bottom: 40px;
-    font-size: 28px;
-}
-
-.menu {
-    list-style: none;
-}
-
-.menu li {
-    margin-bottom: 20px;
-}
-
-.menu li a {
-    text-decoration: none;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px;
-    border-radius: 12px;
-    transition: 0.3s;
-}
-
-.menu li a:hover {
-    background: #d84f94;
-}
-
-/* Main Content */
-.main-content {
-    flex: 1;
-    padding: 30px;
-}
-
-/* All cards in one row */
-.dashboard-cards {
-    display: flex;
-    gap: 25px;
-    flex-wrap: wrap;
-    align-items: flex-start;
-}
-
-/* Total Customer Card */
-.total-card {
-    background: #fff;
-    width: 280px;
-    min-height: 180px;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    text-align: center;
-}
-
-.total-card h2 {
-    color: #d84f94;
-    font-size: 40px;
-}
-
-.total-card p {
-    margin-top: 10px;
-    color: #555;
-    font-size: 18px;
-}
-
-/* Reminder Card */
-.reminder-card{
-    width:180px;
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:
-    0 4px 10px
-    rgba(0,0,0,0.1);
-    cursor:pointer;
+.logo{
     text-align:center;
+    font-size:32px;
+    font-weight:bold;
+    margin-bottom:40px;
+    color:#fde68a;
+    letter-spacing:2px;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu li{
+    margin-bottom:15px;
+}
+
+.menu li a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color:white;
+    padding:14px;
+    border-radius:14px;
     transition:0.3s;
 }
 
-.reminder-card:hover{
-    transform:translateY(-4px);
+.menu li a:hover{
+    background:rgba(255,255,255,0.2);
+    transform:translateX(5px);
 }
 
-.reminder-card h3{
-    color:red;
-    margin-bottom:10px;
+/* Main Content */
+.main-content{
+    flex:1;
+    padding:30px;
 }
 
-.reminder-card span{
-    color:red;
-    font-weight:bold;
+/* .dashboard-cards{
+    display:flex;
+    flex-wrap:wrap;
+    gap:25px;
+} */
+
+/* Customer Card */
+/* .total-card{
+    width:260px;
+    height:160px;
+    border-radius:20px;
+    padding:20px;
+    color:#fff;
+
+    background:linear-gradient(
+        135deg,
+        #ff6b6b,
+        #ff8e53
+    );
+
+    box-shadow:0 10px 25px rgba(255,107,107,.4);
+
+    transition:.3s;
 }
 
-/* Blink Text */
-.blink-text {
-    color: red;
-    animation: blink 1s infinite;
+.total-card h2{
+    font-size:52px;
+    font-weight:700;
+    margin-top:15px;
+    color:#fff;
 }
 
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
-}
+.total-card p{
+    font-size:18px;
+    font-weight:600;
+    color:#fff;
+} */
 
-.finish-msg {
-    color: red !important;
-    font-weight: bold;
-    font-size: 18px;
-    margin-top: 12px;
-}
 
-/* Mobile Responsive */
-@media(max-width:768px) {
 
-    .dashboard {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-    }
-
-    .dashboard-cards {
-        justify-content: center;
-    }
-}
-
-/* Reminder Container */
-.reminder-section {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.reminder-section h2 {
-  margin-bottom: 15px;
-  color: #333;
-  font-size: 22px;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 10px;
-}
-
-/* Reminder Card */
-.card {
-  background: #f8f9fa;
-  border-left: 5px solid #007bff;
-  padding: 15px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
-}
-
-.card p {
-  margin: 6px 0;
-  font-size: 15px;
-  color: #444;
-}
-
-/* Open Button */
-.card button {
-  margin-top: 10px;
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.card button:hover {
-  background: #218838;
-}
-
-/* Dashboard Layout */
+/* Dashboard Cards Layout */
 .dashboard-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
-/* Customer Count Card */
+/* Each Row */
+.row-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Small Violet Cards */
 .total-card {
-  width: 250px;
-  height: 120px;
-  background: linear-gradient(135deg, #007bff, #00c6ff);
-  color: white;
-  border-radius: 12px;
-  text-align: center;
-  padding-top: 25px;
-  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    width: 220px;
+    height: 120px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #8b5cf6, #453cca);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(124,58,237,0.25);
+    transition: 0.3s;
+}
+
+.total-card:hover {
+    transform: translateY(-5px);
 }
 
 .total-card h2 {
-  font-size: 32px;
-  margin: 0;
+    font-size: 38px;
+    margin: 0;
+    color: white;
 }
 
 .total-card p {
-  margin-top: 8px;
-  font-size: 16px;
+    font-size: 15px;
+    margin-top: 8px;
+    text-align: center;
+    color: white;
+}
+/* Reminder Section */
+.reminder-section{
+    flex:1;
+    min-width:320px;
+    background:rgba(255,255,255,0.8);
+    backdrop-filter:blur(12px);
+    padding:25px;
+    border-radius:24px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* Reminder Sections Side by Side */
-.reminder-section {
-  width: 320px;
+.reminder-section h2{
+    color:#4c1d95;
+    margin-bottom:20px;
 }
 
-.reminder-section h2 {
-  text-align: center;
-  margin-bottom: 15px;
-  color: #1f2937;
+/* Reminder Card */
+.card{
+    background:white;
+    border-left:6px solid #f97316;
+    padding:18px;
+    border-radius:16px;
+    margin-bottom:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    transition:0.3s;
 }
 
-/* Individual Reminder Card */
-.card {
-  background: #ffffff;
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  text-align: center;
-  transition: 0.3s;
+.card:hover{
+    transform:translateY(-5px);
 }
 
-.card:hover {
-  transform: translateY(-3px);
+.card p{
+    margin:8px 0;
+    color:#374151;
 }
 
-.card p {
-  margin: 10px 0;
-  font-size: 15px;
-  color: #374151;
+.card button{
+    margin-top:10px;
+    width:100%;
+    border:none;
+    padding:10px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#7c3aed,#a855f7);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
 }
 
-.card button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #2563eb;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
+.card button:hover{
+    opacity:0.9;
 }
 
-.card button:hover {
-  background: #1d4ed8;
+/* Blink */
+.blink-text{
+    color:#dc2626;
+    font-weight:bold;
+    animation:blink 1s infinite;
 }
 
-.dashboard-cards {
-  display: flex;
-  gap: 30px;
-  align-items: flex-start;
-  flex-wrap: wrap;
+@keyframes blink{
+    50%{
+        opacity:0;
+    }
 }
+
+/* Mobile */
+/* @media(max-width:768px){
+
+    .dashboard{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+    }
+
+    .dashboard-cards{
+        flex-direction:column;
+    }
+
+    .total-card,
+    .reminder-section{
+        width:100%;
+    }
+} */
