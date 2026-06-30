@@ -352,52 +352,52 @@ const getSerialCompletedOutCount = async () => {
          <div className="dashboard-cards">
 
     {/* Row 1 */}
-    {/* <div className="row-cards"> */}
+   
         <div className="card total-card">
-    <h1>{totalCustomer}</h1>
+    <h1>{count}</h1>
     <p>Total Customers</p>
   </div>
 
   <div className="card-row">
     <div className="card">
-      <h1>{pendingInward}</h1>
+      <h1>{pencount}</h1>
       <p>Pending Inward</p>
     </div>
 
     <div className="card">
-      <h1>{completeInward}</h1>
+      <h1>{comcount}</h1>
       <p>Complete Inward</p>
     </div>
 
     <div className="card">
-      <h1>{pendingOutward}</h1>
+      <h1>{outPenCount}</h1>
       <p>Pending Outward</p>
     </div>
 
     <div className="card">
-      <h1>{completeOutward}</h1>
+      <h1>{outComCount}</h1>
       <p>Complete Outward</p>
     </div>
   </div>
 
   <div className="card-row">
     <div className="card">
-      <h1>{snPendingInward}</h1>
+      <h1>{serialPendingCount}</h1>
       <p>S.No Pending Inward</p>
     </div>
 
     <div className="card">
-      <h1>{snCompleteInward}</h1>
+      <h1>{serialCompletedCount}</h1>
       <p>S.No Complete Inward</p>
     </div>
 
     <div className="card">
-      <h1>{snPendingOutward}</h1>
+      <h1>{serialPendingOutCount}</h1>
       <p>S.No Pending Outward</p>
     </div>
 
     <div className="card">
-      <h1>{snCompleteOutward}</h1>
+      <h1>{serialCompletedOutCount}</h1>
       <p>S.No Complete Outward</p>
     </div>
 
