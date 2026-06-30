@@ -10,7 +10,7 @@ const SView = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:5000/api/getservice/${id}`)
+            .get(`https://smazo.onrender.com/api/getservice/${id}`)
             .then((resp) => {
                 console.log(resp.data);
                 setUser(resp.data);  

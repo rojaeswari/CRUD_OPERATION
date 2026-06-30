@@ -21,7 +21,7 @@ useEffect(() => {
     if (!id) return;
 
     axios
-        .get(`http://localhost:5000/api/get_staff/${id}`)
+        .get(`https://smazo.onrender.com/api/get_staff/${id}`)
         .then((resp) => {
             setState({ ...resp.data[0] });
         })
@@ -62,7 +62,7 @@ useEffect(() => {
 
                 try {
                     await axios.post(
-                        "http://localhost:5000/api/addstaff",
+                        "https://smazo.onrender.com/api/addstaff",
                         state
                     );
 
@@ -77,7 +77,7 @@ useEffect(() => {
 
                 try {
                     await axios.put(
-                        `http://localhost:5000/api/update/${id}`,
+                        `https://smazo.onrender.com/api/update/${id}`,
                         state
                     );
 

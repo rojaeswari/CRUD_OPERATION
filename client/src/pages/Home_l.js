@@ -28,7 +28,7 @@ const Home_l = () => {
     const loadData = async () => {
         try {
             const response = await axios.get(
-                "http://localhost:5000/api/get_P"
+                "https://smazo.onrender.com/api/get_P"
             );
 
             console.log(response.data);
@@ -55,7 +55,7 @@ const Home_l = () => {
         try {
 
             await axios.delete(
-                `http://localhost:5000/delete-rma_r/${rma_no}`
+                `https://smazo.onrender.com/delete-rma_r/${rma_no}`
             );
 
             alert("Deleted Successfully");
@@ -75,7 +75,7 @@ const Home_l = () => {
         try {
 
             const resp = await axios.get(
-                `http://localhost:5000/api/pdf/${item.rma_no}`
+                `https://smazo.onrender.com/api/pdf/${item.rma_no}`
             );
 
             const pdfData = resp.data;

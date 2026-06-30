@@ -9,7 +9,7 @@ const View = () => {
     const { id } = useParams();
 
     useEffect(() => {
-       axios.get(`http://localhost:5000/api/get/${id}`)
+       axios.get(`https://smazo.onrender.com/api/get/${id}`)
     .then((resp) => {
         console.log(resp.data);
         setUser(resp.data);

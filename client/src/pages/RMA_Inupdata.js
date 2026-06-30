@@ -13,7 +13,7 @@ function RMA_Inupdata() {
 
   useEffect(() => {
 
-   axios.get(`http://localhost:5000/rma-details_r/${rma_no}`)
+   axios.get(`https://smazo.onrender.com/rma-details_r/${rma_no}`)
       .then((res) => {
         console.log(res.data);
         setData(res.data);
@@ -42,7 +42,7 @@ const updateData = async () => {
       console.log(data); 
   try {
     await axios.put(
-      `http://localhost:5000/update-rma_r/${rma_no}`,
+      `https://smazo.onrender.com/update-rma_r/${rma_no}`,
       data
     );
 
@@ -56,7 +56,7 @@ const updateData = async () => {
 const updateStatus = async () => {
   try {
     await axios.put(
-      `http://localhost:5000/update-rma-status_r/${rma_no}`,
+      `https://smazo.onrender.com/update-rma-status_r/${rma_no}`,
       {
         status: "Completed"
       }

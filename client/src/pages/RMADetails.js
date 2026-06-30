@@ -16,7 +16,7 @@ function RMADetails() {
   useEffect(() => {
 
     axios
-      .get(`http://localhost:5000/rma-details_r/${rma_no}`)
+      .get(`https://smazo.onrender.com/rma-details_r/${rma_no}`)
       .then((res) => {
         console.log(res.data);
         setData(res.data);
@@ -39,7 +39,7 @@ function RMADetails() {
  const loadSupporter = async (serialNo) => {
 
         const res = await axios.get(
-            `http://localhost:5000/api/supporter-by-serial/${serialNo}`
+            `https://smazo.onrender.com/api/supporter-by-serial/${serialNo}`
         );
         
            console.log(res.data);  
@@ -53,7 +53,7 @@ const updateStatus = async () => {
     try {
 
         await axios.put(
-            `http://localhost:5000/update-rma-status/${rma_no}`,
+            `https://smazo.onrender.com/update-rma-status/${rma_no}`,
             {
                 status: "Completed"
             }

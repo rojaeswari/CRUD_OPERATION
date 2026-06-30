@@ -24,7 +24,7 @@ const UpdateStatus = () => {
  useEffect(() => {
 
    axios.get(
-   `http://localhost:5000/api/status/${id}`
+   `https://smazo.onrender.com/api/status/${id}`
    )
    .then((res) => {
       setData(res.data);
@@ -38,7 +38,7 @@ const UpdateStatus = () => {
     try {
 
         await axios.post(
-        "http://localhost:5000/api/status",
+        "https://smazo.onrender.com/api/status",
         {
             rma_id: id,
             status_text:

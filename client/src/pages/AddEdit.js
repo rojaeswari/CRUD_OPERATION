@@ -37,7 +37,7 @@ const AddEdit = () => {
 
         if (id) {
             axios
-                .get(`http://localhost:5000/api/get/${id}`)
+                .get(`https://smazo.onrender.com/api/get/${id}`)
                 .then((resp) => {
                     setState(resp.data);
                 })
@@ -98,7 +98,7 @@ const AddEdit = () => {
 
                 try {
                     await axios.post(
-                        "http://localhost:5000/api/post",
+                        "https://smazo.onrender.com/api/post",
                         state
                     );
 
@@ -113,7 +113,7 @@ const AddEdit = () => {
 
                 try {
                     await axios.put(
-                        `http://localhost:5000/api/update/${id}`,
+                        `https://smazo.onrender.com/api/update/${id}`,
                         state
                     );
 

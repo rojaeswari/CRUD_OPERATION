@@ -31,7 +31,7 @@ const Supporter = () => {
     useEffect(() => {
         if (id) {
             axios
-                .get(`http://localhost:5000/api/get1/${id}`)
+                .get(`https://smazo.onrender.com/api/get1/${id}`)
                 .then((resp) => {
                     setState(resp.data[0]);
                 });
@@ -39,7 +39,7 @@ const Supporter = () => {
     }, [id]);
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/rma-serials")
+            .get("https://smazo.onrender.com/api/rma-serials")
             .then((res) => {
                 setSerials(res.data);
             });
@@ -55,14 +55,14 @@ const Supporter = () => {
         try {
             if (!id) {
                 await axios.post(
-                    "http://localhost:5000/api/post1",
+                    "https://smazo.onrender.com/api/post1",
                     state
                 );
 
                 alert("Product Added Successfully");
             } else {
                 await axios.put(
-                    `http://localhost:5000/api/update1/${id}`,
+                    `https://smazo.onrender.com/api/update1/${id}`,
                     state
                 );
 

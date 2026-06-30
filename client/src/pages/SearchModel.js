@@ -15,7 +15,7 @@ function SearchModel() {
         try {
 
             const res = await axios.get(
-                `http://localhost:5000/search-model/${modelNumber}`
+                `https://smazo.onrender.com/search-model/${modelNumber}`
             );
 
             setData(res.data);
@@ -30,7 +30,7 @@ function SearchModel() {
         try {
 
             const resp = await axios.get(
-                `http://localhost:5000/api/pdf/${item.id}`
+                `https://smazo.onrender.com/api/pdf/${item.id}`
             );
 
             const pdfData = resp.data;

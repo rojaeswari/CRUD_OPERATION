@@ -34,7 +34,7 @@ const [reminders, setReminders] =
 const loadReminders = async () => {
 
     const res = await axios.get(
-        "http://localhost:5000/reminders_ls"
+        "https://smazo.onrender.com/reminders_ls"
     );
 
     setReminders(res.data);
@@ -50,7 +50,7 @@ useEffect(() => {
 const loadReminders_l = async () => {
 
     const res = await axios.get(
-        "http://localhost:5000/reminders_lsr"
+        "https://smazo.onrender.com/reminders_lsr"
     );
 
     setInreminders(res.data);
@@ -73,7 +73,7 @@ useEffect(() => {
 
   // ✅ LOAD REMINDERS
  useEffect(() => {
-  axios.get("http://localhost:5000/reminders")
+  axios.get("https://smazo.onrender.com/reminders")
     .then((res) => {
       console.log("RMA:", res.data);
       setRmaReminders(res.data);
@@ -87,7 +87,7 @@ useEffect(() => {
 }, []);
 //  console.log("OUT:", rmaReminders);
 // useEffect(() => {
-//   axios.get("http://localhost:5000/reminders_l")
+//   axios.get("https://smazo.onrender.com/reminders_l")
 //     .then((res) => {
 //       console.log("OUT:", res.data);
 //       setOutReminders(res.data);
@@ -101,7 +101,7 @@ useEffect(() => {
   const getCustomerCount = async () => {
     try {
       const resp = await axios.get(
-        "http://localhost:5000/api/customerCount"
+        "https://smazo.onrender.com/api/customerCount"
       );
       setCount(resp.data.total);
     } catch (err) {
@@ -114,7 +114,7 @@ useEffect(() => {
     try {
 
         const resp = await axios.get(
-            "http://localhost:5000/api/pending-count"
+            "https://smazo.onrender.com/api/pending-count"
         );
 
         setPencount(resp.data.totalPending);
@@ -132,7 +132,7 @@ const getCompleteCount = async () => {
     try {
 
         const resp = await axios.get(
-            "http://localhost:5000/api/completed-count"
+            "https://smazo.onrender.com/api/completed-count"
         );
 
         setComcount(resp.data.totalPending);
@@ -151,7 +151,7 @@ const getOutPendingCount = async () => {
     try {
 
         const resp = await axios.get(
-            "http://localhost:5000/api/pending-rma-out-count"
+            "https://smazo.onrender.com/api/pending-rma-out-count"
         );
 
         setOutPenCount(resp.data.totalPending);
@@ -169,7 +169,7 @@ const getOutCompleteCount = async () => {
     try {
 
         const resp = await axios.get(
-            "http://localhost:5000/api/completed-rma-out-count"
+            "https://smazo.onrender.com/api/completed-rma-out-count"
         );
 
         setOutComCount(resp.data.totalCompleted);
@@ -187,7 +187,7 @@ const getSerialPendingCount = async () => {
     try {
 
         const resp = await axios.get(
-            "http://localhost:5000/api/serial-pending-count"
+            "https://smazo.onrender.com/api/serial-pending-count"
         );
 
         setSerialPendingCount(resp.data.totalPending);
@@ -206,7 +206,7 @@ const getSerialCompletedCount = async () => {
     try {
 
         const resp = await axios.get(
-            "http://localhost:5000/api/serial-completed-count"
+            "https://smazo.onrender.com/api/serial-completed-count"
         );
 
         console.log(resp.data);
@@ -228,7 +228,7 @@ const getSerialPendingOutCount = async () => {
     try {
 
         const resp = await axios.get(
-            "http://localhost:5000/api/serial-pending-rma-out-count"
+            "https://smazo.onrender.com/api/serial-pending-rma-out-count"
         );
 
         setSerialPendingOutCount(
@@ -248,7 +248,7 @@ const getSerialCompletedOutCount = async () => {
     try {
 
         const resp = await axios.get(
-            "http://localhost:5000/api/serial-completed-rma-out-count"
+            "https://smazo.onrender.com/api/serial-completed-rma-out-count"
         );
 
         setSerialCompletedOutCount(

@@ -17,7 +17,7 @@ function TotalRMAOut() {
     useEffect(() => {
 
         axios
-            .get("http://localhost:5000/api/pending-rma-out")
+            .get("https://smazo.onrender.com/api/pending-rma-out")
             .then((res) => {
                 setData(res.data);
             });
@@ -27,7 +27,7 @@ function TotalRMAOut() {
     useEffect(() => {
 
         axios
-            .get("http://localhost:5000/api/completed-rma-out")
+            .get("https://smazo.onrender.com/api/completed-rma-out")
             .then((res) => {
                 setCompletedata(res.data);
             });

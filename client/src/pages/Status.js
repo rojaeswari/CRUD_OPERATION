@@ -40,7 +40,7 @@ const Status = () => {
 
             const res =
                 await axios.get(
-                    `http://localhost:5000/api/rma/${id}`
+                    `https://smazo.onrender.com/api/rma/${id}`
                 );
 
             setData(
@@ -58,7 +58,7 @@ const Status = () => {
     try {
 
         await axios.put(
-            `http://localhost:5000/api/status/${id}`,
+            `https://smazo.onrender.com/api/status/${id}`,
             {
                 status
             }
@@ -78,7 +78,7 @@ const Status = () => {
             try {
 
                 await axios.put(
-                    `http://localhost:5000/api/status/${id}`,
+                    `https://smazo.onrender.com/api/status/${id}`,
                     {
                         status:
                             "Completed"

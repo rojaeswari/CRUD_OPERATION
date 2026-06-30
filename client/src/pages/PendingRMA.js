@@ -15,7 +15,7 @@ function PendingRMA() {
     useEffect(() => {
 
         axios
-            .get("http://localhost:5000/api/pending-rma")
+            .get("https://smazo.onrender.com/api/pending-rma")
             .then((res) => {
                 setData(res.data);
             });
@@ -25,7 +25,7 @@ function PendingRMA() {
     useEffect(() => {
 
         axios
-            .get("http://localhost:5000/api/completed-rma")
+            .get("https://smazo.onrender.com/api/completed-rma")
             .then((res) => {
                 setCompletedata(res.data);
             });

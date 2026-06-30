@@ -34,7 +34,7 @@ function Login() {
 
         axios
             .post(
-                "http://localhost:5000/login",
+                "https://smazo.onrender.com/login",
                 {
                     username,
                     password

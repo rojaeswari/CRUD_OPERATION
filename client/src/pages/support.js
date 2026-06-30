@@ -11,7 +11,7 @@ const Support = () => {
 
     const loadData = async () => {
         const response = await axios.get(
-            "http://localhost:5000/api/get1"
+            "https://smazo.onrender.com/api/get1"
         );
 
         console.log(response.data);
@@ -29,7 +29,7 @@ const Support = () => {
 
         try {
             await axios.delete(
-                `http://localhost:5000/api/remove1/${id}`
+                `https://smazo.onrender.com/api/remove1/${id}`
             );
 
             // alert("Product Deleted Successfully");

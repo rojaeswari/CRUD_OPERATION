@@ -14,7 +14,7 @@ function RMADetails1() {
   useEffect(() => {
 
     axios
-      .get(`http://localhost:5000/rma-details/${rma_no}`)
+      .get(`https://smazo.onrender.com/rma-details/${rma_no}`)
       .then((res) => {
         console.log(res.data);
         setData(res.data);
@@ -32,7 +32,7 @@ function RMADetails1() {
     try {
 
       await axios.put(
-        `http://localhost:5000/update-rma-status/${rma_no}`,
+        `https://smazo.onrender.com/update-rma-status/${rma_no}`,
         {
           status: "Completed"
         }

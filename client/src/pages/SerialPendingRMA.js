@@ -17,7 +17,7 @@ function SerialPendingRMA() {
     useEffect(() => {
 
         axios
-            .get("http://localhost:5000/api/serial-pending-rma")
+            .get("https://smazo.onrender.com/api/serial-pending-rma")
             .then((res) => {
                 setData(res.data);
             });
@@ -27,7 +27,7 @@ function SerialPendingRMA() {
     useEffect(() => {
 
         axios
-            .get("http://localhost:5000/api/serial-completed-rma")
+            .get("https://smazo.onrender.com/api/serial-completed-rma")
             .then((res) => {
                 setCompletedata(res.data);
             });

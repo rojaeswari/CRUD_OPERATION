@@ -66,7 +66,7 @@ const username = localStorage.getItem("username");
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/get-services_r")
+            .get("https://smazo.onrender.com/get-services_r")
             .then((res) => {
                 setServices(res.data);
             });
@@ -137,7 +137,7 @@ const username = localStorage.getItem("username");
 
 
             const res = await axios.post(
-                "http://localhost:5000/api/entry_in",
+                "https://smazo.onrender.com/api/entry_in",
                 payload
             );
 

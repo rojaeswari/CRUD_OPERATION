@@ -27,7 +27,7 @@ const AddService = () => {
     useEffect(() => {
     if (id) {
         axios
-            .get(`http://localhost:5000/api/getservice/${id}`)
+            .get(`https://smazo.onrender.com/api/getservice/${id}`)
             .then((res) => {
                 console.log(res.data);
                 setState(res.data);
@@ -91,7 +91,7 @@ const AddService = () => {
 
                 try {
                     await axios.post(
-                        "http://localhost:5000/api/service_d",
+                        "https://smazo.onrender.com/api/service_d",
                         state
                     );
 
@@ -106,7 +106,7 @@ const AddService = () => {
 
                 try {
                     await axios.put(
-                        `http://localhost:5000/api/update_ser/${id}`,
+                        `https://smazo.onrender.com/api/update_ser/${id}`,
                         state
                     );
 
