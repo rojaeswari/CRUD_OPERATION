@@ -122,15 +122,16 @@ body{
 /* Row 2 & Row 3 - Four cards */
 .row-cards {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(4, 280px);
+    justify-content: center;
+    gap: 25px;
     margin-bottom: 30px;
 }
 
+/* Card Container */
 .total-card {
-    width: 100%;
-    max-width: 220px;
-    height: 120px;
+    width: 280px;
+    height: 150px;
     border-radius: 18px;
     background: linear-gradient(135deg, #8b5cf6, #453cca);
     color: white;
@@ -138,29 +139,27 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 8px 20px rgba(124,58,237,0.25);
-    transition: 0.3s;
-}
-
-.row-cards a {
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-}
-
-.total-card h2 {
-    font-size: 38px;
-    margin: 0;
-    color: white;
-}
-
-.total-card p {
-    font-size: 15px;
-    margin-top: 8px;
+    padding: 15px;
+    box-sizing: border-box;
     text-align: center;
-    color: white;
+    box-shadow: 0 8px 20px rgba(124,58,237,0.25);
 }
-/* Reminder Section */
+
+/* Number */
+.total-card h2 {
+    font-size: 48px;
+    margin: 0 0 10px;
+    line-height: 1;
+}
+
+/* Text */
+.total-card p {
+    font-size: 18px;
+    margin: 0;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}/* Reminder Section */
 .reminder-section{
     flex:1;
     min-width:320px;
