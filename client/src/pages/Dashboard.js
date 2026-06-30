@@ -352,76 +352,54 @@ const getSerialCompletedOutCount = async () => {
          <div className="dashboard-cards">
 
     {/* Row 1 */}
-    <div className="row-cards">
-        <div className="total-card">
-            <h2>{count}</h2>
-            <p>Total Customers</p>
-        </div>
+    {/* <div className="row-cards"> */}
+        <div className="card total-card">
+    <h1>{totalCustomer}</h1>
+    <p>Total Customers</p>
+  </div>
+
+  <div className="card-row">
+    <div className="card">
+      <h1>{pendingInward}</h1>
+      <p>Pending Inward</p>
     </div>
 
-    {/* Row 2 */}
-    <div className="row-cards">
-
-        <Link to="/pending-rma">
-            <div className="total-card">
-                <h2>{pencount}</h2>
-                <p>Pending Inward</p>
-            </div>
-        </Link>
-
-        <Link to="/completed-rma">
-            <div className="total-card">
-                <h2>{comcount}</h2>
-                <p>Complete Inward</p>
-            </div>
-        </Link>
-
-        <Link to="/pending-rma-out">
-            <div className="total-card">
-                <h2>{outPenCount}</h2>
-                <p>Pending Outward</p>
-            </div>
-        </Link>
-
-        <Link to="/completed-rma-out">
-            <div className="total-card">
-                <h2>{outComCount}</h2>
-                <p>Complete Outward</p>
-            </div>
-        </Link>
-
+    <div className="card">
+      <h1>{completeInward}</h1>
+      <p>Complete Inward</p>
     </div>
 
-    {/* Row 3 */}
-    <div className="row-cards">
+    <div className="card">
+      <h1>{pendingOutward}</h1>
+      <p>Pending Outward</p>
+    </div>
 
-        <Link to="/serial-pending-rma">
-            <div className="total-card">
-                <h2>{serialPendingCount}</h2>
-                <p>S.No Pending Inward</p>
-            </div>
-        </Link>
+    <div className="card">
+      <h1>{completeOutward}</h1>
+      <p>Complete Outward</p>
+    </div>
+  </div>
 
-        <Link to="/serial-completed-rma">
-            <div className="total-card">
-                <h2>{serialCompletedCount}</h2>
-                <p>S.No Complete Inward</p>
-            </div>
-        </Link>
+  <div className="card-row">
+    <div className="card">
+      <h1>{snPendingInward}</h1>
+      <p>S.No Pending Inward</p>
+    </div>
 
-        <Link to="/serial-pending-rma-out">
-            <div className="total-card">
-                <h2>{serialPendingOutCount}</h2>
-                <p>S.No Pending Outward</p>
-            </div>
-        </Link>
+    <div className="card">
+      <h1>{snCompleteInward}</h1>
+      <p>S.No Complete Inward</p>
+    </div>
 
-        <Link to="/serial-completed-rma-out">
-            <div className="total-card">
-                <h2>{serialCompletedOutCount}</h2>
-                <p>S.No Complete Outward</p>
-            </div>
-        </Link>
+    <div className="card">
+      <h1>{snPendingOutward}</h1>
+      <p>S.No Pending Outward</p>
+    </div>
+
+    <div className="card">
+      <h1>{snCompleteOutward}</h1>
+      <p>S.No Complete Outward</p>
+    </div>
 
     </div>
 
@@ -571,5 +549,4 @@ const getSerialCompletedOutCount = async () => {
 
   );
 };
-
 export default Dashboard;
