@@ -443,13 +443,14 @@ Reminder Date: ${item.reminder_date}
                         supporter
                     </button>
                 </Link>
-<input
-  type="text"
-  className="form-control w-25"
-  placeholder="Search..."
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-/>
+
+               <input
+    type="text"
+    className="form-control w-50"
+    placeholder="Search by Customer Name, Product Name or Model No..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
 
 
                 <Link to="/home/add">
