@@ -264,7 +264,7 @@ const Homel = () => {
 doc.rect(13, 35, 182, 55);
 
 // Top row
-doc.setFontSize(8);
+doc.setFontSize(9);
 doc.setFont(undefined, "bold");
 
 doc.text(`RMA No : ${headerData.rma_no}`, 18, 43);
