@@ -5,7 +5,7 @@ import "./Out.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 
-const API_URL = "http://localhost:5000";
+// const API_URL = "http://smazo.onrender.com";
 const Out = () => {
     const today = new Date().toISOString().split("T")[0];
     const [serialNo, setSerialNo] = useState("");
@@ -81,7 +81,7 @@ const removeItem = (index) => {
 };
     useEffect(() => {
         axios
-            .get(`${API_URL}/get-services`)
+            .get("https://smazo.onrender.com/get-services")
             .then((res) => {
                 setServices(res.data);
             });
@@ -129,7 +129,7 @@ const searchSerial = async () => {
     try {
 
         const res = await axios.get(
-            `${API_URL}/search-serial/${serialNo}`
+            `https://smazo.onrender.com/search-serial/${serialNo}`
         );
 
         console.log("API RESPONSE =", res.data);
