@@ -415,6 +415,17 @@ Reminder Date: ${item.reminder_date}
 
     };
 
+
+    const filteredData = data.filter((item) => {
+  const searchText = search.toLowerCase();
+
+  return (
+    item.customer_name?.toLowerCase().includes(searchText) ||
+    item.product_name?.toLowerCase().includes(searchText) ||
+    item.model_no?.toLowerCase().includes(searchText)
+  );
+});
+
     return (
         <div className="top-btns">
             <div className="top-buttons">
@@ -432,6 +443,13 @@ Reminder Date: ${item.reminder_date}
                     </button>
                 </Link>
 
+               <input
+    type="text"
+    className="form-control w-60"
+    placeholder="Search by Customer Name, Product Name or Model No..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
 
 
                 <Link to="/home/add">
@@ -467,7 +485,7 @@ Reminder Date: ${item.reminder_date}
                 </thead>
 
                 <tbody>
-                    {data.map((item, index) => {
+                    {filteredData.map((item, index) => {
                         return (
                             <tr key={item.id}>
                                 <td>{item.rma_no}</td>

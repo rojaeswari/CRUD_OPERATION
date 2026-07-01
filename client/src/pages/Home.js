@@ -53,7 +53,7 @@ const Home = () => {
                     </Link>
     </div>
 
-   <div className="input-group w-40">
+   <div className="input-group w-50">
   <span className="input-group-text">🔍</span>
   <input
     type="text"

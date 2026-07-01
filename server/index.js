@@ -3562,7 +3562,25 @@ app.get("/api/customers/search", async (req, res) => {
   }
 });
 
+app.get("/api/rma/search", async (req, res) => {
+  const { q } = req.query;
 
+  const sql = `
+    SELECT *
+    FROM rma_entry1
+    WHERE LOWER(customer_name) LIKE LOWER($1)
+       OR LOWER(product_name) LIKE LOWER($1)
+       OR LOWER(model_no) LIKE LOWER($1)
+    ORDER BY id DESC
+  `;
+
+  try {
+    const result = await pool.query(sql, [`%${q}%`]);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 const PORT = process.env.PORT || 5000;
 
