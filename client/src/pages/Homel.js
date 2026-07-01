@@ -8,6 +8,7 @@ import autoTable from "jspdf-autotable";
 const Homel = () => {
 
     const [data, setData] = useState([]); // MUST BE []
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         loadData();
