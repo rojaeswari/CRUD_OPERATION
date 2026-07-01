@@ -5,7 +5,7 @@ import "./Out.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 
-const API_URL = "http://smazo.onrender.com";
+const API_URL = "https://smazo.onrender.com";
 const Out = () => {
     const today = new Date().toISOString().split("T")[0];
     const [serialNo, setSerialNo] = useState("");
