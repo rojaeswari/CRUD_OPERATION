@@ -16,15 +16,29 @@
     justify-content: flex-end;
     margin-bottom: 25px;
 }
-.top-section1 {
+/* .top-section1 {
     width: 100%;
     max-width: 1000px;
     height: 50%;
     display: flex;
     justify-content: flex-start;
     margin-bottom: 25px;
+} */
+.search-input {
+    flex: 1;
+    max-width: 400px;
+    height: 42px;
+    border-radius: 25px;
+    border: 2px solid #7b2ff7;
+    padding: 0 18px;
+    font-size: 16px;
+    outline: none;
 }
 
+.search-input:focus {
+    border-color: #ff4fa3;
+    box-shadow: 0 0 8px rgba(123, 47, 247, 0.3);
+}
 .back-btn {
     background: #1f3156;
     color: white;
