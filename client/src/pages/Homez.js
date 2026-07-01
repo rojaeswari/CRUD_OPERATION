@@ -375,13 +375,13 @@ Entry Date: ${item.entry_date}
     };
 
 
-      const filteredData = data.filter((item) => {
+    const filteredData = data.filter((item) => {
   const searchText = search.toLowerCase();
 
   return (
     item.center_name?.toLowerCase().includes(searchText) ||
     item.product_name?.toLowerCase().includes(searchText) ||
-    item.model_no?.toLowerCase().includes(searchText)
+    item.model_number?.toLowerCase().includes(searchText)
   );
 });
 

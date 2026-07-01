@@ -3588,21 +3588,35 @@ app.get("/api/rmaout/search", async (req, res) => {
   const { q } = req.query;
 
   const sql = `
-    SELECT *
-    FROM rma_out
-    WHERE LOWER(center_name) LIKE LOWER($1)
-       OR LOWER(product_name) LIKE LOWER($1)
-       OR LOWER(model_no) LIKE LOWER($1)
-    ORDER BY id DESC
+    SELECT DISTINCT
+      r.id,
+      r.rma_no,
+      s.center_name,
+      i.product_name,
+      i.model_number,
+      r.quantity_no,
+      r.status,
+      r.entry_date
+    FROM rma_out r
+    JOIN services s
+      ON r.services_id = s.id
+    JOIN rma_items1 i
+      ON r.id = i.rma_id
+    WHERE LOWER(s.center_name) LIKE LOWER($1)
+       OR LOWER(i.product_name) LIKE LOWER($1)
+       OR LOWER(i.model_number) LIKE LOWER($1)
+    ORDER BY r.id DESC
   `;
 
   try {
-    const result = await pool.query(sql, [`%${q}%`]);
+    const result = await db.query(sql, [`%${q}%`]);
     res.json(result.rows);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 const PORT = process.env.PORT || 5000;
 
