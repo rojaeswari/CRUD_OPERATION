@@ -6,6 +6,7 @@ import axios from "axios";
 
 const Home = () => {
     const [data, setData] = useState([]);
+    const [search, setSearch] = useState("");
 
     const loadData = async () => {
         const response = await axios.get(
@@ -34,6 +35,13 @@ const Home = () => {
             }
         }
     };
+
+
+    const filteredData = data.filter((item) =>
+  item.customer_name.toLowerCase().includes(search.toLowerCase()) ||
+  item.phone_no.includes(search) ||
+  item.company_name.toLowerCase().includes(search.toLowerCase())
+);
     return (
   <div className="home-container">
     <div className="top-section">
@@ -44,6 +52,14 @@ const Home = () => {
                       </button>
                     </Link>
     </div>
+
+    <input
+  type="text"
+  className="search-input"
+  placeholder="Search by Customer Name, Company Name or Phone Number..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>
 
    
       <Link to="/home/post">
@@ -66,7 +82,7 @@ const Home = () => {
         </thead>
 
         <tbody>
-          {data.map((item, index) => {
+          {filteredData.map((item, index) => {
             return (
               <tr key={item.id}>
                 <td data-label="No">

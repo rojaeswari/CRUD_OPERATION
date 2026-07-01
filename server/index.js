@@ -3541,29 +3541,26 @@ app.get("/test-db", async (req, res) => {
     }
 });
 
-// React build files
-// app.use(
-//     express.static(
-//         path.join(__dirname, "build")
-//     )
-// );
+app.get("/api/customers/search", async (req, res) => {
+  const { q } = req.query;
 
-// Keep this LAST — it catches React page routes only
-// app.use((req, res) => {
-//     res.sendFile(
-//         path.join(
-//             __dirname,
-//             "build",
-//             "index.html"
-//         )
-//     );
-// });
-// app.use(express.static(path.join(__dirname, "../client/build")));
+  const sql = `
+    SELECT *
+    FROM customer
+    WHERE LOWER(customer_name) LIKE LOWER($1)
+       OR phone_no LIKE $1
+       OR LOWER(company_name) LIKE LOWER($1)
+    ORDER BY id DESC
+  `;
 
-// app.get("*", (req,res)=>{
-//     res.sendFile(path.join(__dirname,"../client/build/index.html"));
-// });
-
+  try {
+    const result = await pool.query(sql, [`%${q}%`]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
 
 
 
