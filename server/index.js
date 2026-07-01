@@ -715,6 +715,7 @@ app.get("/api/pdf/:rmaNo", (req, res) => {
     r.created_by as created_by_name,
     TO_CHAR(r.entry_date,'DD-MM-YYYY')AS entry_date,
     c.customer_name,
+    c.company_name,
     c.phone_no,
     c.email,
     c.address,

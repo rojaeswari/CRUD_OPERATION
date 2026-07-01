@@ -283,7 +283,7 @@ doc.setFontSize(8);
 
 // Left column
 doc.text(`Customer : ${headerData.customer_name || ""}`, 18, 62);
-doc.text(`Company : ${headerData.company || ""}`, 18, 70);
+doc.text(`Company : ${headerData.company_name || ""}`, 18, 70);
 
 // Right column
 doc.text(`Phone : ${headerData.phone_no || ""}`, 105, 62);
@@ -300,7 +300,7 @@ doc.text(address, 18, 78);
 
             // RMA Details Table
             autoTable(doc, {
-                startY: 82,
+                startY: 84,
 
                 theme: "grid",
 
@@ -510,24 +510,7 @@ Reminder Date: ${item.reminder_date}
 
                                 </td>
 
-                                {/* <td>
-                                    <Link to={`/status-history_lsr/${item.id}`}>
-                                        <button className="btn btn-view">
-                                            View History
-                                        </button>
-                                    </Link>
-
-
-
-                                </td> */}
-                                {/* <td>
-                                    <Link to={`/search-model/${item.model_number}`}>
-                                        <button className="edit-btn">
-                                            search
-                                        </button>
-                                    </Link>
-                                </td> */}
-
+                               
                                 <td>
                                     <button
                                         className="view-btn"
