@@ -398,7 +398,7 @@ Entry Date: ${item.entry_date}
                 <input
                     type="text"
                     className="form-control w-50"
-                    placeholder="Search by Customer Name, Product Name or Model No..."
+                    placeholder="Search by Center Name, Product Name or Model No..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
