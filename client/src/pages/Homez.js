@@ -7,7 +7,8 @@ import autoTable from "jspdf-autotable";
 
 const Homez = () => {
 
-    const [data, setData] = useState([]); // MUST BE []
+    const [data, setData] = useState([]); 
+     const [search, setSearch] = useState("");
 
     useEffect(() => {
         loadData();
@@ -30,7 +31,7 @@ const Homez = () => {
             const response = await axios.get(
                 "https://smazo.onrender.com/api/get_o"
             );
-  console.log("API DATA =", response.data);
+            console.log("API DATA =", response.data);
             console.log(response.data);
 
             // Safety check
@@ -373,6 +374,17 @@ Entry Date: ${item.entry_date}
 
     };
 
+
+      const filteredData = data.filter((item) => {
+  const searchText = search.toLowerCase();
+
+  return (
+    item.center_name?.toLowerCase().includes(searchText) ||
+    item.product_name?.toLowerCase().includes(searchText) ||
+    item.model_no?.toLowerCase().includes(searchText)
+  );
+});
+
     return (
         <div className="home-container">
             <div className="top-buttons">
@@ -382,6 +394,14 @@ Entry Date: ${item.entry_date}
                         Go Back
                     </button>
                 </Link>
+
+                <input
+                    type="text"
+                    className="form-control w-50"
+                    placeholder="Search by Customer Name, Product Name or Model No..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
 
 
                 <Link to="/home/Out">
@@ -412,60 +432,60 @@ Entry Date: ${item.entry_date}
                 </thead>
 
                 <tbody>
-                    {data.map((item, index) => {
-                          console.log("ITEM =", item);
-    console.log("RMA NO =", item.rma_no);
+                    {filteredData.map((item, index) => {
+                        console.log("ITEM =", item);
+                        console.log("RMA NO =", item.rma_no);
 
                         return (
-                          
-                        <tr key={item.id}>
-                            <td>{item.rma_no}</td>
-                            <td>{item.center_name}</td>
-                            <td>{item.product_name}</td>
-                            <td>{item.model_number}</td>
-                            <td>{item.quantity_no}</td>
+
+                            <tr key={item.id}>
+                                <td>{item.rma_no}</td>
+                                <td>{item.center_name}</td>
+                                <td>{item.product_name}</td>
+                                <td>{item.model_number}</td>
+                                <td>{item.quantity_no}</td>
 
 
-                            <td>{item.status}</td>
+                                <td>{item.status}</td>
 
-                            <td>
-                                {item.entry_date
-                                    ? new Date(item.entry_date).toLocaleDateString("en-GB")
-                                    : "-"}
-                            </td>
-                            <td>
+                                <td>
+                                    {item.entry_date
+                                        ? new Date(item.entry_date).toLocaleDateString("en-GB")
+                                        : "-"}
+                                </td>
+                                <td>
 
-                                <Link
+                                    <Link
 
-                                    to={`/rma-details/${item.rma_no}`}
-                                >
-                                    View
-                                </Link>
+                                        to={`/rma-details/${item.rma_no}`}
+                                    >
+                                        View
+                                    </Link>
 
-                            </td>
+                                </td>
 
-                            <td>
-                                <Link to={`/update-rma/${item.rma_no}`}>
-                                    <button className="edit-btn">
-                                        Edit
+                                <td>
+                                    <Link to={`/update-rma/${item.rma_no}`}>
+                                        <button className="edit-btn">
+                                            Edit
+                                        </button>
+                                    </Link>
+
+                                    <button
+                                        className="delete-btn"
+                                        onClick={() => {
+                                            console.log("ITEM =", item);
+                                            console.log("RMA NO =", item.rma_no);
+                                            deleteRMA(item.rma_no);
+                                        }}
+                                    >
+                                        Delete
                                     </button>
-                                </Link>
-
-                                <button
-    className="delete-btn"
-    onClick={() => {
-        console.log("ITEM =", item);
-        console.log("RMA NO =", item.rma_no);
-        deleteRMA(item.rma_no);
-    }}
->
-    Delete
-</button>
 
 
 
-                            </td>
-                            {/* <td>
+                                </td>
+                                {/* <td>
                                     <Link to={`/history_l/${item.id}`}>
                                         <button className="btn btn-view">
                                             View History
@@ -475,22 +495,22 @@ Entry Date: ${item.entry_date}
 
 
                                 </td> */}
-                            <td>
-                                <button className="view-btn"
-                                    onClick={() => generatePDF(item)}
-                                >
-                                    PDF
-                                </button>
-                            </td>
-                            <td>
-                                <button
-                                    className="share-btn"
-                                    onClick={() => shareWhatsApp(item)}
-                                >
-                                    WhatsApp
-                                </button>
-                            </td>
-                        </tr>
+                                <td>
+                                    <button className="view-btn"
+                                        onClick={() => generatePDF(item)}
+                                    >
+                                        PDF
+                                    </button>
+                                </td>
+                                <td>
+                                    <button
+                                        className="share-btn"
+                                        onClick={() => shareWhatsApp(item)}
+                                    >
+                                        WhatsApp
+                                    </button>
+                                </td>
+                            </tr>
 
 
                         );
