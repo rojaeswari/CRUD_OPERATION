@@ -348,7 +348,7 @@ doc.text(address, 18, 78);
 
 
                 styles: {
-                    fontSize: 7,
+                    fontSize: 8,
                     halign: "center",
                     valign: "middle"
                 },
@@ -364,7 +364,7 @@ doc.text(address, 18, 78);
                     ? doc.lastAutoTable.finalY + 15
                     : 120;
 
-            doc.setFontSize(8);
+            doc.setFontSize(10);
 
             doc.text(
                 "Customer Signature",
