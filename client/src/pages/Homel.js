@@ -279,7 +279,7 @@ doc.setFontSize(10);
 doc.text("Customer Details", 18, 55);
 
 doc.setFont(undefined, "normal");
-doc.setFontSize(10);
+doc.setFontSize(9);
 
 // Left column
 doc.text(`Customer : ${headerData.customer_name || ""}`, 18, 62);
@@ -364,7 +364,7 @@ doc.text(address, 18, 78);
                     ? doc.lastAutoTable.finalY + 15
                     : 120;
 
-            doc.setFontSize(10);
+            doc.setFontSize(9);
 
             doc.text(
                 "Customer Signature",
