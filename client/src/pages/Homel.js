@@ -283,11 +283,11 @@ doc.setFontSize(8);
 
 // Left column
 doc.text(`Customer : ${headerData.customer_name || ""}`, 18, 62);
-// doc.text(`Company : ${headerData.company_name || ""}`, 18, 70);
-const company = doc.splitTextToSize(
-    `Company : ${headerData.company_name || ""}`,
-    70
-);
+doc.text(`Company : ${headerData.company_name || ""}`, 18, 75);
+// const company = doc.splitTextToSize(
+//     `Company : ${headerData.company_name || ""}`,
+//     70
+// );
 
 // Right column
 doc.text(`Phone : ${headerData.phone_no || ""}`, 105, 62);
@@ -306,7 +306,7 @@ doc.text(address, 18, 78);
 
             // RMA Details Table
             autoTable(doc, {
-                startY: 91,
+                startY: 98,
 
                 theme: "grid",
 
