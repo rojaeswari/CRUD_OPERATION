@@ -150,32 +150,32 @@ const Homez = () => {
             // RMA
 
             // doc.rect(10, 45, 120, 35);
-            doc.rect(135, 45, 60, 35);
-            doc.setFontSize(8);
+            // doc.rect(135, 45, 60, 35);
+            // doc.setFontSize(8);
 
-            doc.text(
-                `RMA No : ${header.rma_no}`,
-                140,
-                55
-            );
+            // doc.text(
+            //     `RMA No : ${header.rma_no}`,
+            //     140,
+            //     55
+            // );
 
-            //     doc.text(
-            //        `Cus Dc No : ${header.customer_dc_no}`,
-            //        140,
-            //        60
-            //    );
+            // //     doc.text(
+            // //        `Cus Dc No : ${header.customer_dc_no}`,
+            // //        140,
+            // //        60
+            // //    );
 
-            doc.text(
-                `Entry Date : ${entryDate}`,
-                140,
-                65
-            );
+            // doc.text(
+            //     `Entry Date : ${entryDate}`,
+            //     140,
+            //     65
+            // );
 
-            doc.text(
-                `Staff Name : ${header.created_by_name || ""}`,
-                140,
-                75
-            );
+            // doc.text(
+            //     `Staff Name : ${header.created_by_name || ""}`,
+            //     140,
+            //     75
+            // );
 
 
             const drawMiniHeader = () => {
@@ -226,42 +226,83 @@ const Homez = () => {
 
             // Customer Details Table
             // -------- Customer Details (Text Format) --------
-            doc.rect(10, 45, 120, 35);
-            doc.setFontSize(10);
-            doc.setFont(undefined, "bold");
+            // doc.rect(10, 45, 120, 35);
+            // doc.setFontSize(10);
+            // doc.setFont(undefined, "bold");
 
-            doc.text(
-                "Center Details",
-                15,
-                53
-            );
+            // doc.text(
+            //     "Center Details",
+            //     15,
+            //     53
+            // );
 
-            doc.setFont(undefined, "normal");
-            doc.setFontSize(8);
+            // doc.setFont(undefined, "normal");
+            // doc.setFontSize(8);
 
-            doc.text(
-                `Center Name : ${header.center_name || ""}`,
-                15,
-                62
-            );
+            // doc.text(
+            //     `Center Name : ${header.center_name || ""}`,
+            //     15,
+            //     62
+            // );
 
-            doc.text(
-                `Phone : ${header.phone_no || ""}`,
-                75,
-                62
-            );
+            // doc.text(
+            //     `Phone : ${header.phone_no || ""}`,
+            //     75,
+            //     62
+            // );
 
-            doc.text(
-                `Email : ${header.email || ""}`,
-                15,
-                72
-            );
+            // doc.text(
+            //     `Email : ${header.email || ""}`,
+            //     15,
+            //     72
+            // );
 
-            doc.text(
-                `Address : ${header.address || ""}`,
-                75,
-                72
-            );
+            // doc.text(
+            //     `Address : ${header.address || ""}`,
+            //     75,
+            //     72
+            // );
+ 
+
+            doc.rect(13, 35, 182, 55);
+
+// Top row
+doc.setFontSize(9);
+doc.setFont(undefined, "bold");
+
+doc.text(`RMA No : ${headerData.rma_no}`, 18, 43);
+doc.text(`Entry Date : ${entryDate}`, 80, 43);
+doc.text(`Staff : ${headerData.created_by_name || ""}`, 145, 43);
+
+// Divider line
+doc.line(13, 48, 195, 48);
+
+// Customer Details title
+doc.setFontSize(10);
+doc.text("Center Details", 18, 55);
+
+doc.setFont(undefined, "normal");
+doc.setFontSize(9);
+
+// Left column
+doc.text(`Center Name : ${headerData.center_name || ""}`, 18, 62);
+doc.text(`Company : ${headerData.company_name || ""}`, 18, 70);
+// const company = doc.splitTextToSize(
+//     `Company : ${headerData.company_name || ""}`,
+//     70
+// );
+
+// Right column
+doc.text(`Phone : ${headerData.phone_no || ""}`, 105, 62);
+doc.text(`Email : ${headerData.email || ""}`, 105, 70);
+
+// Address
+const address = doc.splitTextToSize(
+    `Address : ${headerData.address || ""}`,
+    160 // Width inside the box
+);
+
+doc.text(address, 18, 78);
 
 
             // RMA Details Table
