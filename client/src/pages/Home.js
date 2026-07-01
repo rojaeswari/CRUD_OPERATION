@@ -53,13 +53,16 @@ const Home = () => {
                     </Link>
     </div>
 
-    <input
-  type="text"
-  className="search-input"
-  placeholder="Search by Customer Name, Company Name or Phone Number..."
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-/>
+   <div className="input-group w-50">
+  <span className="input-group-text">🔍</span>
+  <input
+    type="text"
+    className="form-control"
+    placeholder="Search by Customer Name, Company Name or Phone Number..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
+</div>
 
    
       <Link to="/home/post">
