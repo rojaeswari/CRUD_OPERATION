@@ -270,9 +270,9 @@ const Homez = () => {
 doc.setFontSize(9);
 doc.setFont(undefined, "bold");
 
-doc.text(`RMA No : ${headerData.rma_no}`, 18, 43);
+doc.text(`RMA No : ${header.rma_no}`, 18, 43);
 doc.text(`Entry Date : ${entryDate}`, 80, 43);
-doc.text(`Staff : ${headerData.created_by_name || ""}`, 145, 43);
+doc.text(`Staff : ${header.created_by_name || ""}`, 145, 43);
 
 // Divider line
 doc.line(13, 48, 195, 48);
@@ -285,20 +285,20 @@ doc.setFont(undefined, "normal");
 doc.setFontSize(9);
 
 // Left column
-doc.text(`Center Name : ${headerData.center_name || ""}`, 18, 62);
-doc.text(`Company : ${headerData.company_name || ""}`, 18, 70);
+doc.text(`Center Name : ${header.center_name || ""}`, 18, 62);
+doc.text(`Company : ${header.company_name || ""}`, 18, 70);
 // const company = doc.splitTextToSize(
-//     `Company : ${headerData.company_name || ""}`,
+//     `Company : ${header.company_name || ""}`,
 //     70
 // );
 
 // Right column
-doc.text(`Phone : ${headerData.phone_no || ""}`, 105, 62);
-doc.text(`Email : ${headerData.email || ""}`, 105, 70);
+doc.text(`Phone : ${header.phone_no || ""}`, 105, 62);
+doc.text(`Email : ${header.email || ""}`, 105, 70);
 
 // Address
 const address = doc.splitTextToSize(
-    `Address : ${headerData.address || ""}`,
+    `Address : ${header.address || ""}`,
     160 // Width inside the box
 );
 
