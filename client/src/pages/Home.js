@@ -96,6 +96,16 @@ const Home = () => {
                           </button>
                         </Link>
 
+                                    <button
+                                        className="cancel-btn"
+                                        onClick={() =>
+                                            handleCancel(item.id)
+                                        }
+                                    >
+                                        Cancel
+                                    </button>
+
+
                         <button
                           className="btn-delete"
                           onClick={() => deleteContact(item.id)}
@@ -110,6 +120,16 @@ const Home = () => {
                         View
                       </button>
                     </Link>
+
+                    <tr
+                                    key={item.id}
+                                    className={Number
+                                        (item.is_cancelled) === 1
+                                        ? "cancel-row"
+                                        : ""
+                                    }
+                                >
+                                </tr>
 
                   </div>
                 </td>
