@@ -153,26 +153,26 @@ const Homel = () => {
             // RMA
 
             // doc.rect(10, 45, 120, 35);
-            doc.rect(135, 35, 60, 35);
-            doc.setFontSize(8);
+            // doc.rect(135, 35, 60, 35);
+            // doc.setFontSize(8);
 
-            doc.text(
-                `RMA No : ${headerData.rma_no}`,
-                140,
-                45
-            );
+            // doc.text(
+            //     `RMA No : ${headerData.rma_no}`,
+            //     140,
+            //     45
+            // );
 
-            doc.text(
-                `Entry Date : ${entryDate}`,
-                140,
-                55
-            );
+            // doc.text(
+            //     `Entry Date : ${entryDate}`,
+            //     140,
+            //     55
+            // );
 
-            doc.text(
-                `Staff Name : ${headerData.created_by_name || ""}`,
-                140,
-                65
-            );
+            // doc.text(
+            //     `Staff Name : ${headerData.created_by_name || ""}`,
+            //     140,
+            //     65
+            // );
 
 
             const drawMiniHeader = () => {
@@ -223,42 +223,79 @@ const Homel = () => {
 
             // Customer Details Table
             // -------- Customer Details (Text Format) --------
-            doc.rect(13, 35, 120, 35);
-            doc.setFontSize(10);
-            doc.setFont(undefined, "bold");
+            // doc.rect(13, 35, 120, 35);
+            // doc.setFontSize(10);
+            // doc.setFont(undefined, "bold");
 
-            doc.text(
-                "Customer Details",
-                17,
-                43
-            );
+            // doc.text(
+            //     "Customer Details",
+            //     17,
+            //     43
+            // );
 
-            doc.setFont(undefined, "normal");
-            doc.setFontSize(8);
+            // doc.setFont(undefined, "normal");
+            // doc.setFontSize(8);
 
-            doc.text(
-                `Customer : ${headerData.customer_name || ""}`,
-                17,
-                52
-            );
+            // doc.text(
+            //     `Customer : ${headerData.customer_name || ""}`,
+            //     17,
+            //     52
+            // );
 
-            doc.text(
-                `Phone : ${headerData.phone_no || ""}`,
-                75,
-                52
-            );
+            // doc.text(
+            //     `Phone : ${headerData.phone_no || ""}`,
+            //     75,
+            //     52
+            // );
 
-            doc.text(
-                `Email : ${headerData.email || ""}`,
-                17,
-                62
-            );
+            // doc.text(
+            //     `Email : ${headerData.email || ""}`,
+            //     17,
+            //     62
+            // );
 
-            doc.text(
-                `Address : ${headerData.address || ""}`,
-                75,
-                62
-            );
+            // doc.text(
+            //     `Address : ${headerData.address || ""}`,
+            //     75,
+            //     62
+            // );
+
+            // One big box
+doc.rect(13, 35, 182, 45);
+
+// Top row
+doc.setFontSize(8);
+doc.setFont(undefined, "bold");
+
+doc.text(`RMA No : ${headerData.rma_no}`, 18, 43);
+doc.text(`Entry Date : ${entryDate}`, 80, 43);
+doc.text(`Staff : ${headerData.created_by_name || ""}`, 145, 43);
+
+// Divider line
+doc.line(13, 48, 195, 48);
+
+// Customer Details title
+doc.setFontSize(10);
+doc.text("Customer Details", 18, 55);
+
+doc.setFont(undefined, "normal");
+doc.setFontSize(8);
+
+// Left column
+doc.text(`Customer : ${headerData.customer_name || ""}`, 18, 62);
+doc.text(`Company : ${headerData.company_name || ""}`, 18, 70);
+
+// Right column
+doc.text(`Phone : ${headerData.phone_no || ""}`, 105, 62);
+doc.text(`Email : ${headerData.email || ""}`, 105, 70);
+
+// Address
+const address = doc.splitTextToSize(
+    `Address : ${headerData.address || ""}`,
+    170
+);
+
+doc.text(address, 18, 78);
 
 
             // RMA Details Table
