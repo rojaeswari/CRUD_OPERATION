@@ -281,46 +281,32 @@ doc.text("Customer Details", 18, 55);
 doc.setFont(undefined, "normal");
 doc.setFontSize(8);
 
-// Customer Name
-const customer = doc.splitTextToSize(
-    `Customer : ${headerData.customer_name || ""}`,
-    70
-);
-doc.text(customer, 18, 62);
-
-// Company Name
+// Left column
+doc.text(`Customer : ${headerData.customer_name || ""}`, 18, 62);
+// doc.text(`Company : ${headerData.company_name || ""}`, 18, 70);
 const company = doc.splitTextToSize(
     `Company : ${headerData.company_name || ""}`,
     70
 );
-doc.text(company, 18, 72);
 
-// Phone
-const phone = doc.splitTextToSize(
-    `Phone : ${headerData.phone_no || ""}`,
-    70
-);
-doc.text(phone, 105, 62);
-
-// Email
-const email = doc.splitTextToSize(
-    `Email : ${headerData.email || ""}`,
-    70
-);
-doc.text(email, 105, 72);
+// Right column
+doc.text(`Phone : ${headerData.phone_no || ""}`, 105, 62);
+doc.text(`Email : ${headerData.email || ""}`, 105, 70);
 
 // Address
 const address = doc.splitTextToSize(
     `Address : ${headerData.address || ""}`,
-    165
+    160 // Width inside the box
 );
-doc.text(address, 18, 84);
+
+doc.text(address, 18, 78);
+
 
 
 
             // RMA Details Table
             autoTable(doc, {
-                startY: 90,
+                startY: 91,
 
                 theme: "grid",
 
