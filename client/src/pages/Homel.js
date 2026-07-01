@@ -446,7 +446,7 @@ Reminder Date: ${item.reminder_date}
 
                <input
     type="text"
-    className="form-control w-50"
+    className="form-control w-40"
     placeholder="Search by Customer Name, Product Name or Model No..."
     value={search}
     onChange={(e) => setSearch(e.target.value)}
