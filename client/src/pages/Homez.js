@@ -294,12 +294,11 @@ doc.text(`Email : ${header.email || ""}`, 105, 70);
 
 // Address
 const address = doc.splitTextToSize(
-    `Address : ${header.address || ""}`,
-    130 // Width inside the box
+  `Address : ${header.address || ""}`,
+  80
 );
 
-doc.text(address, 18, 78);
-
+doc.text(address, 18, 72);
 
             // RMA Details Table
             autoTable(doc, {
