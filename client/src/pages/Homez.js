@@ -286,11 +286,7 @@ doc.setFontSize(9);
 
 // Left column
 doc.text(`Center Name : ${header.center_name || ""}`, 18, 62);
-doc.text(`Company : ${header.company_name || ""}`, 18, 70);
-// const company = doc.splitTextToSize(
-//     `Company : ${header.company_name || ""}`,
-//     70
-// );
+
 
 // Right column
 doc.text(`Phone : ${header.phone_no || ""}`, 105, 62);
