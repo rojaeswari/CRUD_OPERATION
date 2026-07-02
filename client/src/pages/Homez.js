@@ -295,7 +295,7 @@ doc.text(`Email : ${header.email || ""}`, 105, 70);
 // Address
 const address = doc.splitTextToSize(
     `Address : ${header.address || ""}`,
-    160 // Width inside the box
+    130 // Width inside the box
 );
 
 doc.text(address, 18, 78);
@@ -303,7 +303,7 @@ doc.text(address, 18, 78);
 
             // RMA Details Table
             autoTable(doc, {
-                startY: 88,
+                startY: 94,
 
                 theme: "grid",
 
