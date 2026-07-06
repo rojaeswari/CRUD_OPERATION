@@ -105,13 +105,13 @@ const Homez = () => {
             doc.setFontSize(16);
             doc.setFont(undefined, "bold");
 
-            doc.text("SMAZO", 105, 15, {
+            doc.text("SMAZO SECURITY SYSTEMS", 105, 15, {
                 align: "center"
             });
             doc.setFontSize(7);
             doc.setFont(undefined, "normal");
             doc.text(
-                "GSTIN: 33DSEPK8530C1Z1",
+                "GSTIN: 33CFJPD9030B2ZZ",
                 177,
                 15,
                 { align: "right" }
@@ -121,7 +121,7 @@ const Homez = () => {
             doc.setFont(undefined, "normal");
 
             doc.text(
-                "36B, Chakra Complex, Nalli Hospital Road, Near Erode Bus Stand, Erode - 638011,Email: smazosecurityservices@gmail.com",
+                "3A/1, Aanoor Amman Complex, Veerabathara Road, Veerappan Chattram, Erode,Tamilnadu - 638011,Email: sales@smazoindia.com",
                 105,
                 22,
                 { align: "center" }
@@ -135,7 +135,7 @@ const Homez = () => {
             //    );
 
             doc.text(
-                "Contact: 9003838352, 9500508118, 9003866653",
+                "Contact:  9042606713, 9042606715",
                 105,
                 32,
                 { align: "center" }
