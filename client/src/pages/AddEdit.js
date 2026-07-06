@@ -230,7 +230,6 @@ const AddEdit = () => {
                             placeholder="Enter Email"
                             value={state.email || ""}
                             onChange={handleInputChange}
-                            required
                         />
 
                     </div>
