@@ -86,13 +86,13 @@ const AddEdit = () => {
             return;
         }
 
-        const emailRegex =
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // const emailRegex =
+        //     /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!emailRegex.test(state.email)) {
-            toast.error("Invalid Email Address");
-            return;
-        }
+        // if (!emailRegex.test(state.email)) {
+        //     toast.error("Invalid Email Address");
+        //     return;
+        // }
         else {
             if (!id) {
 
