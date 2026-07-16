@@ -8,14 +8,11 @@
     font-family:'Segoe UI',sans-serif;
     background:linear-gradient(135deg,#fdf2f8,#f3e8ff);
 } */
- .sidebar{
-    width:260px;
-    background:linear-gradient(180deg,#4ade80,#16a34a);
-    color:white;
-    padding:30px 20px;
-    box-shadow:5px 0 20px rgba(0,0,0,0.15);
+ body{
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#f0fdf4,#ecfdf5);
 }
-
+ 
 /* Dashboard Layout */
 .dashboard{
     display:flex;
