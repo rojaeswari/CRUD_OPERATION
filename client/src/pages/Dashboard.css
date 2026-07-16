@@ -4,10 +4,6 @@
     box-sizing:border-box;
 }
 
-/* body{
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,#fdf2f8,#f3e8ff);
-} */
  body{
     font-family:'Segoe UI',sans-serif;
     background:linear-gradient(135deg,#f0fdf4,#ecfdf5);
@@ -19,15 +15,6 @@
     min-height:100vh;
 }
 
-/* Sidebar */
-/* .sidebar{
-    width:260px;
-    background:linear-gradient(180deg,#4c1d95,#7c3aed);
-    color:white;
-    padding:30px 20px;
-    box-shadow:5px 0 20px rgba(0,0,0,0.15);
-} */
-
 .sidebar{
     width:260px;
     background:linear-gradient(180deg,#6eeb9c,#30dd70);
@@ -37,21 +24,12 @@
     box-shadow:5px 0 20px rgba(0,0,0,0.15);
 }
 
-/* .logo{
-    text-align:center;
-    font-size:32px;
-    font-weight:bold;
-    margin-bottom:40px;
-    color:#fde68a;
-    letter-spacing:2px;
-} */
-
 .logo{
     text-align:center;
     font-size:32px;
     font-weight:bold;
     margin-bottom:40px;
-    color:#dcfce7;
+     color:#dc2626; 
     letter-spacing:2px;
 }
 
@@ -75,11 +53,6 @@
     transition:0.3s;
 }
 
-/* .menu li a:hover{
-    background:rgba(255,255,255,0.2);
-    transform:translateX(5px);
-} */
-
 .menu li a:hover{
     background:rgba(255,255,255,0.18);
     transform:translateX(5px);
@@ -89,46 +62,6 @@
     flex:1;
     padding:30px;
 }
-
-/* .dashboard-cards{
-    display:flex;
-    flex-wrap:wrap;
-    gap:25px;
-} */
-
-/* Customer Card */
-/* .total-card{
-    width:260px;
-    height:160px;
-    border-radius:20px;
-    padding:20px;
-    color:#fff;
-
-    background:linear-gradient(
-        135deg,
-        #ff6b6b,
-        #ff8e53
-    );
-
-    box-shadow:0 10px 25px rgba(255,107,107,.4);
-
-    transition:.3s;
-}
-
-.total-card h2{
-    font-size:52px;
-    font-weight:700;
-    margin-top:15px;
-    color:#fff;
-}
-
-.total-card p{
-    font-size:18px;
-    font-weight:600;
-    color:#fff;
-} */
-
-
 
 /* Dashboard Cards Layout */
 .dashboard-cards {
@@ -257,24 +190,3 @@
         opacity:0;
     }
 }
-
-/* Mobile */
-/* @media(max-width:768px){
-
-    .dashboard{
-        flex-direction:column;
-    }
-
-    .sidebar{
-        width:100%;
-    }
-
-    .dashboard-cards{
-        flex-direction:column;
-    }
-
-    .total-card,
-    .reminder-section{
-        width:100%;
-    }
-} */
