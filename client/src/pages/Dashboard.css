@@ -4,9 +4,16 @@
     box-sizing:border-box;
 }
 
-body{
+/* body{
     font-family:'Segoe UI',sans-serif;
     background:linear-gradient(135deg,#fdf2f8,#f3e8ff);
+} */
+ .sidebar{
+    width:260px;
+    background:linear-gradient(180deg,#4ade80,#16a34a);
+    color:white;
+    padding:30px 20px;
+    box-shadow:5px 0 20px rgba(0,0,0,0.15);
 }
 
 /* Dashboard Layout */
@@ -16,20 +23,37 @@ body{
 }
 
 /* Sidebar */
-.sidebar{
+/* .sidebar{
     width:260px;
     background:linear-gradient(180deg,#4c1d95,#7c3aed);
     color:white;
     padding:30px 20px;
     box-shadow:5px 0 20px rgba(0,0,0,0.15);
+} */
+
+.sidebar{
+    width:260px;
+    background:linear-gradient(180deg,#4ade80,#16a34a);
+    color:white;
+    padding:30px 20px;
+    box-shadow:5px 0 20px rgba(0,0,0,0.15);
 }
+
+/* .logo{
+    text-align:center;
+    font-size:32px;
+    font-weight:bold;
+    margin-bottom:40px;
+    color:#fde68a;
+    letter-spacing:2px;
+} */
 
 .logo{
     text-align:center;
     font-size:32px;
     font-weight:bold;
     margin-bottom:40px;
-    color:#fde68a;
+    color:#dcfce7;
     letter-spacing:2px;
 }
 
@@ -52,11 +76,15 @@ body{
     transition:0.3s;
 }
 
-.menu li a:hover{
+/* .menu li a:hover{
     background:rgba(255,255,255,0.2);
     transform:translateX(5px);
-}
+} */
 
+.menu li a:hover{
+    background:rgba(255,255,255,0.18);
+    transform:translateX(5px);
+}
 /* Main Content */
 .main-content{
     flex:1;
@@ -133,7 +161,8 @@ body{
     height: 140px;     /* Slightly shorter */
     padding: 15px;
     border-radius: 18px;
-    background: linear-gradient(135deg, #8b5cf6, #453cca);
+    /* background: linear-gradient(135deg, #8b5cf6, #453cca); */
+      background:linear-gradient(135deg,#86efac,#22c55e);
     color: white;
     display: flex;
     flex-direction: column;
@@ -197,7 +226,10 @@ body{
     border:none;
     padding:10px;
     border-radius:12px;
-    background:linear-gradient(135deg,#7c3aed,#a855f7);
+    /* background:linear-gradient(135deg,#7c3aed,#a855f7); */
+    .card button{
+    background:linear-gradient(135deg,#4ade80,#16a34a);
+}
     color:white;
     font-weight:600;
     cursor:pointer;
