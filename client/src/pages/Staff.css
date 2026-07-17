@@ -1,32 +1,32 @@
 /* Main Container */
-.home-container {
+/* .home-container {
     min-height: 100vh;
     background: linear-gradient(135deg, #f5f3ff, #ede9fe);
     padding: 110px 20px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+} */
 
 /* Top Section */
-.top-section,
+/* .top-section,
 .top-section1 {
     width: 100%;
     max-width: 1000px;
     display: flex;
     margin-bottom: 25px;
-}
+} */
 
-.top-section {
+/* .top-section {
     justify-content: flex-end;
-}
+} */
 
-.top-section1 {
+/* .top-section1 {
     justify-content: flex-start;
-}
+} */
 
 /* Add Customer Button */
-.btn-phone {
+/* .btn-phone {
     background: linear-gradient(135deg, #7c3aed, #a855f7);
     color: white;
     border: none;
@@ -37,92 +37,92 @@
     cursor: pointer;
     transition: 0.3s;
     box-shadow: 0 4px 12px rgba(124,58,237,0.3);
-}
+} */
 
-.btn-phone:hover {
+/* .btn-phone:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(124,58,237,0.4);
-}
+} */
 
 /* Table Wrapper */
-.table-wrapper {
+/* .table-wrapper {
     width: 100%;
     display: flex;
     justify-content: center;
-}
+} */
 
 /* Table */
-.styled-table {
+/* .styled-table {
     width: 82%;
     max-width: 1000px;
     border-collapse: separate;
     border-spacing: 0 14px;
-}
+} */
 
 /* Header */
-.styled-table thead tr {
+/* .styled-table thead tr {
     background: linear-gradient(135deg, #6d28d9, #8b5cf6);
-}
+} */
 
-.styled-table th {
+/* .styled-table th {
     color: white;
     padding: 18px;
     text-align: center;
     font-size: 15px;
     font-weight: 600;
-}
+} */
 
-.styled-table th:first-child {
+/* .styled-table th:first-child {
     border-radius: 12px 0 0 12px;
-}
+} */
 
-.styled-table th:last-child {
+/* .styled-table th:last-child {
     border-radius: 0 12px 12px 0;
-}
+} */
 
 /* Row Card Style */
-.styled-table tbody tr {
+/* .styled-table tbody tr {
     background: #ffffff;
     box-shadow: 0 6px 20px rgba(124,58,237,0.12);
     transition: 0.3s;
-}
+} */
 
-.styled-table tbody tr:hover {
+/* .styled-table tbody tr:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 25px rgba(124,58,237,0.2);
-}
+} */
 
 /* Table Cell */
-.styled-table td {
+/* .styled-table td {
     padding: 20px 15px;
     text-align: center;
     font-size: 14px;
     color: #4c1d95;
     font-weight: 500;
     background: white;
-}
+} */
 
 /* Rounded Corners */
-.styled-table tbody tr td:first-child {
+/* .styled-table tbody tr td:first-child {
     border-radius: 14px 0 0 14px;
     font-weight: bold;
     color: #7c3aed;
-}
+} */
 
-.styled-table tbody tr td:last-child {
+/* .styled-table tbody tr td:last-child {
     border-radius: 0 14px 14px 0;
-}
+} */
 
 /* Action Buttons */
-.action-btns {
+/* .action-btns {
     display: flex;
     justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
-}
+} */
 
 /* Common Button */
-.btn-edit,
+/* .btn-edit,
 .btn-delete,
 .btn-view {
     border: none;
@@ -133,31 +133,31 @@
     cursor: pointer;
     transition: 0.3s;
     color: white;
-}
+} */
 
 /* Edit */
-.btn-edit {
+/* .btn-edit {
     background: linear-gradient(135deg, #7c3aed, #8b5cf6);
-}
+} */
 
 /* Delete */
-.btn-delete {
+/* .btn-delete {
     background: linear-gradient(135deg, #9333ea, #c084fc);
-}
+} */
 
 /* View */
-.btn-view {
+/* .btn-view {
     background: linear-gradient(135deg, #6d28d9, #a855f7);
-}
+} */
 
-.btn-edit:hover,
+/* .btn-edit:hover,
 .btn-delete:hover,
 .btn-view:hover {
     transform: scale(1.05);
-}
+} */
 
 /* Responsive */
-@media(max-width:768px) {
+/* @media(max-width:768px) {
 
     .styled-table {
         width: 100%;
@@ -204,4 +204,463 @@
     .top-section {
         justify-content: center;
     }
+} */
+
+/* ===========================================
+   HOME CONTAINER
+=========================================== */
+
+.home-container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #F5FBF6, #E8F5E9);
+    padding: 100px 20px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===========================================
+   TOP SECTION
+=========================================== */
+
+.top-section {
+    width: 100%;
+    max-width: 1200px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 30px;
+
+    border-radius: 18px;
+
+    background: linear-gradient(
+        135deg,
+        #1B5E20,
+        #2E7D32,
+        #43A047,
+        #66BB6A
+    );
+
+    box-shadow: 0 10px 25px rgba(46, 125, 50, .25);
+
+    margin-bottom: 35px;
+}
+
+.top-section1 {
+    display: flex;
+    align-items: center;
+}
+
+/* ===========================================
+   SEARCH
+=========================================== */
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    width: 350px;
+    height: 48px;
+
+    padding: 0 18px;
+
+    border: 2px solid #A5D6A7;
+    border-right: none;
+
+    border-radius: 10px 0 0 10px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    transition: .3s;
+}
+
+.search-box input:focus {
+    border-color: #43A047;
+}
+
+.search-box button {
+
+    width: 55px;
+    height: 48px;
+
+    border: none;
+
+    background: #43A047;
+
+    color: white;
+
+    cursor: pointer;
+
+    border-radius: 0 10px 10px 0;
+
+    font-size: 18px;
+
+    transition: .3s;
+}
+
+.search-box button:hover {
+    background: #2E7D32;
+}
+
+/* ===========================================
+   BUTTONS
+=========================================== */
+
+.back-btn {
+
+    background: #1B5E20;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 24px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    transition: .3s;
+}
+
+.back-btn:hover {
+
+    background: #2E7D32;
+
+    transform: translateY(-2px);
+}
+
+.btn-phone {
+
+    background: linear-gradient(135deg,#43A047,#2E7D32);
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 24px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+    box-shadow: 0 6px 15px rgba(67,160,71,.35);
+}
+
+.btn-phone:hover {
+
+    background: linear-gradient(135deg,#2E7D32,#1B5E20);
+
+    transform: translateY(-2px);
+}
+
+/* ===========================================
+   TABLE
+=========================================== */
+
+.table-wrapper {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+}
+
+.styled-table {
+
+    width: 100%;
+
+    max-width: 1200px;
+
+    border-collapse: separate;
+
+    border-spacing: 0 14px;
+}
+
+/* ===========================================
+   TABLE HEADER
+=========================================== */
+
+.styled-table thead tr {
+
+    background: linear-gradient(
+        90deg,
+        #1B5E20,
+        #2E7D32,
+        #43A047
+    );
+}
+
+.styled-table th {
+
+    color: white;
+
+    padding: 18px;
+
+    text-align: center;
+
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+.styled-table th:first-child {
+
+    border-radius: 12px 0 0 12px;
+}
+
+.styled-table th:last-child {
+
+    border-radius: 0 12px 12px 0;
+}
+
+/* ===========================================
+   TABLE BODY
+=========================================== */
+
+.styled-table tbody tr {
+
+    background: white;
+
+    box-shadow: 0 5px 18px rgba(46,125,50,.08);
+
+    transition: .3s;
+}
+
+.styled-table tbody tr:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow: 0 10px 22px rgba(46,125,50,.15);
+}
+
+.styled-table td {
+
+    background: white;
+
+    padding: 18px;
+
+    text-align: center;
+
+    color: #37474F;
+
+    font-size: 14px;
+}
+
+.styled-table td:first-child {
+
+    color: #2E7D32;
+
+    font-weight: bold;
+
+    border-radius: 12px 0 0 12px;
+}
+
+.styled-table td:last-child {
+
+    border-radius: 0 12px 12px 0;
+}
+
+/* ===========================================
+   ACTION BUTTONS
+=========================================== */
+
+.action-btns {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-view {
+
+    border: none;
+
+    padding: 8px 16px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+/* Edit */
+
+.btn-edit {
+
+    background: #43A047;
+
+    color: white;
+}
+
+.btn-edit:hover {
+
+    background: #2E7D32;
+
+    transform: scale(1.05);
+}
+
+/* View */
+
+.btn-view {
+
+    background: #81C784;
+
+    color: #1B5E20;
+}
+
+.btn-view:hover {
+
+    background: #66BB6A;
+
+    transform: scale(1.05);
+}
+
+/* Delete */
+
+.btn-delete {
+
+    background: #E53935;
+
+    color: white;
+}
+
+.btn-delete:hover {
+
+    background: #C62828;
+
+    transform: scale(1.05);
+}
+
+/* ===========================================
+   RESPONSIVE
+=========================================== */
+
+@media (max-width:768px){
+
+.top-section{
+
+    flex-direction: column;
+
+    gap: 20px;
+
+    padding: 20px;
+}
+
+.search-container{
+
+    width:100%;
+
+    flex-direction: column;
+}
+
+.search-box{
+
+    width:100%;
+}
+
+.search-box input{
+
+    width:100%;
+}
+
+.btn-phone{
+
+    width:100%;
+}
+
+.styled-table{
+
+    width:100%;
+}
+
+.styled-table thead{
+
+    display:none;
+}
+
+.styled-table,
+.styled-table tbody,
+.styled-table tr,
+.styled-table td{
+
+    display:block;
+
+    width:100%;
+}
+
+.styled-table tr{
+
+    margin-bottom:20px;
+
+    border-radius:12px;
+
+    overflow:hidden;
+}
+
+.styled-table td{
+
+    text-align:right;
+
+    padding-left:50%;
+
+    position:relative;
+
+    border-bottom:1px solid #eee;
+}
+
+.styled-table td::before{
+
+    content:attr(data-label);
+
+    position:absolute;
+
+    left:15px;
+
+    font-weight:bold;
+
+    color:#2E7D32;
+}
+
+.action-btns{
+
+    justify-content:flex-end;
+}
+
 }
