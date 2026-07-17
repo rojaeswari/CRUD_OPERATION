@@ -17,12 +17,12 @@ body {
   background: #ffffff;
   border-radius: 25px;
   padding: 40px;
-  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.15);
+  box-shadow: 0 12px 30px rgba(58, 237, 82, 0.15);
 }
 
 .form-title {
   text-align: center;
-  color: #6d28d9;
+  color: #66BB6A;
   font-size: 38px;
   font-weight: 700;
   margin-bottom: 35px;
@@ -43,7 +43,7 @@ body {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 8px;
-  color: #4c1d95;
+  color: #66BB6A;
 }
 
 .form-group input {
@@ -57,8 +57,8 @@ body {
 }
 
 .form-group input:focus {
-  border-color: #7c3aed;
-  box-shadow: 0 0 10px rgba(124, 58, 237, 0.25);
+  border-color: #4fb454;
+  box-shadow: 0 0 10px rgba(51, 236, 91, 0.25);
 }
 
 /* Buttons */
@@ -82,23 +82,23 @@ body {
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  background: linear-gradient(135deg, #66BB6A, #25942a);
   color: white;
 }
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 8px 20px rgba(58, 237, 97, 0.3);
 }
 
 .back-btn {
-  background: linear-gradient(135deg, #9333ea, #c084fc);
+  background: linear-gradient(135deg, #66BB6A, #28992e);
   color: white;
 }
 
 .back-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(147, 51, 234, 0.3);
+  box-shadow: 0 8px 20px rgba(51, 234, 97, 0.3);
 }
 
 /* Mobile */

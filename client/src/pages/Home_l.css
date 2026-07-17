@@ -41,7 +41,7 @@ body{
 
 /* Button Colors */
 .add-btn{
-  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  background:linear-gradient(135deg,#66BB6A,#31cc39);
 }
 
 .add-btn:hover{
@@ -49,27 +49,27 @@ body{
 }
 
 .back-btn{
-  background:linear-gradient(135deg,#6d28d9,#8b5cf6);
+  background:linear-gradient(135deg,#66BB6A,#35993a);
 }
 
 .edit-btn{
-  background:linear-gradient(135deg,#9333ea,#c084fc);
+  background:linear-gradient(135deg,#66BB6A,#37b33d);
 }
 
 .delete-btn{
-  background:linear-gradient(135deg,#dc2626,#f87171);
+  background:linear-gradient(135deg,#dc2626,#66BB6A);
 }
 
 .view-btn{
-  background:linear-gradient(135deg,#7e22ce,#d946ef);
+  background:linear-gradient(135deg,#66BB6A,#32aa38);
 }
 
 .share-btn{
-  background:linear-gradient(135deg,#a21caf,#e879f9);
+  background:linear-gradient(135deg,#66BB6A,#26912c);
 }
 
 .btn-view{
-  background:linear-gradient(135deg,#6d28d9,#c084fc);
+  background:linear-gradient(135deg,#66BB6A,#29972f);
 }
 
 /* Table */
@@ -79,14 +79,14 @@ body{
   background:white;
   border-radius:20px;
   overflow:hidden;
-  box-shadow:0 10px 30px rgba(124,58,237,0.15);
+  box-shadow:0 10px 30px rgba(56, 236, 95, 0.15);
 }
 
 .rma-table thead{
   background:linear-gradient(
     90deg,
-    #6d28d9,
-    #8b5cf6
+    #66BB6A,
+    #30a336
   );
   color:white;
 }

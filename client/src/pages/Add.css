@@ -10,7 +10,7 @@
   background: #ffffff;
   padding: 30px;
   border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.15);
+  box-shadow: 0 10px 25px rgba(39, 206, 81, 0.15);
 }
 
 .form-title {
@@ -54,7 +54,7 @@
 .form-group select:focus {
   outline: none;
   border-color:  #66BB6A;
-  box-shadow: 0 0 10px rgba(124, 58, 237, 0.2);
+  box-shadow: 0 0 10px rgba(39, 216, 92, 0.2);
 }
 
 /* Table */
@@ -73,7 +73,7 @@
   background: white;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(124, 58, 237, 0.1);
+  box-shadow: 0 5px 15px rgba(17, 151, 50, 0.1);
 }
 
 .items-table th {

@@ -41,31 +41,31 @@ body{
 }
 
 .back-btn{
-  background:linear-gradient(135deg,#6d28d9,#8b5cf6);
+  background:linear-gradient(135deg,#66BB6A,#33a539);
 }
 
 .add-btn{
-  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  background:linear-gradient(135deg,#66BB6A,#349b39);
 }
 
 .edit-btn{
-  background:linear-gradient(135deg,#9333ea,#c084fc);
+  background:linear-gradient(135deg,#66BB6A,#2b9731);
 }
 
 .delete-btn{
-  background:linear-gradient(135deg,#dc2626,#f87171);
+  background:linear-gradient(135deg,#dc2626,#66BB6A);
 }
 
 .view-btn{
-  background:linear-gradient(135deg,#7e22ce,#d946ef);
+  background:linear-gradient(135deg,#66BB6A,#34a13a);
 }
 
 .share-btn{
-  background:linear-gradient(135deg,#8b5cf6,#c084fc);
+  background:linear-gradient(135deg,#66BB6A,#30aa37);
 }
 
 .btn-view{
-  background:linear-gradient(135deg,#5b21b6,#8b5cf6);
+  background:linear-gradient(135deg,#66BB6A,#28992e);
 }
 
 .back-btn:hover,
@@ -86,14 +86,14 @@ table{
   background:white;
   border-radius:20px;
   overflow:hidden;
-  box-shadow:0 10px 30px rgba(124,58,237,0.15);
+  box-shadow:0 10px 30px rgba(42, 207, 92, 0.15);
 }
 
 thead{
   background:linear-gradient(
     90deg,
-    #6d28d9,
-    #8b5cf6
+    #66BB6A,
+    #249e2a
   );
   color:white;
 }
