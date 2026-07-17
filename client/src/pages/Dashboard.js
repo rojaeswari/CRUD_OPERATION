@@ -376,13 +376,51 @@ const getSerialCompletedOutCount = async () => {
             </div>
         </Link>
 
-        <Link to="/pending-rma-out">
+        <Link to="/serial-pending-rma">
+            <div className="total-card">
+                <h2>{serialPendingCount}</h2>
+                <p>S.No Pending Inward</p>
+            </div>
+        </Link>
+        <Link to="/serial-completed-rma">
+            <div className="total-card">
+                <h2>{serialCompletedCount}</h2>
+                <p>S.No Complete Inward</p>
+            </div>
+        </Link>
+
+        {/* <Link to="/pending-rma-out">
+            <div className="total-card">
+                <h2>{outPenCount}</h2>
+                <p>Pending Outward</p>
+            </div>
+        </Link> */}
+{/* 
+        <Link to="/completed-rma-out">
+            <div className="total-card">
+                <h2>{outComCount}</h2>
+                <p>Complete Outward</p>
+            </div>
+        </Link> */}
+
+    </div>
+
+    {/* Row 3 */}
+    <div className="row-cards">
+
+        {/* <Link to="/serial-pending-rma">
+            <div className="total-card">
+                <h2>{serialPendingCount}</h2>
+                <p>S.No Pending Inward</p>
+            </div>
+        </Link> */}
+         <Link to="/pending-rma-out">
             <div className="total-card">
                 <h2>{outPenCount}</h2>
                 <p>Pending Outward</p>
             </div>
         </Link>
-
+        
         <Link to="/completed-rma-out">
             <div className="total-card">
                 <h2>{outComCount}</h2>
@@ -390,24 +428,12 @@ const getSerialCompletedOutCount = async () => {
             </div>
         </Link>
 
-    </div>
-
-    {/* Row 3 */}
-    <div className="row-cards">
-
-        <Link to="/serial-pending-rma">
-            <div className="total-card">
-                <h2>{serialPendingCount}</h2>
-                <p>S.No Pending Inward</p>
-            </div>
-        </Link>
-
-        <Link to="/serial-completed-rma">
+        {/* <Link to="/serial-completed-rma">
             <div className="total-card">
                 <h2>{serialCompletedCount}</h2>
                 <p>S.No Complete Inward</p>
             </div>
-        </Link>
+        </Link> */}
 
         <Link to="/serial-pending-rma-out">
             <div className="total-card">
