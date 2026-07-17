@@ -17,7 +17,7 @@
 
 .sidebar{
     width:260px;
-    background:linear-gradient(180deg,#148f41,#30dd70);
+    background:linear-gradient(180deg,#148f41,#15bd53);
     /* color:white; */
      /* color:#dc2626; */
       color:#000000;
@@ -97,7 +97,7 @@
     padding: 15px;
     border-radius: 18px;
     /* background: linear-gradient(135deg, #8b5cf6, #453cca); */
-      background:linear-gradient(135deg,#119c42,#4ce985);
+      background:linear-gradient(135deg,#119c42,#1dda62);
     /* color: white; */
      /* color:#dc2626; */
       color:#000000;
