@@ -1,11 +1,15 @@
 /* Main Container */
-.home-container {
+/* .home-container {
     min-height: 100vh;
     background: #f3f6fb;
     padding: 110px 20px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+} */
+ .home-container {
+    min-height: 100vh;
+    background: #F1F8F4;
 }
 
 /* Top Section */
@@ -25,13 +29,17 @@
     margin-bottom: 25px;
 }
 
-.back-btn {
+/* .back-btn {
     background: #1f3156;
     color: white;
-}
+} */
 
+.back-btn {
+    background: #2E7D32;
+    color: white;
+}
 /* Add Customer Button */
-.btn-phone {
+/* .btn-phone {
     background: linear-gradient(135deg, #5120c4, #6713d5);
     color: white;
     border: none;
@@ -42,10 +50,22 @@
     cursor: pointer;
     transition: 0.3s;
     box-shadow: 0 4px 12px rgba(206, 69, 137, 0.3);
+} */
+
+.btn-phone {
+    background: linear-gradient(135deg, #66BB6A, #43A047);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
-.btn-phone:hover {
+/* .btn-phone:hover {
     transform: translateY(-2px);
+} */
+
+
+.btn-phone:hover {
+    background: linear-gradient(135deg, #5DAE61, #388E3C);
 }
 
 /* Table Wrapper */
@@ -64,10 +84,12 @@
 }
 
 /* Header */
-.styled-table thead tr {
+/* .styled-table thead tr {
     background: #1e293b;
+} */
+.styled-table thead tr {
+    background: #2E7D32;
 }
-
 .styled-table th {
     color: white;
     padding: 18px;
@@ -106,10 +128,14 @@
 }
 
 /* Rounded Corners */
-.styled-table tbody tr td:first-child {
+/* .styled-table tbody tr td:first-child {
     border-radius: 14px 0 0 14px;
     font-weight: bold;
     color: #ce4589;
+} */
+ .styled-table tbody tr td:first-child {
+    color: #43A047;
+    font-weight: bold;
 }
 
 .styled-table tbody tr td:last-child {
@@ -139,8 +165,11 @@
 }
 
 /* Edit */
-.btn-edit {
+/* .btn-edit {
     background: #0d6efd;
+} */
+ .btn-edit {
+    background: #4CAF50;
 }
 
 .btn-edit:hover {
@@ -148,8 +177,11 @@
 }
 
 /* Delete */
-.btn-delete {
+/* .btn-delete {
     background: #dc3545;
+} */
+ .btn-delete {
+    background: #E53935;
 }
 
 .btn-delete:hover {
@@ -157,8 +189,12 @@
 }
 
 /* View */
-.btn-view {
+/* .btn-view {
     background: #ce4589;
+} */
+ .btn-view {
+    background: #81C784;
+    color: #1B5E20;
 }
 
 .btn-view:hover {
@@ -190,13 +226,16 @@
         overflow: hidden;
     }
 
-    .styled-table td {
+    /* .styled-table td {
         text-align: right;
         padding: 15px;
         padding-left: 50%;
         position: relative;
         border-bottom: 1px solid #eee;
-    }
+    } */
+     .styled-table td {
+    color: #2F4F2F;
+}
 
     .styled-table td::before {
         content: attr(data-label);
