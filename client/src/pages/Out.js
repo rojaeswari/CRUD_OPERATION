@@ -345,9 +345,26 @@ console.log("USER ID FROM STORAGE:", userId);
     <input className="out-input" placeholder="Model Number" value={formData.model_number} readOnly /></div></div>
      <div className="form-row">
 
-        <div className="field">
+        {/* <div className="field">
             <label>Accessory</label>
-    <input className="out-input" placeholder="Accessory" value={formData.accessory} readOnly /></div>
+    <input className="out-input" placeholder="Accessory" value={formData.accessory} readOnly /></div> */}
+    <div className="field">
+  <label>Accessory</label>
+
+  <input
+    type="text"
+    className="out-input"
+    placeholder="Accessory"
+    name="accessory"
+    value={formData.accessory}
+    onChange={(e) =>
+      setFormData({
+        ...formData,
+        accessory: e.target.value,
+      })
+    }
+  />
+</div>
     <div className="field">
             <label>Issues</label>
     <input className="out-input" placeholder="Issues" value={formData.issues}  onChange={(e) =>
