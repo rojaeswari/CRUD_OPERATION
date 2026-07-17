@@ -216,22 +216,22 @@
 } */
 
 
-/* ==========================
+/* ===========================================
    HOME CONTAINER
-========================== */
+=========================================== */
 
 .home-container {
     min-height: 100vh;
-    background: #F1F8F4;
+    background: linear-gradient(to bottom, #F5FBF6, #E8F5E9);
     padding: 100px 20px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* ==========================
-   TOP BAR
-========================== */
+/* ===========================================
+   TOP SECTION
+=========================================== */
 
 .top-section {
     width: 100%;
@@ -241,304 +241,363 @@
     justify-content: space-between;
     align-items: center;
 
-    padding: 18px 25px;
+    padding: 20px 30px;
 
-    background: linear-gradient(135deg,#2E7D32,#66BB6A);
+    border-radius: 18px;
 
-    border-radius: 15px;
+    background: linear-gradient(
+        135deg,
+        #1B5E20,
+        #2E7D32,
+        #43A047,
+        #66BB6A
+    );
+
+    box-shadow: 0 10px 25px rgba(46, 125, 50, .25);
 
     margin-bottom: 35px;
 }
 
-.top-section1{
-    display:flex;
-    align-items:center;
+.top-section1 {
+    display: flex;
+    align-items: center;
 }
 
-/* ==========================
-   SEARCH AREA
-========================== */
+/* ===========================================
+   SEARCH
+=========================================== */
 
-.search-container{
-    display:flex;
-    align-items:center;
-    gap:15px;
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-.search-box{
-    display:flex;
-    align-items:center;
+.search-box {
+    display: flex;
+    align-items: center;
 }
 
-.search-box input{
+.search-box input {
+    width: 350px;
+    height: 48px;
 
-    width:300px;
+    padding: 0 18px;
 
-    padding:12px 18px;
+    border: 2px solid #A5D6A7;
+    border-right: none;
 
-    border:2px solid #A5D6A7;
+    border-radius: 10px 0 0 10px;
 
-    border-radius:10px 0 0 10px;
+    outline: none;
 
-    outline:none;
+    font-size: 15px;
 
-    font-size:15px;
+    transition: .3s;
 }
 
-.search-box button{
-
-    width:50px;
-
-    border:none;
-
-    background:#43A047;
-
-    color:white;
-
-    cursor:pointer;
-
-    border-radius:0 10px 10px 0;
-
-    font-size:18px;
+.search-box input:focus {
+    border-color: #43A047;
 }
 
-/* ==========================
+.search-box button {
+
+    width: 55px;
+    height: 48px;
+
+    border: none;
+
+    background: #43A047;
+
+    color: white;
+
+    cursor: pointer;
+
+    border-radius: 0 10px 10px 0;
+
+    font-size: 18px;
+
+    transition: .3s;
+}
+
+.search-box button:hover {
+    background: #2E7D32;
+}
+
+/* ===========================================
    BUTTONS
-========================== */
+=========================================== */
 
-.back-btn{
+.back-btn {
 
-    background:#1B5E20;
+    background: #1B5E20;
 
-    color:white;
+    color: white;
 
-    border:none;
+    border: none;
 
-    padding:12px 24px;
+    padding: 12px 24px;
 
-    border-radius:10px;
+    border-radius: 10px;
 
-    cursor:pointer;
+    cursor: pointer;
 
-    font-weight:bold;
+    font-size: 15px;
 
-    transition:.3s;
+    font-weight: 600;
+
+    transition: .3s;
 }
 
-.back-btn:hover{
+.back-btn:hover {
 
-    background:#2E7D32;
+    background: #2E7D32;
+
+    transform: translateY(-2px);
 }
 
-.btn-phone{
+.btn-phone {
 
-    background:#43A047;
+    background: linear-gradient(135deg,#43A047,#2E7D32);
 
-    color:white;
+    color: white;
 
-    border:none;
+    border: none;
 
-    padding:12px 22px;
+    padding: 12px 24px;
 
-    border-radius:10px;
+    border-radius: 10px;
 
-    cursor:pointer;
+    font-size: 15px;
 
-    font-size:15px;
+    font-weight: 600;
 
-    font-weight:600;
+    cursor: pointer;
 
-    transition:.3s;
+    transition: .3s;
+
+    box-shadow: 0 6px 15px rgba(67,160,71,.35);
 }
 
-.btn-phone:hover{
+.btn-phone:hover {
 
-    background:#2E7D32;
+    background: linear-gradient(135deg,#2E7D32,#1B5E20);
+
+    transform: translateY(-2px);
 }
 
-/* ==========================
+/* ===========================================
    TABLE
-========================== */
+=========================================== */
 
-.table-wrapper{
+.table-wrapper {
 
-    width:100%;
+    width: 100%;
 
-    display:flex;
+    display: flex;
 
-    justify-content:center;
+    justify-content: center;
 }
 
-.styled-table{
+.styled-table {
 
-    width:100%;
+    width: 100%;
 
-    max-width:1200px;
+    max-width: 1200px;
 
-    border-collapse:separate;
+    border-collapse: separate;
 
-    border-spacing:0 14px;
+    border-spacing: 0 14px;
 }
 
-/* HEADER */
+/* ===========================================
+   TABLE HEADER
+=========================================== */
 
-.styled-table thead tr{
+.styled-table thead tr {
 
-    background:linear-gradient(135deg,#2E7D32,#66BB6A);
+    background: linear-gradient(
+        90deg,
+        #1B5E20,
+        #2E7D32,
+        #43A047
+    );
 }
 
-.styled-table th{
+.styled-table th {
 
-    color:white;
+    color: white;
 
-    padding:18px;
+    padding: 18px;
 
-    text-align:center;
+    text-align: center;
 
-    font-size:15px;
+    font-size: 15px;
 
-    font-weight:600;
+    font-weight: 600;
 }
 
-.styled-table th:first-child{
+.styled-table th:first-child {
 
-    border-radius:12px 0 0 12px;
+    border-radius: 12px 0 0 12px;
 }
 
-.styled-table th:last-child{
+.styled-table th:last-child {
 
-    border-radius:0 12px 12px 0;
+    border-radius: 0 12px 12px 0;
 }
 
-/* ROW */
+/* ===========================================
+   TABLE BODY
+=========================================== */
 
-.styled-table tbody tr{
+.styled-table tbody tr {
 
-    background:white;
+    background: white;
 
-    box-shadow:0 5px 18px rgba(0,0,0,.08);
+    box-shadow: 0 5px 18px rgba(46,125,50,.08);
 
-    transition:.3s;
+    transition: .3s;
 }
 
-.styled-table tbody tr:hover{
+.styled-table tbody tr:hover {
 
-    transform:translateY(-3px);
+    transform: translateY(-4px);
+
+    box-shadow: 0 10px 22px rgba(46,125,50,.15);
 }
 
-.styled-table td{
+.styled-table td {
 
-    padding:18px;
+    background: white;
 
-    text-align:center;
+    padding: 18px;
 
-    color:#37474F;
+    text-align: center;
 
-    background:white;
+    color: #37474F;
 
-    font-size:14px;
+    font-size: 14px;
 }
 
-.styled-table td:first-child{
+.styled-table td:first-child {
 
-    border-radius:12px 0 0 12px;
+    color: #2E7D32;
 
-    color:#2E7D32;
+    font-weight: bold;
 
-    font-weight:bold;
+    border-radius: 12px 0 0 12px;
 }
 
-.styled-table td:last-child{
+.styled-table td:last-child {
 
-    border-radius:0 12px 12px 0;
+    border-radius: 0 12px 12px 0;
 }
 
-/* ==========================
+/* ===========================================
    ACTION BUTTONS
-========================== */
+=========================================== */
 
-.action-btns{
+.action-btns {
 
-    display:flex;
+    display: flex;
 
-    justify-content:center;
+    justify-content: center;
 
-    gap:10px;
+    align-items: center;
 
-    flex-wrap:wrap;
+    gap: 10px;
+
+    flex-wrap: wrap;
 }
 
 .btn-edit,
 .btn-delete,
-.btn-view{
+.btn-view {
 
-    border:none;
+    border: none;
 
-    padding:8px 15px;
+    padding: 8px 16px;
 
-    border-radius:8px;
+    border-radius: 8px;
 
-    color:white;
+    font-size: 13px;
 
-    cursor:pointer;
+    font-weight: 600;
 
-    font-weight:600;
+    cursor: pointer;
 
-    transition:.3s;
+    transition: .3s;
 }
 
-.btn-edit{
+/* Edit */
 
-    background:#43A047;
+.btn-edit {
+
+    background: #43A047;
+
+    color: white;
 }
 
-.btn-edit:hover{
+.btn-edit:hover {
 
-    background:#2E7D32;
+    background: #2E7D32;
+
+    transform: scale(1.05);
 }
 
-.btn-view{
+/* View */
 
-    background:#81C784;
+.btn-view {
 
-    color:#1B5E20;
+    background: #81C784;
+
+    color: #1B5E20;
 }
 
-.btn-view:hover{
+.btn-view:hover {
 
-    background:#66BB6A;
+    background: #66BB6A;
+
+    transform: scale(1.05);
 }
 
-.btn-delete{
+/* Delete */
 
-    background:#E53935;
+.btn-delete {
+
+    background: #E53935;
+
+    color: white;
 }
 
-.btn-delete:hover{
+.btn-delete:hover {
 
-    background:#C62828;
+    background: #C62828;
+
+    transform: scale(1.05);
 }
 
-/* ==========================
+/* ===========================================
    RESPONSIVE
-========================== */
+=========================================== */
 
-@media(max-width:768px){
+@media (max-width:768px){
 
 .top-section{
 
-    flex-direction:column;
+    flex-direction: column;
 
-    gap:20px;
+    gap: 20px;
 
-    padding:20px;
+    padding: 20px;
 }
 
 .search-container{
 
     width:100%;
 
-    flex-direction:column;
+    flex-direction: column;
 }
 
 .search-box{
