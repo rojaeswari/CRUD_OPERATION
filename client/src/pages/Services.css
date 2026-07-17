@@ -10,7 +10,7 @@
 
 /* Add Customer Button */
 .btn-phone {
-    background: linear-gradient(135deg,#7c3aed,#a855f7);
+    background: linear-gradient(135deg,#66BB6A,#1bad22);
     color: white;
     border: none;
     padding: 12px 22px;
@@ -19,7 +19,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: 0.3s;
-    box-shadow: 0 4px 12px rgba(124,58,237,0.3);
+    box-shadow: 0 4px 12px rgba(45, 219, 68, 0.3);
 }
 
 .btn-phone:hover {
@@ -30,8 +30,8 @@
 .styled-table thead tr {
     background: linear-gradient(
         135deg,
-        #6d28d9,
-        #8b5cf6
+        #66BB6A,
+        #33bb3a
     );
 }
 
@@ -46,13 +46,13 @@
 /* Row Card Style */
 .styled-table tbody tr {
     background: #ffffff;
-    box-shadow: 0 4px 18px rgba(124,58,237,0.12);
+    box-shadow: 0 4px 18px rgba(39, 221, 85, 0.12);
     transition: 0.3s;
 }
 
 .styled-table tbody tr:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(124,58,237,0.2);
+    box-shadow: 0 8px 20px rgba(37, 202, 37, 0.2);
 }
 
 /* Table Cell */
@@ -60,7 +60,7 @@
     padding: 20px 15px;
     text-align: center;
     font-size: 14px;
-    color: #4c1d95;
+    color: #66BB6A;
     font-weight: 500;
     background: white;
 }
@@ -69,15 +69,15 @@
 .styled-table tbody tr td:first-child {
     border-radius: 14px 0 0 14px;
     font-weight: bold;
-    color: #7c3aed;
+    color: #66BB6A;
 }
 
 /* Edit Button */
 .btn-edit {
     background: linear-gradient(
         135deg,
-        #7c3aed,
-        #a855f7
+        #66BB6A,
+        #31b137
     );
 }
 
@@ -85,8 +85,8 @@
 .btn-delete {
     background: linear-gradient(
         135deg,
-        #9333ea,
-        #c084fc
+        #66BB6A,
+        #33d13b
     );
 }
 
@@ -94,8 +94,8 @@
 .btn-view {
     background: linear-gradient(
         135deg,
-        #6d28d9,
-        #8b5cf6
+        #66BB6A,
+        #2fd638
     );
 }
 
@@ -107,5 +107,5 @@
 
 /* Mobile Labels */
 .styled-table td::before {
-    color: #6d28d9;
+    color: #66BB6A;
 }

@@ -14,8 +14,8 @@
     background: white;
     border-radius: 20px;
     padding: 20px 30px;
-    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.2);
-    border-top: 5px solid #7c3aed;
+    box-shadow: 0 8px 25px rgba(94, 237, 58, 0.2);
+    border-top: 5px solid #66BB6A;
 }
 
 .top-section {
@@ -26,12 +26,12 @@
 .top-section h2 {
     font-size: 38px;
     font-weight: bold;
-    color: #5b21b6;
+    color: #66BB6A;
     margin: 0 auto 30px;
 }
 
 .top-section p {
-    color: #7c3aed;
+    color: #66BB6A;
     margin-top: 5px;
 }
 
@@ -43,7 +43,7 @@
 
 .detail-box {
     background: #faf5ff;
-    border-left: 5px solid #8b5cf6;
+    border-left: 5px solid #66BB6A;
     border-radius: 12px;
     padding: 15px;
     text-align: center;
@@ -56,13 +56,13 @@
 
 .detail-box:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(124, 58, 237, 0.2);
+    box-shadow: 0 6px 15px rgba(58, 237, 58, 0.2);
 }
 
 .detail-box label {
     font-size: 18px;
     font-weight: 700;
-    color: #6d28d9;
+    color: #66BB6A;
     margin-bottom: 8px;
 }
 
@@ -75,7 +75,7 @@
     width: 250px;
     display: block;
     margin: 20px auto 0;
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    background: linear-gradient(135deg, #66BB6A, #2f9c35);
     color: white;
     border: none;
     padding: 12px;
@@ -86,7 +86,7 @@
 }
 
 .back-btn:hover {
-    background: linear-gradient(135deg, #6d28d9, #9333ea);
+    background: linear-gradient(135deg, #66BB6A, #239b29);
     transform: translateY(-2px);
 }
 

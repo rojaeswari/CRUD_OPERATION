@@ -11,8 +11,8 @@
 }
 
 .status-input:focus{
-    border-color:#7c3aed;
-    box-shadow:0 0 10px rgba(124,58,237,0.25);
+    border-color:#66BB6A;
+    box-shadow:0 0 10px rgba(115, 237, 58, 0.25);
 }
 
 .status-btns{
@@ -25,8 +25,8 @@
 .update-btn{
     background:linear-gradient(
         135deg,
-        #7c3aed,
-        #a855f7
+        #66BB6A,
+        #32d33a
     );
     color:white;
     border:none;
@@ -40,14 +40,14 @@
 
 .update-btn:hover{
     transform:translateY(-2px);
-    box-shadow:0 8px 20px rgba(124,58,237,0.35);
+    box-shadow:0 8px 20px rgba(81, 216, 54, 0.35);
 }
 
 .completed-btn{
     background:linear-gradient(
         135deg,
-        #9333ea,
-        #c084fc
+        #66BB6A,
+        #37cf3f
     );
     color:white;
     border:none;
@@ -61,5 +61,5 @@
 
 .completed-btn:hover{
     transform:translateY(-2px);
-    box-shadow:0 8px 20px rgba(147,51,234,0.35);
+    box-shadow:0 8px 20px rgba(57, 234, 51, 0.35);
 }

@@ -11,14 +11,14 @@ body {
     margin: auto;
     border-collapse: collapse;
     background: #ffffff;
-    box-shadow: 0 6px 18px rgba(124, 58, 237, 0.2);
+    box-shadow: 0 6px 18px rgba(64, 237, 58, 0.2);
     border-radius: 12px;
     overflow: hidden;
 }
 
 /* Header */
 .styled-table thead tr {
-    background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+    background: linear-gradient(135deg, #66BB6A, #2ec436);
     color: white;
     text-align: center;
 }
@@ -48,12 +48,12 @@ body {
     cursor: pointer;
     color: white;
     font-size: 14px;
-    background: #7c3aed;
+    background: #66BB6A;
     transition: 0.3s;
 }
 
 .btn-edit:hover {
-    background: #6d28d9;
+    background: #66BB6A;
     transform: scale(1.05);
 }
 
@@ -66,12 +66,12 @@ body {
     cursor: pointer;
     color: white;
     font-size: 14px;
-    background: #a855f7;
+    background: #66BB6A;
     transition: 0.3s;
 }
 
 .btn-delete:hover {
-    background: #9333ea;
+    background: #66BB6A;
     transform: scale(1.05);
 }
 
@@ -83,7 +83,7 @@ body {
 }
 
 .add-btn {
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    background: linear-gradient(135deg, #66BB6A, #2c9b32);
     color: white;
     border: none;
     padding: 12px 25px;
@@ -91,12 +91,12 @@ body {
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 12px rgba(58, 237, 73, 0.3);
     transition: 0.3s;
 }
 
 .add-btn:hover {
-    background: linear-gradient(135deg, #6d28d9, #9333ea);
+    background: linear-gradient(135deg, #66BB6A, #1ea524);
     transform: translateY(-2px);
 }
 

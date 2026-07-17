@@ -18,7 +18,7 @@
 
 /* Header */
 .top-section {
-    background: linear-gradient(135deg, #4f46e5, #ec4899);
+    background: linear-gradient(135deg, #66BB6A, #2cc034);
     color: white;
     text-align: center;
     padding: 35px 20px;
@@ -82,7 +82,7 @@
     padding: 14px;
     border: none;
     border-radius: 15px;
-    background: linear-gradient(135deg, #4f46e5, #ec4899);
+    background: linear-gradient(135deg, #66BB6A, #37ad3d);
     color: white;
     font-size: 17px;
     font-weight: 600;
@@ -92,7 +92,7 @@
 
 .back-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+    box-shadow: 0 8px 20px rgba(70, 229, 78, 0.3);
 }
 
 /* Tablet */
