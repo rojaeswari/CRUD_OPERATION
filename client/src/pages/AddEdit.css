@@ -20,7 +20,7 @@
 .form-title {
     text-align: center;
     font-size: 38px !important;
-    color: #6d28d9;
+    color: #66BB6A;
     margin-bottom: 15px !important;
     font-weight: bold;
 }
@@ -41,7 +41,7 @@
     font-weight: 600;
     margin-bottom: 4px !important;
     text-align: center;
-    color: #5b21b6;
+    color: #66BB6A;
 }
 
 .form-group input,
@@ -59,7 +59,7 @@
 
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: #7c3aed;
+    border-color: #66BB6A;
     box-shadow: 0 0 10px rgba(124,58,237,0.25);
 }
 
@@ -91,7 +91,7 @@
 }
 
 .submit-btn {
-    background: linear-gradient(135deg,#7c3aed,#a855f7);
+    background: linear-gradient(135deg,#66BB6A,#59bd5e);
 }
 
 .submit-btn:hover {
@@ -99,7 +99,7 @@
 }
 
 .back-btn {
-    background: linear-gradient(135deg,#9333ea,#c084fc);
+    background: linear-gradient(135deg,#66BB6A,#4cad51);
 }
 
 .back-btn:hover {
