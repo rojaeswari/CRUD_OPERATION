@@ -379,6 +379,26 @@ doc.text(address, 18, 78);
                 finalY
             );
 
+                       const totalPages = doc.internal.getNumberOfPages();
+
+for (let i = 1; i <= totalPages; i++) {
+
+    doc.setPage(i);
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    doc.setFontSize(8);
+    doc.setTextColor(100);
+
+    doc.text(
+        `Page ${i} of ${totalPages}`,
+        pageWidth / 2,
+        pageHeight - 5,
+        { align: "center" }
+    );
+}
+
 
 
 
