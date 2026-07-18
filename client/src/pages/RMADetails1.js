@@ -107,10 +107,7 @@ function RMADetails1() {
               <td>{item.product_name}</td>
               <td>{item.model_number}</td>
               <td>
-                {index === 0 ||
-                  data[index - 1].id !== item.id
-                  ? item.quantity_no
-                  : ""}
+                1
               </td>
               <td>{item.serial_no}</td>
               <td>{item.accessory}</td>

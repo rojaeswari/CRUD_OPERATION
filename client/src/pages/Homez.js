@@ -479,7 +479,7 @@ Entry Date: ${item.entry_date}
                                 <td>{item.center_name}</td>
                                 <td>{item.product_name}</td>
                                 <td>{item.model_number}</td>
-                                <td>1</td>
+                                <td>{item.quantity_no}</td>
 
 
                                 <td>{item.status}</td>
