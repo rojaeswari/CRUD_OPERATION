@@ -822,41 +822,37 @@ WHERE r.id=$1
 //RMA OUT
 
 app.get("/api/get_o", (req, res) => {
+    const sql = `SELECT
+    MIN(r.id) AS id,
+    r.rma_no,
+    MAX(c.center_name) AS center_name,
 
-    const sql = `
-    SELECT
-        r.id,
-        r.rma_no,
-        c.center_name,
-        i.product_name,
-        i.model_number,
-        r.quantity_no,
-        r.status,
-        r.entry_date
-    FROM rma_out r
-    JOIN services_details c
-        ON r.services_id = c.id
-    JOIN rma_items1 i
-        ON r.id = i.rma_id
-    ORDER BY r.id DESC
-    LIMIT 1;
-    `;
+    MIN(i.product_name) AS product_name,
+    MIN(i.model_number) AS model_number,
+
+    MAX(r.quantity_no) AS quantity_no,
+    MAX(r.entry_date) AS entry_date,
+    MAX(r.status) AS status
+
+FROM rma_out r
+
+JOIN services_details c
+    ON r.services_id = c.id
+
+JOIN rma_items1 i
+    ON r.id = i.rma_id
+
+GROUP BY r.rma_no
+
+ORDER BY r.rma_no ASC`;
 
     db.query(sql, (err, result) => {
-
         if (err) {
             console.log(err);
-            return res.status(500).json(err);
         }
-
-        console.log("API RESULT =", result.rows);
-
         res.json(result.rows);
-
     });
-
 });
-
 
 // get single data
 app.get("/api/get_o/:id", (req, res) => {
