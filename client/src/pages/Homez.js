@@ -127,57 +127,6 @@ const Homez = () => {
                 { align: "center" }
             );
 
-            //    doc.text(
-            //        "GSTIN: 33DSEPK8530C1Z1",
-            //        105,
-            //        27,
-            //        { align: "center" }
-            //    );
-
-            doc.text(
-                "Contact:  9042606713, 9042606715",
-                105,
-                32,
-                { align: "center" }
-            );
-
-            //    doc.text(
-            //        "Email: smazosecurityservices@gmail.com",
-            //        105,
-            //        37,
-            //        { align: "center" }
-            //    );
-            // RMA
-
-            // doc.rect(10, 45, 120, 35);
-            // doc.rect(135, 45, 60, 35);
-            // doc.setFontSize(8);
-
-            // doc.text(
-            //     `RMA No : ${header.rma_no}`,
-            //     140,
-            //     55
-            // );
-
-            // //     doc.text(
-            // //        `Cus Dc No : ${header.customer_dc_no}`,
-            // //        140,
-            // //        60
-            // //    );
-
-            // doc.text(
-            //     `Entry Date : ${entryDate}`,
-            //     140,
-            //     65
-            // );
-
-            // doc.text(
-            //     `Staff Name : ${header.created_by_name || ""}`,
-            //     140,
-            //     75
-            // );
-
-
             const drawMiniHeader = () => {
 
                 doc.setFontSize(10);
@@ -223,46 +172,6 @@ const Homez = () => {
 
 
             });
-
-            // Customer Details Table
-            // -------- Customer Details (Text Format) --------
-            // doc.rect(10, 45, 120, 35);
-            // doc.setFontSize(10);
-            // doc.setFont(undefined, "bold");
-
-            // doc.text(
-            //     "Center Details",
-            //     15,
-            //     53
-            // );
-
-            // doc.setFont(undefined, "normal");
-            // doc.setFontSize(8);
-
-            // doc.text(
-            //     `Center Name : ${header.center_name || ""}`,
-            //     15,
-            //     62
-            // );
-
-            // doc.text(
-            //     `Phone : ${header.phone_no || ""}`,
-            //     75,
-            //     62
-            // );
-
-            // doc.text(
-            //     `Email : ${header.email || ""}`,
-            //     15,
-            //     72
-            // );
-
-            // doc.text(
-            //     `Address : ${header.address || ""}`,
-            //     75,
-            //     72
-            // );
- 
 
             doc.rect(13, 35, 182, 55);
 
@@ -373,6 +282,25 @@ doc.text(address, 18, 72);
                 140,
                 finalY
             );
+            const totalPages = doc.internal.getNumberOfPages();
+
+for (let i = 1; i <= totalPages; i++) {
+
+    doc.setPage(i);
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    doc.setFontSize(8);
+    doc.setTextColor(100);
+
+    doc.text(
+        `Page ${i} of ${totalPages}`,
+        pageWidth / 2,
+        pageHeight - 5,
+        { align: "center" }
+    );
+}
 
 
 
