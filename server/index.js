@@ -1096,14 +1096,14 @@ db.query(checkSql, [serials], (err, result) => {
         return res.status(500).json(err);
     }
 
-    // if (result.rows.length > 0) {
-    //     return res.status(400).json({
-    //         success: false,
-    //         message: `Serial No already exists: ${
-    //             result.rows.map(r => r.serial_no).join(", ")
-    //         }`
-    //     });
-    // }
+    if (result.rows.length > 0) {
+        return res.status(400).json({
+            success: false,
+            message: `Serial No already exists: ${
+                result.rows.map(r => r.serial_no).join(", ")
+            }`
+        });
+    }
 
     // ONLY IF NO DUPLICATES
     saveRma();
@@ -3498,15 +3498,15 @@ db.query(sql, [serialNo], (err, result) => {
         });
     }
 
-    if (
-        result.rows[0].status &&
-        result.rows[0].status.toLowerCase() !== "pending"
-    ) {
-        return res.json({
-            success: false,
-            message: `Serial Number status is ${result.rows[0].status}`
-        });
-    }
+    // if (
+    //     result.rows[0].status &&
+    //     result.rows[0].status.toLowerCase() !== "pending"
+    // ) {
+    //     return res.json({
+    //         success: false,
+    //         message: `Serial Number status is ${result.rows[0].status}`
+    //     });
+    // }
 
     res.json({
         success: true,
