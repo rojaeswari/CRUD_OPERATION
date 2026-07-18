@@ -1096,14 +1096,14 @@ db.query(checkSql, [serials], (err, result) => {
         return res.status(500).json(err);
     }
 
-    if (result.rows.length > 0) {
-        return res.status(400).json({
-            success: false,
-            message: `Serial No already exists: ${
-                result.rows.map(r => r.serial_no).join(", ")
-            }`
-        });
-    }
+    // if (result.rows.length > 0) {
+    //     return res.status(400).json({
+    //         success: false,
+    //         message: `Serial No already exists: ${
+    //             result.rows.map(r => r.serial_no).join(", ")
+    //         }`
+    //     });
+    // }
 
     // ONLY IF NO DUPLICATES
     saveRma();
