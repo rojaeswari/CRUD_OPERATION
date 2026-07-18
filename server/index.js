@@ -1082,33 +1082,34 @@ if (serials.length !== uniqueSerials.length) {
     });
 }
 
-const checkSql = `
-    SELECT serial_no
-    FROM rma_items1
-    WHERE serial_no =ANY ($1)
-    AND status <> 'Completed'
-`;
+// const checkSql = `
+//     SELECT serial_no
+//     FROM rma_items1
+//     WHERE serial_no =ANY ($1)
+//     AND status <> 'Completed'
+// `;
 
-db.query(checkSql, [serials], (err, result) => {
+// db.query(checkSql, [serials], (err, result) => {
 
-    if (err) {
-        console.log("CHECK SERIAL ERROR:", err);
-        return res.status(500).json(err);
-    }
+//     if (err) {
+//         console.log("CHECK SERIAL ERROR:", err);
+//         return res.status(500).json(err);
+//     }
 
-    if (result.rows.length > 0) {
-        return res.status(400).json({
-            success: false,
-            message: `Serial No already exists: ${
-                result.rows.map(r => r.serial_no).join(", ")
-            }`
-        });
-    }
+//     if (result.rows.length > 0) {
+//         return res.status(400).json({
+//             success: false,
+//             message: `Serial No already exists: ${
+//                 result.rows.map(r => r.serial_no).join(", ")
+//             }`
+//         });
+//     }
 
-    // ONLY IF NO DUPLICATES
-    saveRma();
+//     // ONLY IF NO DUPLICATES
+//     saveRma();
 
-});
+// });
+saveRma();
 function saveRma() {
 
     
