@@ -3465,12 +3465,12 @@ app.get("/search-serial/:serialNo", (req, res) => {
 
         if (err) return res.status(500).json(err);
 
-        if (result.rows.length > 0) {
-            return res.json({
-                exists: true,
-                message: "Serial Number Already Exists"
-            });
-        }
+        // if (result.rows.length > 0) {
+        //     return res.json({
+        //         exists: true,
+        //         message: "Serial Number Already Exists"
+        //     });
+        // }
 const sql = `
 SELECT
     e.product_name,
