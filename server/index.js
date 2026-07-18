@@ -825,21 +825,26 @@ app.get("/api/get_o", (req, res) => {
 
     const sql = `
     SELECT
-        r.id,
-        r.rma_no,
-        c.center_name,
-        i.product_name,
-        i.model_number,
-        r.quantity_no,
-        r.status,
-        r.entry_date
-    FROM rma_out r
-    JOIN services_details c
-        ON r.services_id = c.id
-    JOIN rma_items1 i
-        ON r.id = i.rma_id
-    ORDER BY r.id DESC
-    LIMIT 1;
+    r.id,
+    r.rma_no,
+    c.center_name,
+    i.product_name,
+    i.model_number,
+    r.quantity_no,
+    r.status,
+    r.entry_date
+FROM rma_out r
+JOIN services_details c
+    ON r.services_id = c.id
+JOIN rma_items1 i
+    ON r.id = i.rma_id
+WHERE r.id = (
+    SELECT id
+    FROM rma_out
+    ORDER BY id DESC
+    LIMIT 1
+)
+ORDER BY i.id;
     `;
 
     db.query(sql, (err, result) => {
