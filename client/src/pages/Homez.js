@@ -327,7 +327,7 @@ doc.text(address, 18, 72);
                     return [
                         row.product_name || "",
                         row.model_number || "",
-                        showQty ? row.quantity_no : "",
+                       "1",
                         row.serial_no || "",
                         row.accessory || "",
                         row.issues || ""
@@ -479,7 +479,7 @@ Entry Date: ${item.entry_date}
                                 <td>{item.center_name}</td>
                                 <td>{item.product_name}</td>
                                 <td>{item.model_number}</td>
-                                <td>{item.quantity_no}</td>
+                                <td>1</td>
 
 
                                 <td>{item.status}</td>
