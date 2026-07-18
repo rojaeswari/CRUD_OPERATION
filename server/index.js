@@ -825,6 +825,7 @@ app.get("/api/get_o", (req, res) => {
 
     const sql = `
     SELECT
+    SELECT DISTINCT ON (r.id)
         r.id,
         r.rma_no,
         c.center_name,
@@ -838,8 +839,7 @@ app.get("/api/get_o", (req, res) => {
         ON r.services_id = c.id
     JOIN rma_items1 i
         ON r.id = i.rma_id
-    ORDER BY r.id DESC
-    LIMIT 1;
+    ORDER BY r.id DESC,i.id;
     `;
 
     db.query(sql, (err, result) => {
