@@ -22,6 +22,14 @@ const [serialCompletedOutCount,
 
   const role = localStorage.getItem("role");
   const nav = useNavigate();
+  const logout = () => {
+  localStorage.removeItem("user");
+  localStorage.removeItem("username");
+  localStorage.removeItem("role");
+  localStorage.removeItem("id");
+
+  nav("/");
+};
 
   const [rmaReminders, setRmaReminders] = useState([]);
 const [outReminders, setOutReminders] = useState([]);
@@ -337,10 +345,10 @@ const getSerialCompletedOutCount = async () => {
           </li>
 
           <li>
-            <Link to="/">
-              <FaSignOutAlt /> Logout
-            </Link>
-          </li>
+  <button className="logout-btn" onClick={logout}>
+    <FaSignOutAlt /> Logout
+  </button>
+</li>
         </ul>
       </div>
 

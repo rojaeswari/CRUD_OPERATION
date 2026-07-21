@@ -42,30 +42,27 @@ function Login() {
             )
             .then((res) => {
 console.log("LOGIN DATA =", res.data);
-                if (
-                    res.data
-                        .message ===
-                    "Login Successfully"
-                ) {
-                    localStorage.setItem(
+                if (res.data.message === "Login Successfully") {
+
+    localStorage.setItem("user", "true");
+
+    localStorage.setItem(
         "username",
         res.data.username
     );
 
-                    localStorage.setItem(
-                        "role",
-                        res.data.role
-                    );
+    localStorage.setItem(
+        "role",
+        res.data.role
+    );
 
-                    localStorage.setItem(
-                        "id",
-                        res.data.id
-                    );
+    localStorage.setItem(
+        "id",
+        res.data.id
+    );
 
-                    navigate(
-                        "/Dashboard"
-                    );
-
+    navigate("/dashboard");
+                    
                 } else {
 
                     alert(

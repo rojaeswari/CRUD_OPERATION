@@ -38,6 +38,7 @@ import PendingRMA from "./pages/PendingRMA";
 import TotalRMAOut from "./pages/TotalRMAOut";
 import SerialPendingRMA from "./pages/SerialPendingRMA";
 import SerialRMAOut from "./pages/SerialRMAOut";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
   return (
@@ -45,128 +46,83 @@ function App() {
       <div className="App">
         <ToastContainer position="top-center" />
 
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/home/home_l" element={<Homel />} />
-          <Route path="/home/home_z" element={<Homez />} />
-          <Route path="/home/post" element={<AddEdit />} />
-          <Route path="/home/staff" element={<Staff />} />
-          <Route path="/home/addstaff" element={<AddStaff />} />
-          <Route path="/home/update/:id" element={<AddEdit />} />
-          <Route path="/home/View/:id" element={<View />} />
-          <Route path="/home/services" element={<Services />} />
-          <Route path="/home/addservice" element={<AddService />} />
-          <Route path="/home/update_ser/:id" element={<AddService />} />
-          <Route path="/home/SView/:id" element={<SView />} />
-          <Route path="/home/Add" element={<Add />} />
-          <Route path="/home/update_P/:id" element={<Add />} />
-          <Route path="/home/pdf/:id" element={<Add />} />
-          <Route path="/home/Out" element={<Out />} />
-          <Route path="/home/update_o/:id" element={<Out />} />
+       <Routes>
 
-          {/* <Route path="/home/post1" element={<supporter/>}/>
-          <Route path="/home/updata1" element={<supporter/>}/>
-          <Route path="/home/get" element={<support/>}/> */}
-          <Route path="/support" element={<Support />} />
-<Route path="/supporter" element={<Supporter />} />
-<Route path="/supporter/:id" element={<Supporter />} />
-<Route
-    path="/pending-rma"
-    element={<PendingRMA />}
-/>
-<Route
-    path="/completed-rma"
-    element={<PendingRMA />}/>
+  {/* Public Route */}
+  <Route path="/" element={<Login />} />
+
+  {/* Protected Routes */}
+  <Route element={<PrivateRoute />}>
+
+    <Route path="/home" element={<Home />} />
+    <Route path="/home/home_l" element={<Homel />} />
+    <Route path="/home/home_z" element={<Homez />} />
+    <Route path="/home/post" element={<AddEdit />} />
+    <Route path="/home/staff" element={<Staff />} />
+    <Route path="/home/addstaff" element={<AddStaff />} />
+    <Route path="/home/update/:id" element={<AddEdit />} />
+    <Route path="/home/View/:id" element={<View />} />
+    <Route path="/home/services" element={<Services />} />
+    <Route path="/home/addservice" element={<AddService />} />
+    <Route path="/home/update_ser/:id" element={<AddService />} />
+    <Route path="/home/SView/:id" element={<SView />} />
+    <Route path="/home/Add" element={<Add />} />
+    <Route path="/home/update_P/:id" element={<Add />} />
+    <Route path="/home/pdf/:id" element={<Add />} />
+    <Route path="/home/Out" element={<Out />} />
+    <Route path="/home/update_o/:id" element={<Out />} />
+
+    <Route path="/support" element={<Support />} />
+    <Route path="/supporter" element={<Supporter />} />
+    <Route path="/supporter/:id" element={<Supporter />} />
+
+    <Route path="/pending-rma" element={<PendingRMA />} />
+    <Route path="/completed-rma" element={<PendingRMA />} />
 
     <Route path="/pending-rma-out" element={<TotalRMAOut />} />
-<Route path="/completed-rma-out" element={<TotalRMAOut />} />
+    <Route path="/completed-rma-out" element={<TotalRMAOut />} />
 
+    <Route path="/serial-pending-rma" element={<SerialPendingRMA />} />
+    <Route path="/serial-completed-rma" element={<SerialPendingRMA />} />
 
-<Route
-    path="/serial-pending-rma"
-    element={<SerialPendingRMA />}
-/>
+    <Route path="/serial-pending-rma-out" element={<SerialRMAOut />} />
+    <Route path="/serial-completed-rma-out" element={<SerialRMAOut />} />
 
-<Route
-    path="/serial-completed-rma"
-    element={<SerialPendingRMA />}
-/>
+    <Route path="/home/status/:id" element={<Status />} />
+    <Route path="/home/reminder/:id" element={<ReminderPage />} />
 
+    <Route path="/status-history_lsr/:item_id" element={<History />} />
+    <Route path="/status-history_ls/:item_id" element={<History1 />} />
+    <Route path="/serial-history/:serial_no" element={<History1 />} />
 
-<Route
-    path="/serial-pending-rma-out"
-    element={<SerialRMAOut />}
-/>
+    <Route path="/statuspage/:item_id" element={<StatusPage />} />
+    <Route path="/statuspage1/:item_id" element={<StatusPage1 />} />
 
-<Route
-    path="/serial-completed-rma-out"
-    element={<SerialRMAOut />}
-/>
-          
-          <Route
-            path="/home/status/:id"
-            element={<Status />}
-          />
-          <Route path="/home/reminder/:id" element={<ReminderPage />} />
+    <Route path="/dashboard" element={<Dashboard />} />
 
-        {/* 📜 History Page */}
-         <Route
-          path="/status-history_lsr/:item_id"
-          element={<History />}
-        />
-        <Route
-          path="/status-history_ls/:item_id"
-          element={<History1 />}
-        />
+    <Route path="/staff/password/:id" element={<Password />} />
 
-        <Route
-          path="/serial-history/:serial_no"
-          element={<History1 />}
-        />
+    <Route path="/statuspage/:item_id/:reminder_id" element={<StatusPage />} />
+    <Route path="/update-status_ls/:item_id" element={<StatusPage1 />} />
+    <Route path="/statuspage1/:item_id/:reminder_id" element={<StatusPage1 />} />
 
-        <Route path="/statuspage/:item_id" element={<StatusPage />} />
-        <Route path="/statuspage1/:item_id" element={<StatusPage1 />} />
+    <Route path="/history/:rma_id" element={<HistoryPage />} />
+    <Route path="/history_l/:rma_id" element={<HistoryPage1 />} />
 
+    <Route path="/search-model/:model_number" element={<SearchModel />} />
 
-          <Route
-            path="/dashboard"
-            element={<Dashboard />}
-          />
-          <Route path="/staff/password/:id" element={<Password />} />
+    <Route path="/rma-summary" element={<RMASummary />} />
+    <Route path="/rma-details/:customer_id/:model_number" element={<RMASummary />} />
+    <Route path="/rma-details_r/:rma_no" element={<RMADetails />} />
+    <Route path="/rma-details/:rma_no" element={<RMADetails1 />} />
 
-           <Route path="/statuspage/:item_id/:reminder_id" element={<StatusPage />} />
-           <Route path="/update-status_ls/:item_id" element={<StatusPage1 />} />
-           <Route
-  path="/statuspage1/:item_id/:reminder_id"
-  element={<StatusPage1 />}
-/>
-           <Route
-  path="/history/:rma_id"
-  element={<HistoryPage />}
+    <Route path="/update-rma-status_l/:rma_no" element={<RMADetails />} />
+    <Route path="/update-rma/:rma_no" element={<RmaOutUpdate />} />
+    <Route path="/update-rma1/:rma_no" element={<RMAInupdata />} />
 
-/>
-          <Route
-  path="/history_l/:rma_id"
-  element={<HistoryPage1 />}/>
-  <Route
-  path="/search-model/:model_number"
-  element={<SearchModel />}
+  </Route>
 
-/>
-<Route path="/rma-summary" element={<RMASummary/>}/>
-<Route path="/rma-details/:customer_id/:model_number" element={<RMASummary/>}/>
-<Route
-  path="/rma-details_r/:rma_no"
-  element={<RMADetails />}
-/>
-<Route path="/rma-details/:rma_no" element={<RMADetails1/>}/>
-<Route path="/update-rma-status_l/:rma_no" element={<RMADetails/>}/>
-<Route path="/update-rma/:rma_no" element={<RmaOutUpdate/>}/>
-
-<Route path="/update-rma1/:rma_no" element={<RMAInupdata/>}/>
-{/* <Route path="/pending-serials" element={<DashPending/>}/> */}
-        </Routes>
+</Routes>
 
       </div>
     </BrowserRouter>
