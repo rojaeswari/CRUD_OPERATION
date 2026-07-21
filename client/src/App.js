@@ -46,83 +46,133 @@ function App() {
       <div className="App">
         <ToastContainer position="top-center" />
 
-       <Routes>
+        <Routes>
+          
+          <Route path="/" element={<Login />} />
+         <Route path="/home"element={<PrivateRoute> <Home /></PrivateRoute> }/>
+          <Route path="/home/home_l" element={<PrivateRoute><Homel /></PrivateRoute>} />
+          <Route path="/home/home_z" element={<PrivateRoute><Homez /></PrivateRoute>} />
+          <Route path="/home/post" element={<PrivateRoute><AddEdit /></PrivateRoute>} />
+          <Route path="/home/staff" element={<PrivateRoute><Staff /></PrivateRoute>} />
+          <Route path="/home/addstaff" element={<PrivateRoute><AddStaff /></PrivateRoute>} />
+          <Route path="/home/update/:id" element={<PrivateRoute><AddEdit /></PrivateRoute>} />
+          <Route path="/home/View/:id" element={<PrivateRoute><View /></PrivateRoute>} />
+          <Route path="/home/services" element={<PrivateRoute><Services /></PrivateRoute>} />
+          <Route path="/home/addservice" element={<PrivateRoute><AddService /></PrivateRoute>} />
+          <Route path="/home/update_ser/:id" element={<PrivateRoute><AddService /></PrivateRoute>} />
+          <Route path="/home/SView/:id" element={<PrivateRoute><SView /></PrivateRoute>} />
+          <Route path="/home/Add" element={<PrivateRoute><Add /></PrivateRoute>} />
+          <Route path="/home/update_P/:id" element={<PrivateRoute><Add /></PrivateRoute>} />
+          <Route path="/home/pdf/:id" element={<PrivateRoute><Add /></PrivateRoute>} />
+          <Route path="/home/Out" element={<PrivateRoute><Out /></PrivateRoute>} />
+          <Route path="/home/update_o/:id" element={<PrivateRoute><Out /></PrivateRoute>} />
 
-  {/* Public Route */}
-  <Route path="/" element={<Login />} />
+          {/* <Route path="/home/post1" element={<supporter/>}/>
+          <Route path="/home/updata1" element={<supporter/>}/>
+          <Route path="/home/get" element={<support/>}/> */}
+          <Route path="/support" element={<PrivateRoute><Support /></PrivateRoute>} />
+<Route path="/supporter" element={<PrivateRoute><Supporter /></PrivateRoute>} />
+<Route path="/supporter/:id" element={<PrivateRoute><Supporter /></PrivateRoute>} />
+<Route
+    path="/pending-rma"
+    element={<PrivateRoute><PendingRMA /></PrivateRoute>}
+/>
+<Route
+    path="/completed-rma"
+    element={<PrivateRoute><PendingRMA /></PrivateRoute>}/>
 
-  {/* Protected Routes */}
-  <Route element={<PrivateRoute />}>
+    <Route path="/pending-rma-out" element={<PrivateRoute><TotalRMAOut /></PrivateRoute>} />
+<Route path="/completed-rma-out" element={<PrivateRoute><TotalRMAOut /></PrivateRoute>} />
 
-    <Route path="/home" element={<Home />} />
-    <Route path="/home/home_l" element={<Homel />} />
-    <Route path="/home/home_z" element={<Homez />} />
-    <Route path="/home/post" element={<AddEdit />} />
-    <Route path="/home/staff" element={<Staff />} />
-    <Route path="/home/addstaff" element={<AddStaff />} />
-    <Route path="/home/update/:id" element={<AddEdit />} />
-    <Route path="/home/View/:id" element={<View />} />
-    <Route path="/home/services" element={<Services />} />
-    <Route path="/home/addservice" element={<AddService />} />
-    <Route path="/home/update_ser/:id" element={<AddService />} />
-    <Route path="/home/SView/:id" element={<SView />} />
-    <Route path="/home/Add" element={<Add />} />
-    <Route path="/home/update_P/:id" element={<Add />} />
-    <Route path="/home/pdf/:id" element={<Add />} />
-    <Route path="/home/Out" element={<Out />} />
-    <Route path="/home/update_o/:id" element={<Out />} />
 
-    <Route path="/support" element={<Support />} />
-    <Route path="/supporter" element={<Supporter />} />
-    <Route path="/supporter/:id" element={<Supporter />} />
+<Route
+    path="/serial-pending-rma"
+    element={<PrivateRoute><SerialPendingRMA /></PrivateRoute>}
+/>
 
-    <Route path="/pending-rma" element={<PendingRMA />} />
-    <Route path="/completed-rma" element={<PendingRMA />} />
+<Route
+    path="/serial-completed-rma"
+    element={<PrivateRoute><SerialPendingRMA /></PrivateRoute>}
+/>
 
-    <Route path="/pending-rma-out" element={<TotalRMAOut />} />
-    <Route path="/completed-rma-out" element={<TotalRMAOut />} />
 
-    <Route path="/serial-pending-rma" element={<SerialPendingRMA />} />
-    <Route path="/serial-completed-rma" element={<SerialPendingRMA />} />
+<Route
+    path="/serial-pending-rma-out"
+    element={<PrivateRoute><SerialRMAOut /></PrivateRoute>}
+/>
 
-    <Route path="/serial-pending-rma-out" element={<SerialRMAOut />} />
-    <Route path="/serial-completed-rma-out" element={<SerialRMAOut />} />
+<Route
+    path="/serial-completed-rma-out"
+    element={<PrivateRoute><SerialRMAOut /></PrivateRoute>}
+/>
+          
+          <Route
+            path="/home/status/:id"
+            element={<PrivateRoute><Status /></PrivateRoute>}
+          />
+          <Route path="/home/reminder/:id" element={<PrivateRoute><ReminderPage /></PrivateRoute>} />
 
-    <Route path="/home/status/:id" element={<Status />} />
-    <Route path="/home/reminder/:id" element={<ReminderPage />} />
+        {/* 📜 History Page */}
+         <Route
+          path="/status-history_lsr/:item_id"
+          element={<PrivateRoute><History /></PrivateRoute>}
+        />
+        <Route
+          path="/status-history_ls/:item_id"
+          element={<PrivateRoute><History1 /></PrivateRoute>}
+        />
 
-    <Route path="/status-history_lsr/:item_id" element={<History />} />
-    <Route path="/status-history_ls/:item_id" element={<History1 />} />
-    <Route path="/serial-history/:serial_no" element={<History1 />} />
+        <Route
+          path="/serial-history/:serial_no"
+          element={<PrivateRoute><History1 /></PrivateRoute>}
+        />
 
-    <Route path="/statuspage/:item_id" element={<StatusPage />} />
-    <Route path="/statuspage1/:item_id" element={<StatusPage1 />} />
+        <Route path="/statuspage/:item_id" element={<PrivateRoute><StatusPage /></PrivateRoute>} />
+        <Route path="/statuspage1/:item_id" element={<PrivateRoute><StatusPage1 /></PrivateRoute>} />
 
-    <Route path="/dashboard" element={<Dashboard />} />
 
-    <Route path="/staff/password/:id" element={<Password />} />
+          <Route
+  path="/dashboard"
+  element={
+    <PrivateRoute>
+      <Dashboard />
+    </PrivateRoute>
+  }
+/>
+          <Route path="/staff/password/:id" element={<PrivateRoute><Password /></PrivateRoute>} />
 
-    <Route path="/statuspage/:item_id/:reminder_id" element={<StatusPage />} />
-    <Route path="/update-status_ls/:item_id" element={<StatusPage1 />} />
-    <Route path="/statuspage1/:item_id/:reminder_id" element={<StatusPage1 />} />
+           <Route path="/statuspage/:item_id/:reminder_id" element={<PrivateRoute><StatusPage /></PrivateRoute>} />
+           <Route path="/update-status_ls/:item_id" element={<PrivateRoute><StatusPage1 /></PrivateRoute>} />
+           <Route
+  path="/statuspage1/:item_id/:reminder_id"
+  element={<PrivateRoute><StatusPage1 /></PrivateRoute>}
+/>
+           <Route
+  path="/history/:rma_id"
+  element={<PrivateRoute><HistoryPage /></PrivateRoute>}
 
-    <Route path="/history/:rma_id" element={<HistoryPage />} />
-    <Route path="/history_l/:rma_id" element={<HistoryPage1 />} />
+/>
+          <Route
+  path="/history_l/:rma_id"
+  element={<PrivateRoute><HistoryPage1 /></PrivateRoute>}/>
+  <Route
+  path="/search-model/:model_number"
+  element={<PrivateRoute><SearchModel /></PrivateRoute>}
 
-    <Route path="/search-model/:model_number" element={<SearchModel />} />
+/>
+<Route path="/rma-summary" element={<PrivateRoute><RMASummary/></PrivateRoute>}/>
+<Route path="/rma-details/:customer_id/:model_number" element={<PrivateRoute><RMASummary/></PrivateRoute>}/>
+<Route
+  path="/rma-details_r/:rma_no"
+  element={<PrivateRoute><RMADetails /></PrivateRoute>}
+/>
+<Route path="/rma-details/:rma_no" element={<PrivateRoute><RMADetails1/></PrivateRoute>}/>
+<Route path="/update-rma-status_l/:rma_no" element={<PrivateRoute><RMADetails/></PrivateRoute>}/>
+<Route path="/update-rma/:rma_no" element={<PrivateRoute><RmaOutUpdate/></PrivateRoute>}/>
 
-    <Route path="/rma-summary" element={<RMASummary />} />
-    <Route path="/rma-details/:customer_id/:model_number" element={<RMASummary />} />
-    <Route path="/rma-details_r/:rma_no" element={<RMADetails />} />
-    <Route path="/rma-details/:rma_no" element={<RMADetails1 />} />
-
-    <Route path="/update-rma-status_l/:rma_no" element={<RMADetails />} />
-    <Route path="/update-rma/:rma_no" element={<RmaOutUpdate />} />
-    <Route path="/update-rma1/:rma_no" element={<RMAInupdata />} />
-
-  </Route>
-
-</Routes>
+<Route path="/update-rma1/:rma_no" element={<PrivateRoute><RMAInupdata/></PrivateRoute>}/>
+{/* <Route path="/pending-serials" element={<DashPending/>}/> */}
+        </Routes>
 
       </div>
     </BrowserRouter>

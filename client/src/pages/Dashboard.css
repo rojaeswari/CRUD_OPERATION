@@ -194,19 +194,4 @@
         opacity:0;
     }
 }
-.logout-btn {
-  background: transparent;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  text-align: left;
-}
 
-.logout-btn:hover {
-  color: #007bff;
-}
