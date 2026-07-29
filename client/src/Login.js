@@ -42,6 +42,7 @@ function Login() {
             )
             .then((res) => {
 console.log("LOGIN DATA =", res.data);
+
                 if (res.data.message === "Login Successfully") {
 
     localStorage.setItem("user", "true");

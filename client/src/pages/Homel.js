@@ -561,7 +561,7 @@ Reminder Date: ${item.reminder_date}
                                         className="view-btn"
                                         onClick={() => generatePDF(item)}
                                     >
-                                        View
+                                        Pdf
                                     </button>
                                 </td>
                                 <td>
