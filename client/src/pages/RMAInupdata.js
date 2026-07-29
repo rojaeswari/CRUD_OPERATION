@@ -93,7 +93,7 @@ const updateStatus = async () => {
 <thead>
           <tr>
 
-          
+              <th>S.No</th>
             <th>product Name</th>
             <th>model Number</th>
             <th>Serial No</th>
