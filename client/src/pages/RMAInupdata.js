@@ -89,6 +89,20 @@ const updateStatus = async () => {
     </div>
 
     <table className="table table-bordered">
+
+<thead>
+          <tr>
+
+          
+            <th>product Name</th>
+            <th>model Number</th>
+            <th>Serial No</th>
+            <th>Accessory</th>
+            <th>Issues</th>
+           
+          </tr>
+        </thead>
+
       <tbody>
         {data.map((item, index) => (
           <tr key={item.item_id}>
