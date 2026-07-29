@@ -115,6 +115,19 @@ const updateStatus = async () => {
 
       {/* Serial Details */}
       <table className="table table-bordered">
+        
+<thead>
+          <tr>
+
+              <th>S.No</th>
+            <th>product Name</th>
+            <th>model Number</th>
+            <th>Serial No</th>
+            <th>Accessory</th>
+            <th>Issues</th>
+           
+          </tr>
+        </thead>
 
         <tbody>
   {data.map((item, index) => (
