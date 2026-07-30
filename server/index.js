@@ -3256,7 +3256,7 @@ function continueUpdate(
                     return res.status(500).json(err);
                 }
 
-                if (result.rows[0].pendingCount === 0) {
+                if (Number(result.rows[0].pendingcount) === 0) {
 
                     db.query(
                         `UPDATE rma_entry1
