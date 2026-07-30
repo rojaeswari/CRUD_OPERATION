@@ -48,9 +48,11 @@ function TotalRMAOut() {
                 <thead>
                     <tr>
                         <th>RMA No</th>
-                         {/* <th>Customer DC No</th> */}
+                        <th>Center Name</th>
                         <th>Product</th>
                         <th>Model</th>
+                        <th>Quantity</th>
+                        <th>Entry date</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -64,9 +66,15 @@ function TotalRMAOut() {
 
                         <tr key={item.id}>
                             <td>{item.rma_no}</td>
-                             {/* <td>{item.customer_dc_no}</td> */}
+                            <td>{item.center_name}</td>
                             <td>{item.product_name}</td>
                             <td>{item.model_number}</td>
+                            <td>{item.quantity_no}</td>
+                            <td>
+                                {item.entry_date
+                                    ? new Date(item.entry_date).toLocaleDateString("en-GB")
+                                    : "-"}
+                            </td>
                             <td>{item.status}</td>
                         </tr>
 

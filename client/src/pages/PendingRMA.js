@@ -5,12 +5,12 @@ import { useLocation } from "react-router-dom";
 function PendingRMA() {
 
     const [data, setData] = useState([]);
-    const[completedata,setCompletedata]=useState([]);
-    const location= useLocation();
-    const type=
-    location.pathname ==="/completed-rma"
-      ?"completed"
-      :"pending"
+    const [completedata, setCompletedata] = useState([]);
+    const location = useLocation();
+    const type =
+        location.pathname === "/completed-rma"
+            ? "completed"
+            : "pending"
 
     useEffect(() => {
 
@@ -35,7 +35,7 @@ function PendingRMA() {
     return (
         <div className="container">
 
-              <h2>
+            <h2>
                 {type === "pending"
                     ? "Pending RMA Inward List"
                     : "Completed RMA Inward List"}
@@ -47,21 +47,29 @@ function PendingRMA() {
                     <tr>
                         <th>RMA No</th>
                         <th>Customer</th>
+                        <th>DC NO</th>
                         <th>Product</th>
                         <th>Model</th>
+                        <th>Entry date</th>
                         <th>Status</th>
                     </tr>
                 </thead>
 
                 <tbody>
 
-                    {(type==="pending"?data:completedata).map((item) => (
+                    {(type === "pending" ? data : completedata).map((item) => (
 
                         <tr key={item.id}>
                             <td>{item.rma_no}</td>
                             <td>{item.customer_name}</td>
+                            <td>{item.customer_dc_no}</td>
                             <td>{item.product_name}</td>
                             <td>{item.model_number}</td>
+                            <td>
+                                {item.entry_date
+                                    ? new Date(item.entry_date).toLocaleDateString("en-GB")
+                                    : "-"}
+                            </td>
                             <td>{item.status}</td>
                         </tr>
 
