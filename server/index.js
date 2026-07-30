@@ -2843,7 +2843,7 @@ app.get("/api/serial-completed-rma", (req, res) => {
             ON r.customer_id = c.id
         INNER JOIN rma_items i
             ON r.id = i.rma_id
-        WHERE i.status = 'completed'
+       WHERE LOWER(i.status)='completed'
         AND i.serial_no IS NOT NULL
         AND i.serial_no <> ''
         ORDER BY r.id DESC
