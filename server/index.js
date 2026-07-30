@@ -2644,9 +2644,9 @@ WHERE LOWER(status) = 'completed'
 
 });
 
-app.get("/all-irma-data_pending", (req, res) => {
+app.get("/api/pending-rma", (req, res) => {
 
-    const sql = `
+   const sql = `
         SELECT
     r.rma_no,
     MAX(c.customer_name) AS customer_name,
@@ -2667,7 +2667,7 @@ ORDER BY r.rma_no ASC
         res.json(result.rows);
     });
 
-});
+})
 
 app.get("/api/completed-rma", (req, res) => {
 
