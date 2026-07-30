@@ -3255,6 +3255,7 @@ function continueUpdate(
                 if (err) {
                     return res.status(500).json(err);
                 }
+                
 
                 if (Number(result.rows[0].pendingcount) === 0) {
 
