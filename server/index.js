@@ -2713,7 +2713,7 @@ app.get("/api/rma/completed", (req, res) => {
 app.get("/api/pending-rma-out", (req, res) => {
 
     const sql = `
-        SELECT
+        SELECT DISTINCT ON (o.rma_no)
              o.id,
             o.rma_no,
             s.center_name,
@@ -2746,7 +2746,7 @@ app.get("/api/pending-rma-out", (req, res) => {
 app.get("/api/completed-rma-out", (req, res) => {
 
     const sql = `
-        SELECT
+       SELECT DISTINCT ON (o.rma_no)
              o.id,
             o.rma_no,
             s.center_name,
