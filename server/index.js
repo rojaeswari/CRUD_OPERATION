@@ -2804,15 +2804,20 @@ app.get("/api/serial-pending-rma", (req, res) => {
 
     const sql = `
         SELECT
-            r.*,
-            c.customer_name,
-            i.serial_no
+            r.rma_no,
+    c.customer_name,
+    r.product_name,
+    r.model_number,
+    i.serial_no,
+    i.accessory,
+    i.issues,
+    i.status
         FROM rma_entry1 r
         LEFT JOIN customer_details c
             ON r.customer_id = c.id
         INNER JOIN rma_items i
             ON r.id = i.rma_id
-        WHERE r.status = 'pending'
+       WHERE LOWER(i.status) = 'pending'
         AND i.serial_no IS NOT NULL
         AND i.serial_no <> ''
         ORDER BY r.id DESC
@@ -2834,10 +2839,14 @@ app.get("/api/serial-completed-rma", (req, res) => {
 
     const sql = `
         SELECT
-            r.*,
-            c.customer_name,
-            i.serial_no,
-            i.status
+             r.rma_no,
+    c.customer_name,
+    r.product_name,
+    r.model_number,
+    i.serial_no,
+    i.accessory,
+    i.issues,
+    i.status
         FROM rma_entry1 r
         LEFT JOIN customer_details c
             ON r.customer_id = c.id
