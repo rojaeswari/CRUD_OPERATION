@@ -512,7 +512,7 @@ Reminder Date: ${item.reminder_date}
                                 <td style={{
                                     backgroundColor:
                                         item.status?.trim().toLowerCase() === "completed"
-                                            ? "#2fda8a"
+                                            ? "#1adab0"
                                             : "white"
                                 }}>{item.rma_no}</td>
                                 <td>{item.customer_name}</td>
