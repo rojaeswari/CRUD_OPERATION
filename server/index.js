@@ -2644,27 +2644,27 @@ WHERE LOWER(status) = 'completed'
 
 });
 
-app.get("/api/pending-rma", (req, res) => {
+app.get("/all-irma-data_pending", (req, res) => {
 
     const sql = `
         SELECT
-            r.*,
-            c.customer_name
-        FROM rma_entry1 r
-        LEFT JOIN customer_details c
-            ON r.customer_id = c.id
-        WHERE LOWER(r.status) = 'pending'
-        ORDER BY r.id DESC
+    r.rma_no,
+    MAX(c.customer_name) AS customer_name,
+    MAX(r.customer_dc_no) AS customer_dc_no,
+    MAX(r.product_name) AS product_name,
+    MAX(r.model_number) AS model_number,
+    MAX(r.entry_date) AS entry_date
+FROM rma_entry1 r
+JOIN customer_details c
+    ON r.customer_id = c.id
+WHERE LOWER(TRIM(r.status)) = 'pending'
+GROUP BY r.rma_no
+ORDER BY r.rma_no ASC
     `;
 
     db.query(sql, (err, result) => {
-
-        if (err) {
-            return res.status(500).json(err);
-        }
-
+        if (err) return res.status(500).json(err);
         res.json(result.rows);
-
     });
 
 });
