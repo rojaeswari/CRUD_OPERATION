@@ -48,10 +48,11 @@ function SerialRMAOut() {
                 <thead>
                     <tr>
                         <th>RMA No</th>
-                        {/* <th>Customer DC No</th> */}
                         <th>Product</th>
                         <th>Model</th>
                         <th>Serial No</th>
+                         <th>Accessory</th>
+                        <th>Issues</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -65,10 +66,11 @@ function SerialRMAOut() {
 
                         <tr key={item.id}>
                             <td>{item.rma_no}</td>
-                            {/* <td>{item.customer_dc_no}</td> */}
                             <td>{item.product_name}</td>
                             <td>{item.model_number}</td>
                             <td>{item.serial_no}</td>
+                            <td>{item.accessory}</td>
+                            <td>{item.issues}</td>
                             <td>{item.status}</td>
                         </tr>
 

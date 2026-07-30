@@ -52,6 +52,8 @@ function SerialPendingRMA() {
                         <th>Product</th>
                         <th>Model</th>
                         <th>Serial No</th>
+                        <th>Accessory</th>
+                        <th>Issues</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -69,6 +71,8 @@ function SerialPendingRMA() {
                             <td>{item.product_name}</td>
                             <td>{item.model_number}</td>
                             <td>{item.serial_no}</td>
+                            <td>{item.accessory}</td>
+                            <td>{item.issues}</td>
                             <td>{item.status}</td>
                         </tr>
 
