@@ -2653,7 +2653,8 @@ app.get("/api/pending-rma", (req, res) => {
     MAX(r.customer_dc_no) AS customer_dc_no,
     MAX(r.product_name) AS product_name,
     MAX(r.model_number) AS model_number,
-    MAX(r.entry_date) AS entry_date
+    MAX(r.entry_date) AS entry_date,
+    MAX(r.status) AS status
 FROM rma_entry1 r
 JOIN customer_details c
     ON r.customer_id = c.id
