@@ -2714,10 +2714,17 @@ app.get("/api/pending-rma-out", (req, res) => {
 
     const sql = `
         SELECT
-            o.*,
+             o.id,
+            o.rma_no,
+            s.center_name,
+            o.quantity_no,
+            o.entry_date,
+            o.status,
             i.product_name,
             i.model_number
         FROM rma_out o
+        LEFT JOIN services_details s
+            ON o.services_id = s.id
         LEFT JOIN rma_items1 i
             ON o.id = i.rma_id
         WHERE LOWER(o.status) = 'pending'
@@ -2740,10 +2747,18 @@ app.get("/api/completed-rma-out", (req, res) => {
 
     const sql = `
         SELECT
-            o.*,
+             o.id,
+            o.rma_no,
+            s.center_name,
+            o.quantity_no,
+            o.entry_date,
+            o.status,
             i.product_name,
             i.model_number
+
         FROM rma_out o
+         LEFT JOIN services_details s
+            ON o.services_id = s.id
         LEFT JOIN rma_items1 i
             ON o.id = i.rma_id
         WHERE LOWER(o.status) = 'completed'
