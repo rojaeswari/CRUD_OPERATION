@@ -111,12 +111,16 @@ const updateStatus = async () => {
                 {supporterData.map((row, index) => (
                     <tr key={row.id}>
                         <td>{index + 1}</td>
-                        <td style={{
-                                    backgroundColor:
-                                        item.status?.trim().toLowerCase() === "completed"
-                                            ? "#34bb8e"
-                                            : "white"
-                                }}>{row.product_name}</td>
+                        <td
+  style={{
+    backgroundColor:
+      item.status?.trim().toLowerCase() === "completed"
+        ? "#34bb8e"
+        : "white"
+  }}
+>
+  {item.product_name}
+</td>
                         <td>{row.model_no}</td>
                         <td>{row.serial_no}</td>
                         <td>{row.replacement_serial_no}</td>
