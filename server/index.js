@@ -2643,6 +2643,7 @@ WHERE LOWER(status) = 'completed'
     });
 
 });
+//rma inward pending and complete
 
 app.get("/api/pending-rma", (req, res) => {
 
@@ -2686,7 +2687,7 @@ app.get("/api/completed-rma", (req, res) => {
             ON r.customer_id = c.id
         WHERE LOWER(TRIM(r.status)) = 'completed'
         GROUP BY r.rma_no
-        ORDER BY r.rma_no DESC
+        ORDER BY r.rma_no ASC
     `;
 
 
@@ -2722,27 +2723,32 @@ app.get("/api/pending-rma-out", (req, res) => {
 
     const sql = `
         SELECT
-             o.id,
             o.rma_no,
-            s.center_name,
-            o.quantity_no,
-            o.entry_date,
-            o.status,
-            i.product_name,
-            i.model_number
+            MAX(s.center_name) AS center_name,
+            MAX(o.quantity_no) AS quantity_no,
+            MAX(o.entry_date) AS entry_date,
+            STRING_AGG(i.product_name, ', ') AS product_name,
+            STRING_AGG(i.model_number, ', ') AS model_number,
+            'pending' AS status
+
         FROM rma_out o
+
         LEFT JOIN services_details s
             ON o.services_id = s.id
+
         LEFT JOIN rma_items1 i
             ON o.id = i.rma_id
-        WHERE LOWER(o.status) = 'pending'
-        ORDER BY o.id DESC
+
+        WHERE LOWER(TRIM(o.status)) = 'pending'
+
+        GROUP BY o.rma_no
+
+        ORDER BY o.rma_no DESC
     `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
-             console.log(err); 
             return res.status(500).json(err);
         }
 
@@ -2756,22 +2762,27 @@ app.get("/api/completed-rma-out", (req, res) => {
 
     const sql = `
         SELECT
-             o.id,
             o.rma_no,
-            s.center_name,
-            o.quantity_no,
-            o.entry_date,
-            o.status,
-            i.product_name,
-            i.model_number
+            MAX(s.center_name) AS center_name,
+            MAX(o.quantity_no) AS quantity_no,
+            MAX(o.entry_date) AS entry_date,
+            STRING_AGG(i.product_name, ', ') AS product_name,
+            STRING_AGG(i.model_number, ', ') AS model_number,
+            'completed' AS status
 
         FROM rma_out o
-         LEFT JOIN services_details s
+
+        LEFT JOIN services_details s
             ON o.services_id = s.id
+
         LEFT JOIN rma_items1 i
             ON o.id = i.rma_id
-        WHERE LOWER(o.status) = 'completed'
-        ORDER BY o.id DESC
+
+        WHERE LOWER(TRIM(o.status)) = 'completed'
+
+        GROUP BY o.rma_no
+
+        ORDER BY o.rma_no DESC
     `;
 
     db.query(sql, (err, result) => {
