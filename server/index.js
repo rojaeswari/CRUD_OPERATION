@@ -2235,50 +2235,107 @@ app.post("/update-status_lsr/:item_id", (req, res) => {
     console.log("reminder_id:", reminder_id);
     console.log("body:", req.body);
 
-    // 1. update item
-    const updateSql = `
-        UPDATE rma_items
-        SET status = $1
-        WHERE id = $2
-    `;
-
-    db.query(updateSql, [status, item_id], (err) => {
-        if (err) return res.status(500).json(err);
-
-
-        // 2. history
-        const historySql = `
-            INSERT INTO rma_status_history1
-            (rma_item_id, status, status_text,updated_by)
-            VALUES ($1,$2,$3,$4)
-        `;
-
-        db.query(historySql, [item_id, status, status_text,updated_by]);
-
-        // 3. STOP ONLY THIS SERIAL IF COMPLETE
-        // Mark ONLY the clicked reminder as handled
-const reminderSql = `
-    UPDATE rma_reminders
-    SET is_read = 1
+    //check before the status already completed or not
+    const checkStatusSql = `
+    SELECT status
+    FROM rma_items
     WHERE id = $1
 `;
 
-db.query(reminderSql, [reminder_id]);
+    db.query(checkStatusSql, [item_id], (err, result) => {
 
-// If status = complete, stop all reminders for this serial number
-if (status.toLowerCase() === "completed") {
+    if (err) {
+        return res.status(500).json(err);
+    }
 
-    const clearSql = `
-        UPDATE rma_reminders
-        SET is_read = 1
-        WHERE rma_item_id = $1
+    if (result.rows.length === 0) {
+        return res.status(404).json({
+            message: "Item not found"
+        });
+    }
+
+    if (
+        result.rows[0].status &&
+        result.rows[0].status.toLowerCase() === "completed"
+    ) {
+        return res.status(400).json({
+            message: "Status already completed. Cannot update again."
+            });
+        }
+        if (!status || status.trim() === "") {
+            return res.status(400).json({
+                message: "Please select a status"
+            });
+        }
+        if (status.toLowerCase() === "completed") {
+
+            const serialSql = `
+        SELECT serial_no
+        FROM rma_items
+        WHERE id = $1
     `;
+db.query(serialSql, [item_id], (err, result) => {
 
-    db.query(clearSql, [item_id]);
-}
-        
+    if (err) return res.status(500).json(err);
 
-        res.json({ success: true });
+    if (result.rows.length === 0) {
+        return res.status(404).json({
+            message: "Serial not found"
+        });
+    }
+
+    const serialNo = result.rows[0].serial_no;
+
+                const outwardSql = `
+            SELECT status
+            FROM rma_items1
+            WHERE serial_no = $1
+        `;
+
+                db.query(outwardSql, [serialNo], (err, result) => {
+
+    if (err) return res.status(500).json(err);
+
+    if (result.rows.length > 0) {
+
+        if (result.rows[0].status.toLowerCase() !== "completed") {
+                            return res.status(400).json({
+                                message:
+                                    "Complete this serial in OUTWARD first."
+                            });
+                        }
+
+                    }
+
+                    continueUpdate(
+                        db,
+                        item_id,
+                        status,
+                        status_text,
+                        updated_by,
+                        reminder_id,
+                        res
+                    );
+
+                });
+
+            });
+
+        } else {
+
+            continueUpdate(
+                db,
+                item_id,
+                status,
+                status_text,
+                updated_by,
+                reminder_id,
+                res
+            );
+
+        }
+
+
     });
 });
 
