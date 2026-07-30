@@ -104,16 +104,7 @@ function RMADetails1() {
           {data.map((item, index) => (
             <tr key={item.serial_no || index}>
               <td>{index + 1}</td>
-              <td
-  style={{
-    backgroundColor:
-      item.status?.trim().toLowerCase() === "completed"
-        ? "#34bb8e"
-        : "white"
-  }}
->
-  {item.product_name}
-</td>
+              <td>{item.product_name}</td>
               <td>{item.model_number}</td>
               <td>
                 1
@@ -134,11 +125,11 @@ function RMADetails1() {
 
 
               <td>
-
-
-                <Link to={`/serial-history/${item.serial_no}`}>
-                  View
-                </Link>
+              
+              
+                  <Link to={`/serial-history/${item.serial_no}`}>
+                      View
+                  </Link>
               </td>
 
 
