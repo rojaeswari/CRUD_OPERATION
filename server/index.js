@@ -2710,7 +2710,7 @@ app.get("/api/rma/completed", (req, res) => {
         SELECT *
         FROM rma_entry1
         WHERE status = 'Completed'
-        ORDER BY id DESC
+        ORDER BY id ASC
     `;
 
     db.query(sql, (err, result) => {
@@ -2743,7 +2743,7 @@ app.get("/api/pending-rma-out", (req, res) => {
 
         GROUP BY o.rma_no
 
-        ORDER BY o.rma_no DESC
+        ORDER BY o.rma_no ASC
     `;
 
     db.query(sql, (err, result) => {
@@ -2782,7 +2782,7 @@ app.get("/api/completed-rma-out", (req, res) => {
 
         GROUP BY o.rma_no
 
-        ORDER BY o.rma_no DESC
+        ORDER BY o.rma_no ASC
     `;
 
     db.query(sql, (err, result) => {
@@ -2855,7 +2855,7 @@ app.get("/api/serial-pending-rma", (req, res) => {
        WHERE LOWER(i.status) = 'pending'
         AND i.serial_no IS NOT NULL
         AND i.serial_no <> ''
-        ORDER BY r.id DESC
+        ORDER BY r.id ASC
     `;
 
     db.query(sql, (err, result) => {
@@ -2890,7 +2890,7 @@ app.get("/api/serial-completed-rma", (req, res) => {
        WHERE LOWER(i.status)='completed'
         AND i.serial_no IS NOT NULL
         AND i.serial_no <> ''
-        ORDER BY r.id DESC
+        ORDER BY r.id ASC
     `;
 
     db.query(sql, (err, result) => {
@@ -2976,7 +2976,7 @@ INNER JOIN rma_items1 i
 WHERE LOWER(i.status) = 'pending'
   AND i.serial_no IS NOT NULL
   AND i.serial_no <> ''
-ORDER BY r.id DESC`;
+ORDER BY r.id ASC`;
 
     db.query(sql, (err, result) => {
 
@@ -3010,7 +3010,7 @@ app.get("/api/serial-completed-rma-out", (req, res) => {
         WHERE i.status = 'completed'
         AND i.serial_no IS NOT NULL
         AND i.serial_no <> ''
-        ORDER BY r.id DESC
+        ORDER BY r.id ASC
     `;
 
     db.query(sql, (err, result) => {
