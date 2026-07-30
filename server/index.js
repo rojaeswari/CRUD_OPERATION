@@ -2834,13 +2834,9 @@ app.get("/api/serial-completed-rma", (req, res) => {
 
     const sql = `
         SELECT
-             r.rma_no,
+            r.*,
             c.customer_name,
-            r.product_name,
-            r.model_number,
             i.serial_no,
-            i.accessory,
-            i.issues,
             i.status
         FROM rma_entry1 r
         LEFT JOIN customer_details c
