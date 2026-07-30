@@ -2673,14 +2673,21 @@ app.get("/api/completed-rma", (req, res) => {
 
     const sql = `
         SELECT
-            r.*,
-            c.customer_name
+            r.rma_no,
+            MAX(c.customer_name) AS customer_name,
+            MAX(r.customer_dc_no) AS customer_dc_no,
+            STRING_AGG(r.product_name, ', ') AS product_name,
+            STRING_AGG(r.model_number, ', ') AS model_number,
+            MAX(r.entry_date) AS entry_date,
+            MAX(r.status) AS status
         FROM rma_entry1 r
-        LEFT JOIN customer_details c
+        JOIN customer_details c
             ON r.customer_id = c.id
-        WHERE LOWER(r.status) = 'completed'
-        ORDER BY r.id DESC
+        WHERE LOWER(TRIM(r.status)) = 'completed'
+        GROUP BY r.rma_no
+        ORDER BY r.rma_no DESC
     `;
+
 
     db.query(sql, (err, result) => {
 

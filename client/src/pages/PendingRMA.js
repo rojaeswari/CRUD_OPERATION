@@ -51,7 +51,7 @@ function PendingRMA() {
                         <th>Product</th>
                         <th>Model</th>
                         <th>Entry date</th>
-                        <th>Status</th>
+                        {/* <th>Status</th> */}
                     </tr>
                 </thead>
 
@@ -70,7 +70,7 @@ function PendingRMA() {
                                     ? new Date(item.entry_date).toLocaleDateString("en-GB")
                                     : "-"}
                             </td>
-                            <td>{item.status}</td>
+                            {/* <td>{item.status}</td> */}
                         </tr>
 
                     ))}
