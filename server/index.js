@@ -2653,7 +2653,7 @@ app.get("/api/pending-rma", (req, res) => {
         FROM rma_entry1 r
         LEFT JOIN customer_details c
             ON r.customer_id = c.id
-        WHERE r.status = 'pending'
+        WHERE LOWER(r.status) = 'pending'
         ORDER BY r.id DESC
     `;
 
@@ -2678,7 +2678,7 @@ app.get("/api/completed-rma", (req, res) => {
         FROM rma_entry1 r
         LEFT JOIN customer_details c
             ON r.customer_id = c.id
-        WHERE r.status = 'completed'
+        WHERE LOWER(r.status) = 'completed'
         ORDER BY r.id DESC
     `;
 
@@ -2713,7 +2713,7 @@ app.get("/api/rma/completed", (req, res) => {
 app.get("/api/pending-rma-out", (req, res) => {
 
     const sql = `
-        SELECT DISTINCT ON (o.rma_no)
+        SELECT
              o.id,
             o.rma_no,
             s.center_name,
@@ -2734,6 +2734,7 @@ app.get("/api/pending-rma-out", (req, res) => {
     db.query(sql, (err, result) => {
 
         if (err) {
+             console.log(err); 
             return res.status(500).json(err);
         }
 
@@ -2746,7 +2747,7 @@ app.get("/api/pending-rma-out", (req, res) => {
 app.get("/api/completed-rma-out", (req, res) => {
 
     const sql = `
-       SELECT DISTINCT ON (o.rma_no)
+        SELECT
              o.id,
             o.rma_no,
             s.center_name,
