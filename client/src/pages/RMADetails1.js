@@ -107,7 +107,7 @@ function RMADetails1() {
               <td style={{
                                     backgroundColor:
                                         item.status?.trim().toLowerCase() === "completed"
-                                            ? "#99970f"
+                                            ? "#1adab0"
                                             : "white"
                                 }}>{item.product_name}</td>
               <td>{item.model_number}</td>

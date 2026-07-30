@@ -159,7 +159,12 @@ const updateStatus = async () => {
           {data.map((item, index) => (
             <tr key={item.serial_no || index}>
               <td>{index + 1}</td>
-              <td>{item.product_name}</td>
+              <td style={{
+                                    backgroundColor:
+                                        item.status?.trim().toLowerCase() === "completed"
+                                            ? "#1adab0"
+                                            : "white"
+                                }}>{item.product_name}</td>
               <td>{item.model_number}</td>
               <td>
   {index === 0 ||
