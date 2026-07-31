@@ -2658,33 +2658,6 @@ app.get("/api/get1/:id", (req, res) => {
         res.json(result.rows);
     });
 });
-// app.put("/api/update1/:id", (req, res) => {
-
-//     const { id } = req.params;
-
-//     const {
-//         product_name,
-//         model_no,
-//         serial_no,
-//         replacement_serial_no
-//     } = req.body;
-
-//     const sql =
-//         "UPDATE supporter SET product_name=$1, model_no=$2, serial_no=$3,replacement_serial_no=$4 WHERE id=$5";
-
-//     db.query(
-//         sql,
-//         [product_name, model_no, serial_no,replacement_serial_no, id],
-//         (err, result) => {
-
-//             if (err) {
-//                 console.log(err);
-//             }
-
-//             res.json(result.rows);
-//         }
-//     );
-// });
 
 app.put("/api/update1/:id", (req, res) => {
 
@@ -2980,6 +2953,37 @@ app.get("/api/supporter-list", (req, res) => {
 
         if (err) {
             console.log("SUPPORTER LIST ERROR:", err);
+            return res.status(500).json({
+                success: false,
+                error: err.message
+            });
+        }
+
+        res.json(result.rows);
+    });
+});
+
+
+app.get("/api/supporter-status-history/:supporterId", (req, res) => {
+
+    const { supporterId } = req.params;
+
+    const sql = `
+        SELECT
+            id,
+            supporter_id,
+            status,
+            status_date
+        FROM supporter_status_history
+        WHERE supporter_id = $1
+        ORDER BY status_date ASC
+    `;
+
+    db.query(sql, [supporterId], (err, result) => {
+
+        if (err) {
+            console.log("SUPPORTER HISTORY ERROR:", err);
+
             return res.status(500).json({
                 success: false,
                 error: err.message

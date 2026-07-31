@@ -11,6 +11,7 @@ function RMADetails() {
 
   const [data, setData] = useState([]);
      const [supporterData, setSupporterData] = useState([]);
+     const [supporterHistory, setSupporterHistory] = useState([]);
       const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,14 +39,35 @@ function RMADetails() {
 
  const loadSupporter = async (serialNo) => {
 
+    try {
+
         const res = await axios.get(
             `https://smazo.onrender.com/api/supporter-by-serial/${serialNo}`
         );
-        
-           console.log(res.data);  
+
+        console.log("Supporter:", res.data);
 
         setSupporterData(res.data);
-    };
+
+        if (res.data.length > 0) {
+
+            const supporterId = res.data[0].id;
+
+            const historyRes = await axios.get(
+                `https://smazo.onrender.com/api/supporter-status-history/${supporterId}`
+            );
+
+            console.log("Supporter History:", historyRes.data);
+
+            setSupporterHistory(historyRes.data);
+        }
+
+    } catch (err) {
+
+        console.log("Supporter loading error:", err);
+
+    }
+};
 
 
 const updateStatus = async () => {
@@ -142,6 +164,69 @@ const updateStatus = async () => {
                             >
                                 {row.return_status}
                             </span>
+                        </td>
+
+                    </tr>
+
+                ))}
+
+            </tbody>
+
+        </table>
+
+    </div>
+)}
+
+{supporterHistory.length > 0 && (
+    <div className="mt-4">
+
+        <h3>Return Status History</h3>
+
+        <table className="table table-bordered">
+
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+              //history table
+
+                {supporterHistory.map((item, index) => (
+
+                    <tr key={item.id}>
+
+                        <td>
+                            {index + 1}
+                        </td>
+
+                        <td>
+                            <span
+                                style={{
+                                    padding: "6px 12px",
+                                    borderRadius: "6px",
+                                    backgroundColor:
+                                        item.status === "Returned"
+                                            ? "#1adab0"
+                                            : "#ffc107",
+                                    color:
+                                        item.status === "Returned"
+                                            ? "white"
+                                            : "black",
+                                    fontWeight: "600"
+                                }}
+                            >
+                                {item.status}
+                            </span>
+                        </td>
+
+                        <td>
+                            {new Date(
+                                item.status_date
+                            ).toLocaleString()}
                         </td>
 
                     </tr>
