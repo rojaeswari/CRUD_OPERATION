@@ -685,12 +685,15 @@ app.get("/test", (req, res) => {
 
 
 app.get("/api/customers", (req, res) => {
+
     const sql = `
         SELECT id, customer_name
         FROM customer_details
+        ORDER BY customer_name ASC
     `;
 
     db.query(sql, (err, result) => {
+
         if (err) {
             console.log(err);
             return res.status(500).json(err);
@@ -698,8 +701,8 @@ app.get("/api/customers", (req, res) => {
 
         res.json(result.rows);
     });
-});
 
+});
 
 app.get("/api/pdf/:rmaNo", (req, res) => {
 

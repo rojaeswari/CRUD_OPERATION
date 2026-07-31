@@ -117,17 +117,23 @@ const Supporter = () => {
                     onChange={handleInputChange}
                 >
                     <option value="">
-                        Select Customer
-                    </option>
+    Select Customer
+</option>
 
-                    {customers.map((customer) => (
-                        <option
-                            key={customer.id}
-                            value={customer.id}
-                        >
-                            {customer.customer_name}
-                        </option>
-                    ))}
+{[...customers]
+    .sort((a, b) =>
+        a.customer_name.localeCompare(
+            b.customer_name
+        )
+    )
+    .map((customer) => (
+        <option
+            key={customer.id}
+            value={customer.id}
+        >
+            {customer.customer_name}
+        </option>
+    ))}
                 </select>
 
                 {/* <label>ID</label>
