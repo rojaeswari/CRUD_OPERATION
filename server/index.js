@@ -1724,11 +1724,152 @@ app.get("/reminders_ls", (req, res) => {
 
 });
 
+// app.post("/update-status_ls/:item_id", (req, res) => {
+
+//     const item_id = req.params.item_id;
+//     console.log("PARAMS:", req.params);
+//     console.log("BODY:", req.body);
+//     const {
+//         status,
+//         status_text,
+//         reminder_id,
+//         updated_by
+//     } = req.body;
+
+//     console.log("item_id:", item_id);
+//     console.log("reminder_id:", reminder_id);
+//     console.log("body:", req.body);
+//     //check before the status already completed or not
+//     const checkStatusSql = `
+//     SELECT status
+//     FROM rma_items1
+//     WHERE id = $1
+// `;
+
+//     db.query(checkStatusSql, [item_id], (err, result) => {
+
+//         if (err) {
+//             return res.status(500).json(err);
+//         }
+
+//         if (result.rows.length === 0) {
+//             return res.status(404).json({
+//                 message: "Item not found"
+//             });
+//         }
+//         result.rows[0]
+
+//         if (
+//             result.rows[0].status &&
+//             result.rows[0].status.toLowerCase() === "completed"
+//         ) {
+//             return res.status(400).json({
+//                 message: "Status already completed. Cannot update again."
+//             });
+//         }
+//         // 1. update item
+//         const updateSql = `
+//         UPDATE rma_items1
+//         SET status = COALESCE(NULLIF($1, ''), status)
+//         WHERE id = $2
+//     `;
+//         if (!status || status.trim() === "") {
+//             return res.status(400).json({
+//                 message: "Please select a status"
+//             });
+//         }
+
+//         db.query(updateSql, [status, item_id], (err) => {
+//             if (err) return res.status(500).json(err);
+//             // Check whether all serials under this RMA are completed
+//             const checkSql = `
+//         SELECT rma_id
+//         FROM rma_items1
+//         WHERE id = $1
+//     `;
+
+//             db.query(checkSql, [item_id], (err, result) => {
+
+//                 if (err) return res.status(500).json(err);
+
+//                 const rmaId = result.rows[0].rma_id;
+
+//                 const pendingSql = `
+//             SELECT COUNT(*) AS pendingcount
+//             FROM rma_items1
+//             WHERE rma_id = $1
+//             AND status <> 'Completed'
+//         `;
+
+//                 db.query(pendingSql, [rmaId], (err, result) => {
+
+//                     if (err) return res.status(500).json(err);
+
+//                     if (Number(result.rows[0].pendingcount) === 0) {
+
+//                         const completeSql = `
+//                     UPDATE rma_out
+//                     SET status = 'Completed'
+//                     WHERE id = $1
+//                 `;
+
+//                         db.query(completeSql, [rmaId]);
+//                     }
+
+//                     // res.json({
+//                     //     success: true
+//                     // });
+
+//                 });
+
+//             });
+
+
+
+
+//             // 2. history
+//             const historySql = `
+//             INSERT INTO rma_status_history
+//             (rma_item_id, status, status_text,updated_by)
+//             VALUES ($1,$2,$3,$4)
+//         `;
+
+//             db.query(historySql, [item_id, status, status_text, updated_by]);
+
+//             // 3. STOP ONLY THIS SERIAL IF COMPLETE
+//             // Mark ONLY the clicked reminder as handled
+//             const reminderSql = `
+//     UPDATE rma_reminders1
+//     SET is_read = 1
+//     WHERE id = $1
+// `;
+
+//             db.query(reminderSql, [reminder_id]);
+
+//             // If status = complete, stop all reminders for this serial number
+//             if (status.toLowerCase() === "completed") {
+
+//                 const clearSql = `
+//         UPDATE rma_reminders1
+//         SET is_read = 1
+//         WHERE rma_item_id = $1
+//     `;
+
+//                 db.query(clearSql, [item_id]);
+//             }
+
+
+//             res.json({ success: true });
+//         });
+//     });
+// });
+
+//new rma outward
+
 app.post("/update-status_ls/:item_id", (req, res) => {
 
     const item_id = req.params.item_id;
-    console.log("PARAMS:", req.params);
-    console.log("BODY:", req.body);
+
     const {
         status,
         status_text,
@@ -1736,19 +1877,20 @@ app.post("/update-status_ls/:item_id", (req, res) => {
         updated_by
     } = req.body;
 
-    console.log("item_id:", item_id);
-    console.log("reminder_id:", reminder_id);
-    console.log("body:", req.body);
-    //check before the status already completed or not
+    console.log("OUTWARD PARAMS:", req.params);
+    console.log("OUTWARD BODY:", req.body);
+
+    // 1. Check current status + RMA ID
     const checkStatusSql = `
-    SELECT status
-    FROM rma_items1
-    WHERE id = $1
-`;
+        SELECT status, rma_id
+        FROM rma_items1
+        WHERE id = $1
+    `;
 
     db.query(checkStatusSql, [item_id], (err, result) => {
 
         if (err) {
+            console.log(err);
             return res.status(500).json(err);
         }
 
@@ -1757,111 +1899,236 @@ app.post("/update-status_ls/:item_id", (req, res) => {
                 message: "Item not found"
             });
         }
-        result.rows[0]
 
+        const currentStatus = result.rows[0].status;
+        const rmaId = result.rows[0].rma_id;
+
+        // 2. Already completed check
         if (
-            result.rows[0].status &&
-            result.rows[0].status.toLowerCase() === "completed"
+            currentStatus &&
+            currentStatus.trim().toLowerCase() === "completed"
         ) {
             return res.status(400).json({
-                message: "Status already completed. Cannot update again."
+                message:
+                    "Status already completed. Cannot update again."
             });
         }
-        // 1. update item
-        const updateSql = `
-        UPDATE rma_items1
-        SET status = COALESCE(NULLIF($1, ''), status)
-        WHERE id = $2
-    `;
+
+        // 3. Status required
         if (!status || status.trim() === "") {
             return res.status(400).json({
                 message: "Please select a status"
             });
         }
 
-        db.query(updateSql, [status, item_id], (err) => {
-            if (err) return res.status(500).json(err);
-            // Check whether all serials under this RMA are completed
-            const checkSql = `
-        SELECT rma_id
-        FROM rma_items1
-        WHERE id = $1
-    `;
-
-            db.query(checkSql, [item_id], (err, result) => {
-
-                if (err) return res.status(500).json(err);
-
-                const rmaId = result.rows[0].rma_id;
-
-                const pendingSql = `
-            SELECT COUNT(*) AS pendingcount
-            FROM rma_items1
-            WHERE rma_id = $1
-            AND status <> 'Completed'
+        // 4. Update item status
+        const updateSql = `
+            UPDATE rma_items1
+            SET status = COALESCE(NULLIF($1, ''), status)
+            WHERE id = $2
         `;
 
-                db.query(pendingSql, [rmaId], (err, result) => {
+        db.query(
+            updateSql,
+            [status, item_id],
+            (err) => {
 
-                    if (err) return res.status(500).json(err);
+                if (err) {
+                    console.log("STATUS UPDATE ERROR:", err);
+                    return res.status(500).json(err);
+                }
 
-                    if (Number(result.rows[0].pendingcount) === 0) {
-
-                        const completeSql = `
-                    UPDATE rma_out
-                    SET status = 'Completed'
-                    WHERE id = $1
+                // 5. Save history
+                const historySql = `
+                    INSERT INTO rma_status_history
+                    (
+                        rma_item_id,
+                        status,
+                        status_text,
+                        updated_by
+                    )
+                    VALUES ($1, $2, $3, $4)
                 `;
 
-                        db.query(completeSql, [rmaId]);
+                db.query(
+                    historySql,
+                    [
+                        item_id,
+                        status,
+                        status_text,
+                        updated_by
+                    ],
+                    (historyErr) => {
+
+                        if (historyErr) {
+                            console.log(
+                                "HISTORY ERROR:",
+                                historyErr
+                            );
+
+                            return res
+                                .status(500)
+                                .json(historyErr);
+                        }
+
+                        // 6. Mark clicked reminder as read
+                        if (reminder_id) {
+
+                            db.query(
+                                `
+                                UPDATE rma_reminders1
+                                SET is_read = 1
+                                WHERE id = $1
+                                `,
+                                [reminder_id]
+                            );
+                        }
+
+                        // 7. If completed,
+                        // stop all reminders for this serial
+                        if (
+                            status.trim().toLowerCase() ===
+                            "completed"
+                        ) {
+
+                            db.query(
+                                `
+                                UPDATE rma_reminders1
+                                SET is_read = 1
+                                WHERE rma_item_id = $1
+                                `,
+                                [item_id]
+                            );
+                        }
+
+                        // 8. Check ALL products
+                        // under same RMA
+                        const pendingSql = `
+                            SELECT
+                                COUNT(*) AS total_items,
+                                COUNT(*) FILTER (
+                                    WHERE LOWER(TRIM(status))
+                                    = 'completed'
+                                ) AS completed_items
+                            FROM rma_items1
+                            WHERE rma_id = $1
+                        `;
+
+                        db.query(
+                            pendingSql,
+                            [rmaId],
+                            (err, result) => {
+
+                                if (err) {
+                                    console.log(
+                                        "PENDING COUNT ERROR:",
+                                        err
+                                    );
+
+                                    return res
+                                        .status(500)
+                                        .json(err);
+                                }
+
+                                const totalItems =
+                                    Number(
+                                        result.rows[0]
+                                            .total_items
+                                    );
+
+                                const completedItems =
+                                    Number(
+                                        result.rows[0]
+                                            .completed_items
+                                    );
+
+                                console.log(
+                                    "OUTWARD RMA ID:",
+                                    rmaId
+                                );
+
+                                console.log(
+                                    "TOTAL ITEMS:",
+                                    totalItems
+                                );
+
+                                console.log(
+                                    "COMPLETED ITEMS:",
+                                    completedItems
+                                );
+
+                                // 9. ALL products completed
+                                if (
+                                    totalItems > 0 &&
+                                    totalItems ===
+                                        completedItems
+                                ) {
+
+                                    const completeSql = `
+                                        UPDATE rma_out
+                                        SET status = 'Completed'
+                                        WHERE id = $1
+                                    `;
+
+                                    db.query(
+                                        completeSql,
+                                        [rmaId],
+                                        (err) => {
+
+                                            if (err) {
+                                                console.log(
+                                                    "RMA OUT UPDATE ERROR:",
+                                                    err
+                                                );
+
+                                                return res
+                                                    .status(500)
+                                                    .json(err);
+                                            }
+
+                                            console.log(
+                                                "RMA OUT COMPLETED:",
+                                                rmaId
+                                            );
+
+                                            return res.json({
+                                                success: true,
+                                                rmaStatus:
+                                                    "Completed",
+                                                totalItems:
+                                                    totalItems,
+                                                completedItems:
+                                                    completedItems
+                                            });
+                                        }
+                                    );
+
+                                } else {
+
+                                    // Some products still pending
+                                    return res.json({
+                                        success: true,
+                                        rmaStatus:
+                                            "Pending",
+                                        totalItems:
+                                            totalItems,
+                                        completedItems:
+                                            completedItems
+                                    });
+
+                                }
+
+                            }
+                        );
+
                     }
+                );
 
-                    // res.json({
-                    //     success: true
-                    // });
-
-                });
-
-            });
-
-
-
-
-            // 2. history
-            const historySql = `
-            INSERT INTO rma_status_history
-            (rma_item_id, status, status_text,updated_by)
-            VALUES ($1,$2,$3,$4)
-        `;
-
-            db.query(historySql, [item_id, status, status_text, updated_by]);
-
-            // 3. STOP ONLY THIS SERIAL IF COMPLETE
-            // Mark ONLY the clicked reminder as handled
-            const reminderSql = `
-    UPDATE rma_reminders1
-    SET is_read = 1
-    WHERE id = $1
-`;
-
-            db.query(reminderSql, [reminder_id]);
-
-            // If status = complete, stop all reminders for this serial number
-            if (status.toLowerCase() === "completed") {
-
-                const clearSql = `
-        UPDATE rma_reminders1
-        SET is_read = 1
-        WHERE rma_item_id = $1
-    `;
-
-                db.query(clearSql, [item_id]);
             }
+        );
 
-
-            res.json({ success: true });
-        });
     });
+
 });
 
 app.post("/reminder-click/:id", (req, res) => {
