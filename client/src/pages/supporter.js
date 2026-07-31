@@ -9,13 +9,15 @@ const Supporter = () => {
     const navigate = useNavigate();
     const [serials, setSerials] = useState([]);
     // const [serialId, setSerialId] = useState("");
+    const [customers, setCustomers] = useState([]);
 
     const [state, setState] = useState({
         id: "",
         product_name: "",
         model_no: "",
         serial_no: "",
-        replacement_serial_no: ""
+        replacement_serial_no: "",
+        customer_id: ""
 
     });
 
@@ -44,6 +46,16 @@ const Supporter = () => {
                 setSerials(res.data);
             });
     }, [])
+    useEffect(() => {
+    axios
+        .get("https://smazo.onrender.com/api/customers")
+        .then((res) => {
+            setCustomers(res.data);
+        })
+        .catch((err) => {
+            console.log("Customer fetch error:", err);
+        });
+}, []);
 
 
 
@@ -83,6 +95,28 @@ const Supporter = () => {
             <h2>Add Product</h2>
 
             <form onSubmit={handleSubmit}>
+                 {/* Customer */}
+        <label>Customer</label>
+
+        <select
+            name="customer_id"
+            className="form-control"
+            value={state.customer_id}
+            onChange={handleInputChange}
+        >
+            <option value="">
+                Select Customer
+            </option>
+
+            {customers.map((customer) => (
+                <option
+                    key={customer.id}
+                    value={customer.id}
+                >
+                    {customer.customer_name}
+                </option>
+            ))}
+        </select>
 
                 {/* <label>ID</label>
                 <input

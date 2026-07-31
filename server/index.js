@@ -2529,23 +2529,49 @@ app.post("/api/post1", (req, res) => {
         product_name,
         model_no,
         serial_no,
-        replacement_serial_no
+        replacement_serial_no,
+        customer_id
     } = req.body;
 
-    const sql =
-        "INSERT INTO supporter(product_name, model_no, serial_no,replacement_serial_no) VALUES ($1, $2, $3,$4)";
+    const sql = `
+        INSERT INTO supporter
+        (
+            product_name,
+            model_no,
+            serial_no,
+            replacement_serial_no,
+            customer_id,
+            return_status
+        )
+        VALUES ($1, $2, $3, $4, $5, 'Not Returned')
+        RETURNING *
+    `;
 
     db.query(
         sql,
-        [product_name, model_no, serial_no,replacement_serial_no],
+        [
+            product_name,
+            model_no,
+            serial_no,
+            replacement_serial_no,
+            customer_id
+        ],
         (err, result) => {
 
             if (err) {
-                console.log(err);
-                return res.status(500).send(err);
+                console.log("SUPPORTER INSERT ERROR:", err);
+                return res.status(500).json({
+                    success: false,
+                    error: err.message
+                });
             }
 
-            res.json(result.rows);
+            console.log("SUPPORTER SAVED:", result.rows[0]);
+
+            res.json({
+                success: true,
+                data: result.rows[0]
+            });
         }
     );
 });
@@ -2653,12 +2679,45 @@ app.get("/api/supporter-by-serial/:serialNo", (req, res) => {
             return res.status(500).json(err);
         }
 
-        console.log(result.rows); // ✅ correct
+        console.log(result.rows); 
 
         res.json(result.rows);
 
     });
 
+});
+
+
+app.get("/api/supporter-list", (req, res) => {
+
+    const sql = `
+        SELECT
+            s.id,
+            s.product_name,
+            s.model_no,
+            s.serial_no,
+            s.replacement_serial_no,
+            s.return_status,
+            s.customer_id,
+            c.customer_name
+        FROM supporter s
+        LEFT JOIN customer_details c
+            ON s.customer_id = c.id
+        ORDER BY s.id DESC
+    `;
+
+    db.query(sql, (err, result) => {
+
+        if (err) {
+            console.log("SUPPORTER LIST ERROR:", err);
+            return res.status(500).json({
+                success: false,
+                error: err.message
+            });
+        }
+
+        res.json(result.rows);
+    });
 });
 
 app.get("/api/pending-count", (req, res) => {
