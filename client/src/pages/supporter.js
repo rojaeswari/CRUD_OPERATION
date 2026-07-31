@@ -10,6 +10,7 @@ const Supporter = () => {
     const [serials, setSerials] = useState([]);
     // const [serialId, setSerialId] = useState("");
     const [customers, setCustomers] = useState([]);
+    const [products, setProducts] = useState([]);
 
     const [state, setState] = useState({
         id: "",
@@ -57,7 +58,18 @@ const Supporter = () => {
         });
 }, []);
 
+useEffect(() => {
 
+    axios
+        .get("https://smazo.onrender.com/api/products")
+        .then((res) => {
+            setProducts(res.data);
+        })
+        .catch((err) => {
+            console.log("Product fetch error:", err);
+        });
+
+}, []);
 
 
 
@@ -127,14 +139,27 @@ const Supporter = () => {
                     onChange={handleInputChange}
                 /> */}
 
-                <label>Product Name</label>
-                <input
-                    type="text"
-                    name="product_name"
-                    placeholder="Enter Product Name"
-                    value={state.product_name}
-                    onChange={handleInputChange}
-                />
+               <label>Product Name</label>
+
+<select
+    name="product_name"
+    className="form-control"
+    value={state.product_name}
+    onChange={handleInputChange}
+>
+    <option value="">
+        Select Product
+    </option>
+
+    {products.map((product) => (
+        <option
+            key={product.id}
+            value={product.product_name}
+        >
+            {product.product_name}
+        </option>
+    ))}
+</select>
 
                 <label>Model No</label>
                 <input

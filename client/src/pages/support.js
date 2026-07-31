@@ -77,7 +77,7 @@ const Support = () => {
                 </Link>
                 <Link to="/products">
         <button className="add-btn">
-            Product Master
+            Product Names
         </button>
     </Link>
 
