@@ -2518,6 +2518,7 @@ app.get("/api/get1", (req, res) => {
             s.serial_no,
             s.replacement_serial_no,
             s.customer_id,
+            s.return_status,
             c.customer_name
         FROM supporter s
         LEFT JOIN customer_details c
@@ -2528,11 +2529,9 @@ app.get("/api/get1", (req, res) => {
     db.query(sql, (err, result) => {
 
         if (err) {
-            console.log("MYSQL ERROR:", err);
+            console.log("DATABASE ERROR:", err);
             return res.status(500).json(err);
         }
-
-        console.log("RESULT:", result.rows);
 
         res.json(result.rows);
     });
@@ -2630,34 +2629,83 @@ app.get("/api/get1/:id", (req, res) => {
         res.json(result.rows);
     });
 });
+// app.put("/api/update1/:id", (req, res) => {
+
+//     const { id } = req.params;
+
+//     const {
+//         product_name,
+//         model_no,
+//         serial_no,
+//         replacement_serial_no
+//     } = req.body;
+
+//     const sql =
+//         "UPDATE supporter SET product_name=$1, model_no=$2, serial_no=$3,replacement_serial_no=$4 WHERE id=$5";
+
+//     db.query(
+//         sql,
+//         [product_name, model_no, serial_no,replacement_serial_no, id],
+//         (err, result) => {
+
+//             if (err) {
+//                 console.log(err);
+//             }
+
+//             res.json(result.rows);
+//         }
+//     );
+// });
+
 app.put("/api/update1/:id", (req, res) => {
 
     const { id } = req.params;
 
     const {
+        customer_id,
         product_name,
         model_no,
         serial_no,
-        replacement_serial_no
+        replacement_serial_no,
+        return_status
     } = req.body;
 
-    const sql =
-        "UPDATE supporter SET product_name=$1, model_no=$2, serial_no=$3,replacement_serial_no=$4 WHERE id=$5";
+    const sql = `
+        UPDATE supporter
+        SET
+            customer_id = $1,
+            product_name = $2,
+            model_no = $3,
+            serial_no = $4,
+            replacement_serial_no = $5,
+            return_status = $6
+        WHERE id = $7
+    `;
 
     db.query(
         sql,
-        [product_name, model_no, serial_no,replacement_serial_no, id],
+        [
+            customer_id,
+            product_name,
+            model_no,
+            serial_no,
+            replacement_serial_no,
+            return_status,
+            id
+        ],
         (err, result) => {
 
             if (err) {
-                console.log(err);
+                console.log("UPDATE ERROR:", err);
+                return res.status(500).json(err);
             }
 
-            res.json(result.rows);
+            res.json({
+                message: "Product Updated Successfully"
+            });
         }
     );
 });
-
 
 app.delete("/api/remove1/:id", (req, res) => {
 

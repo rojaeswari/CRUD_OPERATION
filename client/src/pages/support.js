@@ -42,6 +42,24 @@ const Support = () => {
         }
     }
 };
+const updateReturnStatus = async (id, status) => {
+    try {
+        await axios.put(
+            `https://smazo.onrender.com/api/update-return-status/${id}`,
+            {
+                return_status: status
+            }
+        );
+
+        alert("Return Status Updated Successfully");
+
+        loadData();
+
+    } catch (err) {
+        console.log(err);
+        alert("Return Status Update Failed");
+    }
+};
 
 
 
@@ -74,6 +92,7 @@ const Support = () => {
                         <th style={{ textAlign: "center" }}>Model No</th>
                         <th style={{ textAlign: "center" }}> Serial No</th>
                         <th style={{ textAlign: "center" }}>  Replacement Serial No</th>
+                        <th style={{ textAlign: "center" }}>Return Status</th>
                         <th style={{ textAlign: "center" }}> Action</th>
                     </tr>
                 </thead>
@@ -87,6 +106,22 @@ const Support = () => {
                             <td>{item.model_no}</td>
                             <td>{item.serial_no}</td>
                             <td>{item.replacement_serial_no}</td>
+                            <td>
+    <select
+        value={item.return_status || "Not Returned"}
+        onChange={(e) =>
+            updateReturnStatus(item.id, e.target.value)
+        }
+    >
+        <option value="Not Returned">
+            Not Returned
+        </option>
+
+        <option value="Returned">
+            Returned
+        </option>
+    </select>
+</td>
 
                             <td>
                                 <Link to={`/supporter/${item.id}`}>
