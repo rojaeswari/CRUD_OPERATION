@@ -2581,12 +2581,41 @@ app.post("/api/post1", (req, res) => {
                 });
             }
 
-            console.log("SUPPORTER SAVED:", result.rows[0]);
+            const supporter = result.rows[0];
 
-            res.json({
-                success: true,
-                data: result.rows[0]
-            });
+            // Initial status history
+            const historySql = `
+                INSERT INTO supporter_status_history
+                (
+                    supporter_id,
+                    status
+                )
+                VALUES ($1, $2)
+            `;
+
+            db.query(
+                historySql,
+                [supporter.id, "Not Returned"],
+                (historyErr) => {
+
+                    if (historyErr) {
+                        console.log(
+                            "HISTORY INSERT ERROR:",
+                            historyErr
+                        );
+
+                        return res.status(500).json({
+                            success: false,
+                            error: historyErr.message
+                        });
+                    }
+
+                    res.json({
+                        success: true,
+                        data: supporter
+                    });
+                }
+            );
         }
     );
 });
@@ -2712,14 +2741,15 @@ app.put("/api/update-return-status/:id", (req, res) => {
     const { id } = req.params;
     const { return_status } = req.body;
 
-    const sql = `
+    const updateSql = `
         UPDATE supporter
         SET return_status = $1
         WHERE id = $2
+        RETURNING *
     `;
 
     db.query(
-        sql,
+        updateSql,
         [return_status, id],
         (err, result) => {
 
@@ -2732,13 +2762,105 @@ app.put("/api/update-return-status/:id", (req, res) => {
                 });
             }
 
-            res.json({
-                success: true,
-                message: "Return Status Updated Successfully"
-            });
+            const historySql = `
+                INSERT INTO supporter_status_history
+                (
+                    supporter_id,
+                    status
+                )
+                VALUES ($1, $2)
+            `;
+
+            db.query(
+                historySql,
+                [id, return_status],
+                (historyErr) => {
+
+                    if (historyErr) {
+                        console.log(
+                            "STATUS HISTORY ERROR:",
+                            historyErr
+                        );
+
+                        return res.status(500).json({
+                            success: false,
+                            error: historyErr.message
+                        });
+                    }
+
+                    res.json({
+                        success: true,
+                        message: "Return Status Updated Successfully"
+                    });
+                }
+            );
         }
     );
 });
+
+//view supporter page
+app.get("/api/supporter-view/:id", (req, res) => {
+
+    const { id } = req.params;
+
+    const productSql = `
+        SELECT
+            s.id,
+            s.product_name,
+            s.model_no,
+            s.serial_no,
+            s.replacement_serial_no,
+            s.return_status,
+            s.customer_id,
+            c.customer_name
+        FROM supporter s
+        LEFT JOIN customer_details c
+            ON s.customer_id = c.id
+        WHERE s.id = $1
+    `;
+
+    db.query(productSql, [id], (err, productResult) => {
+
+        if (err) {
+            console.log("PRODUCT VIEW ERROR:", err);
+            return res.status(500).json(err);
+        }
+
+        if (productResult.rows.length === 0) {
+            return res.status(404).json({
+                message: "Product not found"
+            });
+        }
+
+        const historySql = `
+            SELECT
+                id,
+                status,
+                status_date
+            FROM supporter_status_history
+            WHERE supporter_id = $1
+            ORDER BY status_date ASC
+        `;
+
+        db.query(
+            historySql,
+            [id],
+            (historyErr, historyResult) => {
+
+                if (historyErr) {
+                    console.log("HISTORY VIEW ERROR:", historyErr);
+                    return res.status(500).json(historyErr);
+                }
+
+                res.json({
+                    product: productResult.rows[0],
+                    history: historyResult.rows
+                });
+            }
+        );
+    });
+});
+
 
 app.delete("/api/remove1/:id", (req, res) => {
 

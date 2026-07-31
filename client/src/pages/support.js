@@ -25,41 +25,41 @@ const Support = () => {
 
 
     const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete?")) {
+        if (window.confirm("Are you sure you want to delete?")) {
 
+            try {
+                await axios.delete(
+                    `https://smazo.onrender.com/api/remove1/${id}`
+                );
+
+                // alert("Product Deleted Successfully");
+
+                loadData();
+
+            } catch (err) {
+                console.log(err);
+                alert("Delete Failed");
+            }
+        }
+    };
+    const updateReturnStatus = async (id, status) => {
         try {
-            await axios.delete(
-                `https://smazo.onrender.com/api/remove1/${id}`
+            await axios.put(
+                `https://smazo.onrender.com/api/update-return-status/${id}`,
+                {
+                    return_status: status
+                }
             );
 
-            // alert("Product Deleted Successfully");
+            alert("Return Status Updated Successfully");
 
             loadData();
 
         } catch (err) {
             console.log(err);
-            alert("Delete Failed");
+            alert("Return Status Update Failed");
         }
-    }
-};
-const updateReturnStatus = async (id, status) => {
-    try {
-        await axios.put(
-            `https://smazo.onrender.com/api/update-return-status/${id}`,
-            {
-                return_status: status
-            }
-        );
-
-        alert("Return Status Updated Successfully");
-
-        loadData();
-
-    } catch (err) {
-        console.log(err);
-        alert("Return Status Update Failed");
-    }
-};
+    };
 
 
 
@@ -87,7 +87,7 @@ const updateReturnStatus = async (id, status) => {
                 <thead>
                     <tr>
                         <th style={{ textAlign: "center" }}>S.NO</th>
-                         <th style={{ textAlign: "center" }}> Customer Name</th>
+                        <th style={{ textAlign: "center" }}> Customer Name</th>
                         <th style={{ textAlign: "center" }}>Product Name</th>
                         <th style={{ textAlign: "center" }}>Model No</th>
                         <th style={{ textAlign: "center" }}> Serial No</th>
@@ -102,31 +102,36 @@ const updateReturnStatus = async (id, status) => {
                         <tr key={item.id}>
                             <td>{index + 1}</td>
                             <td>{item.customer_name}</td>
-                            <td>{item.product_name}</td> 
+                            <td>{item.product_name}</td>
                             <td>{item.model_no}</td>
                             <td>{item.serial_no}</td>
                             <td>{item.replacement_serial_no}</td>
                             <td>
-    <select
-        value={item.return_status || "Not Returned"}
-        onChange={(e) =>
-            updateReturnStatus(item.id, e.target.value)
-        }
-    >
-        <option value="Not Returned">
-            Not Returned
-        </option>
+                                <select
+                                    value={item.return_status || "Not Returned"}
+                                    onChange={(e) =>
+                                        updateReturnStatus(item.id, e.target.value)
+                                    }
+                                >
+                                    <option value="Not Returned">
+                                        Not Returned
+                                    </option>
 
-        <option value="Returned">
-            Returned
-        </option>
-    </select>
-</td>
+                                    <option value="Returned">
+                                        Returned
+                                    </option>
+                                </select>
+                            </td>
 
                             <td>
                                 <Link to={`/supporter/${item.id}`}>
                                     <button className="btn-edit">
                                         Edit
+                                    </button>
+                                </Link>
+                                <Link to={`/supporter-view/${item.id}`}>
+                                    <button className="btn-view">
+                                        View
                                     </button>
                                 </Link>
 
