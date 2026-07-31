@@ -82,8 +82,8 @@ const Support = () => {
                     {data.map((item, index) => (
                         <tr key={item.id}>
                             <td>{index + 1}</td>
-                            <td>{item.product_name}</td>
                             <td>{item.customer_name}</td>
+                            <td>{item.product_name}</td> 
                             <td>{item.model_no}</td>
                             <td>{item.serial_no}</td>
                             <td>{item.replacement_serial_no}</td>
