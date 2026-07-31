@@ -108,19 +108,20 @@ const Support = () => {
                             <td>{item.replacement_serial_no}</td>
                             <td>
                                 <select
-                                    value={item.return_status || "Not Returned"}
-                                    onChange={(e) =>
-                                        updateReturnStatus(item.id, e.target.value)
-                                    }
-                                >
-                                    <option value="Not Returned">
-                                        Not Returned
-                                    </option>
+    value={item.return_status || "Not Returned"}
+    onChange={(e) =>
+        updateReturnStatus(item.id, e.target.value)
+    }
+    disabled={item.return_status === "Returned"}
+>
+    <option value="Not Returned">
+        Not Returned
+    </option>
 
-                                    <option value="Returned">
-                                        Returned
-                                    </option>
-                                </select>
+    <option value="Returned">
+        Returned
+    </option>
+</select>
                             </td>
 
                             <td>

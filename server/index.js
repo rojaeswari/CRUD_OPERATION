@@ -2741,62 +2741,113 @@ app.put("/api/update-return-status/:id", (req, res) => {
     const { id } = req.params;
     const { return_status } = req.body;
 
-    const updateSql = `
-        UPDATE supporter
-        SET return_status = $1
-        WHERE id = $2
-        RETURNING *
+    // Check current status
+    const checkSql = `
+        SELECT return_status
+        FROM supporter
+        WHERE id = $1
     `;
 
-    db.query(
-        updateSql,
-        [return_status, id],
-        (err, result) => {
+    db.query(checkSql, [id], (checkErr, checkResult) => {
 
-            if (err) {
-                console.log("RETURN STATUS UPDATE ERROR:", err);
+        if (checkErr) {
+            console.log(checkErr);
 
-                return res.status(500).json({
-                    success: false,
-                    error: err.message
-                });
-            }
+            return res.status(500).json({
+                success: false,
+                error: checkErr.message
+            });
+        }
 
-            const historySql = `
-                INSERT INTO supporter_status_history
-                (
-                    supporter_id,
-                    status
-                )
-                VALUES ($1, $2)
-            `;
+        if (checkResult.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found"
+            });
+        }
 
-            db.query(
-                historySql,
-                [id, return_status],
-                (historyErr) => {
+        const currentStatus = checkResult.rows[0].return_status;
 
-                    if (historyErr) {
-                        console.log(
-                            "STATUS HISTORY ERROR:",
-                            historyErr
-                        );
+        // Already Returned
+        if (currentStatus === "Returned") {
 
-                        return res.status(500).json({
-                            success: false,
-                            error: historyErr.message
-                        });
-                    }
+            return res.status(400).json({
+                success: false,
+                message: "This product is already returned"
+            });
+        }
 
-                    res.json({
-                        success: true,
-                        message: "Return Status Updated Successfully"
+        // Only allow Not Returned -> Returned
+        if (
+            currentStatus === "Not Returned" &&
+            return_status !== "Returned"
+        ) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid status change"
+            });
+        }
+
+        // Update current status
+        const updateSql = `
+            UPDATE supporter
+            SET return_status = $1
+            WHERE id = $2
+            RETURNING *
+        `;
+
+        db.query(
+            updateSql,
+            [return_status, id],
+            (updateErr, updateResult) => {
+
+                if (updateErr) {
+                    console.log(updateErr);
+
+                    return res.status(500).json({
+                        success: false,
+                        error: updateErr.message
                     });
                 }
-            );
-        }
-    );
+
+                // Save history
+                const historySql = `
+                    INSERT INTO supporter_status_history
+                    (
+                        supporter_id,
+                        status
+                    )
+                    VALUES ($1, $2)
+                `;
+
+                db.query(
+                    historySql,
+                    [id, return_status],
+                    (historyErr) => {
+
+                        if (historyErr) {
+                            console.log(historyErr);
+
+                            return res.status(500).json({
+                                success: false,
+                                error: historyErr.message
+                            });
+                        }
+
+                        res.json({
+                            success: true,
+                            message: "Product Returned Successfully",
+                            data: updateResult.rows[0]
+                        });
+
+                    }
+                );
+            }
+        );
+    });
 });
+
 
 //view supporter page
 app.get("/api/supporter-view/:id", (req, res) => {
