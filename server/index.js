@@ -2707,6 +2707,39 @@ app.put("/api/update1/:id", (req, res) => {
     );
 });
 
+app.put("/api/update-return-status/:id", (req, res) => {
+
+    const { id } = req.params;
+    const { return_status } = req.body;
+
+    const sql = `
+        UPDATE supporter
+        SET return_status = $1
+        WHERE id = $2
+    `;
+
+    db.query(
+        sql,
+        [return_status, id],
+        (err, result) => {
+
+            if (err) {
+                console.log("RETURN STATUS UPDATE ERROR:", err);
+
+                return res.status(500).json({
+                    success: false,
+                    error: err.message
+                });
+            }
+
+            res.json({
+                success: true,
+                message: "Return Status Updated Successfully"
+            });
+        }
+    );
+});
+
 app.delete("/api/remove1/:id", (req, res) => {
 
     const { id } = req.params;
