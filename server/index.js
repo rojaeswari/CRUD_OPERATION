@@ -3043,6 +3043,73 @@ app.get("/api/products", (req, res) => {
         res.json(result.rows);
     });
 });
+app.put("/api/products/:id", (req, res) => {
+
+    const { id } = req.params;
+    const { product_name } = req.body;
+
+    const sql = `
+        UPDATE products
+        SET product_name = $1
+        WHERE id = $2
+        RETURNING *
+    `;
+
+    db.query(
+        sql,
+        [product_name, id],
+        (err, result) => {
+
+            if (err) {
+                console.log("PRODUCT UPDATE ERROR:", err);
+
+                return res.status(500).json({
+                    success: false,
+                    error: err.message
+                });
+            }
+
+            if (result.rows.length === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Product not found"
+                });
+            }
+
+            res.json({
+                success: true,
+                data: result.rows[0]
+            });
+        }
+    );
+});
+
+app.delete("/api/products/:id", (req, res) => {
+
+    const { id } = req.params;
+
+    const sql = `
+        DELETE FROM products
+        WHERE id = $1
+    `;
+
+    db.query(sql, [id], (err, result) => {
+
+        if (err) {
+            console.log("PRODUCT DELETE ERROR:", err);
+
+            return res.status(500).json({
+                success: false,
+                error: err.message
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Product Deleted Successfully"
+        });
+    });
+});
 
 app.get("/api/pending-count", (req, res) => {
 
