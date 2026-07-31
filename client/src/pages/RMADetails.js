@@ -96,28 +96,60 @@ const updateStatus = async () => {
         <h3>Supporter Details</h3>
 
         <table className="table table-bordered">
+
             <thead>
                 <tr>
                     <th>S.No</th>
                     <th>Product Name</th>
                     <th>Model No</th>
                     <th>Serial No</th>
-                     <th> Replacement Serial No</th>
-
+                    <th>Replacement Serial No</th>
+                    <th>Return Status</th>
                 </tr>
             </thead>
 
             <tbody>
+
                 {supporterData.map((row, index) => (
+
                     <tr key={row.id}>
+
                         <td>{index + 1}</td>
+
                         <td>{row.product_name}</td>
+
                         <td>{row.model_no}</td>
+
                         <td>{row.serial_no}</td>
+
                         <td>{row.replacement_serial_no}</td>
+
+                        <td>
+                            <span
+                                style={{
+                                    padding: "6px 12px",
+                                    borderRadius: "6px",
+                                    backgroundColor:
+                                        row.return_status === "Returned"
+                                            ? "#1adab0"
+                                            : "#ffc107",
+                                    color:
+                                        row.return_status === "Returned"
+                                            ? "white"
+                                            : "black",
+                                    fontWeight: "600"
+                                }}
+                            >
+                                {row.return_status}
+                            </span>
+                        </td>
+
                     </tr>
+
                 ))}
+
             </tbody>
+
         </table>
 
     </div>
