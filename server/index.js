@@ -4526,6 +4526,54 @@ app.get("/api/rmaout/search", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+//new rma entry list complete first
+
+app.get("/api/rma-list", (req, res) => {
+
+    const sql = `
+        SELECT
+            r.rma_no,
+            MAX(c.customer_name) AS customer_name,
+            MAX(r.customer_dc_no) AS customer_dc_no,
+            STRING_AGG(r.product_name, ', ') AS product_name,
+            STRING_AGG(r.model_number, ', ') AS model_number,
+            MAX(r.entry_date) AS entry_date,
+            MAX(r.status) AS status,
+            MAX(r.id) AS latest_id
+
+        FROM rma_entry1 r
+
+        LEFT JOIN customer_details c
+            ON r.customer_id = c.id
+
+        GROUP BY r.rma_no
+
+        ORDER BY
+            CASE
+                WHEN LOWER(TRIM(MAX(r.status))) = 'completed'
+                THEN 1
+                ELSE 2
+            END,
+            MAX(r.id) DESC
+    `;
+
+    db.query(sql, (err, result) => {
+
+        if (err) {
+            console.log("RMA LIST ERROR:", err);
+
+            return res.status(500).json({
+                success: false,
+                error: err.message
+            });
+        }
+
+        res.json(result.rows);
+    });
+
+});
+
+
 
 
 const PORT = process.env.PORT || 5000;
