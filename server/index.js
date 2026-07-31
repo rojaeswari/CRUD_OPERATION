@@ -4573,7 +4573,54 @@ app.get("/api/rma-list", (req, res) => {
 
 });
 
+// new rma out complete first
+app.get("/api/rma-out-list", (req, res) => {
 
+    const sql = `
+        SELECT
+            o.rma_no,
+            MAX(s.center_name) AS center_name,
+            MAX(o.quantity_no) AS quantity_no,
+            MAX(o.entry_date) AS entry_date,
+            STRING_AGG(i.product_name, ', ') AS product_name,
+            STRING_AGG(i.model_number, ', ') AS model_number,
+            MAX(o.status) AS status,
+            MAX(o.id) AS latest_id
+
+        FROM rma_out o
+
+        LEFT JOIN services_details s
+            ON o.services_id = s.id
+
+        LEFT JOIN rma_items1 i
+            ON o.id = i.rma_id
+
+        GROUP BY o.rma_no
+
+        ORDER BY
+            CASE
+                WHEN LOWER(TRIM(MAX(o.status))) = 'completed'
+                THEN 1
+                ELSE 2
+            END,
+            MAX(o.id) DESC
+    `;
+
+    db.query(sql, (err, result) => {
+
+        if (err) {
+            console.log("RMA OUT LIST ERROR:", err);
+
+            return res.status(500).json({
+                success: false,
+                error: err.message
+            });
+        }
+
+        res.json(result.rows);
+    });
+
+});
 
 
 const PORT = process.env.PORT || 5000;

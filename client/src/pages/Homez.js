@@ -339,15 +339,34 @@ Entry Date: ${item.entry_date}
     };
 
 
-    const filteredData = data.filter((item) => {
-  const searchText = search.toLowerCase();
+   const filteredData = [...data]
+  .filter((item) => {
+    const searchText = search.toLowerCase();
 
-  return (
-    item.center_name?.toLowerCase().includes(searchText) ||
-    item.product_name?.toLowerCase().includes(searchText) ||
-    item.model_number?.toLowerCase().includes(searchText)
-  );
-});
+    return (
+      item.customer_name?.toLowerCase().includes(searchText) ||
+      item.product_name?.toLowerCase().includes(searchText) ||
+      item.model_number?.toLowerCase().includes(searchText)
+    );
+  })
+  .sort((a, b) => {
+
+    const statusA = a.status?.trim().toLowerCase();
+    const statusB = b.status?.trim().toLowerCase();
+
+    // Completed first
+    if (statusA === "completed" && statusB !== "completed") {
+      return -1;
+    }
+
+    // Pending after Completed
+    if (statusA !== "completed" && statusB === "completed") {
+      return 1;
+    }
+
+    // Same status → latest RMA first
+    return Number(b.rma_no) - Number(a.rma_no);
+  });
 
     return (
         <div className="home-container">
