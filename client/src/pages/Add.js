@@ -171,17 +171,23 @@ const username = localStorage.getItem("username");
                 }
             >
                 <option value="">
-                    Select Customer
-                </option>
+    Select Customer
+</option>
 
-                {services.map((item) => (
-                    <option
-                        key={item.id}
-                        value={item.id}
-                    >
-                        {item.customer_name}
-                    </option>
-                ))}
+{[...services]
+    .sort((a, b) =>
+        a.customer_name.localeCompare(
+            b.customer_name
+        )
+    )
+    .map((item) => (
+        <option
+            key={item.id}
+            value={item.id}
+        >
+            {item.customer_name}
+        </option>
+    ))}
             </select>
 
 
