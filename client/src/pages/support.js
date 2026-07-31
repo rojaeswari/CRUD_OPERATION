@@ -130,10 +130,10 @@ const Support = () => {
                                     </button>
                                 </Link>
                                 <Link to={`/supporter-view/${item.id}`}>
-                                    <button className="btn-view">
-                                        View
-                                    </button>
-                                </Link>
+    <button className="btn-view">
+        View
+    </button>
+</Link>
 
                                 <button
                                     className="btn-delete"

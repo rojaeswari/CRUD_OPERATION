@@ -23,7 +23,7 @@ const SupporterView = () => {
 
             })
             .catch((err) => {
-                console.log(err);
+                console.log("VIEW ERROR:", err);
             });
 
     }, [id]);
@@ -33,40 +33,35 @@ const SupporterView = () => {
 
             <h2>Product Return Details</h2>
 
-            <div>
+            <p>
+                <strong>Customer Name:</strong>{" "}
+                {product.customer_name}
+            </p>
 
-                <p>
-                    <strong>Customer Name:</strong>{" "}
-                    {product.customer_name}
-                </p>
+            <p>
+                <strong>Product Name:</strong>{" "}
+                {product.product_name}
+            </p>
 
-                <p>
-                    <strong>Product Name:</strong>{" "}
-                    {product.product_name}
-                </p>
+            <p>
+                <strong>Model No:</strong>{" "}
+                {product.model_no}
+            </p>
 
-                <p>
-                    <strong>Model No:</strong>{" "}
-                    {product.model_no}
-                </p>
+            <p>
+                <strong>Serial No:</strong>{" "}
+                {product.serial_no}
+            </p>
 
-                <p>
-                    <strong>Serial No:</strong>{" "}
-                    {product.serial_no}
-                </p>
+            <p>
+                <strong>Replacement Serial No:</strong>{" "}
+                {product.replacement_serial_no}
+            </p>
 
-                <p>
-                    <strong>Replacement Serial No:</strong>{" "}
-                    {product.replacement_serial_no}
-                </p>
-
-                <p>
-                    <strong>Current Status:</strong>{" "}
-                    {product.return_status}
-                </p>
-
-            </div>
-
+            <p>
+                <strong>Current Status:</strong>{" "}
+                {product.return_status}
+            </p>
 
             <h3>Status History</h3>
 
@@ -83,7 +78,6 @@ const SupporterView = () => {
                 <tbody>
 
                     {history.map((item, index) => (
-
                         <tr key={item.id}>
 
                             <td>{index + 1}</td>
@@ -97,17 +91,13 @@ const SupporterView = () => {
                             </td>
 
                         </tr>
-
                     ))}
 
                 </tbody>
 
             </table>
 
-
-            <button
-                onClick={() => navigate("/support")}
-            >
+            <button onClick={() => navigate("/support")}>
                 Go Back
             </button>
 
