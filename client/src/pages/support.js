@@ -70,6 +70,7 @@ const Support = () => {
                     <tr>
                         <th style={{ textAlign: "center" }}>S.NO</th>
                         <th style={{ textAlign: "center" }}>Product Name</th>
+                         <th style={{ textAlign: "center" }}> Customer Name</th>
                         <th style={{ textAlign: "center" }}>Model No</th>
                         <th style={{ textAlign: "center" }}> Serial No</th>
                         <th style={{ textAlign: "center" }}>  Replacement Serial No</th>
@@ -82,6 +83,7 @@ const Support = () => {
                         <tr key={item.id}>
                             <td>{index + 1}</td>
                             <td>{item.product_name}</td>
+                            <td>{item.customer_name}</td>
                             <td>{item.model_no}</td>
                             <td>{item.serial_no}</td>
                             <td>{item.replacement_serial_no}</td>

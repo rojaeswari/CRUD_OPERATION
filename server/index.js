@@ -2509,15 +2509,31 @@ ORDER BY r.entry_date DESC
 });
 
 app.get("/api/get1", (req, res) => {
-    const sql = "SELECT * FROM supporter";
+
+    const sql = `
+        SELECT
+            s.id,
+            s.product_name,
+            s.model_no,
+            s.serial_no,
+            s.replacement_serial_no,
+            s.customer_id,
+            c.customer_name
+        FROM supporter s
+        LEFT JOIN customer_details c
+            ON s.customer_id = c.id
+        ORDER BY s.id DESC
+    `;
 
     db.query(sql, (err, result) => {
+
         if (err) {
             console.log("MYSQL ERROR:", err);
             return res.status(500).json(err);
         }
 
-        console.log("RESULT:", result);
+        console.log("RESULT:", result.rows);
+
         res.json(result.rows);
     });
 });
