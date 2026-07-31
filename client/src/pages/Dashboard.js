@@ -317,6 +317,11 @@ const getSerialCompletedOutCount = async () => {
               <FaUsers /> Customers
             </Link>
           </li>
+          <li>
+            <Link to="/home/services">
+              <FaUserTie /> Service
+            </Link>
+          </li>
 
           <li>
             <Link to="/home/home_l">
@@ -338,11 +343,6 @@ const getSerialCompletedOutCount = async () => {
             </li>
           )}
 
-          <li>
-            <Link to="/home/services">
-              <FaUserTie /> Service
-            </Link>
-          </li>
 
           <li>
   <button className="logout-btn" onClick={logout}>
