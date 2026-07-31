@@ -69,8 +69,8 @@ const Support = () => {
                 <thead>
                     <tr>
                         <th style={{ textAlign: "center" }}>S.NO</th>
-                        <th style={{ textAlign: "center" }}>Product Name</th>
                          <th style={{ textAlign: "center" }}> Customer Name</th>
+                        <th style={{ textAlign: "center" }}>Product Name</th>
                         <th style={{ textAlign: "center" }}>Model No</th>
                         <th style={{ textAlign: "center" }}> Serial No</th>
                         <th style={{ textAlign: "center" }}>  Replacement Serial No</th>
