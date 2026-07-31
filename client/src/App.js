@@ -40,6 +40,7 @@ import SerialPendingRMA from "./pages/SerialPendingRMA";
 import SerialRMAOut from "./pages/SerialRMAOut";
 import PrivateRoute from "./PrivateRoute";
 import SupporterView from "./pages/SupporterView";
+import Products from "./pages/Products";
 
 function App() {
   return (
@@ -173,6 +174,8 @@ function App() {
 
 <Route path="/update-rma1/:rma_no" element={<PrivateRoute><RMAInupdata/></PrivateRoute>}/>
 <Route path="/supporter-view/:id"element={<PrivateRoute><SupporterView /></PrivateRoute>}/>
+<Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
+
 {/* <Route path="/pending-serials" element={<DashPending/>}/> */}
         </Routes>
 

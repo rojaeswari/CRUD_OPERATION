@@ -2990,6 +2990,60 @@ app.get("/api/supporter-list", (req, res) => {
     });
 });
 
+
+//Product Master API
+
+app.post("/api/products", (req, res) => {
+
+    const { product_name } = req.body;
+
+    const sql = `
+        INSERT INTO products (product_name)
+        VALUES ($1)
+        RETURNING *
+    `;
+
+    db.query(sql, [product_name], (err, result) => {
+
+        if (err) {
+            console.log("PRODUCT INSERT ERROR:", err);
+
+            return res.status(500).json({
+                success: false,
+                error: err.message
+            });
+        }
+
+        res.json({
+            success: true,
+            data: result.rows[0]
+        });
+    });
+});
+
+app.get("/api/products", (req, res) => {
+
+    const sql = `
+        SELECT *
+        FROM products
+        ORDER BY id DESC
+    `;
+
+    db.query(sql, (err, result) => {
+
+        if (err) {
+            console.log("PRODUCT GET ERROR:", err);
+
+            return res.status(500).json({
+                success: false,
+                error: err.message
+            });
+        }
+
+        res.json(result.rows);
+    });
+});
+
 app.get("/api/pending-count", (req, res) => {
 
     const sql = `
