@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./products.css";
 
 const Products = () => {
 
@@ -126,113 +127,118 @@ const Products = () => {
 
     return (
 
-        <div style={{
-            marginTop: "150px",
-            padding: "30px"
-        }}>
+    <div className="product-master-container">
 
-            <h2>Product Master</h2>
+        <h2>Product Master</h2>
 
+        {/* Add / Edit Product */}
 
-            {/* Add / Edit Product */}
+        <form
+            className="product-form"
+            onSubmit={handleSubmit}
+        >
 
-            <form onSubmit={handleSubmit}>
+            <input
+                type="text"
+                className="product-input"
+                placeholder="Enter Product Name"
+                value={productName}
+                onChange={(e) =>
+                    setProductName(e.target.value)
+                }
+            />
 
-                <input
-                    type="text"
-                    placeholder="Enter Product Name"
-                    value={productName}
-                    onChange={(e) =>
-                        setProductName(e.target.value)
-                    }
-                />
+            <button
+                type="submit"
+                className="product-add-btn"
+            >
+                {editId ? "Update Product" : "Add Product"}
+            </button>
 
-                <button type="submit">
+            {editId && (
 
-                    {editId ? "Update" : "Add Product"}
-
+                <button
+                    type="button"
+                    className="product-cancel-btn"
+                    onClick={() => {
+                        setEditId(null);
+                        setProductName("");
+                    }}
+                >
+                    Cancel
                 </button>
 
-                {editId && (
+            )}
 
-                    <button
-                        type="button"
-                        onClick={() => {
-                            setEditId(null);
-                            setProductName("");
-                        }}
-                    >
-                        Cancel
-                    </button>
-
-                )}
-
-            </form>
+        </form>
 
 
-            {/* Product List */}
+        {/* Product List */}
 
-            <table className="styled-table">
+        <table className="product-table">
 
-                <thead>
+            <thead>
 
-                    <tr>
+                <tr>
 
-                        <th>S.NO</th>
+                    <th>S.NO</th>
 
-                        <th>Product Name</th>
+                    <th>Product Name</th>
 
-                        <th>Action</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {products.map((product, index) => (
+
+                    <tr key={product.id}>
+
+                        <td>
+                            {index + 1}
+                        </td>
+
+                        <td>
+                            {product.product_name}
+                        </td>
+
+                        <td>
+
+                            <button
+                                className="product-edit-btn"
+                                onClick={() =>
+                                    handleEdit(product)
+                                }
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                className="product-delete-btn"
+                                onClick={() =>
+                                    handleDelete(product.id)
+                                }
+                            >
+                                Delete
+                            </button>
+
+                        </td>
 
                     </tr>
 
-                </thead>
+                ))}
 
+            </tbody>
 
-                <tbody>
+        </table>
 
-                    {products.map((product, index) => (
+    </div>
+);
 
-                        <tr key={product.id}>
-
-                            <td>
-                                {index + 1}
-                            </td>
-
-                            <td>
-                                {product.product_name}
-                            </td>
-
-                            <td>
-
-                                <button
-                                    onClick={() =>
-                                        handleEdit(product)
-                                    }
-                                >
-                                    Edit
-                                </button>
-
-                                <button
-                                    onClick={() =>
-                                        handleDelete(product.id)
-                                    }
-                                >
-                                    Delete
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                    ))}
-
-                </tbody>
-
-            </table>
-
-        </div>
-    );
 };
 
 export default Products;

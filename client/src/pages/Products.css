@@ -1,0 +1,145 @@
+/* Product Master Page */
+
+.product-master-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 120px auto 40px;
+    text-align: center;
+}
+
+.product-master-container h2 {
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+
+/* Form */
+
+.product-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.product-input {
+    flex: 1;
+    max-width: 700px;
+    height: 48px;
+    padding: 0 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.product-input:focus {
+    border-color: #38b84a;
+    box-shadow: 0 0 5px rgba(56, 184, 74, 0.25);
+}
+
+
+/* Add Button */
+
+.product-add-btn {
+    height: 48px;
+    padding: 0 25px;
+    border: none;
+    border-radius: 8px;
+    background: #39b84a;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.product-add-btn:hover {
+    background: #2e9f3d;
+}
+
+
+/* Cancel */
+
+.product-cancel-btn {
+    height: 48px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 8px;
+    background: #777;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+
+/* Table */
+
+.product-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+}
+
+.product-table thead {
+    background: #39bd48;
+    color: white;
+}
+
+.product-table th {
+    padding: 16px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.product-table td {
+    padding: 16px;
+    text-align: center;
+    font-size: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.product-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* Edit */
+
+.product-edit-btn {
+    padding: 9px 18px;
+    margin-right: 8px;
+    border: none;
+    border-radius: 7px;
+    background: #5cbd68;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.product-edit-btn:hover {
+    background: #45a951;
+}
+
+
+/* Delete */
+
+.product-delete-btn {
+    padding: 9px 18px;
+    border: none;
+    border-radius: 7px;
+    background: #dc3545;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.product-delete-btn:hover {
+    background: #bd2635;
+}
