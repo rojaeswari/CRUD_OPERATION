@@ -39,7 +39,7 @@ import TotalRMAOut from "./pages/TotalRMAOut";
 import SerialPendingRMA from "./pages/SerialPendingRMA";
 import SerialRMAOut from "./pages/SerialRMAOut";
 import PrivateRoute from "./PrivateRoute";
-import SupporterView from "./SupporterView";
+import SupporterView from "./pages/SupporterView";
 
 function App() {
   return (
