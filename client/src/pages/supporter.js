@@ -23,13 +23,13 @@ const Supporter = () => {
     });
 
     const handleInputChange = (e) => {
-    const { name, value } = e.target;
+        const { name, value } = e.target;
 
-    setState({
-        ...state,
-        [name]: value,
-    });
-};
+        setState({
+            ...state,
+            [name]: value,
+        });
+    };
 
     useEffect(() => {
         if (id) {
@@ -48,28 +48,28 @@ const Supporter = () => {
             });
     }, [])
     useEffect(() => {
-    axios
-        .get("https://smazo.onrender.com/api/customers")
-        .then((res) => {
-            setCustomers(res.data);
-        })
-        .catch((err) => {
-            console.log("Customer fetch error:", err);
-        });
-}, []);
+        axios
+            .get("https://smazo.onrender.com/api/customers")
+            .then((res) => {
+                setCustomers(res.data);
+            })
+            .catch((err) => {
+                console.log("Customer fetch error:", err);
+            });
+    }, []);
 
-useEffect(() => {
+    useEffect(() => {
 
-    axios
-        .get("https://smazo.onrender.com/api/products")
-        .then((res) => {
-            setProducts(res.data);
-        })
-        .catch((err) => {
-            console.log("Product fetch error:", err);
-        });
+        axios
+            .get("https://smazo.onrender.com/api/products")
+            .then((res) => {
+                setProducts(res.data);
+            })
+            .catch((err) => {
+                console.log("Product fetch error:", err);
+            });
 
-}, []);
+    }, []);
 
 
 
@@ -107,28 +107,28 @@ useEffect(() => {
             <h2>Add Product</h2>
 
             <form onSubmit={handleSubmit}>
-                 {/* Customer */}
-        <label>Customer</label>
+                {/* Customer */}
+                <label>Customer</label>
 
-        <select
-            name="customer_id"
-            className="form-control"
-            value={state.customer_id}
-            onChange={handleInputChange}
-        >
-            <option value="">
-                Select Customer
-            </option>
-
-            {customers.map((customer) => (
-                <option
-                    key={customer.id}
-                    value={customer.id}
+                <select
+                    name="customer_id"
+                    className="form-control"
+                    value={state.customer_id}
+                    onChange={handleInputChange}
                 >
-                    {customer.customer_name}
-                </option>
-            ))}
-        </select>
+                    <option value="">
+                        Select Customer
+                    </option>
+
+                    {customers.map((customer) => (
+                        <option
+                            key={customer.id}
+                            value={customer.id}
+                        >
+                            {customer.customer_name}
+                        </option>
+                    ))}
+                </select>
 
                 {/* <label>ID</label>
                 <input
@@ -139,27 +139,28 @@ useEffect(() => {
                     onChange={handleInputChange}
                 /> */}
 
-               <label>Product Name</label>
+                <label>Product Name</label>
 
-<select
-    name="product_name"
-    className="form-control"
-    value={state.product_name}
-    onChange={handleInputChange}
->
-    <option value="">
-        Select Product
-    </option>
+                <input
+                    type="text"
+                    name="product_name"
+                    className="form-control"
+                    list="product-list"
+                    placeholder="Search Product Name"
+                    value={state.product_name}
+                    onChange={handleInputChange}
+                />
 
-    {products.map((product) => (
-        <option
-            key={product.id}
-            value={product.product_name}
-        >
-            {product.product_name}
-        </option>
-    ))}
-</select>
+                <datalist id="product-list">
+
+                    {products.map((product) => (
+                        <option
+                            key={product.id}
+                            value={product.product_name}
+                        />
+                    ))}
+
+                </datalist>
 
                 <label>Model No</label>
                 <input
@@ -191,7 +192,7 @@ useEffect(() => {
                         </option>
                     ))}
                 </select>
-                 <label>Replacement Serial No</label>
+                <label>Replacement Serial No</label>
 
                 <input
                     type="text"
