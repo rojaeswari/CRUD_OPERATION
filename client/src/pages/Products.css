@@ -143,3 +143,33 @@
 .product-delete-btn:hover {
     background: #bd2635;
 }
+
+.product-master-header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.product-master-header h2 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.product-back-btn {
+    position: absolute;
+    left: 0;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 8px;
+    background: #4caf50;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.product-back-btn:hover {
+    background: #3d9d46;
+}

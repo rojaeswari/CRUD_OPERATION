@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./Products.css";
 
 const Products = () => {
@@ -7,6 +8,7 @@ const Products = () => {
     const [products, setProducts] = useState([]);
     const [productName, setProductName] = useState("");
     const [editId, setEditId] = useState(null);
+    const navigate = useNavigate();
 
     const API_URL = "https://smazo.onrender.com";
 
@@ -127,117 +129,127 @@ const Products = () => {
 
     return (
 
-    <div className="product-master-container">
-
-        <h2>Product Master</h2>
-
-        {/* Add / Edit Product */}
-
-        <form
-            className="product-form"
-            onSubmit={handleSubmit}
-        >
-
-            <input
-                type="text"
-                className="product-input"
-                placeholder="Enter Product Name"
-                value={productName}
-                onChange={(e) =>
-                    setProductName(e.target.value)
-                }
-            />
-
-            <button
-                type="submit"
-                className="product-add-btn"
-            >
-                {editId ? "Update Product" : "Add Product"}
-            </button>
-
-            {editId && (
+        <div className="product-master-container">
+            <div className="product-master-header">
 
                 <button
-                    type="button"
-                    className="product-cancel-btn"
-                    onClick={() => {
-                        setEditId(null);
-                        setProductName("");
-                    }}
+                    className="product-back-btn"
+                    onClick={() => navigate("/support")}
                 >
-                    Cancel
+                    Go Back
                 </button>
 
-            )}
+                <h2>Product Names</h2>
 
-        </form>
+            </div>
+
+            {/* Add / Edit Product */}
+
+            <form
+                className="product-form"
+                onSubmit={handleSubmit}
+            >
+
+                <input
+                    type="text"
+                    className="product-input"
+                    placeholder="Enter Product Name"
+                    value={productName}
+                    onChange={(e) =>
+                        setProductName(e.target.value)
+                    }
+                />
+
+                <button
+                    type="submit"
+                    className="product-add-btn"
+                >
+                    {editId ? "Update Product" : "Add Product"}
+                </button>
+
+                {editId && (
+
+                    <button
+                        type="button"
+                        className="product-cancel-btn"
+                        onClick={() => {
+                            setEditId(null);
+                            setProductName("");
+                        }}
+                    >
+                        Cancel
+                    </button>
+
+                )}
+
+            </form>
 
 
-        {/* Product List */}
+            {/* Product List */}
 
-        <table className="product-table">
+            <table className="product-table">
 
-            <thead>
+                <thead>
 
-                <tr>
+                    <tr>
 
-                    <th>S.NO</th>
+                        <th>S.NO</th>
 
-                    <th>Product Name</th>
+                        <th>Product Name</th>
 
-                    <th>Action</th>
-
-                </tr>
-
-            </thead>
-
-
-            <tbody>
-
-                {products.map((product, index) => (
-
-                    <tr key={product.id}>
-
-                        <td>
-                            {index + 1}
-                        </td>
-
-                        <td>
-                            {product.product_name}
-                        </td>
-
-                        <td>
-
-                            <button
-                                className="product-edit-btn"
-                                onClick={() =>
-                                    handleEdit(product)
-                                }
-                            >
-                                Edit
-                            </button>
-
-                            <button
-                                className="product-delete-btn"
-                                onClick={() =>
-                                    handleDelete(product.id)
-                                }
-                            >
-                                Delete
-                            </button>
-
-                        </td>
+                        <th>Action</th>
 
                     </tr>
 
-                ))}
+                </thead>
 
-            </tbody>
 
-        </table>
+                <tbody>
 
-    </div>
-);
+                    {products.map((product, index) => (
+
+                        <tr key={product.id}>
+
+                            <td>
+                                {index + 1}
+                            </td>
+
+                            <td>
+                                {product.product_name}
+                            </td>
+
+                            <td>
+
+                                <button
+                                    className="product-edit-btn"
+                                    onClick={() =>
+                                        handleEdit(product)
+                                    }
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    className="product-delete-btn"
+                                    onClick={() =>
+                                        handleDelete(product.id)
+                                    }
+                                >
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    ))}
+
+                </tbody>
+
+            </table>
+
+        </div>
+    );
 
 };
 
