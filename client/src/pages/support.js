@@ -75,6 +75,11 @@ const Support = () => {
                         Go Back
                     </button>
                 </Link>
+                <Link to="/products">
+        <button className="add-btn">
+            Product Master
+        </button>
+    </Link>
 
                 <Link to="/supporter">
                     <button className="add-btn">
@@ -108,20 +113,20 @@ const Support = () => {
                             <td>{item.replacement_serial_no}</td>
                             <td>
                                 <select
-    value={item.return_status || "Not Returned"}
-    onChange={(e) =>
-        updateReturnStatus(item.id, e.target.value)
-    }
-    disabled={item.return_status === "Returned"}
->
-    <option value="Not Returned">
-        Not Returned
-    </option>
+                                    value={item.return_status || "Not Returned"}
+                                    onChange={(e) =>
+                                        updateReturnStatus(item.id, e.target.value)
+                                    }
+                                    disabled={item.return_status === "Returned"}
+                                >
+                                    <option value="Not Returned">
+                                        Not Returned
+                                    </option>
 
-    <option value="Returned">
-        Returned
-    </option>
-</select>
+                                    <option value="Returned">
+                                        Returned
+                                    </option>
+                                </select>
                             </td>
 
                             <td>
@@ -131,10 +136,10 @@ const Support = () => {
                                     </button>
                                 </Link>
                                 <Link to={`/supporter-view/${item.id}`}>
-    <button className="btn-view">
-        View
-    </button>
-</Link>
+                                    <button className="btn-view">
+                                        View
+                                    </button>
+                                </Link>
 
                                 <button
                                     className="btn-delete"
