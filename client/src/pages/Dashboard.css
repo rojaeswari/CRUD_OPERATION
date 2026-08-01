@@ -143,45 +143,64 @@
 }
 
 /* Reminder Card */
-.card{
-    background:white;
-    border-left:6px solid #f97316;
-    padding:18px;
-    border-radius:16px;
-    margin-bottom:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
-    transition:0.3s;
+/* Reminder Card */
+.card {
+    background: white;
+    border-left: 6px solid #f97316;
+    padding: 18px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.3s;
 }
 
-.card:hover{
-    transform:translateY(-5px);
+.card:hover {
+    transform: translateY(-5px);
 }
 
-.card p{
-    margin:8px 0;
-    color:#374151;
+.card p {
+    margin: 8px 0;
+    color: #374151;
 }
 
-.card button{
-    margin-top:10px;
-    width:100%;
-    border:none;
-    padding:10px;
-    border-radius:12px;
-    /* background:linear-gradient(135deg,#7c3aed,#a855f7); */
-    .card button{
-    background:linear-gradient(135deg,#0da545,#16a34a);
-}
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.3s;
+
+/* IMPORTANT: Reminder table buttons */
+.card button {
+    margin-top: 0;
+    width: auto;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0da545, #16a34a);
+    color: white !important;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.card button:hover{
-    opacity:0.9;
+.card button:hover {
+    opacity: 0.9;
 }
 
+.reminder-section button {
+    color: white !important;
+    background: #6c757d !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    margin: 0 5px 0 0 !important;
+    width: auto !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+}
+.reminder-section .btn-outline-primary {
+    background: #0da545 !important;
+    color: white !important;
+}
+
+.reminder-section .btn-outline-secondary {
+    background: #0da545 !important;
+    color: white !important;
+}
 /* Blink */
 .blink-text{
     color:#dc2626;
