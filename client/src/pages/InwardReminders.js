@@ -149,68 +149,210 @@ function InwardReminders() {
 
                 <tbody>
 
-    {filteredReminders.length === 0 ? (
+                    {filteredReminders.length === 0 ? (
 
-        <tr>
-            <td colSpan="7" style={{ textAlign: "center" }}>
-                No Reminders Found
-            </td>
-        </tr>
+                        <tr>
+                            <td colSpan="7" style={{ textAlign: "center" }}>
+                                No Reminders Found
+                            </td>
+                        </tr>
 
-    ) : (
+                    ) : (
 
-        filteredReminders.map((item, index) => (
+                        filteredReminders.map((item, index) => (
 
-            <tr key={item.item_id || index}>
+                            <tr key={item.item_id || index}>
 
-                <td>{index + 1}</td>
+                                <td>{index + 1}</td>
 
-                <td>{item.rma_no}</td>
+                                <td>{item.rma_no}</td>
 
-                <td>{item.product_name}</td>
+                                <td>{item.product_name}</td>
 
-                <td>{item.model_number}</td>
+                                <td>{item.model_number}</td>
 
-                <td>{item.serial_no}</td>
+                                <td>{item.serial_no}</td>
 
-                {/* Reminder */}
-                <td>
-                    {item.status_text}
-                    <br />
-                    <small>
-                        {item.updated_at
-                            ? new Date(item.updated_at).toLocaleString()
-                            : "-"}
-                    </small>
-                </td>
+                                {/* Reminder */}
+                                <td>
+                                    {item.status_text}
+                                    <br />
+                                    <small>
+                                        {item.updated_at
+                                            ? new Date(item.updated_at).toLocaleString()
+                                            : "-"}
+                                    </small>
+                                </td>
 
-                {/* Action */}
-                <td>
+                                {/* Action */}
+                                <td>
 
-                    <button
-                        className="view-btn"
-                        onClick={() => handleView(item)}
-                    >
-                        View
-                    </button>
+                                    <button
+                                        className="view-btn"
+                                        onClick={() => handleView(item)}
+                                    >
+                                        View
+                                    </button>
 
-                    <button
-                        className="edit-btn"
-                        onClick={() => handleUpdate(item)}
-                    >
-                        Update
-                    </button>
+                                    <button
+                                        className="edit-btn"
+                                        onClick={() => handleUpdate(item)}
+                                    >
+                                        Update
+                                    </button>
 
-                </td>
+                                </td>
 
-            </tr>
+                            </tr>
 
-        ))
+                        ))
 
-    )}
+                    )}
 
-</tbody>
+                </tbody>
             </table>
+            {/* VIEW */}
+            {showView && selectedReminder && (
+                <div className="reminder-box">
+
+                    <h3>Reminder Details</h3>
+
+                    <p>
+                        <strong>RMA No :</strong>{" "}
+                        {selectedReminder.rma_no}
+                    </p>
+
+                    <p>
+                        <strong>Product Name :</strong>{" "}
+                        {selectedReminder.product_name}
+                    </p>
+
+                    <p>
+                        <strong>Model Number :</strong>{" "}
+                        {selectedReminder.model_number}
+                    </p>
+
+                    <p>
+                        <strong>Serial No :</strong>{" "}
+                        {selectedReminder.serial_no}
+                    </p>
+
+                    <p>
+                        <strong>Reminder :</strong>{" "}
+                        {selectedReminder.status_text}
+                    </p>
+
+                    <p>
+                        <strong>Date & Time :</strong>{" "}
+                        {selectedReminder.updated_at
+                            ? new Date(
+                                selectedReminder.updated_at
+                            ).toLocaleString()
+                            : "-"
+                        }
+                    </p>
+
+                    <button
+                        className="back-btn"
+                        onClick={() =>
+                            setShowView(false)
+                        }
+                    >
+                        Close
+                    </button>
+
+                </div>
+            )}
+
+
+            {/* UPDATE */}
+            {showUpdate && selectedReminder && (
+                <div className="reminder-box">
+
+                    <h3>Update Reminder</h3>
+
+                    <p>
+                        <strong>RMA No :</strong>{" "}
+                        {selectedReminder.rma_no}
+                    </p>
+
+                    <p>
+                        <strong>Product Name :</strong>{" "}
+                        {selectedReminder.product_name}
+                    </p>
+
+                    <p>
+                        <strong>Serial No :</strong>{" "}
+                        {selectedReminder.serial_no}
+                    </p>
+
+                    <label>
+                        <strong>Status</strong>
+                    </label>
+
+                    <select
+                        className="form-control"
+                        value={status}
+                        onChange={(e) =>
+                            setStatus(e.target.value)
+                        }
+                    >
+                        <option value="Pending">
+                            Pending
+                        </option>
+
+                        <option value="Completed">
+                            Completed
+                        </option>
+                    </select>
+
+                    <br />
+
+                    <label>
+                        <strong>Status Text</strong>
+                    </label>
+
+                    <textarea
+                        className="form-control"
+                        value={statusText}
+                        onChange={(e) =>
+                            setStatusText(e.target.value)
+                        }
+                        placeholder="Enter status text"
+                    />
+
+                    <br />
+
+                    <button
+                        className="save-btn"
+                        onClick={() => {
+
+                            console.log({
+                                item_id:
+                                    selectedReminder.item_id,
+                                status,
+                                status_text:
+                                    statusText
+                            });
+
+                            alert("Update clicked");
+
+                        }}
+                    >
+                        Save
+                    </button>
+
+                    <button
+                        className="back-btn"
+                        onClick={() =>
+                            setShowUpdate(false)
+                        }
+                    >
+                        Cancel
+                    </button>
+
+                </div>
+            )}
 
         </div>
     );
