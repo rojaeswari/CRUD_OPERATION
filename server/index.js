@@ -3898,7 +3898,7 @@ app.get("/serial-history/:serial_no", (req, res) => {
 function continueUpdate(
     db,
     item_id,
-    status,
+    status,         
     status_text,
     updated_by,
     reminder_id,
@@ -4771,29 +4771,34 @@ const checkInwardReminders = () => {
 
 app.get("/api/inward-reminders", (req, res) => {
 
-    const sql = `
-        SELECT
-            r.rma_no,
-            r.product_name,
-            r.model_number,
-            i.id AS item_id,
-            i.serial_no,
-            h.status,
-            h.status_text,
-            h.updated_at,
-            h.updated_by
-        FROM rma_items i
+   const sql = `
+    SELECT
+        r.rma_no,
+        r.product_name,
+        r.model_number,
 
-        INNER JOIN rma_entry1 r
-            ON i.rma_id = r.id
+        i.id AS item_id,
+        i.serial_no,
 
-        INNER JOIN rma_status_history1 h
-            ON i.id = h.rma_item_id
+        h.id AS reminder_id,
+        h.status,
+        h.status_text,
+        h.updated_at,
+        h.updated_by
 
-        WHERE h.status = 'Missed'
+    FROM rma_items i
 
-        ORDER BY h.updated_at DESC
-    `;
+    INNER JOIN rma_entry1 r
+        ON i.rma_id = r.id
+
+    INNER JOIN rma_status_history1 h
+        ON i.id = h.rma_item_id
+
+    WHERE h.status = 'Missed'
+    AND LOWER(COALESCE(i.status, '')) <> 'completed'
+
+    ORDER BY h.updated_at DESC
+`;
 
     db.query(sql, (err, result) => {
 

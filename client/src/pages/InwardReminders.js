@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function InwardReminders() {
+    const navigate = useNavigate();
 
     const [reminders, setReminders] = useState([]);
     const [search, setSearch] = useState("");
@@ -41,21 +43,17 @@ function InwardReminders() {
         }
     };
 
-    const handleView = (item) => {
-        setSelectedReminder(item);
-        setShowView(true);
-        setShowUpdate(false);
-    };
+   const handleView = (item) => {
+    setSelectedReminder(item);
+    setShowView(true);
+    setShowUpdate(false);
+};
 
-    const handleUpdate = (item) => {
-        setSelectedReminder(item);
-
-        setStatus("Pending");
-        setStatusText("");
-
-        setShowUpdate(true);
-        setShowView(false);
-    };
+  const handleUpdate = (item) => {
+    navigate(
+        `/status/${item.item_id}/${item.reminder_id}`
+    );
+};
 
     useEffect(() => {
 
