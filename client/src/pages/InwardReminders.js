@@ -43,10 +43,8 @@ function InwardReminders() {
         }
     };
 
-   const handleView = (item) => {
-    setSelectedReminder(item);
-    setShowView(true);
-    setShowUpdate(false);
+  const handleView = (item) => {
+    navigate(`/rma-details/${item.rma_no}`);
 };
 
   const handleUpdate = (item) => {
