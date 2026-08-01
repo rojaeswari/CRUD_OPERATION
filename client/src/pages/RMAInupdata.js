@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams,Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 function RMAInupdata() {
 
   const { rma_no } = useParams();
+    const navigate = useNavigate();
 
   console.log("rma_no =", rma_no);
 
@@ -47,6 +49,7 @@ const updateData = async () => {
     );
 
     alert("Updated Successfully");
+     navigate("/inward-reminders");
   } catch (err) {
     console.log(err);
     
