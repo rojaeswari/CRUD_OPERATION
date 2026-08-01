@@ -49,7 +49,6 @@ const updateData = async () => {
     );
 
     alert("Updated Successfully");
-     navigate("/inward-reminders");
   } catch (err) {
     console.log(err);
     
