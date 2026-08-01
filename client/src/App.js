@@ -41,7 +41,7 @@ import SerialRMAOut from "./pages/SerialRMAOut";
 import PrivateRoute from "./PrivateRoute";
 import SupporterView from "./pages/SupporterView";
 import Products from "./pages/Products";
-import InwardReminders from "./pages/InwardReminders";
+
 
 function App() {
   return (
@@ -176,16 +176,9 @@ function App() {
 <Route path="/update-rma1/:rma_no" element={<PrivateRoute><RMAInupdata/></PrivateRoute>}/>
 <Route path="/supporter-view/:id"element={<PrivateRoute><SupporterView /></PrivateRoute>}/>
 <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
-<Route path="/inward-reminders"element={<PrivateRoute><InwardReminders /></PrivateRoute>}/>
-<Route path="/status/:item_id/:reminder_id"element={<PrivateRoute><StatusPage /></PrivateRoute>}/>
-<Route
-  path="/rma-details_r/:rma_no"
-  element={
-    <PrivateRoute>
-      <RMASummary />
-    </PrivateRoute>
-  }
-/>
+
+
+
 
 {/* <Route path="/pending-serials" element={<DashPending/>}/> */}
         </Routes>
