@@ -469,9 +469,6 @@ const getSerialCompletedOutCount = async () => {
     </div>
 
 </div>
-         
-    </div>
-    </div>
     <div className="row justify-content-center">
 
     <div className="col-lg-10">
@@ -506,14 +503,7 @@ const getSerialCompletedOutCount = async () => {
       value={search}
       onChange={(e) => setSearch(e.target.value)}
     />
-    {/* <div className="dashboard-row">
 
-    <div className="reminder-section">
-            <h2>RMA-InWard Reminders</h2>
-
-            {inreminders.length === 0 ? (
-  <p>No active reminders</p>
-) : ( */}
 <div className="table-responsive">
 
 <table
@@ -529,8 +519,6 @@ const getSerialCompletedOutCount = async () => {
       <th>Serial No</th>
       <th>Reminders</th>
       <th>Action</th>
-      {/* <th>Status</th>
-      <th>Action</th> */}
     </tr>
   </thead>
 
@@ -546,45 +534,36 @@ const getSerialCompletedOutCount = async () => {
         <td>{item.serial_no}</td>
 
         <td>
-  Day-{item.reminder_day}</td>
-<td>
-  <button
-    className="btn btn-outline-secondary btn-sm"
-    onClick={() =>
-      nav(`/rma-details_r/${item.rma_no}`, {
-    state: {
-        from: "/Dashboard"
-    }
-})
-    }
-  >
-    View
-  </button>
-  <button
-    className="btn btn-outline-primary btn-sm"
-    onClick={() =>
-      nav(`/statuspage/${item.item_id}/${item.reminder_id}`)
-    }
-  >
-    Update
-  </button>
-  
-</td>
-
-        {/* <td>{item.item_status}</td>
+          Day-{item.reminder_day}
+        </td>
 
         <td>
 
           <button
-            className="btn btn-warning btn-sm"
+            className="btn btn-outline-secondary btn-sm me-2"
             onClick={() =>
-              openStatus(item)
+              nav(`/rma-details_r/${item.rma_no}`, {
+                state: {
+                  from: "/Dashboard"
+                }
+              })
+            }
+          >
+            View
+          </button>
+
+          <button
+            className="btn btn-outline-primary btn-sm"
+            onClick={() =>
+              nav(
+                `/statuspage/${item.item_id}/${item.reminder_id}`
+              )
             }
           >
             Update
           </button>
 
-        </td> */}
+        </td>
 
       </tr>
 
@@ -594,17 +573,21 @@ const getSerialCompletedOutCount = async () => {
 
 </table>
 
+</div>
 
-{/* )} */}
-
-    </div>
-    </div>
-   // </div>
+</div>
 
 )}
+
+</div>
+
+</div>
+
+</div>
+         
     </div>
     </div>
-     </div>
+   
      </div>
     </div>
     
