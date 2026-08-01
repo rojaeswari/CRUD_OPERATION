@@ -13,6 +13,7 @@ const Dashboard = () => {
   const [outComCount, setOutComCount] = useState(0);
   const [serialPendingCount, setSerialPendingCount] = useState(0);
   const [serialCompletedCount, setSerialCompletedCount] = useState(0);
+  const [inwardReminderCount, setInwardReminderCount] = useState(0);
 
   const [serialPendingOutCount,
       setSerialPendingOutCount] = useState(0);
@@ -51,6 +52,28 @@ const loadReminders = async () => {
 
 useEffect(() => {
     loadReminders_l();
+}, []);
+
+useEffect(() => {
+
+    // Existing API calls...
+
+    axios.get(
+        "https://smazo.onrender.com/api/inward-reminders"
+    )
+    .then((res) => {
+
+        if (Array.isArray(res.data)) {
+            setInwardReminderCount(res.data.length);
+        } else {
+            setInwardReminderCount(0);
+        }
+
+    })
+    .catch((err) => {
+        console.log("Reminder count error:", err);
+    });
+
 }, []);
 
 
@@ -458,6 +481,20 @@ const getSerialCompletedOutCount = async () => {
         </Link>
 
     </div>
+
+    <div className="row-cards">
+
+    <Link
+        to="/inward-reminders"
+        style={{ textDecoration: "none" }}
+    >
+        <div className="total-card">
+            <h2>{inwardReminderCount}</h2>
+            <p>🔔 RMA-Inward Reminders</p>
+        </div>
+    </Link>
+
+</div>
 
 </div>
          
