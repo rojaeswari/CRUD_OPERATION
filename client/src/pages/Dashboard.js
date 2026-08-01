@@ -472,7 +472,7 @@ const getSerialCompletedOutCount = async () => {
     <div className="row justify-content-center">
 
     <div className="col-lg-10">
-    <div className="card">
+     <div className="card reminder-card">
 
     <div className="card-body">
     <div
