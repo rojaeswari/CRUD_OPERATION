@@ -13,7 +13,7 @@ const Dashboard = () => {
   const [outComCount, setOutComCount] = useState(0);
   const [serialPendingCount, setSerialPendingCount] = useState(0);
   const [serialCompletedCount, setSerialCompletedCount] = useState(0);
-  const [inwardReminderCount, setInwardReminderCount] = useState(0);
+//   const [inwardReminderCount, setInwardReminderCount] = useState(0);
 
   const [serialPendingOutCount,
       setSerialPendingOutCount] = useState(0);
@@ -32,83 +32,83 @@ const [serialCompletedOutCount,
   nav("/");
 };
 
-//   const [rmaReminders, setRmaReminders] = useState([]);
-// const [outReminders, setOutReminders] = useState([]);
+  const [rmaReminders, setRmaReminders] = useState([]);
+const [outReminders, setOutReminders] = useState([]);
 
-// const [reminders, setReminders] =
-//     useState([]);
-    // const [inreminders, setInreminders] =
-    // useState([]);
+const [reminders, setReminders] =
+    useState([]);
+    const [inreminders, setInreminders] =
+    useState([]);
 
-// const loadReminders = async () => {
+const loadReminders = async () => {
 
-//     const res = await axios.get(
-//         "https://smazo.onrender.com/reminders_ls"
-//     );
+    const res = await axios.get(
+        "https://smazo.onrender.com/reminders_ls"
+    );
 
-//     setReminders(res.data);
+    setReminders(res.data);
 
-// };
+};
+
+useEffect(() => {
+    loadReminders_l();
+}, []);
 
 // useEffect(() => {
-//     loadReminders_l();
+
+//     // Existing API calls...
+
+//     axios.get(
+//         "https://smazo.onrender.com/api/inward-reminders"
+//     )
+//     .then((res) => {
+
+//         if (Array.isArray(res.data)) {
+//             setInwardReminderCount(res.data.length);
+//         } else {
+//             setInwardReminderCount(0);
+//         }
+
+//     })
+//     .catch((err) => {
+//         console.log("Reminder count error:", err);
+//     });
+
+// }, []);
+// useEffect(() => {
+
+//     const username = localStorage.getItem("username");
+//     const role = localStorage.getItem("role");
+
+//     if (!username || !role) {
+//         return;
+//     }
+
+//     axios.post(
+//         "https://smazo.onrender.com/check-inward-reminders",
+//         {
+//             updated_by: `${username} (${role})`
+//         }
+//     )
+//     .then((res) => {
+//         console.log("Reminder check:", res.data);
+//     })
+//     .catch((err) => {
+//         console.log("Reminder check error:", err);
+//     });
+
 // }, []);
 
-useEffect(() => {
 
-    // Existing API calls...
+const loadReminders_l = async () => {
 
-    axios.get(
-        "https://smazo.onrender.com/api/inward-reminders"
-    )
-    .then((res) => {
+    const res = await axios.get(
+        "https://smazo.onrender.com/reminders_lsr"
+    );
 
-        if (Array.isArray(res.data)) {
-            setInwardReminderCount(res.data.length);
-        } else {
-            setInwardReminderCount(0);
-        }
+    setInreminders(res.data);
 
-    })
-    .catch((err) => {
-        console.log("Reminder count error:", err);
-    });
-
-}, []);
-useEffect(() => {
-
-    const username = localStorage.getItem("username");
-    const role = localStorage.getItem("role");
-
-    if (!username || !role) {
-        return;
-    }
-
-    axios.post(
-        "https://smazo.onrender.com/check-inward-reminders",
-        {
-            updated_by: `${username} (${role})`
-        }
-    )
-    .then((res) => {
-        console.log("Reminder check:", res.data);
-    })
-    .catch((err) => {
-        console.log("Reminder check error:", err);
-    });
-
-}, []);
-
-
-// const loadReminders_l = async () => {
-
-//     const res = await axios.get(
-//         "https://smazo.onrender.com/reminders_lsr"
-//     );
-
-//     setInreminders(res.data);
-
-// };
+};
 
 const openStatus = (item) => {
     console.log(item);
@@ -400,7 +400,7 @@ const getSerialCompletedOutCount = async () => {
     </div>
      <div className="row-cards">
 
-    <Link
+    {/* <Link
         to="/inward-reminders"
         style={{ textDecoration: "none" }}
     >
@@ -408,7 +408,7 @@ const getSerialCompletedOutCount = async () => {
             <h2>{inwardReminderCount}</h2>
             <p>🔔 RMA-Inward Reminders</p>
         </div>
-    </Link>
+    </Link> */}
 
 </div>
 
