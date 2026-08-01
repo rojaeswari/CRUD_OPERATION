@@ -44,7 +44,7 @@ function InwardReminders() {
     };
 
   const handleView = (item) => {
-    navigate(`/rma-details/${item.rma_no}`);
+    navigate(`/rma-summary/${item.rma_no}`);
 };
 
   const handleUpdate = (item) => {
