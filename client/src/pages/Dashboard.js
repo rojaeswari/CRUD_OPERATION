@@ -75,7 +75,29 @@ useEffect(() => {
     });
 
 }, []);
+useEffect(() => {
 
+    const username = localStorage.getItem("username");
+    const role = localStorage.getItem("role");
+
+    if (!username || !role) {
+        return;
+    }
+
+    axios.post(
+        "https://smazo.onrender.com/check-inward-reminders",
+        {
+            updated_by: `${username} (${role})`
+        }
+    )
+    .then((res) => {
+        console.log("Reminder check:", res.data);
+    })
+    .catch((err) => {
+        console.log("Reminder check error:", err);
+    });
+
+}, []);
 
 
 // const loadReminders_l = async () => {

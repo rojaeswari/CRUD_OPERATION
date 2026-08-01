@@ -2064,7 +2064,7 @@ app.post("/update-status_ls/:item_id", (req, res) => {
                                 if (
                                     totalItems > 0 &&
                                     totalItems ===
-                                        completedItems
+                                    completedItems
                                 ) {
 
                                     const completeSql = `
@@ -3898,7 +3898,7 @@ app.get("/serial-history/:serial_no", (req, res) => {
 function continueUpdate(
     db,
     item_id,
-    status,         
+    status,
     status_text,
     updated_by,
     reminder_id,
@@ -4629,7 +4629,7 @@ app.get("/api/rma-out-list", (req, res) => {
 // RMA INWARD REMINDER CHECK
 // ===============================
 
-const checkInwardReminders = () => {
+const checkInwardReminders = (updated_by) => {
 
     const reminderDays = [3, 5, 7, 10, 13, 15];
 
@@ -4712,47 +4712,44 @@ const checkInwardReminders = () => {
                         }
 
                         // Insert missed reminder
-                        const insertSql = `
-                            INSERT INTO rma_status_history1
-                            (
-                                rma_item_id,
-                                status_text,
-                                status,
-                                updated_at,
-                                updated_by
-                            )
-                            VALUES
-                            (
-                                $1,
-                                $2,
-                                'Missed',
-                                NOW(),
-                                'System'
-                            )
-                        `;
+                       const insertSql = `
+    INSERT INTO rma_status_history1
+    (
+        rma_item_id,
+        status_text,
+        status,
+        updated_at,
+        updated_by
+    )
+    VALUES
+    (
+        $1,
+        $2,
+        'Missed',
+        NOW(),
+        $3
+    )
+`;
 
-                        db.query(
-                            insertSql,
-                            [
-                                item.item_id,
-                                statusText
-                            ],
-                            (err) => {
+db.query(
+    insertSql,
+    [
+        item.item_id,
+        statusText,
+        updated_by
+    ],
+    (err) => {
 
-                                if (err) {
-                                    console.log(
-                                        "Reminder insert error:",
-                                        err
-                                    );
-                                    return;
-                                }
+        if (err) {
+            console.log("Reminder insert error:", err);
+            return;
+        }
 
-                                console.log(
-                                    `INWARD ${days} day reminder created for item ${item.item_id}`
-                                );
-
-                            }
-                        );
+        console.log(
+            `INWARD ${days} day reminder created for item ${item.item_id} by ${updated_by}`
+        );
+    }
+);
 
                     }
                 );
@@ -4771,7 +4768,7 @@ const checkInwardReminders = () => {
 
 app.get("/api/inward-reminders", (req, res) => {
 
-   const sql = `
+    const sql = `
     SELECT
         r.rma_no,
         r.product_name,
