@@ -178,7 +178,7 @@ function App() {
 <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
 <Route path="/inward-reminders"element={<PrivateRoute><InwardReminders /></PrivateRoute>}/>
 <Route path="/status/:item_id/:reminder_id"element={<PrivateRoute><StatusPage /></PrivateRoute>}/>
-<Route path="/rma-details/:rma_no" element={<PrivateRoute><RmaDetails /></PrivateRoute>}/>
+
 
 {/* <Route path="/pending-serials" element={<DashPending/>}/> */}
         </Routes>
