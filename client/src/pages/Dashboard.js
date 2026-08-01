@@ -643,7 +643,7 @@ const getSerialCompletedOutCount = async () => {
      </div>
      </div>
     </div>
-    </div>
+    
 
   );
 };
