@@ -32,27 +32,27 @@ const [serialCompletedOutCount,
   nav("/");
 };
 
-  const [rmaReminders, setRmaReminders] = useState([]);
-const [outReminders, setOutReminders] = useState([]);
+//   const [rmaReminders, setRmaReminders] = useState([]);
+// const [outReminders, setOutReminders] = useState([]);
 
-const [reminders, setReminders] =
-    useState([]);
-    const [inreminders, setInreminders] =
-    useState([]);
+// const [reminders, setReminders] =
+//     useState([]);
+    // const [inreminders, setInreminders] =
+    // useState([]);
 
-const loadReminders = async () => {
+// const loadReminders = async () => {
 
-    const res = await axios.get(
-        "https://smazo.onrender.com/reminders_ls"
-    );
+//     const res = await axios.get(
+//         "https://smazo.onrender.com/reminders_ls"
+//     );
 
-    setReminders(res.data);
+//     setReminders(res.data);
 
-};
+// };
 
-useEffect(() => {
-    loadReminders_l();
-}, []);
+// useEffect(() => {
+//     loadReminders_l();
+// }, []);
 
 useEffect(() => {
 
@@ -78,15 +78,15 @@ useEffect(() => {
 
 
 
-const loadReminders_l = async () => {
+// const loadReminders_l = async () => {
 
-    const res = await axios.get(
-        "https://smazo.onrender.com/reminders_lsr"
-    );
+//     const res = await axios.get(
+//         "https://smazo.onrender.com/reminders_lsr"
+//     );
 
-    setInreminders(res.data);
+//     setInreminders(res.data);
 
-};
+// };
 
 const openStatus = (item) => {
     console.log(item);
@@ -98,24 +98,11 @@ const [selectedItem, setSelectedItem] =
 const [statusText, setStatusText] =
     useState("");
 
-useEffect(() => {
-    loadReminders();
-}, []);
+// useEffect(() => {
+//     loadReminders();
+// }, []);
 
-  // ✅ LOAD REMINDERS
- useEffect(() => {
-  axios.get("https://smazo.onrender.com/reminders")
-    .then((res) => {
-      console.log("RMA:", res.data);
-      setRmaReminders(res.data);
-    })
-    .catch((err) => {
-      console.log("API URL:", err.config?.url);
-      console.log("Status:", err.response?.status);
-      console.log("Response:", err.response?.data);
-      console.log(err);
-    });
-}, []);
+ 
 //  console.log("OUT:", rmaReminders);
 // useEffect(() => {
 //   axios.get("https://smazo.onrender.com/reminders_l")
