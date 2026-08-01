@@ -389,6 +389,12 @@ const getSerialCompletedOutCount = async () => {
             <p>Total Customers</p>
         </div>
     </div>
+     <Link to="/inward-reminders">
+        <div className="total-card">
+            <h2>{inwardReminderCount}</h2>
+            <p>🔔 Inward Reminders</p>
+        </div>
+    </Link>
 
     {/* Row 2 */}
     <div className="row-cards">
@@ -481,20 +487,6 @@ const getSerialCompletedOutCount = async () => {
         </Link>
 
     </div>
-
-    <div className="row-cards">
-
-    <Link
-        to="/inward-reminders"
-        style={{ textDecoration: "none" }}
-    >
-        <div className="total-card">
-            <h2>{inwardReminderCount}</h2>
-            <p>🔔 RMA-Inward Reminders</p>
-        </div>
-    </Link>
-
-</div>
 
 </div>
          
