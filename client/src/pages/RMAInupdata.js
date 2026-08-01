@@ -49,6 +49,7 @@ const updateData = async () => {
     );
 
     alert("Updated Successfully");
+
   } catch (err) {
     console.log(err);
     
