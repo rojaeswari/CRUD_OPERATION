@@ -7,6 +7,9 @@ import "./Dashboard.css";
 const Dashboard = () => {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
+  const [open, setOpen] = useState(true);
+
+const [search, setSearch] = useState("");
   const[pencount,setPencount]=useState(0);
   const[comcount,setComcount]=useState(0);
   const [outPenCount, setOutPenCount] = useState(0);
@@ -330,6 +333,26 @@ const getSerialCompletedOutCount = async () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  const filteredReminders = inreminders.filter((item) => {
+
+  const text = search.toLowerCase();
+
+  return (
+    String(item.rma_no || "")
+      .toLowerCase()
+      .includes(text) ||
+
+    String(item.product_name || "")
+      .toLowerCase()
+      .includes(text) ||
+
+    String(item.serial_no || "")
+      .toLowerCase()
+      .includes(text)
+  );
+
+});
 
   return (
     <div className="dashboard">
