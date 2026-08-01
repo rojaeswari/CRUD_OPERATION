@@ -508,6 +508,141 @@ const getSerialCompletedOutCount = async () => {
          
     </div>
     </div>
+    <div className="row justify-content-center">
+
+    <div className="col-lg-10">
+    <div className="card">
+
+    <div className="card-body">
+    <div
+  className="card-header d-flex justify-content-between align-items-center"
+  style={{ cursor: "pointer" }}
+  onClick={() => setOpen(!open)}
+>
+  <h5 className="mb-0">🔔 RMA-Inward Reminders</h5>
+
+  <div
+  onClick={() => setOpen(!open)}
+  style={{ cursor: "pointer" }}
+>
+  <span className="badge bg-danger me-2">
+    {inreminders.length} Pending
+  </span>
+
+  {open ? "▲" : "▼"}
+</div>
+</div>
+{open && (
+
+<div className="card-body">
+        <input
+      type="text"
+      className="form-control mb-3"
+      placeholder="Search RMA / Product / Serial"
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+    {/* <div className="dashboard-row">
+
+    <div className="reminder-section">
+            <h2>RMA-InWard Reminders</h2>
+
+            {inreminders.length === 0 ? (
+  <p>No active reminders</p>
+) : ( */}
+<div className="table-responsive">
+
+<table
+    className="table table-sm table-hover align-middle"
+    style={{ fontSize: "13px" }}
+>
+
+  <thead className="table-dark">
+    <tr>
+      <th>RMA No</th>
+      <th>Product Name</th>
+      <th>Model Number</th>
+      <th>Serial No</th>
+      <th>Reminders</th>
+      <th>Action</th>
+      {/* <th>Status</th>
+      <th>Action</th> */}
+    </tr>
+  </thead>
+
+  <tbody>
+
+    {filteredReminders.map((item) => (
+
+      <tr key={item.reminder_id}>
+
+        <td>{item.rma_no}</td>
+        <td>{item.product_name}</td>
+        <td>{item.model_number}</td>
+        <td>{item.serial_no}</td>
+
+        <td>
+  Day-{item.reminder_day}</td>
+<td>
+  <button
+    className="btn btn-outline-secondary btn-sm"
+    onClick={() =>
+      nav(`/rma-details_r/${item.rma_no}`, {
+    state: {
+        from: "/Dashboard"
+    }
+})
+    }
+  >
+    View
+  </button>
+  <button
+    className="btn btn-outline-primary btn-sm"
+    onClick={() =>
+      nav(`/statuspage/${item.item_id}/${item.reminder_id}`)
+    }
+  >
+    Update
+  </button>
+  
+</td>
+
+        {/* <td>{item.item_status}</td>
+
+        <td>
+
+          <button
+            className="btn btn-warning btn-sm"
+            onClick={() =>
+              openStatus(item)
+            }
+          >
+            Update
+          </button>
+
+        </td> */}
+
+      </tr>
+
+    ))}
+
+  </tbody>
+
+</table>
+
+
+{/* )} */}
+
+    </div>
+    </div>
+   // </div>
+
+)}
+    </div>
+    </div>
+     </div>
+     </div>
+    </div>
     </div>
 
   );
