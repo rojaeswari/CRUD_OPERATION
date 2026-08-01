@@ -8,15 +8,13 @@ const Dashboard = () => {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
   const [open, setOpen] = useState(true);
-
-const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
   const[pencount,setPencount]=useState(0);
   const[comcount,setComcount]=useState(0);
   const [outPenCount, setOutPenCount] = useState(0);
   const [outComCount, setOutComCount] = useState(0);
   const [serialPendingCount, setSerialPendingCount] = useState(0);
   const [serialCompletedCount, setSerialCompletedCount] = useState(0);
-//   const [inwardReminderCount, setInwardReminderCount] = useState(0);
 
   const [serialPendingOutCount,
       setSerialPendingOutCount] = useState(0);
@@ -57,52 +55,6 @@ useEffect(() => {
     loadReminders_l();
 }, []);
 
-// useEffect(() => {
-
-//     // Existing API calls...
-
-//     axios.get(
-//         "https://smazo.onrender.com/api/inward-reminders"
-//     )
-//     .then((res) => {
-
-//         if (Array.isArray(res.data)) {
-//             setInwardReminderCount(res.data.length);
-//         } else {
-//             setInwardReminderCount(0);
-//         }
-
-//     })
-//     .catch((err) => {
-//         console.log("Reminder count error:", err);
-//     });
-
-// }, []);
-// useEffect(() => {
-
-//     const username = localStorage.getItem("username");
-//     const role = localStorage.getItem("role");
-
-//     if (!username || !role) {
-//         return;
-//     }
-
-//     axios.post(
-//         "https://smazo.onrender.com/check-inward-reminders",
-//         {
-//             updated_by: `${username} (${role})`
-//         }
-//     )
-//     .then((res) => {
-//         console.log("Reminder check:", res.data);
-//     })
-//     .catch((err) => {
-//         console.log("Reminder check error:", err);
-//     });
-
-// }, []);
-
-
 const loadReminders_l = async () => {
 
     const res = await axios.get(
@@ -123,9 +75,9 @@ const [selectedItem, setSelectedItem] =
 const [statusText, setStatusText] =
     useState("");
 
-// useEffect(() => {
-//     loadReminders();
-// }, []);
+useEffect(() => {
+    loadReminders();
+}, []);
 
  
 //  console.log("OUT:", rmaReminders);
@@ -422,17 +374,6 @@ const getSerialCompletedOutCount = async () => {
         </div>
     </div>
      <div className="row-cards">
-
-    {/* <Link
-        to="/inward-reminders"
-        style={{ textDecoration: "none" }}
-    >
-        <div className="total-card">
-            <h2>{inwardReminderCount}</h2>
-            <p>🔔 RMA-Inward Reminders</p>
-        </div>
-    </Link> */}
-
 </div>
 
     {/* Row 2 */}
@@ -531,6 +472,8 @@ const getSerialCompletedOutCount = async () => {
          
     </div>
     </div>
+
+    //reminder cards
     <div className="row justify-content-center">
 
     <div className="col-lg-10">
