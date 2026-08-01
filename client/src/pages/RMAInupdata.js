@@ -173,6 +173,12 @@ const updateStatus = async () => {
           Go Back
         </button>
       </Link>
+      <button
+  className="back-btn"
+  onClick={() => navigate("/inward-reminders")}
+>
+  Back
+</button>
     </div>
 
   </div>
