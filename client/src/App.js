@@ -179,7 +179,7 @@ function App() {
 <Route path="/inward-reminders"element={<PrivateRoute><InwardReminders /></PrivateRoute>}/>
 <Route path="/status/:item_id/:reminder_id"element={<PrivateRoute><StatusPage /></PrivateRoute>}/>
 <Route
-  path="/rma-details_r/:rma_no/:reminder_id"
+  path="/rma-details_r/:rma_no"
   element={
     <PrivateRoute>
       <RMASummary />
