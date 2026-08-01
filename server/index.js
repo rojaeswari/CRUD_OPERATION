@@ -4625,6 +4625,202 @@ app.get("/api/rma-out-list", (req, res) => {
 
 });
 
+// ===============================
+// RMA INWARD REMINDER CHECK
+// ===============================
+
+const checkInwardReminders = () => {
+
+    const reminderDays = [3, 5, 7, 10, 13, 15];
+
+    const sql = `
+        SELECT
+            i.id AS item_id,
+            i.rma_id,
+            i.status,
+            r.entry_date
+        FROM rma_items i
+        INNER JOIN rma_entry1 r
+            ON i.rma_id = r.id
+        WHERE LOWER(COALESCE(i.status, '')) <> 'completed'
+    `;
+
+    db.query(sql, (err, result) => {
+
+        if (err) {
+            console.log("Reminder fetch error:", err);
+            return;
+        }
+
+        result.rows.forEach((item) => {
+
+            if (!item.entry_date) {
+                return;
+            }
+
+            const entryDate = new Date(item.entry_date);
+            const today = new Date();
+
+            // Difference in days
+            const diffTime =
+                today.getTime() - entryDate.getTime();
+
+            const diffDays =
+                Math.floor(
+                    diffTime / (1000 * 60 * 60 * 24)
+                );
+
+            reminderDays.forEach((days) => {
+
+                // Reminder day not reached yet
+                if (diffDays < days) {
+                    return;
+                }
+
+                const statusText =
+                    `You missed ${days} day reminder`;
+
+                // Check whether reminder already exists
+                const checkSql = `
+                    SELECT id
+                    FROM rma_status_history1
+                    WHERE rma_item_id = $1
+                    AND status = 'Missed'
+                    AND status_text = $2
+                    LIMIT 1
+                `;
+
+                db.query(
+                    checkSql,
+                    [
+                        item.item_id,
+                        statusText
+                    ],
+                    (err, checkResult) => {
+
+                        if (err) {
+                            console.log(
+                                "Reminder check error:",
+                                err
+                            );
+                            return;
+                        }
+
+                        // Already created → don't create again
+                        if (checkResult.rows.length > 0) {
+                            return;
+                        }
+
+                        // Insert missed reminder
+                        const insertSql = `
+                            INSERT INTO rma_status_history1
+                            (
+                                rma_item_id,
+                                status_text,
+                                status,
+                                updated_at,
+                                updated_by
+                            )
+                            VALUES
+                            (
+                                $1,
+                                $2,
+                                'Missed',
+                                NOW(),
+                                'System'
+                            )
+                        `;
+
+                        db.query(
+                            insertSql,
+                            [
+                                item.item_id,
+                                statusText
+                            ],
+                            (err) => {
+
+                                if (err) {
+                                    console.log(
+                                        "Reminder insert error:",
+                                        err
+                                    );
+                                    return;
+                                }
+
+                                console.log(
+                                    `INWARD ${days} day reminder created for item ${item.item_id}`
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+            });
+
+        });
+
+    });
+
+};
+
+// ===============================
+// GET RMA INWARD REMINDERS
+// ===============================
+
+app.get("/api/inward-reminders", (req, res) => {
+
+    const sql = `
+        SELECT
+            r.rma_no,
+            r.product_name,
+            r.model_number,
+            i.id AS item_id,
+            i.serial_no,
+            h.status,
+            h.status_text,
+            h.updated_at,
+            h.updated_by
+        FROM rma_items i
+
+        INNER JOIN rma_entry1 r
+            ON i.rma_id = r.id
+
+        INNER JOIN rma_status_history1 h
+            ON i.id = h.rma_item_id
+
+        WHERE h.status = 'Missed'
+
+        ORDER BY h.updated_at DESC
+    `;
+
+    db.query(sql, (err, result) => {
+
+        if (err) {
+            console.log("Inward reminder API error:", err);
+            return res.status(500).json(err);
+        }
+
+        res.json(result.rows);
+    });
+
+});
+
+// ===============================
+// START REMINDER CHECK
+// ===============================
+
+checkInwardReminders();
+
+setInterval(() => {
+
+    console.log("Checking inward reminders...");
+
+    checkInwardReminders();
+
+}, 60 * 60 * 1000);
+
 
 const PORT = process.env.PORT || 5000;
 
