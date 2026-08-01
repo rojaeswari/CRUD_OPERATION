@@ -6,6 +6,13 @@ function InwardReminders() {
     const [reminders, setReminders] = useState([]);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
+    const [selectedReminder, setSelectedReminder] = useState(null);
+
+    const [showView, setShowView] = useState(false);
+    const [showUpdate, setShowUpdate] = useState(false);
+
+    const [status, setStatus] = useState("Pending");
+    const [statusText, setStatusText] = useState("");
 
     const loadReminders = async () => {
 
@@ -32,6 +39,22 @@ function InwardReminders() {
             setLoading(false);
 
         }
+    };
+
+    const handleView = (item) => {
+        setSelectedReminder(item);
+        setShowView(true);
+        setShowUpdate(false);
+    };
+
+    const handleUpdate = (item) => {
+        setSelectedReminder(item);
+
+        setStatus("Pending");
+        setStatusText("");
+
+        setShowUpdate(true);
+        setShowView(false);
     };
 
     useEffect(() => {
@@ -112,100 +135,81 @@ function InwardReminders() {
             <table className="styled-table">
 
                 <thead>
-
                     <tr>
-
                         <th>S.No</th>
-
                         <th>RMA No</th>
-
                         <th>Product Name</th>
-
                         <th>Model Number</th>
-
                         <th>Serial No</th>
-
-                        <th>Status</th>
-
-                        <th>Status Text</th>
-
-                        <th>Date & Time</th>
-
+                        <th>Reminder</th>
+                        <th>Action</th>
                     </tr>
-
                 </thead>
 
 
                 <tbody>
 
-                    {filteredReminders.length === 0 ? (
+    {filteredReminders.length === 0 ? (
 
-                        <tr>
+        <tr>
+            <td colSpan="7" style={{ textAlign: "center" }}>
+                No Reminders Found
+            </td>
+        </tr>
 
-                            <td
-                                colSpan="8"
-                                style={{
-                                    textAlign: "center"
-                                }}
-                            >
-                                No Reminders Found
-                            </td>
+    ) : (
 
-                        </tr>
+        filteredReminders.map((item, index) => (
 
-                    ) : (
+            <tr key={item.item_id || index}>
 
-                        filteredReminders.map(
-                            (item, index) => (
+                <td>{index + 1}</td>
 
-                                <tr key={item.id}>
+                <td>{item.rma_no}</td>
 
-                                    <td>
-                                        {index + 1}
-                                    </td>
+                <td>{item.product_name}</td>
 
-                                    <td>
-                                        {item.rma_no}
-                                    </td>
+                <td>{item.model_number}</td>
 
-                                    <td>
-                                        {item.product_name}
-                                    </td>
+                <td>{item.serial_no}</td>
 
-                                    <td>
-                                        {item.model_number}
-                                    </td>
+                {/* Reminder */}
+                <td>
+                    {item.status_text}
+                    <br />
+                    <small>
+                        {item.updated_at
+                            ? new Date(item.updated_at).toLocaleString()
+                            : "-"}
+                    </small>
+                </td>
 
-                                    <td>
-                                        {item.serial_no}
-                                    </td>
+                {/* Action */}
+                <td>
 
-                                    <td>
-                                        {item.status}
-                                    </td>
+                    <button
+                        className="view-btn"
+                        onClick={() => handleView(item)}
+                    >
+                        View
+                    </button>
 
-                                    <td>
-                                        {item.status_text}
-                                    </td>
+                    <button
+                        className="edit-btn"
+                        onClick={() => handleUpdate(item)}
+                    >
+                        Update
+                    </button>
 
-                                    <td>
-                                        {item.updated_at
-                                            ? new Date(
-                                                item.updated_at
-                                            ).toLocaleString()
-                                            : "-"
-                                        }
-                                    </td>
+                </td>
 
-                                </tr>
+            </tr>
 
-                            )
-                        )
+        ))
 
-                    )}
+    )}
 
-                </tbody>
-
+</tbody>
             </table>
 
         </div>
