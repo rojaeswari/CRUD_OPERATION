@@ -482,10 +482,10 @@ const getSerialCompletedOutCount = async () => {
 >
   <h5 className="mb-0">🔔 RMA-Inward Reminders</h5>
 
-  <div
+  {/* <div
   onClick={() => setOpen(!open)}
   style={{ cursor: "pointer" }}
->
+> */}
   <span className="badge bg-danger me-2">
     {inreminders.length} Pending
   </span>
@@ -589,7 +589,7 @@ const getSerialCompletedOutCount = async () => {
     </div>
    
      </div>
-    </div>
+    
     
 
   );
