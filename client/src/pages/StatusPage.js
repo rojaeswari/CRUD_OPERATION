@@ -14,8 +14,8 @@ const navigate = useNavigate();
   const [status, setStatus] = useState("pending");
   const [statusText, setStatusText] = useState("");
 
-// const [selectedItem, setSelectedItem] =
-//     useState({ item_id: id });
+const [selectedItem, setSelectedItem] =
+    useState({ item_id: id });
 
 const loadData = () => {
   axios.get("https://smazo.onrender.com/reminders_lsr")
@@ -67,22 +67,22 @@ try{
 
 
 
-  const completeStatus = async () => {
+//   const completeStatus = async () => {
 
-  console.log("DATA:", data);
+//   console.log("DATA:", data);
 
-  await axios.post(
-    "https://smazo.onrender.com/update-status_l",
-    {
-      reminder_id: item_id,
-      rma_id: data.rma_id,
-      status_text: status,
-      completed: true
-    }
-  );
+//   await axios.post(
+//     "https://smazo.onrender.com/update-status_l",
+//     {
+//       reminder_id: item_id,
+//       rma_id: data.rma_id,
+//       status_text: status,
+//       completed: true
+//     }
+//   );
 
-  alert("Completed");
-};
+//   alert("Completed");
+// };
 
   return (
     // <div>
