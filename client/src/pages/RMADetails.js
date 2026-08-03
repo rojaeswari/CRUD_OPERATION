@@ -279,7 +279,7 @@ const updateStatus = async () => {
               <td style={{
                                     backgroundColor:
                                         item.status?.trim().toLowerCase() === "completed"
-                                            ? "#1adab0"
+                                            ? "#1ada8a"
                                             : "white"
                                 }}>{item.product_name}</td>
               <td>{item.model_number}</td>
@@ -319,7 +319,11 @@ const updateStatus = async () => {
         View
     </Link>
 </td>
-
+<button
+    onClick={() => navigate(location.state?.from || "/dashboard")}
+>
+    Back
+</button>
 
 
 
