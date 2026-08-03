@@ -7,7 +7,7 @@ import "./Dashboard.css";
 const Dashboard = () => {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const[pencount,setPencount]=useState(0);
   const[comcount,setComcount]=useState(0);
@@ -478,7 +478,7 @@ const getSerialCompletedOutCount = async () => {
     <div
   className="card-header d-flex justify-content-between align-items-center"
   style={{ cursor: "pointer" }}
-  onClick={() => setOpen(!open)}
+   onClick={() => setOpen(prev => !prev)}
 >
   <h5 className="mb-0">🔔 RMA-Inward Reminders</h5>
 
