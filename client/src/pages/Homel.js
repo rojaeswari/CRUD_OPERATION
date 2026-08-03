@@ -553,18 +553,18 @@ Reminder Date: ${item.reminder_date}
                                 <td>{item.status}</td>
                                 <td>
 
-                                    <button
-                                        className="btn btn-outline-primary btn-sm"
-                                        onClick={() =>
-                                            nav(`/rma-details_r/${item.rma_no}`, {
-                                                state: {
-                                                    from: "/home/home_l"
-                                                }
-                                            })
-                                        }
-                                    >
-                                        View
-                                    </button>
+                                   <button
+    className="view-btn"
+    onClick={() =>
+        nav(`/rma-details_r/${item.rma_no}`, {
+            state: {
+                from: "/home/home_l"
+            }
+        })
+    }
+>
+    View
+</button>
                                 </td>
                                 <td>
                                     <Link to={`/update-rma1/${item.rma_no}`}>

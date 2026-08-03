@@ -64,25 +64,20 @@ body{
   background:linear-gradient(135deg,#66BB6A,#32aa38);
 } */
 
-.btn-outline-primary {
-    background: linear-gradient(135deg, #16a34a, #15803d) !important;
+.view-btn {
+    background: #16a34a !important;
     color: white !important;
-    border: 1px solid #15803d !important;
-    padding: 8px 16px;
-    border-radius: 8px;
+    border: none !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-.btn-outline-primary:hover {
-    background: linear-gradient(135deg, #15803d, #166534) !important;
-    color: white !important;
-    border-color: #166534 !important;
-    transform: translateY(-2px);
+.view-btn:hover {
+    background: #15803d !important;
 }
-
 .share-btn{
   background:linear-gradient(135deg,#66BB6A,#26912c);
 }
