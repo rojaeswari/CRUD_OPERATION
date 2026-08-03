@@ -1,251 +1,251 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams,Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 
 
 function RMADetails() {
 
-  const { rma_no } = useParams();
-  const navigate = useNavigate();
-const location = useLocation();
+    const { rma_no } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  console.log("rma_no =", rma_no);
+    console.log("rma_no =", rma_no);
 
-  const [data, setData] = useState([]);
-     const [supporterData, setSupporterData] = useState([]);
-     const [supporterHistory, setSupporterHistory] = useState([]);
-      const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    const [supporterData, setSupporterData] = useState([]);
+    const [supporterHistory, setSupporterHistory] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+    useEffect(() => {
 
-    axios
-      .get(`https://smazo.onrender.com/rma-details_r/${rma_no}`)
-      .then((res) => {
-        console.log(res.data);
-        setData(res.data);
-         setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        axios
+            .get(`https://smazo.onrender.com/rma-details_r/${rma_no}`)
+            .then((res) => {
+                console.log(res.data);
+                setData(res.data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
-  }, [rma_no]);
+    }, [rma_no]);
 
-  if (loading) {
-    return <h4>Loading...</h4>;
-  }
+    if (loading) {
+        return <h4>Loading...</h4>;
+    }
 
-  if (data.length === 0) {
-    return <h4>No Data Found</h4>;
-  }
+    if (data.length === 0) {
+        return <h4>No Data Found</h4>;
+    }
 
- const loadSupporter = async (serialNo) => {
+    const loadSupporter = async (serialNo) => {
 
-    try {
+        try {
 
-        const res = await axios.get(
-            `https://smazo.onrender.com/api/supporter-by-serial/${serialNo}`
-        );
-
-        console.log("Supporter:", res.data);
-
-        setSupporterData(res.data);
-
-        if (res.data.length > 0) {
-
-            const supporterId = res.data[0].id;
-
-            const historyRes = await axios.get(
-                `https://smazo.onrender.com/api/supporter-status-history/${supporterId}`
+            const res = await axios.get(
+                `https://smazo.onrender.com/api/supporter-by-serial/${serialNo}`
             );
 
-            console.log("Supporter History:", historyRes.data);
+            console.log("Supporter:", res.data);
 
-            setSupporterHistory(historyRes.data);
+            setSupporterData(res.data);
+
+            if (res.data.length > 0) {
+
+                const supporterId = res.data[0].id;
+
+                const historyRes = await axios.get(
+                    `https://smazo.onrender.com/api/supporter-status-history/${supporterId}`
+                );
+
+                console.log("Supporter History:", historyRes.data);
+
+                setSupporterHistory(historyRes.data);
+            }
+
+        } catch (err) {
+
+            console.log("Supporter loading error:", err);
+
+        }
+    };
+
+
+    const updateStatus = async () => {
+
+        try {
+
+            await axios.put(
+                `https://smazo.onrender.com/update-rma-status/${rma_no}`,
+                {
+                    status: "Completed"
+                }
+            );
+
+            alert("RMA Completed");
+
+            window.location.reload();
+
+        } catch (err) {
+
+            console.log(err);
+
+            alert("Update Failed");
+
         }
 
-    } catch (err) {
+    };
 
-        console.log("Supporter loading error:", err);
-
-    }
-};
-
-
-const updateStatus = async () => {
-
-    try {
-
-        await axios.put(
-            `https://smazo.onrender.com/update-rma-status/${rma_no}`,
-            {
-                status: "Completed"
-            }
-        );
-
-        alert("RMA Completed");
-
-        window.location.reload();
-
-    } catch (err) {
-
-        console.log(err);
-
-        alert("Update Failed");
-
+    if (data.length === 0) {
+        return <h4>No Data Found</h4>;
     }
 
-};
+    return (
+        <div className="container mt-4">
 
-  if (data.length === 0) {
-    return <h4>No Data Found</h4>;
-  }
+            <h3>RMA Details</h3>
 
-  return (
-    <div className="container mt-4">
+            {/* Header Details */}
+            <div className="card p-3 mb-3">
+                <p>
+                    <strong>Customer :</strong>{" "}
+                    {data[0].customer_name}
+                </p>
+            </div>
 
-      <h3>RMA Details</h3>
+            {supporterData.length > 0 && (
+                <div className="mt-4">
 
-      {/* Header Details */}
-      <div className="card p-3 mb-3">
-        <p>
-          <strong>Customer :</strong>{" "}
-          {data[0].customer_name}
-        </p>
-      </div>
+                    <h3>Supporter Details</h3>
 
-     {supporterData.length > 0 && (
-    <div className="mt-4">
+                    <table className="table table-bordered">
 
-        <h3>Supporter Details</h3>
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Product Name</th>
+                                <th>Model No</th>
+                                <th>Serial No</th>
+                                <th>Replacement Serial No</th>
+                                <th>Return Status</th>
+                            </tr>
+                        </thead>
 
-        <table className="table table-bordered">
+                        <tbody>
 
-            <thead>
-                <tr>
-                    <th>S.No</th>
-                    <th>Product Name</th>
-                    <th>Model No</th>
-                    <th>Serial No</th>
-                    <th>Replacement Serial No</th>
-                    <th>Return Status</th>
-                </tr>
-            </thead>
+                            {supporterData.map((row, index) => (
 
-            <tbody>
+                                <tr key={row.id}>
 
-                {supporterData.map((row, index) => (
+                                    <td>{index + 1}</td>
 
-                    <tr key={row.id}>
+                                    <td>{row.product_name}</td>
 
-                        <td>{index + 1}</td>
+                                    <td>{row.model_no}</td>
 
-                        <td>{row.product_name}</td>
+                                    <td>{row.serial_no}</td>
 
-                        <td>{row.model_no}</td>
+                                    <td>{row.replacement_serial_no}</td>
 
-                        <td>{row.serial_no}</td>
+                                    <td>
+                                        <span
+                                            style={{
+                                                padding: "6px 12px",
+                                                borderRadius: "6px",
+                                                backgroundColor:
+                                                    row.return_status === "Returned"
+                                                        ? "#1adab0"
+                                                        : "#ffc107",
+                                                color:
+                                                    row.return_status === "Returned"
+                                                        ? "white"
+                                                        : "black",
+                                                fontWeight: "600"
+                                            }}
+                                        >
+                                            {row.return_status}
+                                        </span>
+                                    </td>
 
-                        <td>{row.replacement_serial_no}</td>
+                                </tr>
 
-                        <td>
-                            <span
-                                style={{
-                                    padding: "6px 12px",
-                                    borderRadius: "6px",
-                                    backgroundColor:
-                                        row.return_status === "Returned"
-                                            ? "#1adab0"
-                                            : "#ffc107",
-                                    color:
-                                        row.return_status === "Returned"
-                                            ? "white"
-                                            : "black",
-                                    fontWeight: "600"
-                                }}
-                            >
-                                {row.return_status}
-                            </span>
-                        </td>
+                            ))}
 
-                    </tr>
+                        </tbody>
 
-                ))}
+                    </table>
 
-            </tbody>
+                </div>
+            )}
 
-        </table>
+            {supporterHistory.length > 0 && (
+                <div className="mt-4">
 
-    </div>
-)}
+                    <h3>Return Status History</h3>
 
-{supporterHistory.length > 0 && (
-    <div className="mt-4">
+                    <table className="table table-bordered">
 
-        <h3>Return Status History</h3>
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
 
-        <table className="table table-bordered">
-
-            <thead>
-                <tr>
-                    <th>S.No</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-
-            <tbody>
+                        <tbody>
               //history table
 
-                {supporterHistory.map((item, index) => (
+                            {supporterHistory.map((item, index) => (
 
-                    <tr key={item.id}>
+                                <tr key={item.id}>
 
-                        <td>
-                            {index + 1}
-                        </td>
+                                    <td>
+                                        {index + 1}
+                                    </td>
 
-                        <td>
-                            <span
-                                style={{
-                                    padding: "6px 12px",
-                                    borderRadius: "6px",
-                                    backgroundColor:
-                                        item.status === "Returned"
-                                            ? "#1adab0"
-                                            : "#ffc107",
-                                    color:
-                                        item.status === "Returned"
-                                            ? "white"
-                                            : "black",
-                                    fontWeight: "600"
-                                }}
-                            >
-                                {item.status}
-                            </span>
-                        </td>
+                                    <td>
+                                        <span
+                                            style={{
+                                                padding: "6px 12px",
+                                                borderRadius: "6px",
+                                                backgroundColor:
+                                                    item.status === "Returned"
+                                                        ? "#1adab0"
+                                                        : "#ffc107",
+                                                color:
+                                                    item.status === "Returned"
+                                                        ? "white"
+                                                        : "black",
+                                                fontWeight: "600"
+                                            }}
+                                        >
+                                            {item.status}
+                                        </span>
+                                    </td>
 
-                        <td>
-                            {new Date(
-                                item.status_date
-                            ).toLocaleString()}
-                        </td>
+                                    <td>
+                                        {new Date(
+                                            item.status_date
+                                        ).toLocaleString()}
+                                    </td>
 
-                    </tr>
+                                </tr>
 
-                ))}
+                            ))}
 
-            </tbody>
+                        </tbody>
 
-        </table>
+                    </table>
 
-    </div>
-)}
+                </div>
+            )}
 
 
 
-      {/* <div className="mb-3">
+            {/* <div className="mb-3">
 
     <button
         className="btn btn-success"
@@ -256,94 +256,99 @@ const updateStatus = async () => {
 
 </div> */}
 
-      {/* Serial Details */}
-      <table className="table table-bordered">
+            {/* Serial Details */}
+            <table className="table table-bordered">
 
-        <thead>
-          <tr>
+                <thead>
+                    <tr>
 
-            <th>S.No</th>
-            <th>product Name</th>
-            <th>model Number</th>
-            <th>quantity</th>
-            <th>Serial No</th>
-            <th>Accessory</th>
-            <th>Issues</th>
-            <th>status</th>
-            <th> Status Update</th>
-            <th>Status History</th>
-          </tr>
-        </thead>
+                        <th>S.No</th>
+                        <th>product Name</th>
+                        <th>model Number</th>
+                        <th>quantity</th>
+                        <th>Serial No</th>
+                        <th>Accessory</th>
+                        <th>Issues</th>
+                        <th>status</th>
+                        <th> Status Update</th>
+                        <th>Status History</th>
+                    </tr>
+                </thead>
 
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={item.serial_no || index}>
-              <td>{index + 1}</td>
-              <td style={{
-                                    backgroundColor:
-                                        item.status?.trim().toLowerCase() === "completed"
-                                            ? "#1ada8a"
-                                            : "white"
-                                }}>{item.product_name}</td>
-              <td>{item.model_number}</td>
-              <td>
-  {index === 0 ||
-  data[index - 1].id !== item.id
-    ? item.quantity_no
-    : ""}
-</td>
-              <td>{item.serial_no}</td>
-              <td>{item.accessory}</td>
-              <td>{item.issues}</td>
-
-
-              <td>
-    <button
-        onClick={() => loadSupporter(item.serial_no)}
-    >
-        View
-    </button>
-</td>
+                <tbody>
+                    {data.map((item, index) => (
+                        <tr key={item.serial_no || index}>
+                            <td>{index + 1}</td>
+                            <td style={{
+                                backgroundColor:
+                                    item.status?.trim().toLowerCase() === "completed"
+                                        ? "#1ada8a"
+                                        : "white"
+                            }}>{item.product_name}</td>
+                            <td>{item.model_number}</td>
+                            <td>
+                                {index === 0 ||
+                                    data[index - 1].id !== item.id
+                                    ? item.quantity_no
+                                    : ""}
+                            </td>
+                            <td>{item.serial_no}</td>
+                            <td>{item.accessory}</td>
+                            <td>{item.issues}</td>
 
 
-<td>
-                <Link
-
-                to={`/statuspage/${item.item_id}`}
-              >
-                status
-              </Link>
-              </td>
-
-<td>
+                            <td>
+                                <button
+                                    onClick={() => loadSupporter(item.serial_no)}
+                                >
+                                    View
+                                </button>
+                            </td>
 
 
-    <Link to={`/serial-history/${item.serial_no}`}>
-        View
-    </Link>
-</td>
+                            <td>
+                                <Link
 
-              {/* <td> <Link
+                                    to={`/statuspage/${item.item_id}`}
+                                >
+                                    status
+                                </Link>
+                            </td>
+
+                            <td>
+
+
+                                <Link to={`/serial-history/${item.serial_no}`}>
+                                    View
+                                </Link>
+                            </td>
+
+                            {/* <td> <Link
 
                 to={`/status-history_lsr/${item.item_id}`}
               >
                 View
               </Link></td> */}
-            </tr>
-          ))}
-        </tbody>
+                        </tr>
+                    ))}
+                </tbody>
 
-      </table>
+            </table>
 
-      
-      <Link to="/home/home_l">
-                          <button className="back-btn">
-                              Go Back
-                          </button>
-                      </Link>
 
-    </div>
-  );
+            <Link to="/home/home_l">
+                <button className="back-btn">
+                    Go Back
+                </button>
+            </Link>
+            <button
+    onClick={() => navigate(location.state?.from || "/dashboard")}
+>
+    Back
+</button>
+
+        </div>
+    );
 }
 
 export default RMADetails;
