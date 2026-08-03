@@ -478,7 +478,7 @@ const getSerialCompletedOutCount = async () => {
     <div
   className="card-header d-flex justify-content-between align-items-center"
   style={{ cursor: "pointer" }}
-   onClick={() => setOpen(prev => !prev)}
+  onClick={() => setOpen(!open)}
 >
   <h5 className="mb-0">🔔 RMA-Inward Reminders</h5>
 
