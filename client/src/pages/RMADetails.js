@@ -338,7 +338,7 @@ const location = useLocation();
             </table>
 
 
-            <Link to="/home/home_l">
+            {/* <Link to="/home/home_l">
                <button
     onClick={() =>
         navigate(location.state?.from || "/Dashboard")
@@ -346,7 +346,15 @@ const location = useLocation();
 >
     Go Back
 </button>
-            </Link>
+            </Link> */}
+            <button
+    className="back-btn"
+    onClick={() =>
+        navigate(location.state?.from || "/Dashboard")
+    }
+>
+    Go Back
+</button>
    
         </div>
     );
