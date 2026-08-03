@@ -9,7 +9,7 @@ function RMADetails() {
 
     const { rma_no } = useParams();
     const navigate = useNavigate();
-    const location = useLocation();
+const location = useLocation();
   
 
     console.log("rma_no =", rma_no);
@@ -339,10 +339,12 @@ function RMADetails() {
 
 
             <Link to="/home/home_l">
-                <button
-    onClick={() => navigate(location.state?.from || "/dashboard")}
+               <button
+    onClick={() =>
+        navigate(location.state?.from || "/Dashboard")
+    }
 >
-    Back
+    Go Back
 </button>
             </Link>
    
