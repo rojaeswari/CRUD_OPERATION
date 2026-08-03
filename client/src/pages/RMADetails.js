@@ -341,12 +341,7 @@ function RMADetails() {
                     Go Back
                 </button>
             </Link>
-            <button
-    onClick={() => navigate(location.state?.from || "/dashboard")}
->
-    Back
-</button>
-
+   
         </div>
     );
 }

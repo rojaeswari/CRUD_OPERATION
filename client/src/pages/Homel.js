@@ -262,45 +262,45 @@ const Homel = () => {
             // );
 
             // One big box
-doc.rect(13, 35, 182, 55);
+            doc.rect(13, 35, 182, 55);
 
-// Top row
-doc.setFontSize(9);
-doc.setFont(undefined, "bold");
+            // Top row
+            doc.setFontSize(9);
+            doc.setFont(undefined, "bold");
 
-doc.text(`RMA No : ${headerData.rma_no}`, 18, 43);
-doc.text(`Entry Date : ${entryDate}`, 80, 43);
-doc.text(`Staff : ${headerData.created_by_name || ""}`, 145, 43);
+            doc.text(`RMA No : ${headerData.rma_no}`, 18, 43);
+            doc.text(`Entry Date : ${entryDate}`, 80, 43);
+            doc.text(`Staff : ${headerData.created_by_name || ""}`, 145, 43);
 
-// Divider line
-doc.line(13, 48, 195, 48);
+            // Divider line
+            doc.line(13, 48, 195, 48);
 
-// Customer Details title
-doc.setFontSize(10);
-doc.text("Customer Details", 18, 55);
+            // Customer Details title
+            doc.setFontSize(10);
+            doc.text("Customer Details", 18, 55);
 
-doc.setFont(undefined, "normal");
-doc.setFontSize(9);
+            doc.setFont(undefined, "normal");
+            doc.setFontSize(9);
 
-// Left column
-doc.text(`Customer : ${headerData.customer_name || ""}`, 18, 62);
-doc.text(`Company : ${headerData.company_name || ""}`, 18, 70);
-// const company = doc.splitTextToSize(
-//     `Company : ${headerData.company_name || ""}`,
-//     70
-// );
+            // Left column
+            doc.text(`Customer : ${headerData.customer_name || ""}`, 18, 62);
+            doc.text(`Company : ${headerData.company_name || ""}`, 18, 70);
+            // const company = doc.splitTextToSize(
+            //     `Company : ${headerData.company_name || ""}`,
+            //     70
+            // );
 
-// Right column
-doc.text(`Phone : ${headerData.phone_no || ""}`, 105, 62);
-doc.text(`Email : ${headerData.email || ""}`, 105, 70);
+            // Right column
+            doc.text(`Phone : ${headerData.phone_no || ""}`, 105, 62);
+            doc.text(`Email : ${headerData.email || ""}`, 105, 70);
 
-// Address
-const address = doc.splitTextToSize(
-    `Address : ${headerData.address || ""}`,
-    160 // Width inside the box
-);
+            // Address
+            const address = doc.splitTextToSize(
+                `Address : ${headerData.address || ""}`,
+                160 // Width inside the box
+            );
 
-doc.text(address, 18, 78);
+            doc.text(address, 18, 78);
 
 
 
@@ -379,25 +379,25 @@ doc.text(address, 18, 78);
                 finalY
             );
 
-                       const totalPages = doc.internal.getNumberOfPages();
+            const totalPages = doc.internal.getNumberOfPages();
 
-for (let i = 1; i <= totalPages; i++) {
+            for (let i = 1; i <= totalPages; i++) {
 
-    doc.setPage(i);
+                doc.setPage(i);
 
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
 
-    doc.setFontSize(8);
-    doc.setTextColor(100);
+                doc.setFontSize(8);
+                doc.setTextColor(100);
 
-    doc.text(
-        `Page ${i} of ${totalPages}`,
-        pageWidth / 2,
-        pageHeight - 5,
-        { align: "center" }
-    );
-}
+                doc.text(
+                    `Page ${i} of ${totalPages}`,
+                    pageWidth / 2,
+                    pageHeight - 5,
+                    { align: "center" }
+                );
+            }
 
 
 
@@ -437,34 +437,34 @@ Reminder Date: ${item.reminder_date}
     };
 
 
- const filteredData = [...data]
-  .filter((item) => {
-    const searchText = search.toLowerCase();
+    const filteredData = [...data]
+        .filter((item) => {
+            const searchText = search.toLowerCase();
 
-    return (
-      item.customer_name?.toLowerCase().includes(searchText) ||
-      item.product_name?.toLowerCase().includes(searchText) ||
-      item.model_number?.toLowerCase().includes(searchText)
-    );
-  })
-  .sort((a, b) => {
+            return (
+                item.customer_name?.toLowerCase().includes(searchText) ||
+                item.product_name?.toLowerCase().includes(searchText) ||
+                item.model_number?.toLowerCase().includes(searchText)
+            );
+        })
+        .sort((a, b) => {
 
-    const statusA = a.status?.trim().toLowerCase();
-    const statusB = b.status?.trim().toLowerCase();
+            const statusA = a.status?.trim().toLowerCase();
+            const statusB = b.status?.trim().toLowerCase();
 
-    // Completed first
-    if (statusA === "completed" && statusB !== "completed") {
-      return -1;
-    }
+            // Completed first
+            if (statusA === "completed" && statusB !== "completed") {
+                return -1;
+            }
 
-    // Pending after Completed
-    if (statusA !== "completed" && statusB === "completed") {
-      return 1;
-    }
+            // Pending after Completed
+            if (statusA !== "completed" && statusB === "completed") {
+                return 1;
+            }
 
-    // Same status → latest RMA first
-    return Number(b.rma_no) - Number(a.rma_no);
-  });
+            // Same status → latest RMA first
+            return Number(b.rma_no) - Number(a.rma_no);
+        });
 
     return (
         <div className="top-btns">
@@ -483,13 +483,13 @@ Reminder Date: ${item.reminder_date}
                     </button>
                 </Link>
 
-               <input
-    type="text"
-    className="form-control w-50"
-    placeholder="Search by Customer Name, Product Name or Model No..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-  />
+                <input
+                    type="text"
+                    className="form-control w-50"
+                    placeholder="Search by Customer Name, Product Name or Model No..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
 
 
                 <Link to="/home/add">
@@ -550,12 +550,19 @@ Reminder Date: ${item.reminder_date}
 
                                 <td>{item.status}</td>
                                 <td>
-                                    <Link
 
-                                        to={`/rma-details_r/${item.rma_no}`}
+                                    <button
+                                        className="btn btn-outline-primary btn-sm"
+                                        onClick={() =>
+                                            nav(`/rma-details_r/${item.rma_no}`, {
+                                                state: {
+                                                    from: "/home/home_l"
+                                                }
+                                            })
+                                        }
                                     >
                                         View
-                                    </Link>
+                                    </button>
                                 </td>
 
                                 <td>
@@ -579,7 +586,7 @@ Reminder Date: ${item.reminder_date}
 
                                 </td>
 
-                               
+
                                 <td>
                                     <button
                                         className="view-btn"
