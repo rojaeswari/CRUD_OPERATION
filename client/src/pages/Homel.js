@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import "./Home_l.css";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { useNavigate } from "react-router-dom";
 
 const Homel = () => {
+    const nav = useNavigate();
 
     const [data, setData] = useState([]); // MUST BE []
     const [search, setSearch] = useState("");

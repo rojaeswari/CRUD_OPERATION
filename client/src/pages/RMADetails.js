@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom";
+
 
 
 function RMADetails() {
 
     const { rma_no } = useParams();
-    const navigate = useNavigate();
-    const location = useLocation();
+  
 
     console.log("rma_no =", rma_no);
 
