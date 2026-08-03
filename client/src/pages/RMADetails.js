@@ -336,9 +336,11 @@ function RMADetails() {
 
 
             <Link to="/home/home_l">
-                <button className="back-btn">
-                    Go Back
-                </button>
+                <button
+    onClick={() => navigate(location.state?.from || "/dashboard")}
+>
+    Back
+</button>
             </Link>
    
         </div>
