@@ -208,29 +208,43 @@
     animation:blink 1s infinite;
 }
 /* RMA Inward Reminder Box */
-.reminder-card {
-    width: 100%;
-    max-width: 1200px;
-    min-height: 140px;
+/* ============================= */
+/* RMA INWARD REMINDER - SIZE */
+/* ============================= */
 
-    background: white;
-    border-left: 6px solid #f97316;
-    padding: 18px;
-    border-radius: 16px;
-    margin: 20px auto;
-
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: 0.3s;
+.row:has(.reminder-card) {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
-.reminder-card:hover {
-    transform: translateY(-5px);
+.row:has(.reminder-card) .col-lg-10 {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+.reminder-card {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 140px !important;
+
+    background: white !important;
+    border-left: 6px solid #f97316 !important;
+    border-radius: 16px !important;
+
+    padding: 18px !important;
+    margin: 20px 0 !important;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
 }
 
 .reminder-card .card-header {
-    width: 100%;
-    min-height: 70px;
-    padding: 15px 25px;
+    width: 100% !important;
+    min-height: 70px !important;
+    padding: 15px 25px !important;
 }
 @keyframes blink{
     50%{
