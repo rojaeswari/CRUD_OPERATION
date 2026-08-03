@@ -14,8 +14,8 @@ const navigate = useNavigate();
   const [status, setStatus] = useState("pending");
   const [statusText, setStatusText] = useState("");
 
-const [selectedItem, setSelectedItem] =
-    useState({ item_id: id });
+// const [selectedItem, setSelectedItem] =
+//     useState({ item_id: id });
 
 const loadData = () => {
   axios.get("https://smazo.onrender.com/reminders_lsr")
