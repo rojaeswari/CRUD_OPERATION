@@ -546,7 +546,7 @@ const getSerialCompletedOutCount = async () => {
 
                 <td>
                   <span className="rma-number">
-                    #{item.rma_no}
+                    {item.rma_no}
                   </span>
                 </td>
 

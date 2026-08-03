@@ -348,7 +348,7 @@
 
 .pending-badge {
 
-    background: #dc2626;
+    background: #11d832;
 
     color: white;
 
@@ -615,7 +615,7 @@
 
 .reminder-update-btn {
 
-    background: #2563eb;
+    background: #16a34a;
 
     color: white;
 
@@ -637,7 +637,7 @@
 
 .reminder-update-btn:hover {
 
-    background: #1d4ed8;
+    background:#16a34a;
 
     transform: translateY(-1px);
 }
