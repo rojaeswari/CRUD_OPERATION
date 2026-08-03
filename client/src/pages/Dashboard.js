@@ -469,121 +469,153 @@ const getSerialCompletedOutCount = async () => {
     </div>
 
 </div>
-    <div className="row justify-content-center">
+    <div className="rma-reminder-container">
 
-    <div className="col-lg-10">
-     <div className="card reminder-card">
+  {/* Reminder Header */}
+  <div
+    className="rma-reminder-header"
+    onClick={() => setOpen(!open)}
+  >
 
-    <div className="card-body">
-    <div
-  className="card-header d-flex justify-content-between align-items-center"
-  style={{ cursor: "pointer" }}
-  onClick={() => setOpen(!open)}
->
-  <h5 className="mb-0">🔔 RMA-Inward Reminders</h5>
+    <div className="reminder-title-section">
 
-  {/* <div
-  onClick={() => setOpen(!open)}
-  style={{ cursor: "pointer" }}
-> */}
-  <span className="badge bg-danger me-2">
-    {inreminders.length} Pending
-  </span>
+      <div className="reminder-icon">
+        🔔
+      </div>
 
-  {open ? "▲" : "▼"}
-</div>
-</div>
-{open && (
+      <div>
+        <h5>RMA-Inward Reminders</h5>
+        <span>Pending actions require your attention</span>
+      </div>
 
-<div className="card-body">
+    </div>
+
+    <div className="reminder-header-right">
+
+      <span className="pending-badge">
+        {inreminders.length} Pending
+      </span>
+
+      <span className="arrow-icon">
+        {open ? "▲" : "▼"}
+      </span>
+
+    </div>
+
+  </div>
+
+
+  {/* Reminder Content */}
+
+  {open && (
+
+    <div className="rma-reminder-content">
+
+      <div className="reminder-search">
+
         <input
-      type="text"
-      className="form-control mb-3"
-      placeholder="Search RMA / Product / Serial"
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-    />
+          type="text"
+          placeholder="🔍 Search RMA / Product / Serial"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
-<div className="table-responsive">
+      </div>
 
-<table
-    className="table table-sm table-hover align-middle"
-    style={{ fontSize: "13px" }}
->
 
-  <thead className="table-dark">
-    <tr>
-      <th>RMA No</th>
-      <th>Product Name</th>
-      <th>Model Number</th>
-      <th>Serial No</th>
-      <th>Reminders</th>
-      <th>Action</th>
-    </tr>
-  </thead>
+      <div className="table-responsive">
 
-  <tbody>
+        <table className="rma-reminder-table">
 
-    {filteredReminders.map((item) => (
+          <thead>
+            <tr>
+              <th>RMA No</th>
+              <th>Product</th>
+              <th>Model</th>
+              <th>Serial No</th>
+              <th>Reminder</th>
+              <th>Action</th>
+            </tr>
+          </thead>
 
-      <tr key={item.reminder_id}>
+          <tbody>
 
-        <td>{item.rma_no}</td>
-        <td>{item.product_name}</td>
-        <td>{item.model_number}</td>
-        <td>{item.serial_no}</td>
+            {filteredReminders.map((item) => (
 
-        <td>
-          Day-{item.reminder_day}
-        </td>
+              <tr key={item.reminder_id}>
 
-        <td>
+                <td>
+                  <span className="rma-number">
+                    #{item.rma_no}
+                  </span>
+                </td>
 
-          <button
-            className="btn btn-outline-secondary btn-sm me-2"
-            onClick={() =>
-              nav(`/rma-details_r/${item.rma_no}`, {
-                state: {
-                  from: "/Dashboard"
-                }
-              })
-            }
-          >
-            View
-          </button>
+                <td>
+                  {item.product_name}
+                </td>
 
-          <button
-            className="btn btn-outline-primary btn-sm"
-            onClick={() =>
-              nav(
-                `/statuspage/${item.item_id}/${item.reminder_id}`
-              )
-            }
-          >
-            Update
-          </button>
+                <td>
+                  {item.model_number}
+                </td>
 
-        </td>
+                <td>
+                  <span className="serial-number">
+                    {item.serial_no}
+                  </span>
+                </td>
 
-      </tr>
+                <td>
 
-    ))}
+                  <span className="day-badge">
+                    Day-{item.reminder_day}
+                  </span>
 
-  </tbody>
+                </td>
 
-</table>
+                <td>
+
+                  <button
+                    className="reminder-view-btn"
+                    onClick={() =>
+                      nav(`/rma-details_r/${item.rma_no}`, {
+                        state: {
+                          from: "/Dashboard"
+                        }
+                      })
+                    }
+                  >
+                    View
+                  </button>
+
+                  <button
+                    className="reminder-update-btn"
+                    onClick={() =>
+                      nav(
+                        `/statuspage/${item.item_id}/${item.reminder_id}`
+                      )
+                    }
+                  >
+                    Update
+                  </button>
+
+                </td>
+
+              </tr>
+
+            ))}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  )}
 
 </div>
 
-</div>
-
-)}
-
-</div>
-
-</div>
-
-</div>
          
     </div>
     </div>

@@ -207,44 +207,480 @@
     font-weight:bold;
     animation:blink 1s infinite;
 }
-/* RMA Inward Reminder Box */
-/* ============================= */
-/* RMA INWARD REMINDER - SIZE */
-/* ============================= */
+/* =========================================
+   RMA INWARD REMINDER
+========================================= */
 
-.row:has(.reminder-card) {
-    width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+.rma-reminder-container {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    margin: 25px 0;
+
+    border: 1px solid #d9f0df;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.08);
+
+    transition: 0.3s;
 }
 
-.row:has(.reminder-card) .col-lg-10 {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 0 0 100% !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
+.rma-reminder-container:hover {
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
-.reminder-card {
-    width: 100% !important;
-    max-width: none !important;
-    min-height: 140px !important;
 
-    background: white !important;
-    border-left: 6px solid #f97316 !important;
-    border-radius: 16px !important;
+/* =========================================
+   HEADER
+========================================= */
 
-    padding: 18px !important;
-    margin: 20px 0 !important;
+.rma-reminder-header {
 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 18px 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f0fdf4,
+            #ffffff
+        );
+
+    border-bottom: 1px solid #e5e7eb;
+
+    cursor: pointer;
+
+    transition: 0.3s;
 }
 
-.reminder-card .card-header {
-    width: 100% !important;
-    min-height: 70px !important;
-    padding: 15px 25px !important;
+.rma-reminder-header:hover {
+
+    background:
+        linear-gradient(
+            135deg,
+            #dcfce7,
+            #ffffff
+        );
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.reminder-title-section {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.reminder-icon {
+
+    width: 45px;
+
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #dcfce7;
+
+    font-size: 22px;
+
+    box-shadow:
+        0 3px 8px rgba(22, 163, 74, 0.15);
+}
+
+
+.reminder-title-section h5 {
+
+    margin: 0;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    color: #166534;
+}
+
+
+.reminder-title-section span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 12px;
+
+    color: #6b7280;
+}
+
+
+/* =========================================
+   RIGHT SIDE
+========================================= */
+
+.reminder-header-right {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.pending-badge {
+
+    background: #dc2626;
+
+    color: white;
+
+    padding: 7px 13px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 3px 8px rgba(220, 38, 38, 0.25);
+}
+
+
+.arrow-icon {
+
+    width: 32px;
+
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    color: #374151;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.rma-reminder-content {
+
+    padding: 20px 25px 25px;
+
+    background: #ffffff;
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.reminder-search {
+
+    margin-bottom: 18px;
+}
+
+
+.reminder-search input {
+
+    width: 100%;
+
+    padding: 11px 15px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-size: 13px;
+
+    transition: 0.3s;
+}
+
+
+.reminder-search input:focus {
+
+    border-color: #16a34a;
+
+    box-shadow:
+        0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.rma-reminder-table {
+
+    width: 100%;
+
+    border-collapse: separate;
+
+    border-spacing: 0;
+
+    overflow: hidden;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    font-size: 13px;
+}
+
+
+.rma-reminder-table thead {
+
+    background:
+        linear-gradient(
+            135deg,
+            #15803d,
+            #16a34a
+        );
+
+    color: white;
+}
+
+
+.rma-reminder-table th {
+
+    padding: 13px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-align: center;
+}
+
+
+.rma-reminder-table td {
+
+    padding: 13px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #f0f0f0;
+
+    color: #374151;
+}
+
+
+.rma-reminder-table tbody tr {
+
+    background: white;
+
+    transition: 0.2s;
+}
+
+
+.rma-reminder-table tbody tr:hover {
+
+    background: #f0fdf4;
+
+    transform: scale(1.002);
+}
+
+
+.rma-reminder-table tbody tr:last-child td {
+
+    border-bottom: none;
+}
+
+
+/* =========================================
+   RMA NUMBER
+========================================= */
+
+.rma-number {
+
+    font-weight: 700;
+
+    color: #166534;
+
+    background: #dcfce7;
+
+    padding: 5px 9px;
+
+    border-radius: 6px;
+}
+
+
+/* =========================================
+   SERIAL NUMBER
+========================================= */
+
+.serial-number {
+
+    font-family: monospace;
+
+    font-weight: 600;
+
+    color: #374151;
+}
+
+
+/* =========================================
+   DAY BADGE
+========================================= */
+
+.day-badge {
+
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    background: #fff7ed;
+
+    color: #c2410c;
+
+    border: 1px solid #fed7aa;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   VIEW BUTTON
+========================================= */
+
+.reminder-view-btn {
+
+    background: #16a34a;
+
+    color: white;
+
+    border: none;
+
+    padding: 7px 13px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    margin-right: 6px;
+
+    transition: 0.2s;
+}
+
+
+.reminder-view-btn:hover {
+
+    background: #15803d;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   UPDATE BUTTON
+========================================= */
+
+.reminder-update-btn {
+
+    background: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    padding: 7px 13px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.reminder-update-btn:hover {
+
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .rma-reminder-header {
+
+        padding: 15px;
+
+    }
+
+    .reminder-title-section span {
+
+        display: none;
+
+    }
+
+    .reminder-title-section h5 {
+
+        font-size: 15px;
+
+    }
+
+    .pending-badge {
+
+        padding: 6px 9px;
+
+        font-size: 11px;
+
+    }
+
+    .rma-reminder-content {
+
+        padding: 15px;
+
+    }
+
 }
 @keyframes blink{
     50%{
