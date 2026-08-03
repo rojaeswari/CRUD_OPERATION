@@ -322,18 +322,6 @@ const updateStatus = async () => {
         View
     </Link>
 </td>
-<button
-    onClick={() => navigate(location.state?.from || "/dashboard")}
->
-    Back
-</button>
-
-
-
-
-
-
-
 
               {/* <td> <Link
 
@@ -349,9 +337,12 @@ const updateStatus = async () => {
 
       
       <Link to="/home/home_l">
-                          <button className="back-btn">
-                              Go Back
-                          </button>
+                        <button
+    className="back-btn"
+    onClick={() => navigate(location.state?.from || "/Dashboard")}
+>
+    Go Back
+</button>  
                       </Link>
 
     </div>
