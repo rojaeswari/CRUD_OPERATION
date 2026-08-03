@@ -60,22 +60,27 @@ body{
   background:linear-gradient(135deg,#dc2626,#66BB6A);
 }
 
-.view-btn{
-  background: linear-gradient(135deg,#16a34a,#15803d);
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  margin: 3px;
-  transition: 0.3s;
+/* .view-btn{
+  background:linear-gradient(135deg,#66BB6A,#32aa38);
+} */
+
+.btn-outline-primary {
+    background: linear-gradient(135deg, #16a34a, #15803d) !important;
+    color: white !important;
+    border: 1px solid #15803d !important;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.view-btn:hover{
-  background: linear-gradient(135deg,#15803d,#166534);
-  transform: translateY(-2px);
+.btn-outline-primary:hover {
+    background: linear-gradient(135deg, #15803d, #166534) !important;
+    color: white !important;
+    border-color: #166534 !important;
+    transform: translateY(-2px);
 }
 
 .share-btn{
