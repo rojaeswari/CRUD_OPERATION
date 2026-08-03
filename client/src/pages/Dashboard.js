@@ -485,7 +485,7 @@ const getSerialCompletedOutCount = async () => {
 
       <div>
         <h5>RMA-Inward Reminders</h5>
-        <span>Pending actions require your attention</span>
+        {/* <span>Pending actions require your attention</span> */}
       </div>
 
     </div>
