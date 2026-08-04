@@ -6,8 +6,10 @@ import "./Products.css";
 const Products = () => {
 
     const [products, setProducts] = useState([]);
-    const [productName, setProductName] = useState("");
+    const [replacementProductName, setReplacementProductName] = useState("");
+    const [serialNo, setSerialNo] = useState("");
     const [editId, setEditId] = useState(null);
+
     const navigate = useNavigate();
 
     const API_URL = "https://smazo.onrender.com";
@@ -40,8 +42,13 @@ const Products = () => {
 
         e.preventDefault();
 
-        if (!productName.trim()) {
-            alert("Enter Product Name");
+        if (!replacementProductName.trim()) {
+            alert("Enter Replacement Product Name");
+            return;
+        }
+
+        if (!serialNo.trim()) {
+            alert("Enter Serial No");
             return;
         }
 
@@ -52,25 +59,30 @@ const Products = () => {
                 await axios.put(
                     `${API_URL}/api/products/${editId}`,
                     {
-                        product_name: productName
+                        replacement_product_name:
+                            replacementProductName,
+                        serial_no: serialNo
                     }
                 );
 
-                alert("Product Updated Successfully");
+                alert("Replacement Product Updated Successfully");
 
             } else {
 
                 await axios.post(
                     `${API_URL}/api/products`,
                     {
-                        product_name: productName
+                        replacement_product_name:
+                            replacementProductName,
+                        serial_no: serialNo
                     }
                 );
 
-                alert("Product Added Successfully");
+                alert("Replacement Product Added Successfully");
             }
 
-            setProductName("");
+            setReplacementProductName("");
+            setSerialNo("");
             setEditId(null);
 
             loadProducts();
@@ -90,9 +102,24 @@ const Products = () => {
     // Edit
     const handleEdit = (product) => {
 
-        setProductName(product.product_name);
-        setEditId(product.id);
+        setReplacementProductName(
+            product.replacement_product_name || ""
+        );
 
+        setSerialNo(
+            product.serial_no || ""
+        );
+
+        setEditId(product.id);
+    };
+
+
+    // Cancel
+    const handleCancel = () => {
+
+        setEditId(null);
+        setReplacementProductName("");
+        setSerialNo("");
     };
 
 
@@ -130,6 +157,7 @@ const Products = () => {
     return (
 
         <div className="product-master-container">
+
             <div className="product-master-header">
 
                 <button
@@ -139,9 +167,10 @@ const Products = () => {
                     Go Back
                 </button>
 
-                <h2>Product Names</h2>
+                <h2>Replacement Products</h2>
 
             </div>
+
 
             {/* Add / Edit Product */}
 
@@ -153,29 +182,42 @@ const Products = () => {
                 <input
                     type="text"
                     className="product-input"
-                    placeholder="Enter Product Name"
-                    value={productName}
+                    placeholder="Enter Replacement Product Name"
+                    value={replacementProductName}
                     onChange={(e) =>
-                        setProductName(e.target.value)
+                        setReplacementProductName(
+                            e.target.value
+                        )
                     }
                 />
+
+                <input
+                    type="text"
+                    className="product-input"
+                    placeholder="Enter Serial No"
+                    value={serialNo}
+                    onChange={(e) =>
+                        setSerialNo(e.target.value)
+                    }
+                />
+
 
                 <button
                     type="submit"
                     className="product-add-btn"
                 >
-                    {editId ? "Update Product" : "Add Product"}
+                    {editId
+                        ? "Update Product"
+                        : "Add Product"}
                 </button>
+
 
                 {editId && (
 
                     <button
                         type="button"
                         className="product-cancel-btn"
-                        onClick={() => {
-                            setEditId(null);
-                            setProductName("");
-                        }}
+                        onClick={handleCancel}
                     >
                         Cancel
                     </button>
@@ -195,7 +237,9 @@ const Products = () => {
 
                         <th>S.NO</th>
 
-                        <th>Product Name</th>
+                        <th>Replacement Product Name</th>
+
+                        <th>Serial No</th>
 
                         <th>Action</th>
 
@@ -215,7 +259,11 @@ const Products = () => {
                             </td>
 
                             <td>
-                                {product.product_name}
+                                {product.replacement_product_name}
+                            </td>
+
+                            <td>
+                                {product.serial_no}
                             </td>
 
                             <td>
@@ -228,6 +276,7 @@ const Products = () => {
                                 >
                                     Edit
                                 </button>
+
 
                                 <button
                                     className="product-delete-btn"
@@ -250,7 +299,6 @@ const Products = () => {
 
         </div>
     );
-
 };
 
 export default Products;
