@@ -42,11 +42,6 @@ const SupporterView = () => {
             </p>
 
             <p>
-                <strong>Product Name:</strong>{" "}
-                {product.product_name}
-            </p>
-
-            <p>
                 <strong>Model No:</strong>{" "}
                 {product.model_no}
             </p>
@@ -54,6 +49,11 @@ const SupporterView = () => {
             <p>
                 <strong>Serial No:</strong>{" "}
                 {product.serial_no}
+            </p>
+
+            <p>
+                <strong>Replacement Product Name:</strong>{" "}
+                {product.replacement_product_name}
             </p>
 
             <p>
