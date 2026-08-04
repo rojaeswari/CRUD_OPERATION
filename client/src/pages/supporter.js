@@ -209,13 +209,12 @@ const Supporter = () => {
                         </option>
                     ))}
                 </select>
-                <label>Replacement Serial No</label>
+               <label>Replacement Serial No</label>
 
 <input
     type="text"
     name="replacement_serial_no"
     className="form-control"
-    placeholder="Replacement Serial No"
     value={state.replacement_serial_no}
     readOnly
 />
