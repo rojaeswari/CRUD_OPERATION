@@ -147,26 +147,38 @@ const Supporter = () => {
 
                 <label>Product Name</label>
 
-                <input
-                    type="text"
-                    name="product_name"
-                    className="form-control"
-                    list="product-list"
-                    placeholder="Search Product Name"
-                    value={state.product_name}
-                    onChange={handleInputChange}
-                />
+<select
+    name="product_name"
+    className="form-control"
+    value={state.product_name}
+    onChange={(e) => {
 
-                <datalist id="product-list">
+        const selectedProduct = products.find(
+            (product) =>
+                product.replacement_product_name === e.target.value
+        );
 
-                    {products.map((product) => (
-                        <option
-                            key={product.id}
-                            value={product.product_name}
-                        />
-                    ))}
+        setState({
+            ...state,
+            product_name: e.target.value,
+            replacement_serial_no:
+                selectedProduct?.serial_no || ""
+        });
+    }}
+>
+    <option value="">
+        Select Replacement Product
+    </option>
 
-                </datalist>
+    {products.map((product) => (
+        <option
+            key={product.id}
+            value={product.replacement_product_name}
+        >
+            {product.replacement_product_name}
+        </option>
+    ))}
+</select>
 
                 <label>Model No</label>
                 <input
@@ -200,13 +212,14 @@ const Supporter = () => {
                 </select>
                 <label>Replacement Serial No</label>
 
-                <input
-                    type="text"
-                    name="replacement_serial_no"
-                    placeholder="Enter Replacement Serial No"
-                    value={state.replacement_serial_no}
-                    onChange={handleInputChange}
-                />
+<input
+    type="text"
+    name="replacement_serial_no"
+    className="form-control"
+    placeholder="Replacement Serial No"
+    value={state.replacement_serial_no}
+    readOnly
+/>
 
 
 
