@@ -58,7 +58,7 @@ const Supporter = () => {
             });
     }, []);
 
-    useEffect(() => {
+   useEffect(() => {
     axios
         .get("https://smazo.onrender.com/api/products")
         .then((res) => {
@@ -69,7 +69,6 @@ const Supporter = () => {
             console.log("Product fetch error:", err);
         });
 }, []);
-
 
 
     const handleSubmit = async (e) => {
@@ -151,15 +150,18 @@ const Supporter = () => {
     className="form-control"
     value={state.product_name}
     onChange={(e) => {
+        const value = e.target.value;
 
         const selectedProduct = products.find(
             (product) =>
-                product.replacement_product_name === e.target.value
+                product.replacement_product_name === value
         );
+
+        console.log("SELECTED PRODUCT:", selectedProduct);
 
         setState({
             ...state,
-            product_name: e.target.value,
+            product_name: value,
             replacement_serial_no:
                 selectedProduct?.serial_no || ""
         });
@@ -209,13 +211,14 @@ const Supporter = () => {
                         </option>
                     ))}
                 </select>
-               <label>Replacement Serial No</label>
+              <label>Replacement Serial No</label>
 
 <input
     type="text"
     name="replacement_serial_no"
     className="form-control"
-    value={state.replacement_serial_no}
+    placeholder="Replacement Serial No"
+    value={state.replacement_serial_no || ""}
     readOnly
 />
 
