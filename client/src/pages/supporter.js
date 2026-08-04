@@ -59,17 +59,16 @@ const Supporter = () => {
     }, []);
 
     useEffect(() => {
-
-        axios
-            .get("https://smazo.onrender.com/api/products")
-            .then((res) => {
-                setProducts(res.data);
-            })
-            .catch((err) => {
-                console.log("Product fetch error:", err);
-            });
-
-    }, []);
+    axios
+        .get("https://smazo.onrender.com/api/products")
+        .then((res) => {
+            console.log("PRODUCTS FROM API:", res.data);
+            setProducts(res.data);
+        })
+        .catch((err) => {
+            console.log("Product fetch error:", err);
+        });
+}, []);
 
 
 
