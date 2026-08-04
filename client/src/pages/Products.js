@@ -17,7 +17,7 @@ const Products = () => {
     const API_URL = "https://smazo.onrender.com";
 
     // Get products
-    const loadProducts = async () => {
+   const loadProducts = async () => {
 
     try {
 
@@ -64,10 +64,10 @@ const Products = () => {
 
     }
 };
-    useEffect(() => {
-        loadProducts();
-    }, []);
 
+useEffect(() => {
+    loadProducts();
+}, []);
 
     // Add / Update
     const handleSubmit = async (e) => {
@@ -185,7 +185,7 @@ const Products = () => {
         }
     };
 
-    const handleUsedProduct = async (product) => {
+   const handleUsedProduct = async (product) => {
 
     try {
 
@@ -201,16 +201,21 @@ const Products = () => {
             return;
         }
 
+        const usedProduct = response.data.data;
+
         console.log(
             "USED PRODUCT DETAILS:",
-            response.data.data
+            usedProduct
         );
 
+        // SupporterView page
+        navigate(`/supporter-view/${usedProduct.id}`);
 
     } catch (err) {
 
         console.log("Used product error:", err);
 
+        alert("Unable to get product usage details");
     }
 };
 
