@@ -173,3 +173,21 @@
 .product-back-btn:hover {
     background: #3d9d46;
 }
+.used-btn {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.used-btn:hover {
+    background: #15803d;
+}
+
+.not-used {
+    color: #dc2626;
+    font-weight: 600;
+}
