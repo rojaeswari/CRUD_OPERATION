@@ -9,6 +9,8 @@ const Products = () => {
     const [replacementProductName, setReplacementProductName] = useState("");
     const [serialNo, setSerialNo] = useState("");
     const [editId, setEditId] = useState(null);
+    const [search, setSearch] = useState("");
+    const [usageStatus, setUsageStatus] = useState({});
 
     const navigate = useNavigate();
 
@@ -17,21 +19,51 @@ const Products = () => {
     // Get products
     const loadProducts = async () => {
 
-        try {
+    try {
 
-            const response = await axios.get(
-                `${API_URL}/api/products`
-            );
+        const response = await axios.get(
+            `${API_URL}/api/products`
+        );
 
-            setProducts(response.data);
+        const productData = response.data;
 
-        } catch (err) {
+        setProducts(productData);
 
-            console.log("Product fetch error:", err);
+        const statusData = {};
 
+        for (const product of productData) {
+
+            try {
+
+                const usageResponse = await axios.get(
+                    `${API_URL}/api/product-usage/${encodeURIComponent(
+                        product.serial_no
+                    )}`
+                );
+
+                statusData[product.serial_no] =
+                    usageResponse.data.used;
+
+            } catch (err) {
+
+                console.log(
+                    "Usage check error:",
+                    product.serial_no,
+                    err
+                );
+
+                statusData[product.serial_no] = false;
+            }
         }
-    };
 
+        setUsageStatus(statusData);
+
+    } catch (err) {
+
+        console.log("Product fetch error:", err);
+
+    }
+};
     useEffect(() => {
         loadProducts();
     }, []);
@@ -153,6 +185,54 @@ const Products = () => {
         }
     };
 
+    const handleUsedProduct = async (product) => {
+
+    try {
+
+        const response = await axios.get(
+            `${API_URL}/api/product-usage/${encodeURIComponent(
+                product.serial_no
+            )}`
+        );
+
+        if (!response.data.used) {
+
+            alert("This product is Not Used yet.");
+            return;
+        }
+
+        console.log(
+            "USED PRODUCT DETAILS:",
+            response.data.data
+        );
+
+
+    } catch (err) {
+
+        console.log("Used product error:", err);
+
+    }
+};
+
+    const filteredProducts = products.filter((product) => {
+
+    const searchText = search.toLowerCase().trim();
+
+    if (!searchText) {
+        return true;
+    }
+
+    return (
+        product.replacement_product_name
+            ?.toLowerCase()
+            .includes(searchText) ||
+
+        product.serial_no
+            ?.toLowerCase()
+            .includes(searchText)
+    );
+});
+
 
     return (
 
@@ -226,76 +306,112 @@ const Products = () => {
 
             </form>
 
+            <div className="product-search-box">
+
+    <input
+        type="text"
+        placeholder="Search Replacement Product / Serial No..."
+        value={search}
+        onChange={(e) =>
+            setSearch(e.target.value)
+        }
+    />
+
+</div>
+
 
             {/* Product List */}
+<table className="product-table">
 
-            <table className="product-table">
+    <thead>
 
-                <thead>
+        <tr>
 
-                    <tr>
+            <th>S.NO</th>
 
-                        <th>S.NO</th>
+            <th>Replacement Product Name</th>
 
-                        <th>Replacement Product Name</th>
+            <th>Serial No</th>
 
-                        <th>Serial No</th>
+            <th>Status</th>
 
-                        <th>Action</th>
+            <th>Action</th>
 
-                    </tr>
+        </tr>
 
-                </thead>
+    </thead>
 
+    <tbody>
 
-                <tbody>
+        {filteredProducts.map((product, index) => (
 
-                    {products.map((product, index) => (
+            <tr key={product.id}>
 
-                        <tr key={product.id}>
+                <td>
+                    {index + 1}
+                </td>
 
-                            <td>
-                                {index + 1}
-                            </td>
+                <td>
+                    {product.replacement_product_name}
+                </td>
 
-                            <td>
-                                {product.replacement_product_name}
-                            </td>
+                <td>
+                    {product.serial_no}
+                </td>
 
-                            <td>
-                                {product.serial_no}
-                            </td>
+                <td>
 
-                            <td>
+                    {usageStatus[product.serial_no] ? (
 
-                                <button
-                                    className="product-edit-btn"
-                                    onClick={() =>
-                                        handleEdit(product)
-                                    }
-                                >
-                                    Edit
-                                </button>
+                        <button
+                            type="button"
+                            className="used-btn"
+                            onClick={() =>
+                                handleUsedProduct(product)
+                            }
+                        >
+                            Used
+                        </button>
 
+                    ) : (
 
-                                <button
-                                    className="product-delete-btn"
-                                    onClick={() =>
-                                        handleDelete(product.id)
-                                    }
-                                >
-                                    Delete
-                                </button>
+                        <span className="not-used">
+                            Not Used
+                        </span>
 
-                            </td>
+                    )}
 
-                        </tr>
+                </td>
 
-                    ))}
+                <td>
 
-                </tbody>
+                    <button
+                        className="product-edit-btn"
+                        onClick={() =>
+                            handleEdit(product)
+                        }
+                    >
+                        Edit
+                    </button>
 
-            </table>
+                    <button
+                        className="product-delete-btn"
+                        onClick={() =>
+                            handleDelete(product.id)
+                        }
+                    >
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+
+        ))}
+
+    </tbody>
+
+</table>
 
         </div>
     );

@@ -3127,6 +3127,8 @@ app.put("/api/products/:id", (req, res) => {
         }
     );
 });
+
+
 app.delete("/api/products/:id", (req, res) => {
 
     const { id } = req.params;
@@ -3153,6 +3155,55 @@ app.delete("/api/products/:id", (req, res) => {
         });
     });
 });
+
+
+app.get("/api/product-usage/:serial_no", (req, res) => {
+
+    const { serial_no } = req.params;
+
+    const sql = `
+        SELECT
+            s.id,
+            s.product_name,
+            s.model_no,
+            s.serial_no,
+            s.replacement_serial_no,
+            s.return_status,
+            s.customer_id,
+            c.customer_name
+        FROM supporter s
+        LEFT JOIN customer_details c
+            ON c.id = s.customer_id
+        WHERE s.replacement_serial_no = $1
+    `;
+
+    db.query(sql, [serial_no], (err, result) => {
+
+        if (err) {
+            console.log("PRODUCT USAGE ERROR:", err);
+
+            return res.status(500).json({
+                success: false,
+                error: err.message
+            });
+        }
+
+        if (result.rows.length === 0) {
+            return res.json({
+                success: true,
+                used: false,
+                data: null
+            });
+        }
+
+        res.json({
+            success: true,
+            used: true,
+            data: result.rows[0]
+        });
+    });
+});
+
 
 app.get("/api/pending-count", (req, res) => {
 
