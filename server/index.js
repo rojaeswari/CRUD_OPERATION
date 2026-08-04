@@ -3012,32 +3012,41 @@ app.get("/api/supporter-status-history/:supporterId", (req, res) => {
 
 //Product Master API
 
+// ADD REPLACEMENT PRODUCT
 app.post("/api/products", (req, res) => {
 
-    const { product_name } = req.body;
+    const {
+        replacement_product_name,
+        serial_no
+    } = req.body;
 
     const sql = `
-        INSERT INTO products (product_name)
-        VALUES ($1)
+        INSERT INTO products
+        (replacement_product_name, serial_no)
+        VALUES ($1, $2)
         RETURNING *
     `;
 
-    db.query(sql, [product_name], (err, result) => {
+    db.query(
+        sql,
+        [replacement_product_name, serial_no],
+        (err, result) => {
 
-        if (err) {
-            console.log("PRODUCT INSERT ERROR:", err);
+            if (err) {
+                console.log("PRODUCT INSERT ERROR:", err);
 
-            return res.status(500).json({
-                success: false,
-                error: err.message
+                return res.status(500).json({
+                    success: false,
+                    error: err.message
+                });
+            }
+
+            res.json({
+                success: true,
+                data: result.rows[0]
             });
         }
-
-        res.json({
-            success: true,
-            data: result.rows[0]
-        });
-    });
+    );
 });
 
 app.get("/api/products", (req, res) => {
@@ -3062,21 +3071,35 @@ app.get("/api/products", (req, res) => {
         res.json(result.rows);
     });
 });
+
+
+
+// UPDATE REPLACEMENT PRODUCT
 app.put("/api/products/:id", (req, res) => {
 
     const { id } = req.params;
-    const { product_name } = req.body;
+
+    const {
+        replacement_product_name,
+        serial_no
+    } = req.body;
 
     const sql = `
         UPDATE products
-        SET product_name = $1
-        WHERE id = $2
+        SET
+            replacement_product_name = $1,
+            serial_no = $2
+        WHERE id = $3
         RETURNING *
     `;
 
     db.query(
         sql,
-        [product_name, id],
+        [
+            replacement_product_name,
+            serial_no,
+            id
+        ],
         (err, result) => {
 
             if (err) {
@@ -3089,10 +3112,12 @@ app.put("/api/products/:id", (req, res) => {
             }
 
             if (result.rows.length === 0) {
+
                 return res.status(404).json({
                     success: false,
                     message: "Product not found"
                 });
+
             }
 
             res.json({
@@ -3102,7 +3127,6 @@ app.put("/api/products/:id", (req, res) => {
         }
     );
 });
-
 app.delete("/api/products/:id", (req, res) => {
 
     const { id } = req.params;
