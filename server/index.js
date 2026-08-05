@@ -2851,10 +2851,18 @@ app.get("/api/supporter-view/:id", (req, res) => {
             s.replacement_serial_no,
             s.return_status,
             s.customer_id,
-            c.customer_name
+            c.customer_name,
+
+            p.replacement_product_name
+
         FROM supporter s
+
         LEFT JOIN customer_details c
             ON s.customer_id = c.id
+
+        LEFT JOIN products p
+            ON s.replacement_serial_no = p.serial_no
+
         WHERE s.id = $1
     `;
 
@@ -2899,7 +2907,6 @@ app.get("/api/supporter-view/:id", (req, res) => {
         );
     });
 });
-
 
 app.delete("/api/remove1/:id", (req, res) => {
 
