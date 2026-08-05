@@ -110,12 +110,13 @@ const SupporterView = () => {
             </tbody>
 
         </table>
-<button
-    className="view-back-btn"
-    onClick={() => navigate("/products")}
->
-    Go Back
-</button>
+
+        <button
+            className="view-back-btn"
+            onClick={() => navigate("/support")}
+        >
+            Go Back
+        </button>
 
     </div>
 );

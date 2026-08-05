@@ -237,11 +237,11 @@ const Supporter = () => {
 
 
                     <button
-                        type="button"
-                        onClick={() => navigate("/support")}
-                    >
-                        Go Back
-                    </button>
+    className="view-back-btn"
+    onClick={() => navigate("/products")}
+>
+    Go Back
+</button>
                 </div>
 
             </form>
