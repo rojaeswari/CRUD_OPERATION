@@ -173,21 +173,45 @@
 .product-back-btn:hover {
     background: #3d9d46;
 }
+.available-text {
+    display: inline-block;
+    background: #198754;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
 .used-btn {
-    background: #16a34a;
+    background: #dc3545;
     color: white;
     border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 6px 14px;
+    border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
 }
 
 .used-btn:hover {
-    background: #15803d;
+    background: #bb2d3b;
 }
 
-.not-used {
-    color: #dc2626;
-    font-weight: 600;
+.product-search-box {
+    margin: 20px 0;
+    text-align: right;
+}
+
+.product-search-box input {
+    width: 320px;
+    height: 42px;
+    padding: 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.product-search-box input:focus {
+    outline: none;
+    border-color: #198754;
+    box-shadow: 0 0 4px rgba(25, 135, 84, 0.3);
 }
