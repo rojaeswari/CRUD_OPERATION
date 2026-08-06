@@ -3114,20 +3114,30 @@ app.post("/api/products", (req, res) => {
 app.get("/api/products", (req, res) => {
 
     const sql = `
-        SELECT *
-        FROM products
-        ORDER BY id DESC
+        SELECT
+            p.*,
+
+            CASE
+                WHEN EXISTS (
+                    SELECT 1
+                    FROM supporter s
+                    WHERE s.replacement_serial_no = p.serial_no
+                      AND s.return_status = 'Not Returned'
+                )
+                THEN 'In Use'
+
+                ELSE 'Available'
+            END AS status
+
+        FROM products p
+        ORDER BY p.id DESC
     `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
-            console.log("PRODUCT GET ERROR:", err);
-
-            return res.status(500).json({
-                success: false,
-                error: err.message
-            });
+            console.log(err);
+            return res.status(500).json(err);
         }
 
         res.json(result.rows);
@@ -3237,35 +3247,53 @@ app.get("/api/product-usage/:serial_no", (req, res) => {
         LEFT JOIN customer_details c
             ON c.id = s.customer_id
         WHERE s.replacement_serial_no = $1
+        ORDER BY s.id DESC
+        LIMIT 1
     `;
 
     db.query(sql, [serial_no], (err, result) => {
 
         if (err) {
-            console.log("PRODUCT USAGE ERROR:", err);
-
             return res.status(500).json({
                 success: false,
                 error: err.message
             });
         }
 
+        // Never used
         if (result.rows.length === 0) {
+
             return res.json({
                 success: true,
-                used: false,
+                status: "Available",
                 data: null
             });
+
         }
 
-        res.json({
-            success: true,
-            used: true,
-            data: result.rows[0]
-        });
-    });
-});
+        const product = result.rows[0];
 
+        // Currently with customer
+        if (product.return_status === "Not Returned") {
+
+            return res.json({
+                success: true,
+                status: "In Use",
+                data: product
+            });
+
+        }
+
+        // Returned to company
+        return res.json({
+            success: true,
+            status: "Available",
+            data: product
+        });
+
+    });
+
+});
 
 app.get("/api/pending-count", (req, res) => {
 
