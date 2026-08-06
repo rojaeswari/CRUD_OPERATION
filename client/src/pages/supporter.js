@@ -143,44 +143,52 @@ const Supporter = () => {
                     onChange={handleInputChange}
                 /> */}
 
-                <label>Product Name</label>
+               <label>Replacement Product</label>
 
 <select
-    name="product_name"
     className="form-control"
-    value={state.product_name}
+    value={state.replacement_serial_no}
     onChange={(e) => {
-        const value = e.target.value;
 
         const selectedProduct = products.find(
             (product) =>
-                product.replacement_product_name === value
+                product.serial_no === e.target.value
         );
 
-        console.log("SELECTED PRODUCT:", selectedProduct);
+        if (!selectedProduct) return;
 
         setState({
             ...state,
-            product_name: value,
+            product_name:
+                selectedProduct.replacement_product_name,
             replacement_serial_no:
-                selectedProduct?.serial_no || ""
+                selectedProduct.serial_no
         });
     }}
 >
+
     <option value="">
         Select Replacement Product
     </option>
 
     {products.map((product) => (
+
         <option
             key={product.id}
-            value={product.replacement_product_name}
+            value={product.serial_no}
+            disabled={product.status === "In Use"}
         >
             {product.replacement_product_name}
+            {" - "}
+            {product.serial_no}
+            {" ("}
+            {product.status}
+            {")"}
         </option>
-    ))}
-</select>
 
+    ))}
+
+</select>
                 <label>Model No</label>
                 <input
                     type="text"

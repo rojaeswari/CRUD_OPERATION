@@ -3115,14 +3115,16 @@ app.get("/api/products", (req, res) => {
 
     const sql = `
         SELECT
-            p.*,
+            p.id,
+            p.replacement_product_name,
+            p.serial_no,
 
             CASE
                 WHEN EXISTS (
                     SELECT 1
                     FROM supporter s
                     WHERE s.replacement_serial_no = p.serial_no
-                      AND s.return_status = 'Not Returned'
+                    AND s.return_status = 'Not Returned'
                 )
                 THEN 'In Use'
 
@@ -3130,20 +3132,25 @@ app.get("/api/products", (req, res) => {
             END AS status
 
         FROM products p
-        ORDER BY p.id DESC
+
+        ORDER BY
+            p.replacement_product_name,
+            p.serial_no
     `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
             console.log(err);
+
             return res.status(500).json(err);
         }
 
         res.json(result.rows);
-    });
-});
 
+    });
+
+});
 
 
 // UPDATE REPLACEMENT PRODUCT
