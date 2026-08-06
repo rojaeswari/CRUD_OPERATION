@@ -2614,6 +2614,7 @@ app.post("/api/post1", (req, res) => {
                 (historyErr) => {
 
                     if (historyErr) {
+
                         console.log(
                             "HISTORY INSERT ERROR:",
                             historyErr
@@ -2625,10 +2626,37 @@ app.post("/api/post1", (req, res) => {
                         });
                     }
 
-                    res.json({
-                        success: true,
-                        data: supporter
-                    });
+                    // Update product status
+                    db.query(
+                        `
+            UPDATE products
+            SET status = 'In Use'
+            WHERE serial_no = $1
+            `,
+                        [replacement_serial_no],
+                        (statusErr) => {
+
+                            if (statusErr) {
+
+                                console.log(
+                                    "PRODUCT STATUS UPDATE ERROR:",
+                                    statusErr
+                                );
+
+                                return res.status(500).json({
+                                    success: false,
+                                    error: statusErr.message
+                                });
+                            }
+
+                            res.json({
+                                success: true,
+                                data: supporter
+                            });
+
+                        }
+                    );
+
                 }
             );
         }
@@ -2815,6 +2843,7 @@ app.put("/api/update-return-status/:id", (req, res) => {
                     (historyErr) => {
 
                         if (historyErr) {
+
                             console.log(historyErr);
 
                             return res.status(500).json({
@@ -2823,11 +2852,37 @@ app.put("/api/update-return-status/:id", (req, res) => {
                             });
                         }
 
-                        res.json({
-                            success: true,
-                            message: "Product Returned Successfully",
-                            data: updateResult.rows[0]
-                        });
+                        // Update product status to Available
+                        db.query(
+                            `
+            UPDATE products
+            SET status = 'Available'
+            WHERE serial_no = $1
+            `,
+                            [updateResult.rows[0].replacement_serial_no],
+                            (statusErr) => {
+
+                                if (statusErr) {
+
+                                    console.log(
+                                        "PRODUCT STATUS UPDATE ERROR:",
+                                        statusErr
+                                    );
+
+                                    return res.status(500).json({
+                                        success: false,
+                                        error: statusErr.message
+                                    });
+                                }
+
+                                res.json({
+                                    success: true,
+                                    message: "Product Returned Successfully",
+                                    data: updateResult.rows[0]
+                                });
+
+                            }
+                        );
 
                     }
                 );
