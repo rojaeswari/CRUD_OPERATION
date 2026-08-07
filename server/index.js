@@ -1967,7 +1967,7 @@ app.post("/api/entry_in", async (req, res) => {
                     product_name,
                     model_number,
                     quantity_no,
-                    customer_dc_no,
+                    customer_dc_no||null,
                     reminder_date,
                     entry_date,
                     created_by
