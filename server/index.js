@@ -1924,9 +1924,11 @@ app.get(
 //RMA Entry
 
 app.post("/api/entry_in", async (req, res) => {
+
     const client = await db.connect();
 
     try {
+
         await client.query("BEGIN");
 
         const {
@@ -1939,19 +1941,11 @@ app.post("/api/entry_in", async (req, res) => {
 
         // Generate RMA No
         const rmaResult = await client.query(`
-            SELECT COALESCE(MAX(rma_no),1000)+1 AS "rmaNo"
+            SELECT COALESCE(MAX(rma_no), 1000) + 1 AS "rmaNo"
             FROM rma_entry1
         `);
 
         const rmaNo = rmaResult.rows[0].rmaNo;
-
-//         // Generate DC No
-//         const dcResult = await client.query(`
-//     SELECT COALESCE(MAX(customer_dc_no::integer), 5000) + 1 AS "dcNo"
-//     FROM rma_entry1
-// `);
-
-        // const dcNo = dcResult.rows[0].dcNo;
 
         for (const product of products) {
 
@@ -1967,7 +1961,7 @@ app.post("/api/entry_in", async (req, res) => {
                     product_name,
                     model_number,
                     quantity_no,
-                    customer_dc_no||null,
+                    customer_dc_no,
                     reminder_date,
                     entry_date,
                     created_by
@@ -1982,7 +1976,7 @@ app.post("/api/entry_in", async (req, res) => {
                     product.product_name,
                     product.model_number,
                     product.quantity_no,
-                    dcNo,
+                    customer_dc_no || null,
                     reminderDate,
                     entry_date,
                     created_by
@@ -2016,9 +2010,9 @@ app.post("/api/entry_in", async (req, res) => {
                     ]
                 );
 
-                const item_id = itemResult.rows[0].id;
+                const itemId = itemResult.rows[0].id;
 
-                await generateReminders_l(item_id);
+                await generateReminders_l(itemId);
             }
         }
 
@@ -2027,18 +2021,27 @@ app.post("/api/entry_in", async (req, res) => {
         res.json({
             success: true,
             rma_no: rmaNo,
-            customer_dc_no: dcNo
+            customer_dc_no: customer_dc_no || null
         });
 
     } catch (err) {
-        await client.query("ROLLBACK");
-        console.error(err);
-        res.status(500).json(err);
-    } finally {
-        client.release();
-    }
-});
 
+        await client.query("ROLLBACK");
+
+        console.error("ENTRY_IN ERROR:", err);
+
+        res.status(500).json({
+            success: false,
+            error: err.message
+        });
+
+    } finally {
+
+        client.release();
+
+    }
+
+});
 
 app.put("/update-rma_r/:rma_no", async (req, res) => {
     const rows = req.body;
