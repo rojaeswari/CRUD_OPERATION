@@ -1931,6 +1931,7 @@ app.post("/api/entry_in", async (req, res) => {
 
         const {
             customer_id,
+            customer_dc_no,
             entry_date,
             products,
             created_by
@@ -1944,11 +1945,11 @@ app.post("/api/entry_in", async (req, res) => {
 
         const rmaNo = rmaResult.rows[0].rmaNo;
 
-        // Generate DC No
-        const dcResult = await client.query(`
-    SELECT COALESCE(MAX(customer_dc_no::integer), 5000) + 1 AS "dcNo"
-    FROM rma_entry1
-`);
+//         // Generate DC No
+//         const dcResult = await client.query(`
+//     SELECT COALESCE(MAX(customer_dc_no::integer), 5000) + 1 AS "dcNo"
+//     FROM rma_entry1
+// `);
 
         const dcNo = dcResult.rows[0].dcNo;
 
