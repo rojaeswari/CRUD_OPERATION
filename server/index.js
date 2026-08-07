@@ -1951,7 +1951,7 @@ app.post("/api/entry_in", async (req, res) => {
 //     FROM rma_entry1
 // `);
 
-        const dcNo = dcResult.rows[0].dcNo;
+        // const dcNo = dcResult.rows[0].dcNo;
 
         for (const product of products) {
 
