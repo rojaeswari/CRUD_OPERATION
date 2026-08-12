@@ -3703,32 +3703,47 @@ app.get("/api/serial-completed-rma-out", (req, res) => {
             i.product_name,
             i.model_number,
             i.serial_no,
+            i.accessory,
+            i.issues,
             i.status
-        FROM rma_out r
+        FROM rma_items1 i
+
+        LEFT JOIN rma_out r
+            ON r.id = i.rma_id
+
         LEFT JOIN services_details s
             ON r.services_id = s.id
-        INNER JOIN rma_items1 i
-            ON r.id = i.rma_id
-        WHERE i.status = 'completed'
+
+        WHERE LOWER(i.status) = 'completed'
         AND i.serial_no IS NOT NULL
         AND i.serial_no <> ''
-        ORDER BY r.id ASC
+
+        ORDER BY i.id ASC
     `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
-            return res.status(500).json(err);
+
+            console.log(
+                "SERIAL COMPLETED OUT ERROR:",
+                err
+            );
+
+            return res.status(500).json({
+                success: false,
+                error: err.message
+            });
         }
 
-        console.log(result.rows);
+        console.log(
+            "COMPLETED OUTWARD DATA:",
+            result.rows
+        );
 
         res.json(result.rows);
-
     });
-
 });
-
 
 app.get("/api/serial-completed-rma-out-count", (req, res) => {
 
