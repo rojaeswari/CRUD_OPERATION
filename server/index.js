@@ -3330,9 +3330,17 @@ app.get("/api/pending-count", (req, res) => {
 app.get("/api/completed-count", (req, res) => {
 
     const sql = `
-        SELECT COUNT(DISTINCT rma_no)::int AS "totalCompleted"
-        FROM rma_entry1
-        WHERE LOWER(TRIM(status)) = 'Completed'
+        SELECT COUNT(*)::int AS "totalCompleted"
+        FROM (
+            SELECT rma_no
+            FROM rma_entry1
+
+            GROUP BY rma_no
+
+            HAVING COUNT(*) FILTER (
+                WHERE LOWER(TRIM(status)) <> 'completed'
+            ) = 0
+        ) AS completed_rmas
     `;
 
     db.query(sql, (err, result) => {
@@ -3345,7 +3353,6 @@ app.get("/api/completed-count", (req, res) => {
         console.log("Completed Count:", result.rows[0]);
 
         res.json(result.rows[0]);
-
     });
 
 });
@@ -3388,24 +3395,30 @@ app.get("/api/completed-rma", (req, res) => {
             STRING_AGG(r.product_name, ', ') AS product_name,
             STRING_AGG(r.model_number, ', ') AS model_number,
             MAX(r.entry_date) AS entry_date,
-            MAX(r.status) AS status
+            'Completed' AS status
+
         FROM rma_entry1 r
+
         JOIN customer_details c
             ON r.customer_id = c.id
-        WHERE LOWER(TRIM(r.status)) = 'completed'
+
         GROUP BY r.rma_no
+
+        HAVING COUNT(*) FILTER (
+            WHERE LOWER(TRIM(r.status)) <> 'completed'
+        ) = 0
+
         ORDER BY r.rma_no ASC
     `;
-
 
     db.query(sql, (err, result) => {
 
         if (err) {
+            console.log(err);
             return res.status(500).json(err);
         }
 
         res.json(result.rows);
-
     });
 
 });
