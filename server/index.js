@@ -3327,22 +3327,21 @@ app.get("/api/pending-count", (req, res) => {
 
 });
 
-app.get("/api/pending-count", (req, res) => {
+app.get("/api/completed-count", (req, res) => {
 
     const sql = `
-        SELECT COUNT(DISTINCT rma_no) AS totalPending
-        FROM rma_entry1
-        WHERE LOWER(TRIM(status)) = 'pending'
+        SELECT COUNT(*)::int AS "totalPending"
+FROM rma_entry1
+WHERE LOWER(status) = 'completed'
     `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
-            console.log(err);
             return res.status(500).json(err);
         }
 
-        res.json(result[0]);
+        res.json(result.rows[0]);
 
     });
 
