@@ -3573,32 +3573,36 @@ app.get("/api/serial-pending-rma", (req, res) => {
     const sql = `
         SELECT
             r.rma_no,
-    c.customer_name,
-    r.product_name,
-    r.model_number,
-    i.serial_no,
-    i.accessory,
-    i.issues,
-    i.status
+            c.customer_name,
+            r.product_name,
+            r.model_number,
+            i.serial_no,
+            i.accessory,
+            i.issues,
+            i.status
         FROM rma_entry1 r
+
         LEFT JOIN customer_details c
             ON r.customer_id = c.id
+
         INNER JOIN rma_items i
             ON r.id = i.rma_id
-       WHERE LOWER(i.status) = 'pending'
-        AND i.serial_no IS NOT NULL
-        AND i.serial_no <> ''
+
+        WHERE LOWER(TRIM(i.status)) = 'pending'
+          AND i.serial_no IS NOT NULL
+          AND TRIM(i.serial_no) <> ''
+
         ORDER BY r.id ASC
     `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
+            console.log("Serial Pending Error:", err);
             return res.status(500).json(err);
         }
 
         res.json(result.rows);
-
     });
 
 });
@@ -3607,39 +3611,42 @@ app.get("/api/serial-completed-rma", (req, res) => {
 
     const sql = `
         SELECT
-             r.rma_no,
-    c.customer_name,
-    r.product_name,
-    r.model_number,
-    i.serial_no,
-    i.accessory,
-    i.issues,
-    i.status
+            r.rma_no,
+            c.customer_name,
+            r.product_name,
+            r.model_number,
+            i.serial_no,
+            i.accessory,
+            i.issues,
+            i.status
         FROM rma_entry1 r
+
         LEFT JOIN customer_details c
             ON r.customer_id = c.id
+
         INNER JOIN rma_items i
             ON r.id = i.rma_id
-       WHERE LOWER(i.status)='completed'
-        AND i.serial_no IS NOT NULL
-        AND i.serial_no <> ''
+
+        WHERE LOWER(TRIM(i.status)) = 'completed'
+          AND i.serial_no IS NOT NULL
+          AND TRIM(i.serial_no) <> ''
+
         ORDER BY r.id ASC
     `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
+            console.log("Serial Completed Error:", err);
             return res.status(500).json(err);
         }
 
-        console.log("COMPLETED LIST =", result);
+        console.log("Serial Completed List:", result.rows);
 
         res.json(result.rows);
-
     });
 
 });
-
 app.get("/api/serial-completed-count", (req, res) => {
 
     const sql = `
