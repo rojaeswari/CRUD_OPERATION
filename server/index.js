@@ -3533,18 +3533,19 @@ app.get("/api/completed-rma-out", (req, res) => {
 app.get("/api/pending-rma-out-count", (req, res) => {
 
     const sql = `
-       SELECT COUNT(*)::INT AS "totalPending"
-FROM rma_out
-WHERE LOWER(status) = 'pending'`;
+        SELECT COUNT(DISTINCT rma_no)::INT AS "totalPending"
+        FROM rma_out
+        WHERE LOWER(TRIM(status)) = 'pending'
+    `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
+            console.log("Pending RMA Out Count Error:", err);
             return res.status(500).json(err);
         }
 
         res.json(result.rows[0]);
-
     });
 
 });
@@ -3552,18 +3553,19 @@ WHERE LOWER(status) = 'pending'`;
 app.get("/api/completed-rma-out-count", (req, res) => {
 
     const sql = `
-       SELECT COUNT(*)::INT AS "totalCompleted"
-FROM rma_out
-WHERE LOWER(status) = 'completed'`;
+        SELECT COUNT(DISTINCT rma_no)::INT AS "totalCompleted"
+        FROM rma_out
+        WHERE LOWER(TRIM(status)) = 'completed'
+    `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
+            console.log("Completed RMA Out Count Error:", err);
             return res.status(500).json(err);
         }
 
         res.json(result.rows[0]);
-
     });
 
 });
