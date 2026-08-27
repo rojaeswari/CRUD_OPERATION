@@ -3330,7 +3330,7 @@ app.get("/api/pending-count", (req, res) => {
 app.get("/api/completed-count", (req, res) => {
 
     const sql = `
-        SELECT COUNT(DISTINCT rma_no)::INT AS "totalCompleted"
+        SELECT COUNT(DISTINCT rma_no)::int AS "totalCompleted"
         FROM rma_entry1
         WHERE LOWER(TRIM(status)) = 'completed'
     `;
@@ -3338,13 +3338,14 @@ app.get("/api/completed-count", (req, res) => {
     db.query(sql, (err, result) => {
 
         if (err) {
-            console.log("COMPLETED COUNT ERROR:", err);
+            console.log("Completed Count Error:", err);
             return res.status(500).json(err);
         }
 
-        console.log("COMPLETED COUNT:", result);
+        console.log("Completed Count:", result.rows[0]);
 
         res.json(result.rows[0]);
+
     });
 
 });
