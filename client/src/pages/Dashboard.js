@@ -130,7 +130,7 @@ const getCompleteCount = async () => {
             "https://smazo.onrender.com/api/completed-count"
         );
 
-        setComcount(resp.data.totalPending);
+        setComcount(resp.data.totalCompleted);
 
     } catch (err) {
 
@@ -268,7 +268,6 @@ const getSerialCompletedOutCount = async () => {
      getCompleteCount();
      getOutPendingCount();
     getOutCompleteCount();
-    getCompleteCount();
     getSerialPendingCount();
     getSerialCompletedCount();
      getSerialPendingOutCount();
