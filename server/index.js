@@ -3332,7 +3332,7 @@ app.get("/api/completed-count", (req, res) => {
     const sql = `
         SELECT COUNT(DISTINCT rma_no)::int AS "totalCompleted"
         FROM rma_entry1
-        WHERE LOWER(TRIM(status)) = 'completed'
+        WHERE LOWER(TRIM(status)) = 'Completed'
     `;
 
     db.query(sql, (err, result) => {
