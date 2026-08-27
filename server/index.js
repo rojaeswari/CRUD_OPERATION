@@ -3330,22 +3330,23 @@ app.get("/api/pending-count", (req, res) => {
 app.get("/api/completed-count", (req, res) => {
 
     const sql = `
-        SELECT COUNT(*)::int AS "totalPending"
-FROM rma_entry1
-WHERE LOWER(status) = 'completed'
+        SELECT COUNT(DISTINCT rma_no) AS totalCompleted
+        FROM rma_entry1
+        WHERE LOWER(TRIM(status)) = 'completed'
     `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
+            console.log(err);
             return res.status(500).json(err);
         }
 
-        res.json(result.rows[0]);
-
+        res.json(result[0]);
     });
 
 });
+
 //rma inward pending and complete
 
 app.get("/api/pending-rma", (req, res) => {
