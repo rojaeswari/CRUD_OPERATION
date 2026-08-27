@@ -3309,14 +3309,15 @@ app.get("/api/product-usage/:serial_no", (req, res) => {
 app.get("/api/pending-count", (req, res) => {
 
     const sql = `
-        SELECT COUNT(*)::int AS "totalPending"
-FROM rma_entry1
-WHERE LOWER(status) = 'pending'
+        SELECT COUNT(DISTINCT rma_no)::int AS "totalPending"
+        FROM rma_entry1
+        WHERE LOWER(TRIM(status)) = 'pending'
     `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
+            console.log(err);
             return res.status(500).json(err);
         }
 
