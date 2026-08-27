@@ -3309,22 +3309,28 @@ app.get("/api/product-usage/:serial_no", (req, res) => {
 app.get("/api/pending-count", (req, res) => {
 
     const sql = `
-        SELECT COUNT(DISTINCT rma_no)::int AS "totalPending"
-        FROM rma_entry1
-        WHERE LOWER(TRIM(status)) = 'pending'
+        SELECT COUNT(*)::int AS "totalPending"
+        FROM (
+            SELECT rma_no
+            FROM rma_entry1
+            GROUP BY rma_no
+            HAVING COUNT(*) FILTER (
+                WHERE LOWER(TRIM(status)) = 'pending'
+            ) > 0
+        ) AS pending_rmas
     `;
 
     db.query(sql, (err, result) => {
 
         if (err) {
-            console.log(err);
+            console.log("Pending Count Error:", err);
             return res.status(500).json(err);
         }
 
+        console.log("Pending Count:", result.rows[0]);
+
         res.json(result.rows[0]);
-
     });
-
 });
 
 app.get("/api/completed-count", (req, res) => {
@@ -3334,9 +3340,7 @@ app.get("/api/completed-count", (req, res) => {
         FROM (
             SELECT rma_no
             FROM rma_entry1
-
             GROUP BY rma_no
-
             HAVING COUNT(*) FILTER (
                 WHERE LOWER(TRIM(status)) <> 'completed'
             ) = 0
@@ -3354,7 +3358,6 @@ app.get("/api/completed-count", (req, res) => {
 
         res.json(result.rows[0]);
     });
-
 });
 
 //rma inward pending and complete
@@ -3363,28 +3366,38 @@ app.get("/api/pending-rma", (req, res) => {
 
     const sql = `
         SELECT
-    r.rma_no,
-    MAX(c.customer_name) AS customer_name,
-    MAX(r.customer_dc_no) AS customer_dc_no,
-    MAX(r.product_name) AS product_name,
-    MAX(r.model_number) AS model_number,
-    MAX(r.entry_date) AS entry_date,
-    MAX(r.status) AS status
-FROM rma_entry1 r
-JOIN customer_details c
-    ON r.customer_id = c.id
-WHERE LOWER(TRIM(r.status)) = 'pending'
-GROUP BY r.rma_no
-ORDER BY r.rma_no ASC
+            r.rma_no,
+            MAX(c.customer_name) AS customer_name,
+            MAX(r.customer_dc_no) AS customer_dc_no,
+            STRING_AGG(r.product_name, ', ') AS product_name,
+            STRING_AGG(r.model_number, ', ') AS model_number,
+            MAX(r.entry_date) AS entry_date,
+            'Pending' AS status
+
+        FROM rma_entry1 r
+
+        JOIN customer_details c
+            ON r.customer_id = c.id
+
+        GROUP BY r.rma_no
+
+        HAVING COUNT(*) FILTER (
+            WHERE LOWER(TRIM(r.status)) = 'pending'
+        ) > 0
+
+        ORDER BY r.rma_no ASC
     `;
 
     db.query(sql, (err, result) => {
-        if (err) return res.status(500).json(err);
+
+        if (err) {
+            console.log("Pending RMA Error:", err);
+            return res.status(500).json(err);
+        }
+
         res.json(result.rows);
     });
-
-})
-
+});
 app.get("/api/completed-rma", (req, res) => {
 
     const sql = `
