@@ -8,16 +8,15 @@
 
 body {
   margin: 0;
-  padding: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #53f57e;
-  color: #000;
+  background: #f1fff5;
+  color: #000000;
 }
 
 .dashboard {
-  display: flex;
   min-height: 100vh;
-  background: #53f57e;
+  display: flex;
+  background: #f1fff5;
 }
 
 
@@ -28,22 +27,22 @@ body {
 .sidebar {
   width: 253px;
   min-height: 100vh;
-  background: #5df084;
-  padding: 28px 20px;
+  background: #d8f3dc;
+  padding: 28px 22px;
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
-  box-shadow: 3px 0 12px rgba(0, 0, 0, 0.08);
-  z-index: 100;
+  border-right: 1px solid #b7dfc1;
+  box-shadow: 3px 0 12px rgba(0, 0, 0, 0.06);
 }
 
 .logo {
-  margin: 0 0 45px 0;
+  margin: 0 0 45px;
   text-align: center;
   font-size: 30px;
   font-weight: 700;
-  color: #000;
+  color: #000000;
   letter-spacing: 1px;
 }
 
@@ -59,35 +58,29 @@ body {
 }
 
 .menu li {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .menu li a {
   display: flex;
   align-items: center;
   gap: 13px;
-
-  padding: 14px 18px;
-
-  color: #000;
+  padding: 13px 15px;
+  color: #000000;
   text-decoration: none;
-
   font-size: 16px;
-  font-weight: 500;
-
   border-radius: 10px;
-
   transition: all 0.2s ease;
 }
 
 .menu li a:hover {
-  background: #58f585;
-  color: #000;
+  background: #b7e4c7;
+  color: #000000;
 }
 
 .menu li a svg {
   font-size: 16px;
-  color: #000;
+  color: #000000;
 }
 
 
@@ -96,21 +89,20 @@ body {
 ========================================================= */
 
 .logout-btn {
-  width: auto;
-  margin: 28px auto 0 auto;
+  width: 100%;
+  margin-top: 22px;
+  padding: 12px 15px;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
 
-  padding: 10px 18px;
+  background: #c8efd2;
+  color: #000000;
 
-  background: #ffffff;
-  color: #000;
-
-  border: 1px solid #aaa;
-  border-radius: 5px;
+  border: 1px solid #9fd5ad;
+  border-radius: 9px;
 
   font-size: 15px;
   cursor: pointer;
@@ -119,7 +111,7 @@ body {
 }
 
 .logout-btn:hover {
-  background: #eeeeee;
+  background: #b7e4c7;
 }
 
 
@@ -131,52 +123,52 @@ body {
   margin-left: 253px;
   width: calc(100% - 253px);
   min-height: 100vh;
-
-  padding: 28px 30px;
-
-  background: #6ff091;
+  padding: 28px 30px 40px;
+  background: #f1fff5;
 }
 
 
 /* =========================================================
-   DASHBOARD CARDS
+   DASHBOARD CARDS CONTAINER
 ========================================================= */
 
 .dashboard-cards {
   width: 100%;
 }
 
-
-/* =========================================================
-   CARD ROW
-========================================================= */
-
 .row-cards {
   display: flex;
   justify-content: center;
   align-items: stretch;
   gap: 20px;
-
-  width: 100%;
-  margin-bottom: 22px;
+  margin-bottom: 28px;
 }
 
+
+/* =========================================================
+   TOTAL CUSTOMER ROW
+========================================================= */
+
 .first-row {
-  margin-bottom: 95px;
+  margin-bottom: 75px;
 }
 
 
 /* =========================================================
    CARD LINKS
-   IMPORTANT:
-   Removes BLUE underline
 ========================================================= */
 
-.row-cards a {
+.row-cards > a {
   text-decoration: none !important;
-  color: #000 !important;
+  color: #000000 !important;
+}
 
-  display: block;
+.row-cards > a:visited {
+  color: #000000 !important;
+}
+
+.row-cards > a:hover {
+  color: #000000 !important;
 }
 
 
@@ -188,12 +180,12 @@ body {
   width: 216px;
   min-height: 138px;
 
-  padding: 20px 15px;
+  padding: 22px 15px;
 
-  background: #60f387;
+  background: #c8efd2;
 
-  border: 1px solid #4aee78;
-  border-radius: 17px;
+  border: 1px solid #a9dcb5;
+  border-radius: 16px;
 
   display: flex;
   flex-direction: column;
@@ -202,7 +194,7 @@ body {
 
   text-align: center;
 
-  color: #000;
+  color: #000000;
 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 
@@ -217,30 +209,31 @@ body {
    CARD HOVER
 ========================================================= */
 
-.total-card:hover {
-  background: #63f58a;
-
+.row-cards > a:hover .total-card {
   transform: translateY(-3px);
-
+  background: #b7e4c7;
   box-shadow: 0 7px 18px rgba(0, 0, 0, 0.10);
 }
 
 
 /* =========================================================
-   NUMBER
+   CARD NUMBER
 ========================================================= */
 
 .total-card h2 {
-  margin: 0 0 8px 0;
+  margin: 0 0 9px;
 
   font-size: 40px;
   line-height: 1;
 
-  font-weight: 500;
+  font-weight: 600;
 
-  color: #000;
+  color: #000000;
 
+  /* IMPORTANT:
+     Blue underline remove */
   text-decoration: none !important;
+  border: none !important;
 }
 
 
@@ -252,45 +245,41 @@ body {
   margin: 0;
 
   font-size: 16px;
-  line-height: 1.4;
+  line-height: 1.3;
 
   font-weight: 500;
 
-  color: #000;
+  color: #000000;
 
+  text-decoration: none !important;
+  border: none !important;
+}
+
+
+/* Remove underline from all card elements */
+
+.total-card,
+.total-card *,
+.total-card h2,
+.total-card p {
   text-decoration: none !important;
 }
 
 
 /* =========================================================
-   REMOVE ALL LINK UNDERLINES
-========================================================= */
-
-.dashboard a,
-.dashboard a:hover,
-.dashboard a:focus,
-.dashboard a:active,
-.dashboard a:visited {
-  color: #000;
-  text-decoration: none !important;
-}
-
-
-/* =========================================================
-   RMA REMINDER CONTAINER
+   REMINDER CONTAINER
 ========================================================= */
 
 .rma-reminder-container {
   width: 100%;
+  margin-top: 45px;
 
-  margin-top: 70px;
+  background: #f8fffa;
 
-  background: #ffffff;
-
-  border: 1px solid #5ae782;
+  border: 1px solid #c8e8d0;
   border-radius: 16px;
 
-  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
 
   overflow: hidden;
 }
@@ -303,13 +292,13 @@ body {
 .rma-reminder-header {
   min-height: 80px;
 
-  padding: 15px 24px;
+  padding: 15px 22px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  background: #67f388;
+  background: #e2f7e8;
 
   cursor: pointer;
 }
@@ -322,7 +311,7 @@ body {
 .reminder-title-section {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 15px;
 }
 
 .reminder-title-section h5 {
@@ -331,7 +320,7 @@ body {
   font-size: 18px;
   font-weight: 600;
 
-  color: #000;
+  color: #000000;
 }
 
 
@@ -347,16 +336,16 @@ body {
   align-items: center;
   justify-content: center;
 
-  background: #57eb81;
+  background: #d0f2d9;
 
   border-radius: 12px;
 
-  font-size: 22px;
+  font-size: 24px;
 }
 
 
 /* =========================================================
-   REMINDER HEADER RIGHT
+   REMINDER RIGHT SIDE
 ========================================================= */
 
 .reminder-header-right {
@@ -373,10 +362,11 @@ body {
 .pending-badge {
   padding: 9px 15px;
 
-  background: #64f58b;
+  background: #b7e4c7;
 
-  color: #000;
+  color: #000000;
 
+  border: 1px solid #9fd5ad;
   border-radius: 20px;
 
   font-size: 13px;
@@ -396,11 +386,11 @@ body {
   align-items: center;
   justify-content: center;
 
-  background: #f1f1f1;
+  background: #eefaf1;
+
+  color: #000000;
 
   border-radius: 50%;
-
-  color: #000;
 
   font-size: 13px;
 }
@@ -413,12 +403,12 @@ body {
 .rma-reminder-content {
   padding: 20px;
 
-  background: #ffffff;
+  background: #f8fffa;
 }
 
 
 /* =========================================================
-   REMINDER SEARCH
+   SEARCH
 ========================================================= */
 
 .reminder-search {
@@ -430,27 +420,25 @@ body {
 
   padding: 12px 15px;
 
-  border: 1px solid #5ff785;
-  border-radius: 8px;
+  border: 1px solid #b7dfc1;
+  border-radius: 9px;
 
   outline: none;
 
   font-size: 14px;
 
-  color: #000;
-
-  background: #fafffb;
+  background: #ffffff;
+  color: #000000;
 }
 
 .reminder-search input:focus {
-  border-color: #5cd67f;
-
-  box-shadow: 0 0 0 3px rgba(142, 229, 167, 0.2);
+  border-color: #78b98a;
+  box-shadow: 0 0 0 3px rgba(120, 185, 138, 0.15);
 }
 
 
 /* =========================================================
-   TABLE RESPONSIVE
+   TABLE
 ========================================================= */
 
 .table-responsive {
@@ -458,46 +446,39 @@ body {
   overflow-x: auto;
 }
 
-
-/* =========================================================
-   REMINDER TABLE
-========================================================= */
-
 .rma-reminder-table {
   width: 100%;
-
   border-collapse: collapse;
-
   background: #ffffff;
 }
 
 .rma-reminder-table th {
   padding: 13px 12px;
 
-  background: #dff9e6;
+  background: #d8f3dc;
 
-  color: #000;
+  color: #000000;
 
   text-align: left;
 
   font-size: 14px;
   font-weight: 600;
 
-  border-bottom: 1px solid #5bdf7c;
+  border-bottom: 1px solid #b7dfc1;
 }
 
 .rma-reminder-table td {
   padding: 13px 12px;
 
-  color: #000;
+  color: #000000;
 
   font-size: 14px;
 
-  border-bottom: 1px solid #e4f3e8;
+  border-bottom: 1px solid #e0eee4;
 }
 
-.rma-reminder-table tr:hover {
-  background: #f3fff6;
+.rma-reminder-table tbody tr:hover {
+  background: #f1fff5;
 }
 
 
@@ -507,7 +488,7 @@ body {
 
 .rma-number {
   font-weight: 600;
-  color: #000;
+  color: #000000;
 }
 
 
@@ -516,7 +497,7 @@ body {
 ========================================================= */
 
 .serial-number {
-  color: #000;
+  color: #000000;
   font-weight: 500;
 }
 
@@ -530,11 +511,13 @@ body {
 
   padding: 6px 10px;
 
-  background: #2ce764;
+  background: #d8f3dc;
 
-  color: #000;
+  color: #000000;
 
-  border-radius: 6px;
+  border: 1px solid #b7dfc1;
+
+  border-radius: 8px;
 
   font-size: 12px;
   font-weight: 600;
@@ -542,68 +525,72 @@ body {
 
 
 /* =========================================================
-   REMINDER VIEW BUTTON
+   REMINDER BUTTONS
 ========================================================= */
 
-.reminder-view-btn {
-  padding: 7px 12px;
-
-  border: 1px solid #5cee85;
-  border-radius: 6px;
-
-  background: #dff9e6;
-  color: #000;
-
-  cursor: pointer;
-
-  margin-right: 7px;
-}
-
-.reminder-view-btn:hover {
-  background: #6be78c;
-}
-
-
-/* =========================================================
-   REMINDER UPDATE BUTTON
-========================================================= */
-
+.reminder-view-btn,
 .reminder-update-btn {
   padding: 7px 12px;
 
-  border: 1px solid #4cd673;
-  border-radius: 6px;
+  border-radius: 7px;
 
-  background: #7dee9b;
-  color: #000;
+  font-size: 13px;
 
   cursor: pointer;
+
+  margin-right: 6px;
+
+  color: #000000;
 }
 
+.reminder-view-btn {
+  background: #e2f7e8;
+  border: 1px solid #a9dcb5;
+}
+
+.reminder-update-btn {
+  background: #c8efd2;
+  border: 1px solid #9fd5ad;
+}
+
+.reminder-view-btn:hover,
 .reminder-update-btn:hover {
-  background: #68e78c;
+  background: #b7e4c7;
 }
 
 
 /* =========================================================
-   RESPONSIVE - LAPTOP
+   REMOVE LINK BLUE COLOR / UNDERLINE
+========================================================= */
+
+a {
+  color: inherit;
+}
+
+a,
+a:hover,
+a:focus,
+a:active,
+a:visited {
+  text-decoration: none !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
 ========================================================= */
 
 @media (max-width: 1200px) {
 
-  .total-card {
-    width: 190px;
+  .row-cards {
+    flex-wrap: wrap;
   }
 
-  .row-cards {
-    gap: 15px;
+  .total-card {
+    width: 210px;
   }
 }
 
-
-/* =========================================================
-   RESPONSIVE - TABLET
-========================================================= */
 
 @media (max-width: 900px) {
 
@@ -617,21 +604,13 @@ body {
     padding: 20px;
   }
 
-  .row-cards {
-    flex-wrap: wrap;
-  }
-
   .total-card {
     width: 200px;
   }
 }
 
 
-/* =========================================================
-   RESPONSIVE - MOBILE
-========================================================= */
-
-@media (max-width: 650px) {
+@media (max-width: 700px) {
 
   .dashboard {
     display: block;
@@ -639,36 +618,18 @@ body {
 
   .sidebar {
     position: relative;
-
     width: 100%;
     min-height: auto;
-
-    padding: 20px;
-  }
-
-  .logo {
-    margin-bottom: 20px;
-  }
-
-  .menu li a {
-    justify-content: center;
   }
 
   .main-content {
     margin-left: 0;
     width: 100%;
-
-    padding: 15px;
-  }
-
-  .first-row {
-    margin-bottom: 30px;
   }
 
   .row-cards {
     flex-direction: column;
     align-items: center;
-    gap: 15px;
   }
 
   .total-card {
@@ -676,12 +637,12 @@ body {
     max-width: 350px;
   }
 
-  .rma-reminder-container {
-    margin-top: 30px;
+  .first-row {
+    margin-bottom: 30px;
   }
 
   .rma-reminder-header {
-    padding: 12px 15px;
+    padding: 14px;
   }
 
   .reminder-title-section h5 {
@@ -689,7 +650,7 @@ body {
   }
 
   .pending-badge {
-    padding: 7px 10px;
     font-size: 11px;
+    padding: 7px 10px;
   }
 }
