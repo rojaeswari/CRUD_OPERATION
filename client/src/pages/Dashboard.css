@@ -10,14 +10,14 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #58f181;
+  background: #53f57e;
   color: #000;
 }
 
 .dashboard {
   display: flex;
   min-height: 100vh;
-  background: #4cf379;
+  background: #53f57e;
 }
 
 
@@ -530,7 +530,7 @@ body {
 
   padding: 6px 10px;
 
-  background: #48db74;
+  background: #2ce764;
 
   color: #000;
 
