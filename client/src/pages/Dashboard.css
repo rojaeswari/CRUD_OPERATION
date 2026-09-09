@@ -10,14 +10,14 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #f4fff7;
+  background: #58f181;
   color: #000;
 }
 
 .dashboard {
   display: flex;
   min-height: 100vh;
-  background: #f4fff7;
+  background: #4cf379;
 }
 
 
@@ -28,7 +28,7 @@ body {
 .sidebar {
   width: 253px;
   min-height: 100vh;
-  background: #b9f5c9;
+  background: #5df084;
   padding: 28px 20px;
   position: fixed;
   left: 0;
@@ -81,7 +81,7 @@ body {
 }
 
 .menu li a:hover {
-  background: #98eeb0;
+  background: #58f585;
   color: #000;
 }
 
@@ -134,7 +134,7 @@ body {
 
   padding: 28px 30px;
 
-  background: #f4fff7;
+  background: #6ff091;
 }
 
 
@@ -190,9 +190,9 @@ body {
 
   padding: 20px 15px;
 
-  background: #b9f5c9;
+  background: #60f387;
 
-  border: 1px solid #8ee5a7;
+  border: 1px solid #4aee78;
   border-radius: 17px;
 
   display: flex;
@@ -218,7 +218,7 @@ body {
 ========================================================= */
 
 .total-card:hover {
-  background: #a8efbb;
+  background: #63f58a;
 
   transform: translateY(-3px);
 
@@ -287,7 +287,7 @@ body {
 
   background: #ffffff;
 
-  border: 1px solid #ccefd6;
+  border: 1px solid #5ae782;
   border-radius: 16px;
 
   box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
@@ -309,7 +309,7 @@ body {
   align-items: center;
   justify-content: space-between;
 
-  background: #eaffef;
+  background: #67f388;
 
   cursor: pointer;
 }
@@ -347,7 +347,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  background: #d7ffe2;
+  background: #57eb81;
 
   border-radius: 12px;
 
@@ -373,7 +373,7 @@ body {
 .pending-badge {
   padding: 9px 15px;
 
-  background: #b9f5c9;
+  background: #64f58b;
 
   color: #000;
 
@@ -430,7 +430,7 @@ body {
 
   padding: 12px 15px;
 
-  border: 1px solid #c8e8d0;
+  border: 1px solid #5ff785;
   border-radius: 8px;
 
   outline: none;
@@ -443,7 +443,7 @@ body {
 }
 
 .reminder-search input:focus {
-  border-color: #8ee5a7;
+  border-color: #5cd67f;
 
   box-shadow: 0 0 0 3px rgba(142, 229, 167, 0.2);
 }
@@ -483,7 +483,7 @@ body {
   font-size: 14px;
   font-weight: 600;
 
-  border-bottom: 1px solid #bce8c7;
+  border-bottom: 1px solid #5bdf7c;
 }
 
 .rma-reminder-table td {
@@ -530,7 +530,7 @@ body {
 
   padding: 6px 10px;
 
-  background: #e0f8e7;
+  background: #48db74;
 
   color: #000;
 
@@ -548,7 +548,7 @@ body {
 .reminder-view-btn {
   padding: 7px 12px;
 
-  border: 1px solid #8ee5a7;
+  border: 1px solid #5cee85;
   border-radius: 6px;
 
   background: #dff9e6;
@@ -560,7 +560,7 @@ body {
 }
 
 .reminder-view-btn:hover {
-  background: #b9f5c9;
+  background: #6be78c;
 }
 
 
@@ -571,17 +571,17 @@ body {
 .reminder-update-btn {
   padding: 7px 12px;
 
-  border: 1px solid #8ee5a7;
+  border: 1px solid #4cd673;
   border-radius: 6px;
 
-  background: #b9f5c9;
+  background: #7dee9b;
   color: #000;
 
   cursor: pointer;
 }
 
 .reminder-update-btn:hover {
-  background: #98eeb0;
+  background: #68e78c;
 }
 
 
