@@ -27,13 +27,13 @@ body {
 .sidebar {
   width: 253px;
   min-height: 100vh;
-  background: #25b32c;
+  background: #42d658;
   padding: 28px 22px;
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
-  border-right: 1px solid #25b32c;
+  border-right: 1px solid #42d658;
   box-shadow: 3px 0 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -182,9 +182,9 @@ body {
 
   padding: 22px 15px;
 
-  background: #25b32c;;
+  background: #42d658;;
 
-  border: 1px solid #25b32c;;
+  border: 1px solid #42d658;;
   border-radius: 16px;
 
   display: flex;
@@ -208,7 +208,7 @@ body {
 
 .row-cards > a:hover .total-card {
   transform: translateY(-3px);
-  background: #25b32c;
+  background: #5ceb72;
   box-shadow: 0 7px 18px rgba(0, 0, 0, 0.12);
 }
 
@@ -273,7 +273,7 @@ body {
 
   background: #f8fffa;
 
-  border: 1px solid #25b32c;
+  border: 1px solid #5ceb72;
   border-radius: 16px;
 
   box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
