@@ -27,14 +27,14 @@ body {
 .sidebar {
   width: 253px;
   min-height: 100vh;
-  background: #d8f3dc;
+  background: #159447;
   padding: 28px 22px;
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
-  border-right: 1px solid #b7dfc1;
-  box-shadow: 3px 0 12px rgba(0, 0, 0, 0.06);
+  border-right: 1px solid #0f7f3b;
+  box-shadow: 3px 0 12px rgba(0, 0, 0, 0.08);
 }
 
 .logo {
@@ -182,9 +182,9 @@ body {
 
   padding: 22px 15px;
 
-  background: #c8efd2;
+  background: #39b54a;
 
-  border: 1px solid #a9dcb5;
+  border: 1px solid #239638;
   border-radius: 16px;
 
   display: flex;
@@ -196,12 +196,9 @@ body {
 
   color: #000000;
 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 
