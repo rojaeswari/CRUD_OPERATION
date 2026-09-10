@@ -14,7 +14,7 @@ body {
 }
 
 body {
-  background: #dcf5e2;
+  background: #e6f3e9;
   color: #000000;
 }
 
@@ -28,7 +28,7 @@ body {
   width: 100%;
   display: flex;
 
-  background: #d1f0d9;
+  background: #e6f3e9;
 
   color: #000000;
 }
@@ -181,7 +181,7 @@ body {
 
   padding: 28px 30px 40px;
 
-  background: #b8f5c8;
+  background: #e6f3e9;
 
   color: #000000;
 }
@@ -372,7 +372,7 @@ body {
 
   margin-top: 45px;
 
-  background: #eaffef;
+  background: #e6f3e9;
 
   border: 1px solid #91dfa2;
 
@@ -498,7 +498,7 @@ body {
 
   justify-content: center;
 
-  background: #d8f8df;
+  background: #e6f3e9;
 
   color: #000000;
 
@@ -515,7 +515,7 @@ body {
 .rma-reminder-content {
   padding: 20px;
 
-  background: #eaffef;
+  background: #e6f3e9;
 }
 
 
@@ -682,11 +682,11 @@ body {
 .reminder-view-btn {
   padding: 7px 12px;
 
-  background: #d9f8e0;
+  background: #39b54a;
 
   color: #000000;
 
-  border: 1px solid #91dfa2;
+  border: 1px solid #269c3b;
 
   border-radius: 7px;
 
@@ -698,7 +698,7 @@ body {
 }
 
 .reminder-view-btn:hover {
-  background: #b9efc6;
+  background:#2fa842;
 }
 
 
