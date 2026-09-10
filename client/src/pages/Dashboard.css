@@ -14,7 +14,7 @@ body {
 }
 
 body {
-  background: #b8f5c8;
+  background: #dcf5e2;
   color: #000000;
 }
 
@@ -28,7 +28,7 @@ body {
   width: 100%;
   display: flex;
 
-  background: #b8f5c8;
+  background: #d1f0d9;
 
   color: #000000;
 }
@@ -49,9 +49,9 @@ body {
 
   padding: 28px 22px;
 
-  background: #159447;
+  background: #39b54a;
 
-  border-right: 1px solid #0f7d39;
+  border-right: 1px solid #269c3b;
 
   box-shadow: 3px 0 12px rgba(0, 0, 0, 0.10);
 
