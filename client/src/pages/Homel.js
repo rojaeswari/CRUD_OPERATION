@@ -11,6 +11,7 @@ const Homel = () => {
 
     const [data, setData] = useState([]); // MUST BE []
     const [search, setSearch] = useState("");
+    
 
     useEffect(() => {
         loadData();
