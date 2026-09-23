@@ -521,7 +521,7 @@ body{
 
 .modal-status-update-btn {
     border: none;
-    background: #2563eb;
+    background: #66BB6A;
     color: white;
     padding: 7px 12px;
     border-radius: 7px;
@@ -531,13 +531,13 @@ body{
 }
 
 .modal-status-update-btn:hover {
-    background: #1d4ed8;
+    background: #66BB6A;
 }
 
 
 .modal-history-btn {
     border: none;
-    background: #7c3aed;
+    background: #66BB6A;
     color: white;
     padding: 7px 12px;
     border-radius: 7px;
@@ -547,7 +547,7 @@ body{
 }
 
 .modal-history-btn:hover {
-    background: #6d28d9;
+    background: #66BB6A;
 }
 
 /* Responsive */
