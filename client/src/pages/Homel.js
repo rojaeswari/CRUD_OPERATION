@@ -745,6 +745,8 @@ Reminder Date: ${item.reminder_date}
                                     <th>Accessory</th>
                                     <th>Issues</th>
                                     <th>Status</th>
+                                    <th>Status Update</th>
+<th>Status History</th>
                                 </tr>
                             </thead>
 
@@ -794,6 +796,28 @@ Reminder Date: ${item.reminder_date}
                                                 {product.status || "-"}
                                             </span>
                                         </td>
+
+                                        <td>
+    <button
+        className="modal-status-update-btn"
+        onClick={() =>
+            nav(`/statuspage/${product.item_id}`)
+        }
+    >
+        Status
+    </button>
+</td>
+
+<td>
+    <button
+        className="modal-history-btn"
+        onClick={() =>
+            nav(`/serial-history/${product.serial_no}`)
+        }
+    >
+        History
+    </button>
+</td>
 
                                     </tr>
 
