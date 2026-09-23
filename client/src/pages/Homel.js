@@ -11,9 +11,6 @@ const Homel = () => {
 
     const [data, setData] = useState([]); // MUST BE []
     const [search, setSearch] = useState("");
-    const [showRmaModal, setShowRmaModal] = useState(false);
-    const [rmaDetails, setRmaDetails] = useState([]);
-    const [loadingRma, setLoadingRma] = useState(false);
 
     useEffect(() => {
         loadData();
@@ -75,32 +72,6 @@ const Homel = () => {
         }
 
     };
-
-
-    const openRmaDetails = async (rmaNo) => {
-    try {
-        setLoadingRma(true);
-        setShowRmaModal(true);
-
-        const response = await axios.get(
-            `https://smazo.onrender.com/rma-details_r/${rmaNo}`
-        );
-
-        console.log("RMA DETAILS:", response.data);
-
-        setRmaDetails(
-            Array.isArray(response.data)
-                ? response.data
-                : []
-        );
-
-    } catch (error) {
-        console.log("RMA Details Error:", error);
-        setRmaDetails([]);
-    } finally {
-        setLoadingRma(false);
-    }
-};
 
     const generatePDF = async (item) => {
 
@@ -582,13 +553,20 @@ Reminder Date: ${item.reminder_date}
 
                                 <td>{item.status}</td>
                                 <td>
-    <button
-        className="view-btn"
-        onClick={() => openRmaDetails(item.rma_no)}
-    >
-        View
-    </button>
-</td>
+
+                                    <button
+                                        className="view-btn"
+                                        onClick={() =>
+                                            nav(`/rma-details_r/${item.rma_no}`, {
+                                                state: {
+                                                    from: "/home/home_l"
+                                                }
+                                            })
+                                        }
+                                    >
+                                        View
+                                    </button>
+                                </td>
                                 <td>
                                     <Link to={`/update-rma1/${item.rma_no}`}>
                                         <button className="edit-btn">
@@ -635,207 +613,6 @@ Reminder Date: ${item.reminder_date}
                     })}
                 </tbody>
             </table>
-
-            {showRmaModal && (
-    <div className="rma-modal-overlay">
-
-        <div className="rma-modal">
-
-            {/* Header */}
-            <div className="rma-modal-header">
-
-                <div>
-                    <h2>RMA Details</h2>
-
-                    {rmaDetails.length > 0 && (
-                        <p>
-                            RMA No:{" "}
-                            <strong>
-                                {rmaDetails[0].rma_no}
-                            </strong>
-                        </p>
-                    )}
-                </div>
-
-                <button
-                    className="modal-close-btn"
-                    onClick={() => {
-                        setShowRmaModal(false);
-                        setRmaDetails([]);
-                    }}
-                >
-                    ✕
-                </button>
-
-            </div>
-
-
-            {/* Content */}
-            {loadingRma ? (
-
-                <div className="rma-loading">
-                    Loading RMA Details...
-                </div>
-
-            ) : rmaDetails.length === 0 ? (
-
-                <div className="rma-empty">
-                    No RMA Details Found
-                </div>
-
-            ) : (
-
-                <>
-                    {/* Customer Details */}
-
-                    <div className="customer-info">
-
-                        <div>
-                            <span>Customer</span>
-                            <strong>
-                                {rmaDetails[0].customer_name || "-"}
-                            </strong>
-                        </div>
-
-                        <div>
-                            <span>DC No</span>
-                            <strong>
-                                {rmaDetails[0].customer_dc_no || "-"}
-                            </strong>
-                        </div>
-
-                        <div>
-                            <span>RMA No</span>
-                            <strong>
-                                {rmaDetails[0].rma_no || "-"}
-                            </strong>
-                        </div>
-
-                        <div>
-                            <span>Entry Date</span>
-                            <strong>
-                                {rmaDetails[0].entry_date
-                                    ? new Date(
-                                        rmaDetails[0].entry_date
-                                    ).toLocaleDateString("en-GB")
-                                    : "-"}
-                            </strong>
-                        </div>
-
-                    </div>
-
-
-                    {/* Products */}
-
-                    <h3 className="products-title">
-                        Products ({rmaDetails.length})
-                    </h3>
-
-                    <div className="rma-products-table-wrapper">
-
-                        <table className="rma-products-table">
-
-                            <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Product Name</th>
-                                    <th>Model Number</th>
-                                    <th>Quantity</th>
-                                    <th>Serial No</th>
-                                    <th>Accessory</th>
-                                    <th>Issues</th>
-                                    <th>Status</th>
-                                    <th>Status Update</th>
-<th>Status History</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                                {rmaDetails.map((product, index) => (
-
-                                    <tr key={product.item_id || index}>
-
-                                        <td>
-                                            {index + 1}
-                                        </td>
-
-                                        <td>
-                                            {product.product_name || "-"}
-                                        </td>
-
-                                        <td>
-                                            {product.model_number || "-"}
-                                        </td>
-
-                                        <td>
-                                            {product.quantity_no || "-"}
-                                        </td>
-
-                                        <td>
-                                            {product.serial_no || "-"}
-                                        </td>
-
-                                        <td>
-                                            {product.accessory || "-"}
-                                        </td>
-
-                                        <td>
-                                            {product.issues || "-"}
-                                        </td>
-
-                                        <td>
-                                            <span
-                                                className={
-                                                    product.status
-                                                        ?.toLowerCase() === "completed"
-                                                        ? "modal-status completed"
-                                                        : "modal-status pending"
-                                                }
-                                            >
-                                                {product.status || "-"}
-                                            </span>
-                                        </td>
-
-                                        <td>
-    <button
-        className="modal-status-update-btn"
-        onClick={() =>
-            nav(`/statuspage/${product.item_id}`)
-        }
-    >
-        Status
-    </button>
-</td>
-
-<td>
-    <button
-        className="modal-history-btn"
-        onClick={() =>
-            nav(`/serial-history/${product.serial_no}`)
-        }
-    >
-        History
-    </button>
-</td>
-
-                                    </tr>
-
-                                ))}
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </>
-            )}
-
-        </div>
-
-    </div>
-)}
         </div >
     );
 
