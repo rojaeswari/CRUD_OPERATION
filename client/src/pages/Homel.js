@@ -531,84 +531,97 @@ Reminder Date: ${item.reminder_date}
                     </tr>
                 </thead>
 
-                <tbody>
-                    {filteredData.map((item, index) => {
-                        return (
-                            <tr key={item.id}>
-                                <td style={{
-                                    backgroundColor:
-                                        item.status?.trim().toLowerCase() === "completed"
-                                            ? "#1adab0"
-                                            : "white"
-                                }}>{item.rma_no}</td>
-                                <td>{item.customer_name}</td>
-                                <td>{item.product_name}</td>
-                                <td>{item.model_number}</td>
-                                <td>{item.quantity_no}</td>
-                                {/* <td>{item.serial_no}</td>
-                                <td>{item.accessory}</td> */}
-                                <td>{item.status}</td>
+               <tbody>
+    {filteredData.map((item, index) => {
+        return (
+            <tr key={item.id}>
 
-                                <td>
-                                    {item.entry_date
-                                        ? new Date(item.entry_date).toLocaleDateString("en-GB")
-                                        : "-"}
-                                </td>
+                <td
+                    style={{
+                        backgroundColor:
+                            item.status?.trim().toLowerCase() === "completed"
+                                ? "#1adab0"
+                                : "white"
+                    }}
+                >
+                    {item.rma_no}
+                </td>
 
-                                <td>{item.status}</td>
-                                 <td>
-    <button
-        className="view-btn"
-        onClick={() => setSelectedRmaNo(item.rma_no)}
-    >
-        View
-    </button>
-</td>
-                                <td>
-                                    <Link to={`/update-rma1/${item.rma_no}`}>
-                                        <button className="edit-btn">
-                                            Edit
-                                        </button>
-                                    </Link>
+                <td>{item.customer_name}</td>
 
-                                    <button
-                                        className="delete-btn"
-                                        onClick={() =>
-                                            deleteRMA(item.rma_no)
-                                        }
-                                    >
-                                        Delete
-                                    </button>
+                <td>{item.product_name}</td>
 
+                <td>{item.model_number}</td>
 
+                <td>{item.quantity_no}</td>
 
+                <td>{item.status}</td>
 
-                                </td>
+                <td>
+                    {item.entry_date
+                        ? new Date(item.entry_date).toLocaleDateString("en-GB")
+                        : "-"}
+                </td>
 
+                <td>{item.status}</td>
 
-                                <td>
-                                    <button
-                                        className="view-btn"
-                                        onClick={() => generatePDF(item)}
-                                    >
-                                        Pdf
-                                    </button>
-                                </td>
-                                <td>
-                                    <button
-                                        className="share-btn"
-                                        onClick={() => shareWhatsApp(item)}
-                                    >
-                                        WhatsApp
-                                    </button>
-                                </td>
-                            </tr>
+                {/* VIEW BUTTON */}
+                <td>
+                    <button
+                        type="button"
+                        className="view-btn"
+                        onClick={() => {
+                            console.log("View clicked:", item.rma_no);
+                            setSelectedRmaNo(item.rma_no);
+                        }}
+                    >
+                        View
+                    </button>
+                </td>
 
+                {/* ACTION */}
+                <td>
+                    <Link to={`/update-rma1/${item.rma_no}`}>
+                        <button className="edit-btn">
+                            Edit
+                        </button>
+                    </Link>
 
+                    <button
+                        type="button"
+                        className="delete-btn"
+                        onClick={() => deleteRMA(item.rma_no)}
+                    >
+                        Delete
+                    </button>
+                </td>
 
-                        );
-                    })}
-                </tbody>
+                {/* PDF */}
+                <td>
+                    <button
+                        type="button"
+                        className="view-btn"
+                        onClick={() => generatePDF(item)}
+                    >
+                        Pdf
+                    </button>
+                </td>
+
+                {/* WHATSAPP */}
+                <td>
+                    <button
+                        type="button"
+                        className="share-btn"
+                        onClick={() => shareWhatsApp(item)}
+                    >
+                        WhatsApp
+                    </button>
+                </td>
+
+            </tr>
+        );
+    })}
+</tbody>
             </table>
 
             {selectedRmaNo && (
