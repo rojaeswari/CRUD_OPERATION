@@ -556,12 +556,14 @@ Reminder Date: ${item.reminder_date}
                                 </td>
 
                                 <td>{item.status}</td>
-                                <button
-    className="view-btn"
-    onClick={() => setSelectedRmaNo(item.rma_no)}
->
-    View
-</button>
+                                 <td>
+    <button
+        className="view-btn"
+        onClick={() => setSelectedRmaNo(item.rma_no)}
+    >
+        View
+    </button>
+</td>
                                 <td>
                                     <Link to={`/update-rma1/${item.rma_no}`}>
                                         <button className="edit-btn">
