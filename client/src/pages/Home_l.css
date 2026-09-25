@@ -1,1062 +1,676 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-
-body {
-    font-family: "Poppins", sans-serif;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f5f3ff,
-            #ede9fe
-        );
-}
-
-
-/* =====================================================
-   MAIN PAGE
-===================================================== */
-
-.top-btns {
-
-    padding: 20px;
-
+/* Main Container */
+/* .home-container {
     min-height: 100vh;
+    background: #f3f6fb;
+    padding: 110px 20px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} */
 
+/* Top Section */
+/* .top-section {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 25px;
+} */
+/* .top-section1 {
+    width: 100%;
+    max-width: 1000px;
+    height: 50%;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 25px;
+} */
+
+/* .back-btn {
+    background: #1f3156;
+    color: white;
+} */
+
+/* Add Customer Button */
+/* .btn-phone {
+    background: linear-gradient(135deg, #5120c4, #6713d5);
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(206, 69, 137, 0.3);
+} */
+
+/* .btn-phone:hover {
+    transform: translateY(-2px);
+} */
+
+/* Table Wrapper */
+/* .table-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+} */
+
+/* Table */
+/* .styled-table {
+    width: 82%;
+    max-width: 1000px;
+    border-collapse: separate;
+    border-spacing: 0 14px;
+} */
+
+/* Header */
+/* .styled-table thead tr {
+    background: #1e293b;
+} */
+
+/* .styled-table th {
+    color: white;
+    padding: 18px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+} */
+
+/* .styled-table th:first-child {
+    border-radius: 12px 0 0 12px;
+} */
+
+/* .styled-table th:last-child {
+    border-radius: 0 12px 12px 0;
+} */
+
+/* Row Card Style */
+/* .styled-table tbody tr {
+    background: #ffffff;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    transition: 0.3s;
+} */
+
+/* .styled-table tbody tr:hover {
+    transform: translateY(-4px);
+} */
+
+/* Table Cell */
+/* .styled-table td {
+    padding: 20px 15px;
+    text-align: center;
+    font-size: 14px;
+    color: #334155;
+    font-weight: 500;
+    background: white;
+} */
+
+/* Rounded Corners */
+/* .styled-table tbody tr td:first-child {
+    border-radius: 14px 0 0 14px;
+    font-weight: bold;
+    color: #ce4589;
+} */
+
+/* .styled-table tbody tr td:last-child {
+    border-radius: 0 14px 14px 0;
+} */
+
+/* Action Buttons */
+/* .action-btns {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+} */
+
+/* Button Common */
+/* .btn-edit,
+.btn-delete,
+.btn-view {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+} */
+
+/* Edit */
+/* .btn-edit {
+    background: #0d6efd;
+} */
+
+/* .btn-edit:hover {
+    transform: scale(1.05);
+} */
+
+/* Delete */
+/* .btn-delete {
+    background: #dc3545;
+} */
+
+/* .btn-delete:hover {
+    transform: scale(1.05);
+} */
+
+/* View */
+/* .btn-view {
+    background: #ce4589;
+} */
+
+/* .btn-view:hover {
+    transform: scale(1.05);
+} */
+
+/* Responsive */
+/* @media(max-width:768px) {
+
+    .styled-table {
+        width: 100%;
+    }
+
+    .styled-table thead {
+        display: none;
+    }
+
+    .styled-table,
+    .styled-table tbody,
+    .styled-table tr,
+    .styled-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .styled-table tr {
+        margin-bottom: 20px;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .styled-table td {
+        text-align: right;
+        padding: 15px;
+        padding-left: 50%;
+        position: relative;
+        border-bottom: 1px solid #eee;
+    }
+
+    .styled-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 20px;
+        font-weight: bold;
+        color: #1e293b;
+    }
+
+    .action-btns {
+        justify-content: flex-end;
+    }
+
+    .top-section {
+        justify-content: center;
+    }
+} */
+
+
+/* ===========================================
+   HOME CONTAINER
+=========================================== */
+
+.home-container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #F5FBF6, #E8F5E9);
+    padding: 100px 20px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+/* ===========================================
+   TOP SECTION
+=========================================== */
 
-/* =====================================================
-   TOP BUTTONS
-===================================================== */
+.top-section {
+    width: 100%;
+    max-width: 1200px;
 
-.top-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 30px;
+
+    border-radius: 18px;
+
+    background: linear-gradient(
+        135deg,
+        #1B5E20,
+        #2E7D32,
+        #43A047,
+        #66BB6A
+    );
+
+    box-shadow: 0 10px 25px rgba(46, 125, 50, .25);
+
+    margin-bottom: 35px;
+}
+
+.top-section1 {
+    display: flex;
+    align-items: center;
+}
+
+/* ===========================================
+   SEARCH
+=========================================== */
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    width: 350px;
+    height: 48px;
+
+    padding: 0 18px;
+
+    border: 2px solid #A5D6A7;
+    border-right: none;
+
+    border-radius: 10px 0 0 10px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    transition: .3s;
+}
+
+.search-box input:focus {
+    border-color: #43A047;
+}
+
+.search-box button {
+
+    width: 55px;
+    height: 48px;
+
+    border: none;
+
+    background: #43A047;
+
+    color: white;
+
+    cursor: pointer;
+
+    border-radius: 0 10px 10px 0;
+
+    font-size: 18px;
+
+    transition: .3s;
+}
+
+.search-box button:hover {
+    background: #2E7D32;
+}
+
+/* ===========================================
+   BUTTONS
+=========================================== */
+
+.back-btn {
+
+    background: #1B5E20;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 24px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    transition: .3s;
+}
+
+.back-btn:hover {
+
+    background: #2E7D32;
+
+    transform: translateY(-2px);
+}
+
+.btn-phone {
+
+    background: linear-gradient(135deg,#43A047,#2E7D32);
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 24px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+    box-shadow: 0 6px 15px rgba(67,160,71,.35);
+}
+
+.btn-phone:hover {
+
+    background: linear-gradient(135deg,#2E7D32,#1B5E20);
+
+    transform: translateY(-2px);
+}
+
+/* ===========================================
+   TABLE
+=========================================== */
+
+.table-wrapper {
+
+    width: 100%;
 
     display: flex;
 
-    justify-content: space-between;
+    justify-content: center;
+}
+
+.styled-table {
+
+    width: 100%;
+
+    max-width: 1200px;
+
+    border-collapse: separate;
+
+    border-spacing: 0 14px;
+}
+
+/* ===========================================
+   TABLE HEADER
+=========================================== */
+
+.styled-table thead tr {
+
+    background: linear-gradient(
+        90deg,
+        #1B5E20,
+        #2E7D32,
+        #43A047
+    );
+}
+
+.styled-table th {
+
+    color: white;
+
+    padding: 18px;
+
+    text-align: center;
+
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+.styled-table th:first-child {
+
+    border-radius: 12px 0 0 12px;
+}
+
+.styled-table th:last-child {
+
+    border-radius: 0 12px 12px 0;
+}
+
+/* ===========================================
+   TABLE BODY
+=========================================== */
+
+.styled-table tbody tr {
+
+    background: white;
+
+    box-shadow: 0 5px 18px rgba(46,125,50,.08);
+
+    transition: .3s;
+}
+
+.styled-table tbody tr:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow: 0 10px 22px rgba(46,125,50,.15);
+}
+
+.styled-table td {
+
+    background: white;
+
+    padding: 18px;
+
+    text-align: center;
+
+    color: #37474F;
+
+    font-size: 14px;
+}
+
+.styled-table td:first-child {
+
+    color: #2E7D32;
+
+    font-weight: bold;
+
+    border-radius: 12px 0 0 12px;
+}
+
+.styled-table td:last-child {
+
+    border-radius: 0 12px 12px 0;
+}
+
+/* ===========================================
+   ACTION BUTTONS
+=========================================== */
+
+.action-btns {
+
+    display: flex;
+
+    justify-content: center;
 
     align-items: center;
 
     gap: 10px;
 
-    margin-bottom: 20px;
-
+    flex-wrap: wrap;
 }
 
-
-.add-btn,
-.back-btn,
-.edit-btn,
-.delete-btn,
-.view-btn,
-.share-btn,
+.btn-edit,
+.btn-delete,
 .btn-view {
 
     border: none;
 
-    padding: 10px 16px;
+    padding: 8px 16px;
 
-    border-radius: 12px;
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    font-weight: 600;
 
     cursor: pointer;
+
+    transition: .3s;
+}
+
+/* Edit */
+
+.btn-edit {
+
+    background: #43A047;
 
     color: white;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    margin: 3px;
-
-    transition: 0.3s;
-
 }
 
+.btn-edit:hover {
 
-/* =====================================================
-   BUTTON COLORS
-===================================================== */
+    background: #2E7D32;
 
-.add-btn {
-
-    background:
-        linear-gradient(
-            135deg,
-            #66BB6A,
-            #31cc39
-        );
-
+    transform: scale(1.05);
 }
 
-
-.add-btn:hover {
-
-    transform: translateY(-2px);
-
-}
-
-
-.back-btn {
-
-    background:
-        linear-gradient(
-            135deg,
-            #66BB6A,
-            #35993a
-        );
-
-}
-
-
-.edit-btn {
-
-    background:
-        linear-gradient(
-            135deg,
-            #66BB6A,
-            #37b33d
-        );
-
-}
-
-
-.delete-btn {
-
-    background:
-        linear-gradient(
-            135deg,
-            #dc2626,
-            #b91c1c
-        );
-
-}
-
-
-.view-btn {
-
-    background: #16a34a !important;
-
-    color: white !important;
-
-    border: none !important;
-
-    padding: 8px 16px !important;
-
-    border-radius: 8px !important;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-}
-
-
-.view-btn:hover {
-
-    background: #15803d !important;
-
-}
-
-
-.share-btn {
-
-    background:
-        linear-gradient(
-            135deg,
-            #66BB6A,
-            #26912c
-        );
-
-}
-
+/* View */
 
 .btn-view {
 
-    background:
-        linear-gradient(
-            135deg,
-            #66BB6A,
-            #29972f
-        );
+    background: #81C784;
 
+    color: #1B5E20;
 }
 
-
-/* =====================================================
-   MAIN RMA TABLE
-===================================================== */
-
-.rma-table {
-
-    width: 100%;
-
-    border-collapse: collapse;
-
-    background: white;
-
-    border-radius: 20px;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 10px 30px
-        rgba(56, 236, 95, 0.15);
-
-}
-
-
-.rma-table thead {
-
-    background:
-        linear-gradient(
-            90deg,
-            #66BB6A,
-            #30a336
-        );
-
-    color: white;
-
-}
-
-
-.rma-table th {
-
-    padding: 15px;
-
-    font-size: 15px;
-
-}
-
-
-.rma-table td {
-
-    padding: 12px;
-
-    border-bottom:
-        1px solid #ede9fe;
-
-    text-align: center;
-
-}
-
-
-.rma-table tbody tr:nth-child(even) {
-
-    background: #faf5ff;
-
-}
-
-
-.rma-table tbody tr:hover {
-
-    background: #f3e8ff;
-
-    transition: 0.3s;
-
-}
-
-
-/* =====================================================
-   RMA NUMBER STATUS COLOR
-===================================================== */
-
-.rma-completed {
-
-    background: #1adab0 !important;
-
-    color: #000;
-
-    font-weight: 600;
-
-}
-
-
-.rma-pending {
-
-    background: white !important;
-
-    color: #000;
-
-}
-
-
-/* =====================================================
-   STATUS COLORS
-===================================================== */
-
-.status-open {
-
-    color: #16a34a;
-
-    font-weight: bold;
-
-}
-
-
-.status-pending {
-
-    color: #ca8a04;
-
-    font-weight: bold;
-
-}
-
-
-.status-close {
-
-    color: #dc2626;
-
-    font-weight: bold;
-
-}
-
-
-/* =====================================================
-   RMA DETAILS MODAL OVERLAY
-===================================================== */
-
-.rma-modal-overlay {
-
-    position: fixed;
-
-    inset: 0;
-
-    width: 100%;
-
-    height: 100%;
-
-    background:
-        rgba(0, 0, 0, 0.60);
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    padding: 20px;
-
-    z-index: 99999;
-
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-.rma-modal {
-
-    width: 95%;
-
-    max-width: 1250px;
-
-    max-height: 90vh;
-
-    background: white;
-
-    border-radius: 18px;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 20px 60px
-        rgba(0, 0, 0, 0.35);
-
-    animation:
-        rmaModalOpen
-        0.25s
-        ease;
-
-}
-
-
-@keyframes rmaModalOpen {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            scale(0.90);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            scale(1);
-
-    }
-
-}
-
-
-/* =====================================================
-   MODAL HEADER
-===================================================== */
-
-.rma-modal-header {
-
-    background:
-        linear-gradient(
-            135deg,
-            #66BB6A,
-            #2e7d32
-        );
-
-    color: white;
-
-    padding:
-        18px 24px;
-
-    display: flex;
-
-    justify-content:
-        space-between;
-
-    align-items:
-        center;
-
-}
-
-
-.rma-modal-header h2 {
-
-    margin: 0;
-
-    font-size: 23px;
-
-}
-
-
-.rma-modal-header p {
-
-    margin: 5px 0 0;
-
-    font-size: 14px;
-
-}
-
-
-/* =====================================================
-   CLOSE BUTTON
-===================================================== */
-
-.modal-close-btn {
-
-    width: 38px;
-
-    height: 38px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: white;
-
-    color: #333;
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-
-}
-
-
-.modal-close-btn:hover {
-
-    background: #ffdddd;
-
-    color: #dc2626;
-
-    transform:
-        rotate(90deg);
-
-}
-
-
-/* =====================================================
-   CUSTOMER INFO
-===================================================== */
-
-.customer-info {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 15px;
-
-    padding:
-        20px 24px;
-
-    background: #f7fff7;
-
-    border-bottom:
-        1px solid #d9ead9;
-
-}
-
-
-.customer-info div {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 5px;
-
-}
-
-
-.customer-info span {
-
-    font-size: 12px;
-
-    color: #666;
-
-    font-weight: 500;
-
-}
-
-
-.customer-info strong {
-
-    font-size: 15px;
-
-    color: #111;
-
-}
-
-
-/* =====================================================
-   PRODUCTS TITLE
-===================================================== */
-
-.products-title {
-
-    margin: 0;
-
-    padding:
-        18px 24px 12px;
-
-    color: #111;
-
-    font-size: 18px;
-
-}
-
-
-/* =====================================================
-   PRODUCT TABLE WRAPPER
-===================================================== */
-
-.rma-products-table-wrapper {
-
-    max-height: 50vh;
-
-    overflow: auto;
-
-    padding:
-        0 24px 24px;
-
-}
-
-
-/* =====================================================
-   PRODUCT TABLE
-===================================================== */
-
-.rma-products-table {
-
-    width: 100%;
-
-    border-collapse:
-        collapse;
-
-    background: white;
-
-}
-
-
-.rma-products-table th {
-
-    position: sticky;
-
-    top: 0;
+.btn-view:hover {
 
     background: #66BB6A;
 
+    transform: scale(1.05);
+}
+
+/* Delete */
+
+.btn-delete {
+
+    background: #E53935;
+
     color: white;
-
-    padding:
-        12px 10px;
-
-    font-size: 13px;
-
-    text-align: center;
-
-    z-index: 2;
-
 }
 
+.btn-delete:hover {
 
-.rma-products-table td {
+    background: #C62828;
 
-    padding:
-        11px 10px;
-
-    border-bottom:
-        1px solid #e5e7eb;
-
-    text-align: center;
-
-    font-size: 13px;
-
-    color: #222;
-
+    transform: scale(1.05);
 }
 
+/* ===========================================
+   RESPONSIVE
+=========================================== */
 
-.rma-products-table tbody tr:nth-child(even) {
+@media (max-width:768px){
 
-    background: #f7fff7;
-
-}
-
-
-.rma-products-table tbody tr:hover {
-
-    background: #e8f5e9;
-
-}
-
-
-/* =====================================================
-   PRODUCT COLOR
-===================================================== */
-
-.product-completed {
-
-    background: #1adab0 !important;
-
-    color: #000 !important;
-
-    font-weight: 600;
-
-}
-
-
-.product-pending {
-
-    background: white !important;
-
-    color: #000 !important;
-
-    font-weight: 600;
-
-}
-
-
-/* =====================================================
-   STATUS CELL
-===================================================== */
-
-.status-cell {
-
-    display: flex;
+.top-section{
 
     flex-direction: column;
 
-    align-items: center;
+    gap: 20px;
 
-    justify-content: center;
-
-    gap: 6px;
-
+    padding: 20px;
 }
 
+.search-container{
 
-/* =====================================================
-   COMPLETED STATUS
-===================================================== */
+    width:100%;
 
-.status-completed {
-
-    display: inline-block;
-
-    padding:
-        5px 10px;
-
-    border-radius: 20px;
-
-    background: #dcfce7;
-
-    color: #166534;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
+    flex-direction: column;
 }
 
+.search-box{
 
-/* =====================================================
-   PENDING STATUS
-===================================================== */
-
-.status-pending {
-
-    display: inline-block;
-
-    padding:
-        5px 10px;
-
-    border-radius: 20px;
-
-    background: #fff7ed;
-
-    color: #c2410c;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
+    width:100%;
 }
 
+.search-box input{
 
-/* =====================================================
-   MODAL VIEW BUTTON
-===================================================== */
-
-.modal-view-btn {
-
-    border: none;
-
-    background: #16a34a;
-
-    color: white;
-
-    padding:
-        7px 14px;
-
-    border-radius: 7px;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
+    width:100%;
 }
 
+.btn-phone{
 
-.modal-view-btn:hover {
-
-    background: #15803d;
-
+    width:100%;
 }
 
+.styled-table{
 
-/* =====================================================
-   STATUS UPDATE
-===================================================== */
-
-.modal-status-update-btn {
-
-    display: inline-block;
-
-    border: none;
-
-    background: #16a34a;
-
-    color: white;
-
-    padding:
-        7px 12px;
-
-    border-radius: 7px;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    text-decoration: none;
-
+    width:100%;
 }
 
+.styled-table thead{
 
-.modal-status-update-btn:hover {
-
-    background: #15803d;
-
+    display:none;
 }
 
+.styled-table,
+.styled-table tbody,
+.styled-table tr,
+.styled-table td{
 
-/* =====================================================
-   STATUS HISTORY
-===================================================== */
+    display:block;
 
-.modal-history-btn {
-
-    display: inline-block;
-
-    border: none;
-
-    background: #16a34a;
-
-    color: white;
-
-    padding:
-        7px 12px;
-
-    border-radius: 7px;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    text-decoration: none;
-
+    width:100%;
 }
 
+.styled-table tr{
 
-.modal-history-btn:hover {
+    margin-bottom:20px;
 
-    background: #15803d;
+    border-radius:12px;
 
+    overflow:hidden;
 }
 
+.styled-table td{
 
-/* =====================================================
-   SUPPORTER SECTION
-===================================================== */
+    text-align:right;
 
-.supporter-section {
+    padding-left:50%;
 
-    padding:
-        0 24px 20px;
+    position:relative;
 
+    border-bottom:1px solid #eee;
 }
 
+.styled-table td::before{
 
-.supporter-section h3 {
+    content:attr(data-label);
 
-    margin-bottom: 12px;
+    position:absolute;
 
-    font-size: 18px;
+    left:15px;
 
-    color: #222;
+    font-weight:bold;
 
+    color:#2E7D32;
 }
 
+.action-btns{
 
-/* =====================================================
-   RETURN STATUS
-===================================================== */
-
-.supporter-returned {
-
-    display: inline-block;
-
-    padding:
-        6px 12px;
-
-    border-radius: 7px;
-
-    background: #1adab0;
-
-    color: white;
-
-    font-weight: 600;
-
-    font-size: 12px;
-
+    justify-content:flex-end;
 }
-
-
-.supporter-pending {
-
-    display: inline-block;
-
-    padding:
-        6px 12px;
-
-    border-radius: 7px;
-
-    background: #ffc107;
-
-    color: #000;
-
-    font-weight: 600;
-
-    font-size: 12px;
-
-}
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-.rma-loading {
-
-    padding: 60px;
-
-    text-align: center;
-
-    font-size: 17px;
-
-    color: #555;
-
-}
-
-
-/* =====================================================
-   EMPTY
-===================================================== */
-
-.rma-empty {
-
-    padding: 60px;
-
-    text-align: center;
-
-    font-size: 17px;
-
-    color: #777;
-
-}
-
-
-/* =====================================================
-   MODAL FOOTER
-===================================================== */
-
-.modal-footer {
-
-    padding:
-        15px 24px 20px;
-
-    display: flex;
-
-    justify-content: center;
-
-}
-
-
-.modal-back-btn {
-
-    border: none;
-
-    background:
-        linear-gradient(
-            135deg,
-            #66BB6A,
-            #29972f
-        );
-
-    color: white;
-
-    padding:
-        11px 35px;
-
-    border-radius: 9px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-}
-
-
-.modal-back-btn:hover {
-
-    transform:
-        translateY(-1px);
-
-}
-
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media (max-width: 900px) {
-
-    .customer-info {
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
-    }
-
-}
-
-
-@media (max-width: 600px) {
-
-    .top-buttons {
-
-        flex-direction: column;
-
-    }
-
-
-    .rma-modal-overlay {
-
-        padding: 10px;
-
-    }
-
-
-    .rma-modal {
-
-        width: 100%;
-
-        max-height: 95vh;
-
-    }
-
-
-    .customer-info {
-
-        grid-template-columns:
-            1fr;
-
-    }
-
-
-    .rma-modal-header h2 {
-
-        font-size: 19px;
-
-    }
-
-
-    .rma-products-table-wrapper {
-
-        overflow-x: auto;
-
-    }
 
 }
