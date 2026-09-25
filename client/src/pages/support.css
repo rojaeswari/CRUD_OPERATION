@@ -66,12 +66,12 @@ body {
     cursor: pointer;
     color: white;
     font-size: 14px;
-    background: #66BB6A;
+    background: #dc2626;
     transition: 0.3s;
 }
 
 .btn-delete:hover {
-    background: #66BB6A;
+    background: #dc2626;
     transform: scale(1.05);
 }
 
