@@ -5,12 +5,14 @@ import "./Home_l.css";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useNavigate } from "react-router-dom";
+import RMADetails from "./RMADetails";
 
 const Homel = () => {
     const nav = useNavigate();
 
     const [data, setData] = useState([]); // MUST BE []
     const [search, setSearch] = useState("");
+    const [selectedRmaNo, setSelectedRmaNo] = useState(null);
     
     
 
@@ -554,21 +556,12 @@ Reminder Date: ${item.reminder_date}
                                 </td>
 
                                 <td>{item.status}</td>
-                                <td>
-
-                                    <button
-                                        className="view-btn"
-                                        onClick={() =>
-                                            nav(`/rma-details_r/${item.rma_no}`, {
-                                                state: {
-                                                    from: "/home/home_l"
-                                                }
-                                            })
-                                        }
-                                    >
-                                        View
-                                    </button>
-                                </td>
+                                <button
+    className="view-btn"
+    onClick={() => setSelectedRmaNo(item.rma_no)}
+>
+    View
+</button>
                                 <td>
                                     <Link to={`/update-rma1/${item.rma_no}`}>
                                         <button className="edit-btn">
@@ -615,6 +608,13 @@ Reminder Date: ${item.reminder_date}
                     })}
                 </tbody>
             </table>
+
+            {selectedRmaNo && (
+    <RMADetails
+        rma_no={selectedRmaNo}
+        onClose={() => setSelectedRmaNo(null)}
+    />
+)}
         </div >
     );
 
