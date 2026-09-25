@@ -3,30 +3,58 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./Home_l.css";
 
-function RMADetails({ rma_no, onClose }) {
 
-    const [data, setData] = useState([]);
-    const [supporterData, setSupporterData] = useState([]);
-    const [supporterHistory, setSupporterHistory] = useState([]);
-    const [loading, setLoading] = useState(true);
+function RMADetails({
+    rma_no,
+    onClose
+}) {
 
-    // ==========================================
+
+    const [data, setData] =
+        useState([]);
+
+
+    const [supporterData, setSupporterData] =
+        useState([]);
+
+
+    const [supporterHistory, setSupporterHistory] =
+        useState([]);
+
+
+    const [loading, setLoading] =
+        useState(true);
+
+
+    // =====================================================
     // LOAD RMA DETAILS
-    // ==========================================
+    // =====================================================
 
     useEffect(() => {
 
-        if (!rma_no) return;
+        if (!rma_no) {
+
+            return;
+
+        }
+
 
         setLoading(true);
 
+
         axios
+
             .get(
                 `https://smazo.onrender.com/rma-details_r/${rma_no}`
             )
+
             .then((res) => {
 
-                console.log("RMA DETAILS:", res.data);
+                console.log(
+                    "RMA DETAILS:",
+                    res.data
+                );
+
 
                 setData(
                     Array.isArray(res.data)
@@ -34,14 +62,21 @@ function RMADetails({ rma_no, onClose }) {
                         : []
                 );
 
+
                 setLoading(false);
 
             })
+
             .catch((err) => {
 
-                console.log("RMA DETAILS ERROR:", err);
+                console.log(
+                    "RMA DETAILS ERROR:",
+                    err
+                );
+
 
                 setData([]);
+
                 setLoading(false);
 
             });
@@ -49,54 +84,100 @@ function RMADetails({ rma_no, onClose }) {
     }, [rma_no]);
 
 
-    // ==========================================
-    // LOAD SUPPORTER + HISTORY
-    // ==========================================
+    // =====================================================
+    // LOAD REPLACEMENT PRODUCT
+    // =====================================================
 
-    const loadSupporter = async (serialNo) => {
+    const loadSupporter = async (
+        serialNo
+    ) => {
 
         try {
 
-            setSupporterData([]);
-            setSupporterHistory([]);
+            if (!serialNo) {
 
-            const res = await axios.get(
-                `https://smazo.onrender.com/api/supporter-by-serial/${serialNo}`
-            );
-
-            console.log("Supporter:", res.data);
-
-            setSupporterData(
-                Array.isArray(res.data)
-                    ? res.data
-                    : []
-            );
-
-            if (res.data.length > 0) {
-
-                const supporterId = res.data[0].id;
-
-                const historyRes = await axios.get(
-                    `https://smazo.onrender.com/api/supporter-status-history/${supporterId}`
+                alert(
+                    "Serial number not available"
                 );
 
+                return;
+
+            }
+
+
+            setSupporterData([]);
+
+            setSupporterHistory([]);
+
+
+            const res =
+                await axios.get(
+
+                    `https://smazo.onrender.com/api/supporter-by-serial/${serialNo}`
+
+                );
+
+
+            console.log(
+                "SUPPORTER DATA:",
+                res.data
+            );
+
+
+            const supporterResult =
+                Array.isArray(res.data)
+                    ? res.data
+                    : [];
+
+
+            setSupporterData(
+                supporterResult
+            );
+
+
+            // =================================================
+            // LOAD HISTORY
+            // =================================================
+
+            if (
+                supporterResult.length > 0
+            ) {
+
+                const supporterId =
+                    supporterResult[0].id;
+
+
+                const historyRes =
+                    await axios.get(
+
+                        `https://smazo.onrender.com/api/supporter-status-history/${supporterId}`
+
+                    );
+
+
                 console.log(
-                    "Supporter History:",
+                    "SUPPORTER HISTORY:",
                     historyRes.data
                 );
 
+
                 setSupporterHistory(
-                    Array.isArray(historyRes.data)
+
+                    Array.isArray(
+                        historyRes.data
+                    )
                         ? historyRes.data
                         : []
+
                 );
 
             }
 
+
         } catch (err) {
 
             console.log(
-                "Supporter loading error:",
+                "SUPPORTER ERROR:",
                 err
             );
 
@@ -105,47 +186,66 @@ function RMADetails({ rma_no, onClose }) {
     };
 
 
-    // ==========================================
+    // =====================================================
     // LOADING
-    // ==========================================
+    // =====================================================
 
     if (loading) {
 
         return (
+
             <div className="rma-modal-overlay">
 
                 <div className="rma-modal">
 
                     <div className="rma-loading">
+
                         Loading RMA Details...
+
                     </div>
 
                 </div>
 
             </div>
+
         );
 
     }
 
 
-    // ==========================================
+    // =====================================================
     // NO DATA
-    // ==========================================
+    // =====================================================
 
     if (data.length === 0) {
 
         return (
+
             <div className="rma-modal-overlay">
 
                 <div className="rma-modal">
 
+
                     <div className="rma-modal-header">
 
                         <div>
-                            <h2>RMA Details</h2>
+
+                            <h2>
+                                RMA Details
+                            </h2>
+
+                            <p>
+                                RMA No :
+                                <strong>
+                                    {rma_no}
+                                </strong>
+                            </p>
+
                         </div>
 
+
                         <button
+                            type="button"
                             className="modal-close-btn"
                             onClick={onClose}
                         >
@@ -154,17 +254,26 @@ function RMADetails({ rma_no, onClose }) {
 
                     </div>
 
+
                     <div className="rma-empty">
+
                         No Data Found
+
                     </div>
+
 
                 </div>
 
             </div>
+
         );
 
     }
 
+
+    // =====================================================
+    // MAIN MODAL
+    // =====================================================
 
     return (
 
@@ -173,16 +282,21 @@ function RMADetails({ rma_no, onClose }) {
             onClick={onClose}
         >
 
+
             <div
                 className="rma-modal"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) =>
+                    e.stopPropagation()
+                }
             >
 
-                {/* =====================================
+
+                {/* =================================================
                     HEADER
-                ====================================== */}
+                ================================================= */}
 
                 <div className="rma-modal-header">
+
 
                     <div>
 
@@ -190,107 +304,181 @@ function RMADetails({ rma_no, onClose }) {
                             RMA Details
                         </h2>
 
+
                         <p>
-                            RMA No : <strong>{rma_no}</strong>
+
+                            RMA No :
+                            <strong>
+                                {rma_no}
+                            </strong>
+
                         </p>
 
                     </div>
 
+
                     <button
+                        type="button"
                         className="modal-close-btn"
                         onClick={onClose}
                     >
+
                         ✕
+
                     </button>
+
 
                 </div>
 
 
-                {/* =====================================
+                {/* =================================================
                     CUSTOMER INFORMATION
-                ====================================== */}
+                ================================================= */}
 
                 <div className="customer-info">
 
-                    <div>
-                        <span>Customer</span>
-
-                        <strong>
-                            {data[0].customer_name || "-"}
-                        </strong>
-                    </div>
-
 
                     <div>
-                        <span>RMA No</span>
+
+                        <span>
+                            Customer
+                        </span>
 
                         <strong>
-                            {data[0].rma_no || "-"}
-                        </strong>
-                    </div>
-
-
-                    <div>
-                        <span>Entry Date</span>
-
-                        <strong>
-                            {data[0].entry_date
-                                ? new Date(
-                                    data[0].entry_date
-                                ).toLocaleDateString("en-GB")
-                                : "-"
+                            {
+                                data[0]
+                                    ?.customer_name ||
+                                "-"
                             }
                         </strong>
+
                     </div>
 
 
                     <div>
-                        <span>Total Products</span>
+
+                        <span>
+                            RMA No
+                        </span>
+
+                        <strong>
+                            {
+                                data[0]
+                                    ?.rma_no ||
+                                "-"
+                            }
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Entry Date
+                        </span>
+
+                        <strong>
+
+                            {
+                                data[0]
+                                    ?.entry_date
+
+                                    ? new Date(
+                                        data[0]
+                                            .entry_date
+                                    ).toLocaleDateString(
+                                        "en-GB"
+                                    )
+
+                                    : "-"
+                            }
+
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Total Products
+                        </span>
 
                         <strong>
                             {data.length}
                         </strong>
+
                     </div>
+
 
                 </div>
 
 
-                {/* =====================================
-                    PRODUCTS
-                ====================================== */}
+                {/* =================================================
+                    PRODUCTS TITLE
+                ================================================= */}
 
                 <h3 className="products-title">
+
                     RMA Products
+
                 </h3>
 
 
+                {/* =================================================
+                    PRODUCTS TABLE
+                ================================================= */}
+
                 <div className="rma-products-table-wrapper">
 
+
                     <table className="rma-products-table">
+
 
                         <thead>
 
                             <tr>
 
-                                <th>S.No</th>
+                                <th>
+                                    S.No
+                                </th>
 
-                                <th>Product Name</th>
+                                <th>
+                                    Product Name
+                                </th>
 
-                                <th>Model Number</th>
+                                <th>
+                                    Model Number
+                                </th>
 
-                                <th>Quantity</th>
+                                <th>
+                                    Quantity
+                                </th>
 
-                                <th>Serial No</th>
+                                <th>
+                                    Serial No
+                                </th>
 
-                                <th>Accessory</th>
+                                <th>
+                                    Accessory
+                                </th>
 
-                                <th>Issues</th>
+                                <th>
+                                    Issues
+                                </th>
 
-                                <th>Status</th>
+                                <th>
+                                    Status
+                                </th>
 
-                                <th>Status Update</th>
+                                <th>
+                                    Status Update
+                                </th>
 
-                                <th>Status History</th>
+                                <th>
+                                    Status History
+                                </th>
 
                             </tr>
 
@@ -299,326 +487,580 @@ function RMADetails({ rma_no, onClose }) {
 
                         <tbody>
 
-                            {data.map((item, index) => {
 
-                                const isCompleted =
-                                    item.status
-                                        ?.trim()
-                                        .toLowerCase() ===
-                                    "completed";
-
-                                return (
-
-                                    <tr
-                                        key={
-                                            item.item_id ||
-                                            item.serial_no ||
-                                            index
-                                        }
-                                    >
-
-                                        <td>
-                                            {index + 1}
-                                        </td>
+                            {data.map(
+                                (item, index) => {
 
 
-                                        {/* PRODUCT NAME */}
+                                    const isCompleted =
 
-                                        <td
-                                            className={
-                                                isCompleted
-                                                    ? "product-completed"
-                                                    : "product-pending"
+                                        item.status
+                                            ?.trim()
+                                            .toLowerCase() ===
+                                        "completed";
+
+
+                                    return (
+
+                                        <tr
+                                            key={
+                                                item.item_id ||
+                                                item.serial_no ||
+                                                index
                                             }
                                         >
 
-                                            {item.product_name}
 
-                                        </td>
+                                            {/* S.NO */}
 
-
-                                        <td>
-                                            {item.model_number}
-                                        </td>
+                                            <td>
+                                                {index + 1}
+                                            </td>
 
 
-                                        {/* QUANTITY */}
+                                            {/* PRODUCT */}
 
-                                        <td>
+                                            <td
 
-                                            {index === 0 ||
-                                                data[index - 1].id !==
-                                                item.id
-                                                ? item.quantity_no
-                                                : ""
-                                            }
+                                                className={
 
-                                        </td>
+                                                    isCompleted
 
+                                                        ? "product-completed"
 
-                                        <td>
-                                            {item.serial_no || "-"}
-                                        </td>
+                                                        : "product-pending"
 
-
-                                        <td>
-                                            {item.accessory || "-"}
-                                        </td>
-
-
-                                        <td>
-                                            {item.issues || "-"}
-                                        </td>
-
-
-                                        {/* =================================
-                                            REPLACEMENT PRODUCT STATUS
-                                        ================================= */}
-
-                                        <td>
-
-                                            <button
-                                                className="modal-view-btn"
-                                                onClick={() =>
-                                                    loadSupporter(
-                                                        item.serial_no
-                                                    )
                                                 }
+
                                             >
-                                                View
-                                            </button>
 
-                                        </td>
+                                                {
+                                                    item.product_name ||
+                                                    "-"
+                                                }
 
-
-                                        {/* =================================
-                                            STATUS UPDATE
-                                        ================================= */}
-
-                                        <td>
-
-                                            <Link
-                                                to={`/statuspage/${item.item_id}`}
-                                                className="modal-status-update-btn"
-                                            >
-                                                status
-                                            </Link>
-
-                                        </td>
+                                            </td>
 
 
-                                        {/* =================================
-                                            STATUS HISTORY
-                                        ================================= */}
+                                            {/* MODEL */}
 
-                                        <td>
+                                            <td>
 
-                                            <Link
-                                                to={`/serial-history/${item.serial_no}`}
-                                                className="modal-history-btn"
-                                            >
-                                                View
-                                            </Link>
+                                                {
+                                                    item.model_number ||
+                                                    "-"
+                                                }
 
-                                        </td>
+                                            </td>
 
-                                    </tr>
 
-                                );
+                                            {/* QUANTITY */}
 
-                            })}
+                                            <td>
+
+                                                {
+                                                    index === 0 ||
+                                                    data[
+                                                        index - 1
+                                                    ].id !==
+                                                    item.id
+
+                                                    ? item.quantity_no
+
+                                                    : ""
+
+                                                }
+
+                                            </td>
+
+
+                                            {/* SERIAL */}
+
+                                            <td>
+
+                                                {
+                                                    item.serial_no ||
+                                                    "-"
+                                                }
+
+                                            </td>
+
+
+                                            {/* ACCESSORY */}
+
+                                            <td>
+
+                                                {
+                                                    item.accessory ||
+                                                    "-"
+                                                }
+
+                                            </td>
+
+
+                                            {/* ISSUES */}
+
+                                            <td>
+
+                                                {
+                                                    item.issues ||
+                                                    "-"
+                                                }
+
+                                            </td>
+
+
+                                            {/* =================================================
+                                                STATUS + VIEW
+                                            ================================================= */}
+
+                                            <td>
+
+                                                <div className="status-cell">
+
+
+                                                    <span
+
+                                                        className={
+
+                                                            isCompleted
+
+                                                                ? "status-completed"
+
+                                                                : "status-pending"
+
+                                                        }
+
+                                                    >
+
+                                                        {
+                                                            item.status ||
+                                                            "Pending"
+                                                        }
+
+                                                    </span>
+
+
+                                                    <button
+
+                                                        type="button"
+
+                                                        className="modal-view-btn"
+
+                                                        onClick={() =>
+                                                            loadSupporter(
+                                                                item.serial_no
+                                                            )
+                                                        }
+
+                                                    >
+
+                                                        View
+
+                                                    </button>
+
+
+                                                </div>
+
+                                            </td>
+
+
+                                            {/* =================================================
+                                                STATUS UPDATE
+                                            ================================================= */}
+
+                                            <td>
+
+                                                <Link
+
+                                                    to={`/statuspage/${item.item_id}`}
+
+                                                    className="modal-status-update-btn"
+
+                                                >
+
+                                                    Status
+
+                                                </Link>
+
+                                            </td>
+
+
+                                            {/* =================================================
+                                                HISTORY
+                                            ================================================= */}
+
+                                            <td>
+
+                                                <Link
+
+                                                    to={`/serial-history/${item.serial_no}`}
+
+                                                    className="modal-history-btn"
+
+                                                >
+
+                                                    View
+
+                                                </Link>
+
+                                            </td>
+
+
+                                        </tr>
+
+                                    );
+
+                                }
+
+                            )}
+
 
                         </tbody>
 
+
                     </table>
+
 
                 </div>
 
 
-                {/* =====================================
-                    SUPPORTER DETAILS
-                ====================================== */}
+                {/* =================================================
+                    REPLACEMENT PRODUCT
+                ================================================= */}
 
                 {supporterData.length > 0 && (
 
                     <div className="supporter-section">
 
+
                         <h3>
+
                             Replacement Product Details
+
                         </h3>
 
-                        <table className="rma-products-table">
 
-                            <thead>
-
-                                <tr>
-
-                                    <th>S.No</th>
-                                    <th>Product Name</th>
-                                    <th>Model No</th>
-                                    <th>Serial No</th>
-                                    <th>Replacement Serial No</th>
-                                    <th>Return Status</th>
-
-                                </tr>
-
-                            </thead>
+                        <div className="rma-products-table-wrapper">
 
 
-                            <tbody>
+                            <table className="rma-products-table">
 
-                                {supporterData.map(
-                                    (row, index) => (
 
-                                        <tr key={row.id}>
+                                <thead>
 
-                                            <td>
-                                                {index + 1}
-                                            </td>
+                                    <tr>
 
-                                            <td>
-                                                {row.product_name}
-                                            </td>
+                                        <th>
+                                            S.No
+                                        </th>
 
-                                            <td>
-                                                {row.model_no}
-                                            </td>
+                                        <th>
+                                            Product Name
+                                        </th>
 
-                                            <td>
-                                                {row.serial_no}
-                                            </td>
+                                        <th>
+                                            Model No
+                                        </th>
 
-                                            <td>
-                                                {row.replacement_serial_no}
-                                            </td>
+                                        <th>
+                                            Serial No
+                                        </th>
 
-                                            <td>
+                                        <th>
+                                            Replacement Serial No
+                                        </th>
 
-                                                <span
-                                                    className={
-                                                        row.return_status ===
-                                                        "Returned"
-                                                            ? "supporter-returned"
-                                                            : "supporter-pending"
+                                        <th>
+                                            Return Status
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+
+                                    {supporterData.map(
+                                        (row, index) => {
+
+
+                                            const returned =
+
+                                                row.return_status
+                                                    ?.trim()
+                                                    .toLowerCase() ===
+                                                "returned";
+
+
+                                            return (
+
+                                                <tr
+                                                    key={
+                                                        row.id ||
+                                                        index
                                                     }
                                                 >
-                                                    {
-                                                        row.return_status
-                                                    }
-                                                </span>
 
-                                            </td>
 
-                                        </tr>
+                                                    <td>
+                                                        {index + 1}
+                                                    </td>
 
-                                    )
-                                )}
 
-                            </tbody>
+                                                    <td>
+                                                        {
+                                                            row.product_name ||
+                                                            "-"
+                                                        }
+                                                    </td>
 
-                        </table>
+
+                                                    <td>
+                                                        {
+                                                            row.model_no ||
+                                                            "-"
+                                                        }
+                                                    </td>
+
+
+                                                    <td>
+                                                        {
+                                                            row.serial_no ||
+                                                            "-"
+                                                        }
+                                                    </td>
+
+
+                                                    <td>
+                                                        {
+                                                            row.replacement_serial_no ||
+                                                            "-"
+                                                        }
+                                                    </td>
+
+
+                                                    <td>
+
+                                                        <span
+
+                                                            className={
+
+                                                                returned
+
+                                                                    ? "supporter-returned"
+
+                                                                    : "supporter-pending"
+
+                                                            }
+
+                                                        >
+
+                                                            {
+                                                                row.return_status ||
+                                                                "Pending"
+                                                            }
+
+                                                        </span>
+
+                                                    </td>
+
+
+                                                </tr>
+
+                                            );
+
+                                        }
+
+                                    )}
+
+
+                                </tbody>
+
+
+                            </table>
+
+
+                        </div>
+
 
                     </div>
 
                 )}
 
 
-                {/* =====================================
+                {/* =================================================
                     STATUS HISTORY
-                ====================================== */}
+                ================================================= */}
 
                 {supporterHistory.length > 0 && (
 
                     <div className="supporter-section">
 
+
                         <h3>
+
                             Return Status History
+
                         </h3>
 
-                        <table className="rma-products-table">
 
-                            <thead>
-
-                                <tr>
-
-                                    <th>S.No</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-
-                                </tr>
-
-                            </thead>
+                        <div className="rma-products-table-wrapper">
 
 
-                            <tbody>
+                            <table className="rma-products-table">
 
-                                {supporterHistory.map(
-                                    (item, index) => (
 
-                                        <tr key={item.id}>
+                                <thead>
 
-                                            <td>
-                                                {index + 1}
-                                            </td>
+                                    <tr>
 
-                                            <td>
+                                        <th>
+                                            S.No
+                                        </th>
 
-                                                <span
-                                                    className={
-                                                        item.status ===
-                                                        "Returned"
-                                                            ? "supporter-returned"
-                                                            : "supporter-pending"
+                                        <th>
+                                            Status
+                                        </th>
+
+                                        <th>
+                                            Date
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+
+                                    {supporterHistory.map(
+                                        (item, index) => {
+
+
+                                            const returned =
+
+                                                item.status
+                                                    ?.trim()
+                                                    .toLowerCase() ===
+                                                "returned";
+
+
+                                            return (
+
+                                                <tr
+                                                    key={
+                                                        item.id ||
+                                                        index
                                                     }
                                                 >
-                                                    {item.status}
-                                                </span>
 
-                                            </td>
 
-                                            <td>
+                                                    <td>
+                                                        {index + 1}
+                                                    </td>
 
-                                                {new Date(
-                                                    item.status_date
-                                                ).toLocaleString()}
 
-                                            </td>
+                                                    <td>
 
-                                        </tr>
+                                                        <span
 
-                                    )
-                                )}
+                                                            className={
 
-                            </tbody>
+                                                                returned
 
-                        </table>
+                                                                    ? "supporter-returned"
+
+                                                                    : "supporter-pending"
+
+                                                            }
+
+                                                        >
+
+                                                            {
+                                                                item.status ||
+                                                                "-"
+                                                            }
+
+                                                        </span>
+
+                                                    </td>
+
+
+                                                    <td>
+
+                                                        {
+                                                            item.status_date
+
+                                                                ? new Date(
+                                                                    item.status_date
+                                                                ).toLocaleString()
+
+                                                                : "-"
+                                                        }
+
+                                                    </td>
+
+
+                                                </tr>
+
+                                            );
+
+                                        }
+
+                                    )}
+
+
+                                </tbody>
+
+
+                            </table>
+
+
+                        </div>
+
 
                     </div>
 
                 )}
 
 
-                {/* =====================================
-                    CLOSE BUTTON
-                ====================================== */}
+                {/* =================================================
+                    FOOTER
+                ================================================= */}
 
                 <div className="modal-footer">
 
+
                     <button
+
+                        type="button"
+
                         className="modal-back-btn"
+
                         onClick={onClose}
+
                     >
+
                         Close
+
                     </button>
+
 
                 </div>
 
+
             </div>
+
 
         </div>
 
     );
 
 }
+
 
 export default RMADetails;
