@@ -344,7 +344,7 @@ Entry Date: ${item.entry_date}
     const searchText = search.toLowerCase();
 
     return (
-      item.customer_name?.toLowerCase().includes(searchText) ||
+      item.center_name?.toLowerCase().includes(searchText) ||
       item.product_name?.toLowerCase().includes(searchText) ||
       item.model_number?.toLowerCase().includes(searchText)
     );

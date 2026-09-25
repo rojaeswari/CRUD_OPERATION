@@ -64,7 +64,7 @@ function RMADetails1() {
       {/* Header Details */}
       <div className="card p-3 mb-3">
         <p>
-          <strong>Customer :</strong>{" "}
+          <strong>Center :</strong>{" "}
           {data[0].center_name}
         </p>
 
