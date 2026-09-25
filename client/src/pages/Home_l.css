@@ -1,81 +1,127 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-  font-family:"Poppins",sans-serif;
-  background:linear-gradient(135deg,#f5f3ff,#ede9fe);
+body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(
+        135deg,
+        #f5f3ff,
+        #ede9fe
+    );
 }
 
-.top-btns{
-  padding:20px;
-  min-height:100vh;
+
+/* =========================================
+   MAIN
+========================================= */
+
+.top-btns {
+    padding: 20px;
+    min-height: 100vh;
 }
 
-/* Top Buttons */
-.top-buttons{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:20px;
+
+/* =========================================
+   TOP BUTTONS
+========================================= */
+
+.top-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
 }
+
 
 .add-btn,
 .back-btn,
 .edit-btn,
 .delete-btn,
 .view-btn,
-.share-btn,
-.btn-view{
-  border:none;
-  padding:10px 16px;
-  border-radius:12px;
-  cursor:pointer;
-  color:white;
-  font-size:14px;
-  font-weight:600;
-  margin:3px;
-  transition:0.3s;
+.share-btn {
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 3px;
+    transition: 0.3s;
 }
 
-/* Button Colors */
-.add-btn{
-  background:linear-gradient(135deg,#66BB6A,#31cc39);
+
+/* =========================================
+   ADD
+========================================= */
+
+.add-btn {
+    background: linear-gradient(
+        135deg,
+        #66BB6A,
+        #31cc39
+    );
 }
 
-.add-btn:hover{
-  transform:translateY(-2px);
+.add-btn:hover {
+    transform: translateY(-2px);
 }
 
-.back-btn{
-  background:linear-gradient(135deg,#66BB6A,#35993a);
+
+/* =========================================
+   BACK
+========================================= */
+
+.back-btn {
+    background: linear-gradient(
+        135deg,
+        #66BB6A,
+        #35993a
+    );
 }
 
-.edit-btn{
-  background:linear-gradient(135deg,#66BB6A,#37b33d);
+.back-btn:hover {
+    transform: translateY(-2px);
 }
 
-.delete-btn{
-  background: #dc2626 !important;
-  color: white !important;
-  border: none !important;
-  padding: 8px 16px !important;
-  border-radius: 8px !important;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
+
+/* =========================================
+   EDIT
+========================================= */
+
+.edit-btn {
+    background: #43A047 !important;
+    color: white !important;
 }
 
-.delete-btn:hover{
-  background: #dc2626 !important;
-  transform: translateY(-2px);
+.edit-btn:hover {
+    background: #2E7D32 !important;
+    transform: translateY(-2px);
 }
 
-/* .view-btn{
-  background:linear-gradient(135deg,#66BB6A,#32aa38);
-} */
+
+/* =========================================
+   DELETE GREEN
+========================================= */
+
+.delete-btn {
+    background: #43A047 !important;
+    color: white !important;
+}
+
+.delete-btn:hover {
+    background: #2E7D32 !important;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   VIEW
+========================================= */
 
 .view-btn {
     background: #16a34a !important;
@@ -91,68 +137,98 @@ body{
 .view-btn:hover {
     background: #15803d !important;
 }
-.share-btn{
-  background:linear-gradient(135deg,#66BB6A,#26912c);
+
+
+/* =========================================
+   SHARE
+========================================= */
+
+.share-btn {
+    background: #43A047 !important;
+    color: white !important;
 }
 
-.btn-view{
-  background:linear-gradient(135deg,#66BB6A,#29972f);
+.share-btn:hover {
+    background: #2E7D32 !important;
 }
 
-/* Table */
-.rma-table{
-  width:100%;
-  border-collapse:collapse;
-  background:white;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 10px 30px rgba(56, 236, 95, 0.15);
+
+/* =========================================
+   RMA TABLE
+========================================= */
+
+.rma-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+        0 10px 30px
+        rgba(56, 236, 95, 0.15);
 }
 
-.rma-table thead{
-  background:linear-gradient(
-    90deg,
-    #66BB6A,
-    #30a336
-  );
-  color:white;
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.rma-table thead {
+    background: linear-gradient(
+        90deg,
+        #66BB6A,
+        #30a336
+    );
+
+    color: white;
 }
 
-.rma-table th{
-  padding:15px;
-  font-size:15px;
+
+.rma-table th {
+    padding: 15px;
+    font-size: 15px;
+    white-space: nowrap;
 }
 
-.rma-table td{
-  padding:12px;
-  border-bottom:1px solid #ede9fe;
-  text-align:center;
+
+.rma-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ede9fe;
+    text-align: center;
 }
 
-.rma-table tbody tr:nth-child(even){
-  background:#faf5ff;
+
+/* =========================================
+   ROW
+========================================= */
+
+.rma-table tbody tr:nth-child(even) {
+    background: #faf5ff;
 }
 
-.rma-table tbody tr:hover{
-  background:#f3e8ff;
-  transition:.3s;
+
+.rma-table tbody tr:hover {
+    background: #f3e8ff;
+    transition: 0.3s;
 }
 
-/* Status Colors */
-.status-open{
-  color:#16a34a;
-  font-weight:bold;
+
+/* =========================================
+   RMA STATUS COLOR
+========================================= */
+
+.rma-completed {
+    background: #1adab0 !important;
+    color: #000 !important;
+    font-weight: 600;
 }
 
-.status-pending{
-  color:#ca8a04;
-  font-weight:bold;
+
+.rma-pending {
+    background: white !important;
+    color: #000 !important;
 }
 
-.status-close{
-  color:#dc2626;
-  font-weight:bold;
-}
 
 /* =========================================
    PRODUCT STATUS COLOR
@@ -164,10 +240,223 @@ body{
     font-weight: 600;
 }
 
+
 .product-pending {
     background: white !important;
     color: #000 !important;
     font-weight: 600;
+}
+
+
+/* =========================================
+   RMA DETAILS BELOW TABLE
+========================================= */
+
+.rma-details-below {
+    width: 100%;
+    margin-top: 30px;
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(46, 125, 50, 0.15);
+}
+
+
+/* =========================================
+   RMA DETAILS CONTAINER
+========================================= */
+
+.rma-details-container {
+    width: 100%;
+    background: white;
+    border-radius: 15px;
+}
+
+
+/* =========================================
+   DETAILS HEADER
+========================================= */
+
+.rma-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 20px;
+    margin-bottom: 15px;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        90deg,
+        #1B5E20,
+        #2E7D32,
+        #43A047
+    );
+
+    color: white;
+}
+
+
+.rma-details-header h2 {
+    margin: 0 0 5px;
+}
+
+
+.rma-details-header p {
+    margin: 0;
+}
+
+
+/* =========================================
+   HIDE BUTTON
+========================================= */
+
+.hide-details-btn {
+    border: none;
+    background: white;
+    color: #2E7D32;
+
+    padding: 9px 20px;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+.hide-details-btn:hover {
+    background: #E8F5E9;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   CUSTOMER INFO
+========================================= */
+
+.customer-info {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    padding: 10px 0 20px;
+}
+
+
+.customer-info > div {
+    background: #f8faf8;
+
+    border: 1px solid #d7ead8;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.customer-info span {
+    font-size: 12px;
+
+    color: #777;
+}
+
+
+.customer-info strong {
+    color: #222;
+}
+
+
+/* =========================================
+   PRODUCTS TITLE
+========================================= */
+
+.products-title {
+    margin: 15px 0;
+
+    color: #2E7D32;
+
+    font-size: 20px;
+}
+
+
+/* =========================================
+   PRODUCTS TABLE WRAPPER
+========================================= */
+
+.rma-products-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border-radius: 12px;
+}
+
+
+/* =========================================
+   PRODUCTS TABLE
+========================================= */
+
+.rma-products-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: white;
+}
+
+
+.rma-products-table thead {
+    background: linear-gradient(
+        90deg,
+        #1B5E20,
+        #43A047
+    );
+
+    color: white;
+}
+
+
+.rma-products-table th {
+    padding: 12px;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    text-align: center;
+}
+
+
+.rma-products-table td {
+    padding: 10px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    font-size: 13px;
+}
+
+
+.rma-products-table tbody tr:hover {
+    background: #f7fff7;
 }
 
 
@@ -177,17 +466,61 @@ body{
 
 .modal-view-btn {
     border: none;
+
     background: #16a34a;
+
     color: white;
+
     padding: 7px 14px;
+
     border-radius: 7px;
+
     font-size: 12px;
+
     font-weight: 600;
+
     cursor: pointer;
 }
 
+
 .modal-view-btn:hover {
     background: #15803d;
+}
+
+
+/* =========================================
+   STATUS UPDATE
+========================================= */
+
+.modal-status-update-btn {
+    color: #16a34a;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+
+.modal-status-update-btn:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   HISTORY
+========================================= */
+
+.modal-history-btn {
+    color: #16a34a;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+
+.modal-history-btn:hover {
+    text-decoration: underline;
 }
 
 
@@ -196,12 +529,15 @@ body{
 ========================================= */
 
 .supporter-section {
-    padding: 0 24px 20px;
+    padding: 20px 0;
 }
+
 
 .supporter-section h3 {
     margin-bottom: 12px;
+
     font-size: 18px;
+
     color: #222;
 }
 
@@ -212,74 +548,147 @@ body{
 
 .supporter-returned {
     display: inline-block;
+
     padding: 6px 12px;
+
     border-radius: 7px;
+
     background: #1adab0;
+
     color: white;
+
     font-weight: 600;
+
     font-size: 12px;
 }
 
+
 .supporter-pending {
     display: inline-block;
+
     padding: 6px 12px;
+
     border-radius: 7px;
+
     background: #ffc107;
+
     color: #000;
+
     font-weight: 600;
+
     font-size: 12px;
 }
 
 
 /* =========================================
-   MODAL FOOTER
+   DETAILS FOOTER
 ========================================= */
 
-.modal-footer {
-    padding: 15px 24px 20px;
+.details-hide-footer {
+    padding: 20px;
+
     display: flex;
+
     justify-content: center;
 }
 
-.modal-back-btn {
-    border: none;
-    background: linear-gradient(
-        135deg,
-        #66BB6A,
-        #29972f
-    );
-    color: white;
-    padding: 11px 35px;
-    border-radius: 9px;
+
+/* =========================================
+   LOADING
+========================================= */
+
+.rma-inline-loading {
+    width: 100%;
+
+    padding: 40px;
+
+    text-align: center;
+
+    font-size: 18px;
+
     font-weight: 600;
-    cursor: pointer;
+
+    color: #2E7D32;
+
+    background: white;
+
+    border-radius: 15px;
 }
 
-.modal-back-btn:hover {
-    transform: translateY(-1px);
+
+/* =========================================
+   EMPTY
+========================================= */
+
+.rma-empty {
+    padding: 40px;
+
+    text-align: center;
+
+    color: #777;
+
+    font-size: 16px;
 }
 
 
+/* =========================================
+   RESPONSIVE
+========================================= */
 
+@media (max-width: 1000px) {
 
-/* Responsive */
-/* @media(max-width:1200px){
-  .rma-table{
-    display:block;
-    overflow-x:auto;
-    white-space:nowrap;
-  }
+    .customer-info {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
 }
 
-@media(max-width:768px){
 
-  .top-buttons{
-    flex-direction:column;
-    gap:10px;
-  }
+@media (max-width: 768px) {
 
-  .add-btn,
-  .back-btn{
-    width:100%;
-  }
-} */
+    .top-buttons {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .top-buttons input {
+        width: 100% !important;
+    }
+
+
+    .customer-info {
+        grid-template-columns: 1fr;
+    }
+
+
+    .rma-table {
+        display: block;
+
+        overflow-x: auto;
+
+        white-space: nowrap;
+    }
+
+
+    .rma-details-below {
+        padding: 10px;
+    }
+
+
+    .rma-details-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+
+    .rma-products-table {
+        min-width: 900px;
+    }
+
+}
