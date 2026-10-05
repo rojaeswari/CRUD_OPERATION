@@ -34,7 +34,16 @@ const Homel = () => {
                 "https://smazo.onrender.com/api/get_P"
             );
 
-            console.log(response.data);
+            console.log(
+    "RMA 1026:",
+    response.data.filter(
+        item => String(item.rma_no) === "1026"
+    ).map(item => ({
+        id: item.id,
+        product: item.product_name,
+        status: item.status
+    }))
+);
 
             // Safety check
             setData(
