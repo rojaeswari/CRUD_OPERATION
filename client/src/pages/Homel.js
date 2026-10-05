@@ -449,19 +449,32 @@ Reminder Date: ${item.reminder_date}
 
 
     const isRmaFullyCompleted = (rmaNo) => {
-        const rmaProducts = data.filter(
-            (item) =>
-                String(item.rma_no) === String(rmaNo)
+    const rmaProducts = data.filter(
+        (item) =>
+            String(item.rma_no) === String(rmaNo)
+    );
+
+    console.log("RMA CHECK:", rmaNo, rmaProducts);
+
+    const result =
+        rmaProducts.length > 0 &&
+        rmaProducts.every(
+            (item) => {
+                console.log(
+                    "STATUS:",
+                    item.product_name,
+                    item.status,
+                    item.status?.trim().toLowerCase()
+                );
+
+                return item.status?.trim().toLowerCase() === "completed";
+            }
         );
 
-        return (
-            rmaProducts.length > 0 &&
-            rmaProducts.every(
-                (item) =>
-                    item.status?.trim().toLowerCase() === "completed"
-            )
-        );
-    };
+    console.log("FINAL RESULT:", rmaNo, result);
+
+    return result;
+};
 
 
     const filteredData = [...data]
