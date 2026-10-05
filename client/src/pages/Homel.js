@@ -439,6 +439,22 @@ Reminder Date: ${item.reminder_date}
     };
 
 
+    const isRmaFullyCompleted = (rmaNo) => {
+        const rmaProducts = data.filter(
+            (item) =>
+                String(item.rma_no) === String(rmaNo)
+        );
+
+        return (
+            rmaProducts.length > 0 &&
+            rmaProducts.every(
+                (item) =>
+                    item.status?.trim().toLowerCase() === "completed"
+            )
+        );
+    };
+
+
     const filteredData = [...data]
         .filter((item) => {
             const searchText = search.toLowerCase();
@@ -531,12 +547,15 @@ Reminder Date: ${item.reminder_date}
                     {filteredData.map((item, index) => {
                         return (
                             <tr key={item.id}>
-                                <td style={{
-                                    backgroundColor:
-                                        item.status?.trim().toLowerCase() === "completed"
+                                <td
+                                    style={{
+                                        backgroundColor: isRmaFullyCompleted(item.rma_no)
                                             ? "#1adab0"
                                             : "white"
-                                }}>{item.rma_no}</td>
+                                    }}
+                                >
+                                    {item.rma_no}
+                                </td>
                                 <td>{item.customer_name}</td>
                                 <td>{item.product_name}</td>
                                 <td>{item.model_number}</td>
