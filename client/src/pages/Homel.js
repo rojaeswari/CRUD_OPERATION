@@ -34,16 +34,7 @@ const Homel = () => {
                 "https://smazo.onrender.com/api/get_P"
             );
 
-            console.log(
-    "RMA 1026:",
-    response.data.filter(
-        item => String(item.rma_no) === "1026"
-    ).map(item => ({
-        id: item.id,
-        product: item.product_name,
-        status: item.status
-    }))
-);
+             console.log(response.data);
 
             // Safety check
             setData(
@@ -448,32 +439,18 @@ Reminder Date: ${item.reminder_date}
     };
 
 
-    const isRmaFullyCompleted = (rmaNo) => {
+   const isRmaFullyCompleted = (rmaNo) => {
     const rmaProducts = data.filter(
-        (item) =>
-            String(item.rma_no) === String(rmaNo)
+        (item) => String(item.rma_no) === String(rmaNo)
     );
 
-    console.log("RMA CHECK:", rmaNo, rmaProducts);
-
-    const result =
+    return (
         rmaProducts.length > 0 &&
         rmaProducts.every(
-            (item) => {
-                console.log(
-                    "STATUS:",
-                    item.product_name,
-                    item.status,
-                    item.status?.trim().toLowerCase()
-                );
-
-                return item.status?.trim().toLowerCase() === "completed";
-            }
-        );
-
-    console.log("FINAL RESULT:", rmaNo, result);
-
-    return result;
+            (item) =>
+                item.status?.trim().toLowerCase() === "completed"
+        )
+    );
 };
 
 
