@@ -34,7 +34,7 @@ const Homel = () => {
                 "https://smazo.onrender.com/api/get_P"
             );
 
-             console.log(response.data);
+            console.log(response.data);
 
             // Safety check
             setData(
@@ -439,19 +439,19 @@ Reminder Date: ${item.reminder_date}
     };
 
 
-   const isRmaFullyCompleted = (rmaNo) => {
-    const rmaProducts = data.filter(
-        (item) => String(item.rma_no) === String(rmaNo)
-    );
+    //    const isRmaFullyCompleted = (rmaNo) => {
+    //     const rmaProducts = data.filter(
+    //         (item) => String(item.rma_no) === String(rmaNo)
+    //     );
 
-    return (
-        rmaProducts.length > 0 &&
-        rmaProducts.every(
-            (item) =>
-                item.status?.trim().toLowerCase() === "completed"
-        )
-    );
-};
+    //     return (
+    //         rmaProducts.length > 0 &&
+    //         rmaProducts.every(
+    //             (item) =>
+    //                 item.status?.trim().toLowerCase() === "completed"
+    //         )
+    //     );
+    // };
 
 
     const filteredData = [...data]
@@ -546,13 +546,12 @@ Reminder Date: ${item.reminder_date}
                     {filteredData.map((item, index) => {
                         return (
                             <tr key={item.id}>
-                                <td
-                                    style={{
-                                        backgroundColor: isRmaFullyCompleted(item.rma_no)
+                                <td style={{
+                                    backgroundColor:
+                                        item.status?.trim().toLowerCase() === "completed"
                                             ? "#1adab0"
                                             : "white"
-                                    }}
-                                >
+                                }}>
                                     {item.rma_no}
                                 </td>
                                 <td>{item.customer_name}</td>
