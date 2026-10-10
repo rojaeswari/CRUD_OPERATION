@@ -41,6 +41,7 @@ import SerialRMAOut from "./pages/SerialRMAOut";
 import PrivateRoute from "./PrivateRoute";
 import SupporterView from "./pages/SupporterView";
 import Products from "./pages/Products";
+import Reminder from "./pages/Reminder";
 
 
 function App() {
@@ -176,6 +177,14 @@ function App() {
 <Route path="/update-rma1/:rma_no" element={<PrivateRoute><RMAInupdata/></PrivateRoute>}/>
 <Route path="/supporter-view/:id"element={<PrivateRoute><SupporterView /></PrivateRoute>}/>
 <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
+<Route
+  path="/reminder"
+  element={
+    <PrivateRoute>
+      <Reminder />
+    </PrivateRoute>
+  }
+/>
 
 
 

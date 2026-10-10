@@ -4611,6 +4611,140 @@ app.get("/api/rma-out-list", (req, res) => {
 
 });
 
+
+
+// ===============================
+// NEW REMINDER API
+// ===============================
+
+// 1. Create Reminder
+app.post("/api/reminders", async (req, res) => {
+    try {
+        const {
+            customer_name,
+            note,
+            reminder_date,
+            reminder_time,
+            repeat_minutes = 15
+        } = req.body;
+
+        if (
+            !customer_name ||
+            !note ||
+            !reminder_date ||
+            !reminder_time
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Customer name, note, date and time are required"
+            });
+        }
+
+        const minutes = Number(repeat_minutes);
+
+        if (!Number.isInteger(minutes) || minutes < 1) {
+            return res.status(400).json({
+                success: false,
+                message: "Repeat interval must be at least 1 minute"
+            });
+        }
+
+        const result = await db.query(
+            `INSERT INTO reminders
+            (
+                customer_name,
+                note,
+                reminder_date,
+                reminder_time,
+                repeat_minutes
+            )
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING *`,
+            [
+                customer_name.trim(),
+                note.trim(),
+                reminder_date,
+                reminder_time,
+                minutes
+            ]
+        );
+
+        const reminder = result.rows[0];
+
+        await db.query(
+            `INSERT INTO reminder_history
+            (reminder_id, event_type, details)
+            VALUES ($1, $2, $3)`,
+            [
+                reminder.id,
+                "Created",
+                "Reminder created"
+            ]
+        );
+
+        res.status(201).json({
+            success: true,
+            message: "Reminder created successfully",
+            data: reminder
+        });
+
+    } catch (err) {
+        console.error("CREATE REMINDER ERROR:", err);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to create reminder"
+        });
+    }
+});
+
+
+// 2. Get All Reminders
+app.get("/api/reminders", async (req, res) => {
+    try {
+        const result = await db.query(
+            `SELECT *
+             FROM reminders
+             ORDER BY reminder_date ASC, reminder_time ASC, id DESC`
+        );
+
+        res.json(result.rows);
+
+    } catch (err) {
+        console.error("GET REMINDERS ERROR:", err);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch reminders"
+        });
+    }
+});
+
+
+// 3. Get Reminder History
+app.get("/api/reminders/:id/history", async (req, res) => {
+    try {
+        const result = await db.query(
+            `SELECT *
+             FROM reminder_history
+             WHERE reminder_id = $1
+             ORDER BY event_time DESC, id DESC`,
+            [req.params.id]
+        );
+
+        res.json(result.rows);
+
+    } catch (err) {
+        console.error("GET REMINDER HISTORY ERROR:", err);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch reminder history"
+        });
+    }
+});
+
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
