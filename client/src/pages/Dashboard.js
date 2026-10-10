@@ -349,6 +349,14 @@ const getSerialCompletedOutCount = async () => {
             </li>
           )}
 
+          
+<li>
+  <Link to="/reminder">
+    <FaUsers /> Reminder
+  </Link>
+</li>
+
+
 
           <li>
   <button className="logout-btn" onClick={logout}>
