@@ -4745,6 +4745,165 @@ app.get("/api/reminders/:id/history", async (req, res) => {
 });
 
 
+/* =====================================
+   COMPLETE REMINDER API
+   PostgreSQL / existing db connection
+===================================== */
+
+// Mark the active reminder as Done
+app.post("/api/reminders/:id/done", async (req, res) => {
+    const client = await db.connect();
+
+    try {
+        await client.query("BEGIN");
+
+        const result = await client.query(
+            `UPDATE reminders
+             SET status = 'Completed',
+                 completed_at = CURRENT_TIMESTAMP
+             WHERE id = $1
+               AND status = 'Active'
+             RETURNING *`,
+            [req.params.id]
+        );
+
+        if (result.rows.length === 0) {
+            await client.query("ROLLBACK");
+
+            return res.status(400).json({
+                success: false,
+                message: "Reminder is not active or already finished"
+            });
+        }
+
+        await client.query(
+            `INSERT INTO reminder_history
+             (reminder_id, event_type, details)
+             VALUES ($1, $2, $3)`,
+            [
+                req.params.id,
+                "Completed",
+                "Reminder marked Done by user"
+            ]
+        );
+
+        await client.query("COMMIT");
+
+        res.json({
+            success: true,
+            message: "Reminder completed",
+            data: result.rows[0]
+        });
+    } catch (err) {
+        await client.query("ROLLBACK");
+        console.error("COMPLETE REMINDER ERROR:", err);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to complete reminder"
+        });
+    } finally {
+        client.release();
+    }
+});
+
+
+// Background scheduler: run every 10 seconds
+let reminderWorkerRunning = false;
+
+setInterval(async () => {
+    if (reminderWorkerRunning) return;
+
+    reminderWorkerRunning = true;
+    const client = await db.connect();
+
+    try {
+        await client.query("BEGIN");
+
+        // 1. Expire reminders whose active interval has ended.
+        const expired = await client.query(
+            `UPDATE reminders
+             SET status = 'Expired'
+             WHERE status = 'Active'
+               AND started_at IS NOT NULL
+               AND started_at +
+                   (repeat_minutes * INTERVAL '1 minute')
+                   <= CURRENT_TIMESTAMP
+             RETURNING id`
+        );
+
+        for (const item of expired.rows) {
+            await client.query(
+                `INSERT INTO reminder_history
+                 (reminder_id, event_type, details)
+                 VALUES ($1, $2, $3)`,
+                [
+                    item.id,
+                    "Expired",
+                    "Automatically expired after reminder interval"
+                ]
+            );
+        }
+
+        // 2. Activate the next due reminder only if none is active.
+        const active = await client.query(
+            `SELECT id
+             FROM reminders
+             WHERE status = 'Active'
+             LIMIT 1
+             FOR UPDATE`
+        );
+
+        if (active.rows.length === 0) {
+            const next = await client.query(
+                `SELECT id
+                 FROM reminders
+                 WHERE status = 'Pending'
+                   AND (reminder_date + reminder_time)
+                       <= CURRENT_TIMESTAMP
+                 ORDER BY reminder_date ASC,
+                          reminder_time ASC,
+                          id ASC
+                 LIMIT 1
+                 FOR UPDATE`
+            );
+
+            if (next.rows.length > 0) {
+                const id = next.rows[0].id;
+
+                await client.query(
+                    `UPDATE reminders
+                     SET status = 'Active',
+                         started_at = CURRENT_TIMESTAMP
+                     WHERE id = $1
+                       AND status = 'Pending'`,
+                    [id]
+                );
+
+                await client.query(
+                    `INSERT INTO reminder_history
+                     (reminder_id, event_type, details)
+                     VALUES ($1, $2, $3)`,
+                    [
+                        id,
+                        "Activated",
+                        "Reminder became active"
+                    ]
+                );
+            }
+        }
+
+        await client.query("COMMIT");
+    } catch (err) {
+        await client.query("ROLLBACK");
+        console.error("REMINDER WORKER ERROR:", err);
+    } finally {
+        client.release();
+        reminderWorkerRunning = false;
+    }
+}, 10000);
+
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
