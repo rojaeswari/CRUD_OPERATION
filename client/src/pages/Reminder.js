@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import "./Reminder.css";
 
-const API = "http://localhost:5000/api/reminders";
+const API = "https://smazo.onrender.com/api/reminders";
 const REMINDER_MINUTES = 15;
 
 const getRows = (response) => {
