@@ -353,7 +353,7 @@ await loadReminders();
                             className="reminder-add-btn"
                             disabled={saving}
                         >
-                            {saving ? "Saving..." : "+ Add Reminder"}
+                            {saving ? "Saving..." : "Save Reminder"}
                         </button>
 
                         <button
