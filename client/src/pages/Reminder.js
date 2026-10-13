@@ -48,22 +48,25 @@ function Reminder() {
     const [selectedCustomer, setSelectedCustomer] = useState("");
     const [deletingCustomer, setDeletingCustomer] = useState("");
 
-    const loadReminders = useCallback(async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get(API);
-            setReminders(getRows(response));
-            setError("");
-        } catch (err) {
-            console.error(err);
-            setError(
-                err.response?.data?.message ||
-                "Reminders load aagala. Backend API check pannunga."
-            );
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+   const loadReminders = useCallback(async () => {
+setLoading(true);
+
+try {
+    const response = await axios.get(API);
+    setReminders(getRows(response));
+    setError("");
+} catch (err) {
+    console.error(err);
+
+    setError(
+        err.response?.data?.message ||
+        "Failed to load reminders. Please check the backend API."
+    );
+} finally {
+    setLoading(false);
+}
+
+}, []);
 
     useEffect(() => {
         loadReminders();
@@ -131,76 +134,75 @@ function Reminder() {
             });
 
             const savedName = customerName.trim();
-            resetForm();
-            setShowForm(false);
-            setSuccess(`Reminder saved for ${savedName}.`);
-            await loadReminders();
-        } catch (err) {
-            console.error(err);
-            setError(
-                err.response?.data?.message ||
-                "Reminder save pannumbothu error vandhuchu."
-            );
-        } finally {
-            setSaving(false);
+resetForm();
+setShowForm(false);
+setSuccess(`Reminder saved successfully for ${savedName}.`);
+await loadReminders();
+} catch (err) {
+    console.error(err);
+    setError(
+        err.response?.data?.message ||
+        "An error occurred while saving the reminder."
+    );
+} finally {
+    setSaving(false);
+}
+};
+
+   const handleDone = async (id) => {
+    if (!window.confirm("Are you sure you want to mark this reminder as completed?")) return;
+
+    setError("");
+    setSuccess("");
+
+    try {
+        await axios.post(`${API}/${id}/done`);
+        setSuccess("Reminder completed successfully.");
+        await loadReminders();
+    } catch (err) {
+        console.error(err);
+        setError(
+            err.response?.data?.message ||
+            "Failed to complete the reminder."
+        );
+    }
+};
+
+   const handleDeleteCustomer = async (group) => {
+    const key = group.customerName.toLowerCase();
+
+    if (
+        !window.confirm(
+            `Are you sure you want to delete the ${group.reminders.length} reminder(s) for ${group.customerName}?`
+        )
+    ) {
+        return;
+    }
+
+    setDeletingCustomer(key);
+    setError("");
+    setSuccess("");
+
+    try {
+        // Backend DELETE /api/reminders/:id endpoint required.
+        // Stop and show an error if any delete request fails.
+        for (const reminder of group.reminders) {
+            await axios.delete(`${API}/${reminder.id}`);
         }
-    };
 
-    const handleDone = async (id) => {
-        if (!window.confirm("Indha reminder-ai Done pannalama?")) return;
-
-        setError("");
-        setSuccess("");
-
-        try {
-            await axios.post(`${API}/${id}/done`);
-            setSuccess("Reminder completed successfully.");
-            await loadReminders();
-        } catch (err) {
-            console.error(err);
-            setError(
-                err.response?.data?.message ||
-                "Reminder complete panna mudiyala."
-            );
-        }
-    };
-
-    const handleDeleteCustomer = async (group) => {
-        const key = group.customerName.toLowerCase();
-
-        if (
-            !window.confirm(
-                `${group.customerName}-க்கு irukkum ${group.reminders.length} reminder(s)-ai delete pannalama?`
-            )
-        ) {
-            return;
-        }
-
-        setDeletingCustomer(key);
-        setError("");
-        setSuccess("");
-
-        try {
-            // Backend DELETE /api/reminders/:id endpoint required.
-            // Stop and show an error if any delete request fails.
-            for (const reminder of group.reminders) {
-                await axios.delete(`${API}/${reminder.id}`);
-            }
-
-            setSuccess(`${group.customerName} reminders deleted.`);
-            await loadReminders();
-        } catch (err) {
-            console.error(err);
-            setError(
-                err.response?.data?.message ||
-                "Delete API fail aachu. Backend DELETE endpoint check pannunga."
-            );
-            await loadReminders();
-        } finally {
-            setDeletingCustomer("");
-        }
-    };
-
+        setSuccess(`Reminders for ${group.customerName} deleted successfully.`);
+        await loadReminders();
+    } catch (err) {
+        console.error(err);
+        setError(
+            err.response?.data?.message ||
+            "Failed to delete reminders. Please check the backend DELETE endpoint."
+        );
+        await loadReminders();
+    } finally {
+        setDeletingCustomer("");
+    }
+};
     const getRemainingSeconds = (reminder) => {
         if (!reminder.started_at) return null;
 
@@ -248,7 +250,7 @@ function Reminder() {
                 <div>
                     <h2>RMA Reminder</h2>
                     <p className="reminder-subtitle">
-                        Manage customer follow-up reminders.
+                        {/* Manage customer follow-up reminders. */}
                     </p>
                 </div>
 
@@ -261,14 +263,14 @@ function Reminder() {
                         + New Customer
                     </button>
 
-                    <button
+                    {/* <button
                         type="button"
                         className="reminder-refresh-btn"
                         onClick={loadReminders}
                         disabled={loading}
                     >
                         {loading ? "Refreshing..." : "Refresh"}
-                    </button>
+                    </button> */}
                 </div>
             </div>
 
@@ -342,9 +344,8 @@ function Reminder() {
                     </div>
 
                     <p className="reminder-hint">
-                        Reminder active aana piragu {REMINDER_MINUTES} minutes
-                        kulla Done pannunga.
-                    </p>
+    {/* Once the reminder becomes active, please mark it as Done within {REMINDER_MINUTES} minutes. */}
+</p>
 
                     <div className="reminder-form-actions">
                         <button
