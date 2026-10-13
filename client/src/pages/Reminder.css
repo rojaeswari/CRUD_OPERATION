@@ -587,3 +587,94 @@
         padding: 12px;
     }
 }
+
+/* Heading buttons */
+.reminder-heading-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.reminder-heading-actions .reminder-add-btn,
+.reminder-heading-actions .reminder-refresh-btn {
+    width: auto;
+}
+
+/* Form buttons */
+.reminder-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Table full width */
+.reminder-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.reminder-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.reminder-table th,
+.reminder-table td {
+    padding: 12px 14px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.reminder-customer-name {
+    font-weight: 600;
+}
+
+/* Status labels */
+.reminder-status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    background: #eeeeee;
+    color: #333333;
+}
+
+.reminder-status.active {
+    background: #fff0cc;
+    color: #8a5700;
+}
+
+.reminder-status.pending {
+    background: #e8efff;
+    color: #244e9b;
+}
+
+.reminder-status.completed {
+    background: #e2f6e8;
+    color: #216e39;
+}
+
+.reminder-status.expired {
+    background: #ffe7e7;
+    color: #a12626;
+}
+
+.reminder-no-data {
+    text-align: center !important;
+    padding: 24px !important;
+}
+
+@media (max-width: 600px) {
+    .reminder-heading-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .reminder-form-actions {
+        align-items: stretch;
+    }
+}
