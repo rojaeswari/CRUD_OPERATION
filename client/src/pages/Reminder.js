@@ -248,7 +248,7 @@ await loadReminders();
         <div className="reminder-page">
             <div className="reminder-heading">
                 <div>
-                    <h2>RMA Reminder</h2>
+                    <h2> Reminder</h2>
                     <p className="reminder-subtitle">
                         {/* Manage customer follow-up reminders. */}
                     </p>
