@@ -353,7 +353,7 @@ await loadReminders();
                             className="reminder-add-btn"
                             disabled={saving}
                         >
-                            {saving ? "Saving..." : "Save Reminder"}
+                            {saving ? "Saving..." : "add Reminder"}
                         </button>
 
                         <button
@@ -507,7 +507,7 @@ await loadReminders();
 
                                             <td>
                                                 <div className="reminder-action-buttons">
-                                                    <button
+                                                    {/* <button
                                                         type="button"
                                                         className="reminder-refresh-btn"
                                                         onClick={() =>
@@ -517,7 +517,7 @@ await loadReminders();
                                                         }
                                                     >
                                                         + Add
-                                                    </button>
+                                                    </button> */}
 
                                                     <button
                                                         type="button"
