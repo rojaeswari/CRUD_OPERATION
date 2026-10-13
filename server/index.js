@@ -4745,6 +4745,66 @@ app.get("/api/reminders/:id/history", async (req, res) => {
 });
 
 
+app.delete("/api/reminders/:id", async (req, res) => {
+    const id = Number(req.params.id);
+
+    if (!Number.isInteger(id) || id <= 0) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid reminder ID.",
+        });
+    }
+
+    const client = await db.connect();
+
+    try {
+        await client.query("BEGIN");
+
+        const result = await client.query(
+            "SELECT id FROM reminders WHERE id = $1 FOR UPDATE",
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+            await client.query("ROLLBACK");
+
+            return res.status(404).json({
+                success: false,
+                message: "Reminder not found.",
+            });
+        }
+
+        await client.query(
+            "DELETE FROM reminder_history WHERE reminder_id = $1",
+            [id]
+        );
+
+        await client.query(
+            "DELETE FROM reminders WHERE id = $1",
+            [id]
+        );
+
+        await client.query("COMMIT");
+
+        return res.json({
+            success: true,
+            message: "Reminder deleted successfully.",
+        });
+    } catch (error) {
+        await client.query("ROLLBACK");
+        console.error("Delete reminder error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Could not delete reminder.",
+        });
+    } finally {
+        client.release();
+    }
+});
+
+
+
 /* =====================================
    COMPLETE REMINDER API
    PostgreSQL / existing db connection
@@ -4902,6 +4962,8 @@ setInterval(async () => {
         reminderWorkerRunning = false;
     }
 }, 10000);
+
+
 
 
 const PORT = process.env.PORT || 5000;
