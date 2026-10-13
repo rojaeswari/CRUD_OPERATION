@@ -4868,6 +4868,7 @@ app.post("/api/reminders/:id/done", async (req, res) => {
 });
 
 
+
 // Background scheduler: run every 10 seconds
 let reminderWorkerRunning = false;
 
@@ -4875,22 +4876,23 @@ setInterval(async () => {
     if (reminderWorkerRunning) return;
 
     reminderWorkerRunning = true;
-    const client = await db.connect();
+    let client;
 
     try {
+        client = await db.connect();
         await client.query("BEGIN");
 
-        // 1. Expire reminders whose active interval has ended.
-        const expired = await client.query(
-            `UPDATE reminders
-             SET status = 'Expired'
-             WHERE status = 'Active'
-               AND started_at IS NOT NULL
-               AND started_at +
-                   (repeat_minutes * INTERVAL '1 minute')
-                   <= CURRENT_TIMESTAMP
-             RETURNING id`
-        );
+        // 1. Expire active reminders after their allowed duration.
+        const expired = await client.query(`
+            UPDATE reminders
+            SET status = 'Expired'
+            WHERE status = 'Active'
+              AND started_at IS NOT NULL
+              AND started_at
+                  + (repeat_minutes * INTERVAL '1 minute')
+                  <= CURRENT_TIMESTAMP
+            RETURNING id
+        `);
 
         for (const item of expired.rows) {
             await client.query(
@@ -4903,62 +4905,77 @@ setInterval(async () => {
                     "Automatically expired after reminder interval"
                 ]
             );
+
+            console.log(`Reminder ${item.id} expired.`);
         }
 
-        // 2. Activate the next due reminder only if none is active.
-        const active = await client.query(
-            `SELECT id
-             FROM reminders
-             WHERE status = 'Active'
-             LIMIT 1
-             FOR UPDATE`
-        );
+        // 2. Check whether an active reminder already exists.
+        const active = await client.query(`
+            SELECT id
+            FROM reminders
+            WHERE status = 'Active'
+            LIMIT 1
+            FOR UPDATE
+        `);
 
+        // 3. If none is active, activate the next due reminder.
         if (active.rows.length === 0) {
-            const next = await client.query(
-                `SELECT id
-                 FROM reminders
-                 WHERE status = 'Pending'
-                   AND (reminder_date + reminder_time)
-                       <= CURRENT_TIMESTAMP
-                 ORDER BY reminder_date ASC,
-                          reminder_time ASC,
-                          id ASC
-                 LIMIT 1
-                 FOR UPDATE`
-            );
+            const next = await client.query(`
+                SELECT id
+                FROM reminders
+                WHERE status = 'Pending'
+                  AND (reminder_date + reminder_time)
+                      <= (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Kolkata')
+                ORDER BY reminder_date ASC,
+                         reminder_time ASC,
+                         id ASC
+                LIMIT 1
+                FOR UPDATE
+            `);
 
             if (next.rows.length > 0) {
                 const id = next.rows[0].id;
 
-                await client.query(
+                const updated = await client.query(
                     `UPDATE reminders
                      SET status = 'Active',
                          started_at = CURRENT_TIMESTAMP
                      WHERE id = $1
-                       AND status = 'Pending'`,
+                       AND status = 'Pending'
+                     RETURNING id`,
                     [id]
                 );
 
-                await client.query(
-                    `INSERT INTO reminder_history
-                     (reminder_id, event_type, details)
-                     VALUES ($1, $2, $3)`,
-                    [
-                        id,
-                        "Activated",
-                        "Reminder became active"
-                    ]
-                );
+                if (updated.rows.length > 0) {
+                    await client.query(
+                        `INSERT INTO reminder_history
+                         (reminder_id, event_type, details)
+                         VALUES ($1, $2, $3)`,
+                        [
+                            id,
+                            "Activated",
+                            "Reminder became active"
+                        ]
+                    );
+
+                    console.log(`Reminder ${id} activated.`);
+                }
             }
         }
 
         await client.query("COMMIT");
     } catch (err) {
-        await client.query("ROLLBACK");
+        if (client) {
+            try {
+                await client.query("ROLLBACK");
+            } catch (rollbackError) {
+                console.error("REMINDER ROLLBACK ERROR:", rollbackError);
+            }
+        }
+
         console.error("REMINDER WORKER ERROR:", err);
     } finally {
-        client.release();
+        if (client) client.release();
         reminderWorkerRunning = false;
     }
 }, 10000);
