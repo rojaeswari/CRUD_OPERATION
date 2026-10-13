@@ -435,7 +435,7 @@ await loadReminders();
                         <thead>
                             <tr>
                                 <th>Customer Name</th>
-                                <th>Total Reminders</th>
+                                <th>Notes</th>
                                 <th>Reminder Date</th>
                                 <th>Reminder Time</th>
                                 <th>Latest Status</th>
@@ -477,7 +477,11 @@ await loadReminders();
                                                 {group.customerName}
                                             </td>
 
-                                            <td>{group.reminders.length}</td>
+                                            <td className="reminder-notes">
+                {latestReminder?.notes ||
+                    latestReminder?.note ||
+                    "-"}
+            </td>
 
                                             <td>
                                                 {formatDate(

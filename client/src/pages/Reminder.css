@@ -1,3 +1,4 @@
+
 /* Reminder.css */
 
 * {
@@ -99,6 +100,8 @@
   background: #e2e8f0;
 }
 
+/* Reminder sections */
+
 .reminder-section {
   margin-top: 28px;
 }
@@ -173,6 +176,7 @@
 }
 
 /* Reminder alert blinking */
+
 .reminder-blink {
   border: 2px solid #ef4444 !important;
   animation: reminderPulse 1s infinite;
@@ -190,24 +194,29 @@
 }
 
 @keyframes reminderPulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 rgba(239, 68, 68, 0);
   }
+
   50% {
     box-shadow: 0 0 18px rgba(239, 68, 68, 0.35);
   }
 }
 
 @keyframes lightBlink {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.2;
   }
 }
 
 /* Customer table */
+
 .reminder-table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -219,6 +228,8 @@
 
 .reminder-table {
   width: 100%;
+  min-width: 850px;
+  table-layout: fixed;
   border-collapse: collapse;
   background: #fff;
 }
@@ -228,19 +239,56 @@
   background: #218447;
 }
 
+/* Consistent column alignment */
+
+.reminder-table th,
+.reminder-table td {
+  box-sizing: border-box;
+  padding: 15px 14px;
+  text-align: left;
+  vertical-align: middle;
+}
+
 .reminder-table th {
-  padding: 18px 16px;
   font-size: 13px;
   font-weight: 700;
-  text-align: left;
   white-space: nowrap;
 }
 
 .reminder-table td {
-  padding: 18px 16px;
   border-bottom: 1px solid #edf2f7;
   font-size: 14px;
-  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+
+.reminder-table th:nth-child(1),
+.reminder-table td:nth-child(1) {
+  width: 18%;
+}
+
+.reminder-table th:nth-child(2),
+.reminder-table td:nth-child(2) {
+  width: 15%;
+}
+
+.reminder-table th:nth-child(3),
+.reminder-table td:nth-child(3) {
+  width: 13%;
+}
+
+.reminder-table th:nth-child(4),
+.reminder-table td:nth-child(4) {
+  width: 22%;
+}
+
+.reminder-table th:nth-child(5),
+.reminder-table td:nth-child(5) {
+  width: 17%;
+}
+
+.reminder-table th:nth-child(6),
+.reminder-table td:nth-child(6) {
+  width: 15%;
 }
 
 .reminder-table tbody tr:last-child td {
@@ -256,6 +304,14 @@
   font-weight: 700;
 }
 
+.reminder-notes {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Status badges */
+
+.reminder-status,
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -288,7 +344,44 @@
   background: #ffedd5;
 }
 
+/* Table action: Delete only */
+
+.reminder-action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.reminder-delete-btn {
+  padding: 8px 14px !important;
+  border: none;
+  border-radius: 6px;
+  background: #dc2626;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.reminder-delete-btn:hover {
+  background: #b91c1c;
+}
+
+.reminder-delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.reminder-no-data {
+  padding: 25px !important;
+  color: #64748b;
+  text-align: center !important;
+}
+
 /* Forms and modal */
+
 .reminder-modal-overlay {
   position: fixed;
   inset: 0;
@@ -361,6 +454,7 @@
 }
 
 /* History */
+
 .reminder-history-list {
   display: grid;
   gap: 12px;
@@ -382,6 +476,8 @@
 .reminder-history-item small {
   color: #64748b;
 }
+
+/* Error and success messages */
 
 .reminder-error {
   margin: 15px 0;
@@ -405,6 +501,8 @@
   text-align: center;
 }
 
+/* Responsive layout */
+
 @media (max-width: 768px) {
   .reminder-page {
     padding: 18px 12px;
@@ -425,13 +523,15 @@
 
   .reminder-table th,
   .reminder-table td {
-    padding: 13px 12px;
+    padding: 12px;
   }
 
   .reminder-modal {
     padding: 18px;
   }
 }
+
+/* Accessibility */
 
 @media (prefers-reduced-motion: reduce) {
   .reminder-blink,
