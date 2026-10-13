@@ -202,7 +202,7 @@ const Reminder = () => {
                 <div>
                     <h2>RMA Reminder</h2>
                     <p className="reminder-subtitle">
-                        Customer follow-up reminders manage pannunga.
+                        {/* Customer follow-up reminders manage pannunga. */}
                     </p>
                 </div>
 
@@ -249,7 +249,7 @@ const Reminder = () => {
                         id="reminderNote"
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
-                        placeholder="Enter RMA follow-up details"
+                        placeholder="Enter the reminder note"
                         rows={3}
                         required
                     />
@@ -279,10 +279,10 @@ const Reminder = () => {
                     </div>
                 </div>
 
-                <p className="reminder-hint">
+                {/* <p className="reminder-hint">
                     Reminder activate aana piragu {REMINDER_MINUTES} minutes
                     kulla Done pannunga.
-                </p>
+                </p> */}
 
                 <button
                     type="submit"
@@ -303,7 +303,7 @@ const Reminder = () => {
 
                 {activeReminders.length === 0 ? (
                     <div className="reminder-empty">
-                        Ippo active reminders edhuvum illa.
+                        {/* <p>No active reminders.</p> */}
                     </div>
                 ) : (
                     activeReminders.map((reminder) => {
