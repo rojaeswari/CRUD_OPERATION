@@ -508,3 +508,82 @@
         width: 100%;
     }
 }
+
+
+/* ===== Final Page Alignment Fix ===== */
+
+.reminder-page {
+    width: 100%;
+    max-width: none;
+    min-height: 100vh;
+    margin: 0;
+    padding: 28px 32px;
+    box-sizing: border-box;
+}
+
+/* Heading and refresh button */
+.reminder-page .reminder-heading {
+    width: 100%;
+    margin-bottom: 26px;
+}
+
+/* Form aligned to the left */
+.reminder-page .reminder-form {
+    width: 100%;
+    max-width: 760px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Full-width reminder sections */
+.reminder-page .reminder-active-section,
+.reminder-page .reminder-list-section {
+    width: 100%;
+    max-width: none;
+}
+
+/* Table uses available width */
+.reminder-page .reminder-table-wrapper {
+    width: 100%;
+    max-width: none;
+}
+
+.reminder-page .reminder-table {
+    width: 100%;
+    min-width: 750px;
+    table-layout: fixed;
+}
+
+.reminder-page .reminder-table th:nth-child(1) {
+    width: 18%;
+}
+
+.reminder-page .reminder-table th:nth-child(2) {
+    width: 32%;
+}
+
+.reminder-page .reminder-table th:nth-child(3),
+.reminder-page .reminder-table th:nth-child(4) {
+    width: 15%;
+}
+
+.reminder-page .reminder-table th:nth-child(5) {
+    width: 20%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .reminder-page {
+        padding: 18px;
+    }
+
+    .reminder-page .reminder-form {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 520px) {
+    .reminder-page {
+        padding: 12px;
+    }
+}
