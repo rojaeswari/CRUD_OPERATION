@@ -25,6 +25,47 @@ const getStatusClass = (status) =>
 const formatCountdown = (seconds) => {
     if (seconds === null) return "15:00";
 
+    const getLocalDateString = (timestamp) => {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+};
+
+const getTimeOptions = (selectedDate, timestamp) => {
+    const now = new Date(timestamp);
+    const today = getLocalDateString(timestamp);
+
+    const currentMinutes =
+        now.getHours() * 60 + now.getMinutes();
+
+    const options = [];
+
+    for (let hour = 0; hour < 24; hour++) {
+        for (let minute = 0; minute < 60; minute += 10) {
+            const totalMinutes = hour * 60 + minute;
+
+            const value =
+                `${String(hour).padStart(2, "0")}:` +
+                `${String(minute).padStart(2, "0")}`;
+
+            // Today-na past time options show aaga koodadhu
+            if (
+                selectedDate === today &&
+                totalMinutes <= currentMinutes
+            ) {
+                continue;
+            }
+
+            options.push({ value, label: value });
+        }
+    }
+
+    return options;
+};
+
     const safe = Math.max(0, seconds);
     return `${String(Math.floor(safe / 60)).padStart(2, "0")}:${String(
         safe % 60
@@ -43,6 +84,10 @@ function Reminder() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [currentTime, setCurrentTime] = useState(Date.now());
+    const timeOptions = getTimeOptions(
+    reminderDate,
+    currentTime
+);
 
     const [showForm, setShowForm] = useState(false);
     const [selectedCustomer, setSelectedCustomer] = useState("");
@@ -320,28 +365,43 @@ await loadReminders();
                     </div>
 
                     <div className="reminder-date-time">
-                        <div className="reminder-field">
-                            <label htmlFor="reminderDate">Reminder Date</label>
-                            <input
-                                id="reminderDate"
-                                type="date"
-                                value={reminderDate}
-                                onChange={(e) => setReminderDate(e.target.value)}
-                                required
-                            />
-                        </div>
+    <div className="reminder-field">
+        <label htmlFor="reminderDate">Reminder Date</label>
 
-                        <div className="reminder-field">
-                            <label htmlFor="reminderTime">Reminder Time</label>
-                            <input
-                                id="reminderTime"
-                                type="time"
-                                value={reminderTime}
-                                onChange={(e) => setReminderTime(e.target.value)}
-                                required
-                            />
-                        </div>
-                    </div>
+        <input
+            id="reminderDate"
+            type="date"
+            min={getLocalDateString(currentTime)}
+            value={reminderDate}
+            onChange={(e) => {
+                setReminderDate(e.target.value);
+                setReminderTime("");
+            }}
+            required
+        />
+    </div>
+
+    <div className="reminder-field">
+        <label htmlFor="reminderTime">
+            Reminder Time (24-hour)
+        </label>
+
+        <select
+            id="reminderTime"
+            value={reminderTime}
+            onChange={(e) => setReminderTime(e.target.value)}
+            required
+        >
+            <option value="">Select Time</option>
+
+            {timeOptions.map((time) => (
+                <option key={time.value} value={time.value}>
+                    {time.label}
+                </option>
+            ))}
+        </select>
+    </div>
+</div>
 
                     <p className="reminder-hint">
     {/* Once the reminder becomes active, please mark it as Done within {REMINDER_MINUTES} minutes. */}
