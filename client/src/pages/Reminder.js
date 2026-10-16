@@ -144,6 +144,9 @@ function Reminder() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
+    // Navigation state added
+    const [showForm, setShowForm] = useState(false);
+
     const timeOptions = getTimeOptions(reminderDate, currentTime);
 
     const loadReminders = useCallback(async () => {
@@ -255,6 +258,8 @@ function Reminder() {
             });
 
             setSuccess("Reminder added successfully.");
+            setShowForm(false);
+
             setCustomerName("");
             setNote("");
             setReminderDate(getLocalDateString(Date.now()));
@@ -336,6 +341,7 @@ function Reminder() {
     };
 
     const handleAddForCustomer = (customer) => {
+        setShowForm(true);
         setCustomerName(customer);
         setReminderDate(getLocalDateString(Date.now()));
         setReminderTime("");
@@ -385,6 +391,16 @@ function Reminder() {
             <div className="reminder-header">
                 <h1>RMA Reminder</h1>
                 <p>Manage customer reminders and follow-ups.</p>
+
+                {!showForm && (
+                    <button
+                        type="button"
+                        className="reminder-submit-btn"
+                        onClick={() => setShowForm(true)}
+                    >
+                        + Add Reminder
+                    </button>
+                )}
             </div>
 
             {error && (
@@ -399,113 +415,123 @@ function Reminder() {
                 </div>
             )}
 
-            <section className="reminder-form-card">
-                <h2>Add Reminder</h2>
+            {showForm && (
+                <section className="reminder-form-card">
+                    <h2>Add Reminder</h2>
 
-                <form onSubmit={handleSubmit}>
-                    <div className="reminder-field">
-                        <label htmlFor="customerName">Customer Name</label>
-                        <input
-                            id="customerName"
-                            type="text"
-                            value={customerName}
-                            onChange={(event) =>
-                                setCustomerName(event.target.value)
-                            }
-                            placeholder="Enter customer name"
-                            required
-                        />
-                    </div>
-
-                    <div className="reminder-field">
-                        <label htmlFor="reminderNote">Note</label>
-                        <textarea
-                            id="reminderNote"
-                            value={note}
-                            onChange={(event) => setNote(event.target.value)}
-                            placeholder="Enter reminder note"
-                            rows={3}
-                            required
-                        />
-                    </div>
-
-                    <div className="reminder-date-time">
+                    <form onSubmit={handleSubmit}>
                         <div className="reminder-field">
-                            <label htmlFor="reminderDate">
-                                Reminder Date
-                            </label>
-
+                            <label htmlFor="customerName">Customer Name</label>
                             <input
-                                id="reminderDate"
-                                type="date"
-                                min={getLocalDateString(currentTime)}
-                                value={reminderDate}
-                                onChange={(event) => {
-                                    setReminderDate(event.target.value);
-                                    setReminderTime("");
-                                }}
+                                id="customerName"
+                                type="text"
+                                value={customerName}
+                                onChange={(event) =>
+                                    setCustomerName(event.target.value)
+                                }
+                                placeholder="Enter customer name"
                                 required
                             />
                         </div>
 
                         <div className="reminder-field">
-                            <label htmlFor="reminderTime">
-                                Reminder Time (24-hour format)
+                            <label htmlFor="reminderNote">Note</label>
+                            <textarea
+                                id="reminderNote"
+                                value={note}
+                                onChange={(event) => setNote(event.target.value)}
+                                placeholder="Enter reminder note"
+                                rows={3}
+                                required
+                            />
+                        </div>
+
+                        <div className="reminder-date-time">
+                            <div className="reminder-field">
+                                <label htmlFor="reminderDate">
+                                    Reminder Date
+                                </label>
+
+                                <input
+                                    id="reminderDate"
+                                    type="date"
+                                    min={getLocalDateString(currentTime)}
+                                    value={reminderDate}
+                                    onChange={(event) => {
+                                        setReminderDate(event.target.value);
+                                        setReminderTime("");
+                                    }}
+                                    required
+                                />
+                            </div>
+
+                            <div className="reminder-field">
+                                <label htmlFor="reminderTime">
+                                    Reminder Time (24-hour format)
+                                </label>
+
+                                <select
+                                    id="reminderTime"
+                                    value={reminderTime}
+                                    onChange={(event) =>
+                                        setReminderTime(event.target.value)
+                                    }
+                                    required
+                                >
+                                    <option value="">Select Time</option>
+
+                                    {timeOptions.map((time) => (
+                                        <option
+                                            key={time.value}
+                                            value={time.value}
+                                        >
+                                            {time.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="reminder-field">
+                            <label htmlFor="repeatMinutes">
+                                Repeat Interval (minutes)
                             </label>
 
-                            <select
-                                id="reminderTime"
-                                value={reminderTime}
+                            <input
+                                id="repeatMinutes"
+                                type="number"
+                                min="1"
+                                step="1"
+                                value={repeatMinutes}
                                 onChange={(event) =>
-                                    setReminderTime(event.target.value)
+                                    setRepeatMinutes(event.target.value)
                                 }
                                 required
-                            >
-                                <option value="">Select Time</option>
+                            />
 
-                                {timeOptions.map((time) => (
-                                    <option
-                                        key={time.value}
-                                        value={time.value}
-                                    >
-                                        {time.label}
-                                    </option>
-                                ))}
-                            </select>
+                            <p className="reminder-hint">
+                                Set the repeat interval in minutes. Default: 15 minutes.
+                            </p>
                         </div>
-                    </div>
 
-                    <div className="reminder-field">
-                        <label htmlFor="repeatMinutes">
-                            Repeat Interval (minutes)
-                        </label>
+                        <button
+                            type="submit"
+                            className="reminder-submit-btn"
+                            disabled={saving}
+                        >
+                            {saving ? "Saving..." : "Add Reminder"}
+                        </button>
 
-                        <input
-                            id="repeatMinutes"
-                            type="number"
-                            min="1"
-                            step="1"
-                            value={repeatMinutes}
-                            onChange={(event) =>
-                                setRepeatMinutes(event.target.value)
-                            }
-                            required
-                        />
-
-                        <p className="reminder-hint">
-                            Set the repeat interval in minutes. Default: 15 minutes.
-                        </p>
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="reminder-submit-btn"
-                        disabled={saving}
-                    >
-                        {saving ? "Saving..." : "Add Reminder"}
-                    </button>
-                </form>
-            </section>
+                        <button
+                            type="button"
+                            className="reminder-add-btn"
+                            onClick={() => setShowForm(false)}
+                        >
+                            Back to Reminders
+                        </button>
+                    </form>
+                </section>
+            )}
 
             <section className="reminder-summary">
                 <div className="reminder-summary-card">
