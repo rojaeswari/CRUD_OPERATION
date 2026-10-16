@@ -6,7 +6,7 @@ import "./Reminder.css";
 const API = "https://smazo.onrender.com/api/reminders";
 
 const DEFAULT_REPEAT_MINUTES = 15;
-const [showAddForm, setShowAddForm] = useState(false);
+
 
 const getRows = (response) => {
     const data = response?.data;
@@ -137,6 +137,8 @@ function Reminder() {
 
     const [reminders, setReminders] = useState([]);
     const [currentTime, setCurrentTime] = useState(Date.now());
+
+    const [showAddForm, setShowAddForm] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
