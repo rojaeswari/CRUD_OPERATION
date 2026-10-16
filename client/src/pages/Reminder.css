@@ -322,6 +322,7 @@
     }
 }
 
+
 /* Table */
 .reminder-table-wrapper {
     width: 100%;
@@ -332,7 +333,8 @@
 
 .reminder-table {
     width: 100%;
-    min-width: 760px;
+    min-width: 900px;
+    table-layout: fixed;
     border-collapse: collapse;
     background: #ffffff;
 }
@@ -342,7 +344,7 @@
 }
 
 .reminder-table th {
-    padding: 15px 14px;
+    padding: 15px 12px;
     color: #176b35;
     font-size: 13px;
     font-weight: 700;
@@ -352,12 +354,46 @@
 }
 
 .reminder-table td {
-    padding: 14px;
+    padding: 14px 12px;
     color: #34443a;
     font-size: 13px;
     border-bottom: 1px solid #edf1ee;
     vertical-align: middle;
     overflow-wrap: anywhere;
+    box-sizing: border-box;
+}
+
+/* Fixed column widths */
+.reminder-table th:nth-child(1),
+.reminder-table td:nth-child(1) {
+    width: 17%;
+}
+
+.reminder-table th:nth-child(2),
+.reminder-table td:nth-child(2) {
+    width: 24%;
+}
+
+.reminder-table th:nth-child(3),
+.reminder-table td:nth-child(3) {
+    width: 16%;
+    white-space: nowrap;
+}
+
+.reminder-table th:nth-child(4),
+.reminder-table td:nth-child(4) {
+    width: 11%;
+    white-space: nowrap;
+}
+
+.reminder-table th:nth-child(5),
+.reminder-table td:nth-child(5) {
+    width: 14%;
+}
+
+.reminder-table th:nth-child(6),
+.reminder-table td:nth-child(6) {
+    width: 18%;
 }
 
 .reminder-table tbody tr:last-child td {
@@ -368,11 +404,20 @@
     background: #f7fbf8;
 }
 
+/* Add and Delete buttons */
 .reminder-actions {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     gap: 8px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+.reminder-actions button {
+    flex: 0 0 auto;
+    margin: 0;
+    white-space: nowrap;
 }
 
 /* Status Labels */
