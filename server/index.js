@@ -4870,6 +4870,12 @@ app.post("/api/reminders/:id/done", async (req, res) => {
 
 
 // Background scheduler: run every 10 seconds
+
+/* =====================================
+   REMINDER WORKER
+   Repeat active reminders until Done
+===================================== */
+
 let reminderWorkerRunning = false;
 
 setInterval(async () => {
@@ -4882,34 +4888,37 @@ setInterval(async () => {
         client = await db.connect();
         await client.query("BEGIN");
 
-        // 1. Expire active reminders after their allowed duration.
-        const expired = await client.query(`
+        // 1. Restart the countdown for active reminders
+        // when their repeat interval has ended.
+        const repeated = await client.query(`
             UPDATE reminders
-            SET status = 'Expired'
+            SET started_at = CURRENT_TIMESTAMP
             WHERE status = 'Active'
               AND started_at IS NOT NULL
               AND started_at
                   + (repeat_minutes * INTERVAL '1 minute')
                   <= CURRENT_TIMESTAMP
-            RETURNING id
+            RETURNING id, repeat_minutes
         `);
 
-        for (const item of expired.rows) {
+        for (const item of repeated.rows) {
             await client.query(
                 `INSERT INTO reminder_history
                  (reminder_id, event_type, details)
                  VALUES ($1, $2, $3)`,
                 [
                     item.id,
-                    "Expired",
-                    "Automatically expired after reminder interval"
+                    "Repeated",
+                    `Countdown restarted for ${item.repeat_minutes} minutes`
                 ]
             );
 
-            console.log(`Reminder ${item.id} expired.`);
+            console.log(
+                `Reminder ${item.id} restarted for ${item.repeat_minutes} minutes.`
+            );
         }
 
-        // 2. Check whether an active reminder already exists.
+        // 2. Check whether an active reminder exists.
         const active = await client.query(`
             SELECT id
             FROM reminders
@@ -4918,7 +4927,7 @@ setInterval(async () => {
             FOR UPDATE
         `);
 
-        // 3. If none is active, activate the next due reminder.
+        // 3. If no reminder is active, activate the next due reminder.
         if (active.rows.length === 0) {
             const next = await client.query(`
                 SELECT id
@@ -4969,7 +4978,10 @@ setInterval(async () => {
             try {
                 await client.query("ROLLBACK");
             } catch (rollbackError) {
-                console.error("REMINDER ROLLBACK ERROR:", rollbackError);
+                console.error(
+                    "REMINDER ROLLBACK ERROR:",
+                    rollbackError
+                );
             }
         }
 
@@ -4979,6 +4991,7 @@ setInterval(async () => {
         reminderWorkerRunning = false;
     }
 }, 10000);
+
 
 
 
