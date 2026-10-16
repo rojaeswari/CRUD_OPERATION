@@ -4,315 +4,425 @@ import axios from "axios";
 import "./Reminder.css";
 
 const API = "https://smazo.onrender.com/api/reminders";
-const REMINDER_MINUTES = 15;
+
+const DEFAULT_REPEAT_MINUTES = 15;
 
 const getRows = (response) => {
-    const data = response.data;
+    const data = response?.data;
+
     if (Array.isArray(data)) return data;
     if (Array.isArray(data?.data)) return data.data;
+
     return [];
 };
 
-const formatDate = (date) =>
-    date ? String(date).slice(0, 10) : "-";
+const getLocalDateString = (timestamp) => {
+    const date = new Date(timestamp);
 
-const formatTime = (time) =>
-    time ? String(time).slice(0, 5) : "-";
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
 
-const getStatusClass = (status) =>
-    String(status || "Pending").toLowerCase().replace(/\s+/g, "-");
+    return `${year}-${month}-${day}`;
+};
+
+const getTimeOptions = (selectedDate, timestamp) => {
+    const now = new Date(timestamp);
+    const today = getLocalDateString(timestamp);
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    const options = [];
+
+    for (let hour = 0; hour < 24; hour++) {
+        for (let minute = 0; minute < 60; minute += 10) {
+            const totalMinutes = hour * 60 + minute;
+
+            if (selectedDate === today && totalMinutes <= currentMinutes) {
+                continue;
+            }
+
+            const value =
+                `${String(hour).padStart(2, "0")}:` +
+                `${String(minute).padStart(2, "0")}`;
+
+            options.push({
+                value,
+                label: value,
+            });
+        }
+    }
+
+    return options;
+};
+
+const formatDate = (date) => {
+    if (!date) return "-";
+    return String(date).slice(0, 10);
+};
+
+const formatTime = (time) => {
+    if (!time) return "-";
+    return String(time).slice(0, 5);
+};
+
+const getStatusClass = (status) => {
+    return String(status || "Pending")
+        .toLowerCase()
+        .replace(/\s+/g, "-");
+};
 
 const formatCountdown = (seconds) => {
-    if (seconds === null) return "15:00";
+    const safe = Math.max(0, Number(seconds) || 0);
+    const minutes = Math.floor(safe / 60);
+    const remainingSeconds = safe % 60;
 
-    const safe = Math.max(0, seconds);
-    return `${String(Math.floor(safe / 60)).padStart(2, "0")}:${String(
-        safe % 60
-    ).padStart(2, "0")}`;
+    return (
+        `${String(minutes).padStart(2, "0")}:` +
+        `${String(remainingSeconds).padStart(2, "0")}`
+    );
+};
+
+const getReminderId = (reminder) =>
+    reminder.id ?? reminder.reminder_id;
+
+const getReminderStatus = (reminder) =>
+    String(reminder.status || "Pending").toLowerCase();
+
+const getReminderDateTime = (reminder) => {
+    const date = formatDate(reminder.reminder_date);
+    const time = formatTime(reminder.reminder_time);
+
+    if (date === "-" || time === "-") return null;
+
+    const [year, month, day] = date.split("-").map(Number);
+    const [hour, minute] = time.split(":").map(Number);
+
+    return new Date(year, month - 1, day, hour, minute, 0).getTime();
+};
+
+const getCountdownSeconds = (reminder, now) => {
+    const repeatMinutes =
+        Number(reminder.repeat_minutes) || DEFAULT_REPEAT_MINUTES;
+
+    if (reminder.started_at) {
+        const startedAt = new Date(reminder.started_at).getTime();
+
+        if (!Number.isNaN(startedAt)) {
+            const endTime = startedAt + repeatMinutes * 60 * 1000;
+
+            return Math.max(0, Math.ceil((endTime - now) / 1000));
+        }
+    }
+
+    const scheduledTime = getReminderDateTime(reminder);
+
+    if (scheduledTime === null) {
+        return repeatMinutes * 60;
+    }
+
+    const endTime = scheduledTime + repeatMinutes * 60 * 1000;
+
+    return Math.max(0, Math.ceil((endTime - now) / 1000));
 };
 
 function Reminder() {
     const [customerName, setCustomerName] = useState("");
     const [note, setNote] = useState("");
-    const [reminderDate, setReminderDate] = useState("");
+    const [reminderDate, setReminderDate] = useState(
+        getLocalDateString(Date.now())
+    );
     const [reminderTime, setReminderTime] = useState("");
+    const [repeatMinutes, setRepeatMinutes] = useState("15");
 
     const [reminders, setReminders] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [saving, setSaving] = useState(false);
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
     const [currentTime, setCurrentTime] = useState(Date.now());
 
-    const [showForm, setShowForm] = useState(false);
-    const [selectedCustomer, setSelectedCustomer] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
     const [deletingCustomer, setDeletingCustomer] = useState("");
 
-   const loadReminders = useCallback(async () => {
-setLoading(true);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
-try {
-    const response = await axios.get(API);
-    setReminders(getRows(response));
-    setError("");
-} catch (err) {
-    console.error(err);
+    const timeOptions = getTimeOptions(reminderDate, currentTime);
 
-    setError(
-        err.response?.data?.message ||
-        "Failed to load reminders. Please check the backend API."
-    );
-} finally {
-    setLoading(false);
-}
+    const loadReminders = useCallback(async () => {
+        try {
+            setLoading(true);
 
-}, []);
+            const response = await axios.get(API);
+            setReminders(getRows(response));
+            setError("");
+        } catch (err) {
+            console.error("Failed to load reminders:", err);
+
+            setError(
+                err.response?.data?.message ||
+                "Failed to load reminders. Please check the backend API."
+            );
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
     useEffect(() => {
         loadReminders();
 
-        const refreshTimer = setInterval(loadReminders, 10000);
-        const clockTimer = setInterval(
-            () => setCurrentTime(Date.now()),
-            1000
-        );
+        const refreshInterval = setInterval(() => {
+            loadReminders();
+        }, 10000);
+
+        const clockInterval = setInterval(() => {
+            setCurrentTime(Date.now());
+        }, 1000);
 
         return () => {
-            clearInterval(refreshTimer);
-            clearInterval(clockTimer);
+            clearInterval(refreshInterval);
+            clearInterval(clockInterval);
         };
     }, [loadReminders]);
 
-    const resetForm = () => {
-        setCustomerName("");
-        setNote("");
-        setReminderDate("");
-        setReminderTime("");
-        setSelectedCustomer("");
-    };
-
-    const openNewCustomerForm = () => {
-        resetForm();
-        setError("");
-        setSuccess("");
-        setShowForm(true);
-    };
-
-    const openExistingCustomerForm = (name) => {
-        resetForm();
-        setSelectedCustomer(name);
-        setCustomerName(name);
-        setError("");
-        setSuccess("");
-        setShowForm(true);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        if (
-            !customerName.trim() ||
-            !note.trim() ||
-            !reminderDate ||
-            !reminderTime
-        ) {
-            setError("Customer name, note, date, time fill pannunga.");
+    useEffect(() => {
+        if (!reminderDate) {
+            setReminderTime("");
             return;
         }
 
-        setSaving(true);
+        const availableTimes = getTimeOptions(reminderDate, currentTime);
+
+        const isStillAvailable = availableTimes.some(
+            (option) => option.value === reminderTime
+        );
+
+        if (reminderTime && !isStillAvailable) {
+            setReminderTime("");
+        }
+    }, [reminderDate, reminderTime, currentTime]);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        setError("");
+        setSuccess("");
+
+        const name = customerName.trim();
+        const reminderNote = note.trim();
+        const interval = Number(repeatMinutes);
+
+        if (!name || !reminderNote || !reminderDate || !reminderTime) {
+            setError("Please fill in all fields.");
+            return;
+        }
+
+        if (!Number.isInteger(interval) || interval < 1) {
+            setError("Repeat interval must be at least 1 minute.");
+            return;
+        }
+
+        const selectedDateTime = new Date(
+            `${reminderDate}T${reminderTime}:00`
+        ).getTime();
+
+        if (
+            !Number.isFinite(selectedDateTime) ||
+            selectedDateTime <= Date.now()
+        ) {
+            setError("Please select a future date and time.");
+            setReminderTime("");
+            return;
+        }
+
+        const validSlot = getTimeOptions(
+            reminderDate,
+            Date.now()
+        ).some((option) => option.value === reminderTime);
+
+        if (!validSlot) {
+            setError("The selected time slot is no longer valid.");
+            setReminderTime("");
+            return;
+        }
+
+        try {
+            setSaving(true);
+
+            await axios.post(API, {
+                customer_name: name,
+                note: reminderNote,
+                reminder_date: reminderDate,
+                reminder_time: reminderTime,
+                repeat_minutes: interval,
+            });
+
+            setSuccess("Reminder added successfully.");
+            setCustomerName("");
+            setNote("");
+            setReminderDate(getLocalDateString(Date.now()));
+            setReminderTime("");
+            setRepeatMinutes("15");
+
+            await loadReminders();
+        } catch (err) {
+            console.error("Failed to add reminder:", err);
+
+            setError(
+                err.response?.data?.message ||
+                "Failed to save reminder. Please check the backend."
+            );
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleDone = async (id) => {
+        if (!window.confirm("Mark this reminder as completed?")) {
+            return;
+        }
+
         setError("");
         setSuccess("");
 
         try {
-            await axios.post(API, {
-                customer_name: customerName.trim(),
-                note: note.trim(),
-                reminder_date: reminderDate,
-                reminder_time: reminderTime,
-                repeat_minutes: REMINDER_MINUTES,
-            });
+            await axios.post(`${API}/${id}/done`);
 
-            const savedName = customerName.trim();
-resetForm();
-setShowForm(false);
-setSuccess(`Reminder saved successfully for ${savedName}.`);
-await loadReminders();
-} catch (err) {
-    console.error(err);
-    setError(
-        err.response?.data?.message ||
-        "An error occurred while saving the reminder."
-    );
-} finally {
-    setSaving(false);
-}
-};
+            setSuccess("Reminder completed successfully.");
+            await loadReminders();
+        } catch (err) {
+            console.error("Failed to complete reminder:", err);
 
-   const handleDone = async (id) => {
-    if (!window.confirm("Are you sure you want to mark this reminder as completed?")) return;
-
-    setError("");
-    setSuccess("");
-
-    try {
-        await axios.post(`${API}/${id}/done`);
-        setSuccess("Reminder completed successfully.");
-        await loadReminders();
-    } catch (err) {
-        console.error(err);
-        setError(
-            err.response?.data?.message ||
-            "Failed to complete the reminder."
-        );
-    }
-};
-
-   const handleDeleteCustomer = async (group) => {
-    const key = group.customerName.toLowerCase();
-
-    if (
-        !window.confirm(
-            `Are you sure you want to delete the ${group.reminders.length} reminder(s) for ${group.customerName}?`
-        )
-    ) {
-        return;
-    }
-
-    setDeletingCustomer(key);
-    setError("");
-    setSuccess("");
-
-    try {
-        // Backend DELETE /api/reminders/:id endpoint required.
-        // Stop and show an error if any delete request fails.
-        for (const reminder of group.reminders) {
-            await axios.delete(`${API}/${reminder.id}`);
+            setError(
+                err.response?.data?.message ||
+                "Failed to complete reminder."
+            );
         }
-
-        setSuccess(`Reminders for ${group.customerName} deleted successfully.`);
-        await loadReminders();
-    } catch (err) {
-        console.error(err);
-        setError(
-            err.response?.data?.message ||
-            "Failed to delete reminders. Please check the backend DELETE endpoint."
-        );
-        await loadReminders();
-    } finally {
-        setDeletingCustomer("");
-    }
-};
-    const getRemainingSeconds = (reminder) => {
-        if (!reminder.started_at) return null;
-
-        const started = new Date(reminder.started_at).getTime();
-        if (Number.isNaN(started)) return null;
-
-        const minutes =
-            Number(reminder.repeat_minutes) || REMINDER_MINUTES;
-        const end = started + minutes * 60 * 1000;
-
-        return Math.max(
-            0,
-            Math.ceil((end - currentTime) / 1000)
-        );
     };
 
-    const activeReminders = reminders.filter(
-        (r) => String(r.status || "").toLowerCase() === "active"
-    );
+    const handleDeleteCustomer = async (customer, customerReminders) => {
+        if (
+            !window.confirm(
+                `Delete all reminders for ${customer}?`
+            )
+        ) {
+            return;
+        }
+
+        setError("");
+        setSuccess("");
+        setDeletingCustomer(customer);
+
+        try {
+            for (const reminder of customerReminders) {
+                const id = getReminderId(reminder);
+
+                if (id !== undefined && id !== null) {
+                    await axios.delete(`${API}/${id}`);
+                }
+            }
+
+            setSuccess(`Reminders for ${customer} deleted successfully.`);
+            await loadReminders();
+        } catch (err) {
+            console.error("Failed to delete reminders:", err);
+
+            setError(
+                err.response?.data?.message ||
+                "Failed to delete reminders."
+            );
+
+            await loadReminders();
+        } finally {
+            setDeletingCustomer("");
+        }
+    };
+
+    const handleAddForCustomer = (customer) => {
+        setCustomerName(customer);
+        setReminderDate(getLocalDateString(Date.now()));
+        setReminderTime("");
+        setNote("");
+        setSuccess("");
+        setError("");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
 
     const customerGroups = Object.values(
         reminders.reduce((groups, reminder) => {
-            const name = String(reminder.customer_name || "").trim();
-            if (!name) return groups;
+            const customer =
+                String(reminder.customer_name || "").trim() ||
+                "Unknown Customer";
 
-            const key = name.toLowerCase();
-
-            if (!groups[key]) {
-                groups[key] = {
-                    customerName: name,
+            if (!groups[customer]) {
+                groups[customer] = {
+                    customer,
                     reminders: [],
                 };
             }
 
-            groups[key].reminders.push(reminder);
+            groups[customer].reminders.push(reminder);
+
             return groups;
         }, {})
-    ).sort((a, b) =>
-        a.customerName.localeCompare(b.customerName)
+    ).sort((a, b) => a.customer.localeCompare(b.customer));
+
+    const activeReminders = reminders.filter(
+        (reminder) => getReminderStatus(reminder) === "active"
+    );
+
+    const pendingReminders = reminders.filter(
+        (reminder) => getReminderStatus(reminder) === "pending"
+    );
+
+    const completedReminders = reminders.filter(
+        (reminder) => getReminderStatus(reminder) === "completed"
     );
 
     return (
         <div className="reminder-page">
-            <div className="reminder-heading">
-                <div>
-                    <h2> Reminder</h2>
-                    <p className="reminder-subtitle">
-                        {/* Manage customer follow-up reminders. */}
-                    </p>
-                </div>
-
-                <div className="reminder-heading-actions">
-                    <button
-                        type="button"
-                        className="reminder-add-btn"
-                        onClick={openNewCustomerForm}
-                    >
-                        + New Customer
-                    </button>
-
-                    {/* <button
-                        type="button"
-                        className="reminder-refresh-btn"
-                        onClick={loadReminders}
-                        disabled={loading}
-                    >
-                        {loading ? "Refreshing..." : "Refresh"}
-                    </button> */}
-                </div>
+            <div className="reminder-header">
+                <h1>RMA Reminder</h1>
+                <p>Manage customer reminders and follow-ups.</p>
             </div>
 
             {error && (
-                <div className="reminder-error" role="alert">
+                <div className="reminder-message reminder-error">
                     {error}
                 </div>
             )}
 
             {success && (
-                <div className="reminder-success" role="status">
+                <div className="reminder-message reminder-success">
                     {success}
                 </div>
             )}
 
-            {showForm && (
-                <form className="reminder-form" onSubmit={handleSubmit}>
-                    <h3>
-                        {selectedCustomer
-                            ? `Add Reminder - ${selectedCustomer}`
-                            : "Add New Customer Reminder"}
-                    </h3>
+            <section className="reminder-form-card">
+                <h2>Add Reminder</h2>
 
+                <form onSubmit={handleSubmit}>
                     <div className="reminder-field">
                         <label htmlFor="customerName">Customer Name</label>
                         <input
                             id="customerName"
                             type="text"
                             value={customerName}
-                            onChange={(e) => setCustomerName(e.target.value)}
+                            onChange={(event) =>
+                                setCustomerName(event.target.value)
+                            }
                             placeholder="Enter customer name"
-                            readOnly={Boolean(selectedCustomer)}
                             required
                         />
                     </div>
 
                     <div className="reminder-field">
-                        <label htmlFor="reminderNote">Reminder Note</label>
+                        <label htmlFor="reminderNote">Note</label>
                         <textarea
                             id="reminderNote"
                             value={note}
-                            onChange={(e) => setNote(e.target.value)}
+                            onChange={(event) => setNote(event.target.value)}
                             placeholder="Enter reminder note"
                             rows={3}
                             required
@@ -321,167 +431,206 @@ await loadReminders();
 
                     <div className="reminder-date-time">
                         <div className="reminder-field">
-                            <label htmlFor="reminderDate">Reminder Date</label>
+                            <label htmlFor="reminderDate">
+                                Reminder Date
+                            </label>
+
                             <input
                                 id="reminderDate"
                                 type="date"
+                                min={getLocalDateString(currentTime)}
                                 value={reminderDate}
-                                onChange={(e) => setReminderDate(e.target.value)}
+                                onChange={(event) => {
+                                    setReminderDate(event.target.value);
+                                    setReminderTime("");
+                                }}
                                 required
                             />
                         </div>
 
                         <div className="reminder-field">
-                            <label htmlFor="reminderTime">Reminder Time</label>
-                            <input
+                            <label htmlFor="reminderTime">
+                                Reminder Time (24-hour format)
+                            </label>
+
+                            <select
                                 id="reminderTime"
-                                type="time"
                                 value={reminderTime}
-                                onChange={(e) => setReminderTime(e.target.value)}
+                                onChange={(event) =>
+                                    setReminderTime(event.target.value)
+                                }
                                 required
-                            />
+                            >
+                                <option value="">Select Time</option>
+
+                                {timeOptions.map((time) => (
+                                    <option
+                                        key={time.value}
+                                        value={time.value}
+                                    >
+                                        {time.label}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                     </div>
 
-                    <p className="reminder-hint">
-    {/* Once the reminder becomes active, please mark it as Done within {REMINDER_MINUTES} minutes. */}
-</p>
+                    <div className="reminder-field">
+                        <label htmlFor="repeatMinutes">
+                            Repeat Interval (minutes)
+                        </label>
 
-                    <div className="reminder-form-actions">
-                        <button
-                            type="submit"
-                            className="reminder-add-btn"
-                            disabled={saving}
-                        >
-                            {saving ? "Saving..." : "Save Reminder"}
-                        </button>
+                        <input
+                            id="repeatMinutes"
+                            type="number"
+                            min="1"
+                            step="1"
+                            value={repeatMinutes}
+                            onChange={(event) =>
+                                setRepeatMinutes(event.target.value)
+                            }
+                            required
+                        />
 
-                        <button
-                            type="button"
-                            className="reminder-refresh-btn"
-                            disabled={saving}
-                            onClick={() => {
-                                setShowForm(false);
-                                resetForm();
-                            }}
-                        >
-                            Cancel
-                        </button>
+                        <p className="reminder-hint">
+                            Set the repeat interval in minutes. Default: 15 minutes.
+                        </p>
                     </div>
-                </form>
-            )}
 
-            <section className="reminder-active-section">
-                <div className="reminder-section-heading">
-                    <h3>Active Reminders</h3>
-                    <span className="reminder-count">
-                        {activeReminders.length}
-                    </span>
+                    <button
+                        type="submit"
+                        className="reminder-submit-btn"
+                        disabled={saving}
+                    >
+                        {saving ? "Saving..." : "Add Reminder"}
+                    </button>
+                </form>
+            </section>
+
+            <section className="reminder-summary">
+                <div className="reminder-summary-card">
+                    <span>Pending</span>
+                    <strong>{pendingReminders.length}</strong>
                 </div>
 
+                <div className="reminder-summary-card">
+                    <span>Active</span>
+                    <strong>{activeReminders.length}</strong>
+                </div>
+
+                <div className="reminder-summary-card">
+                    <span>Completed</span>
+                    <strong>{completedReminders.length}</strong>
+                </div>
+            </section>
+
+            <section className="reminder-section">
+                <h2>Active Reminders</h2>
+
                 {activeReminders.length === 0 ? (
-                    <div className="reminder-empty">
-                        <p>No active reminders.</p>
-                    </div>
+                    <p className="reminder-empty">
+                        No active reminders.
+                    </p>
                 ) : (
-                    activeReminders.map((reminder) => (
-                        <div
-                            className="reminder-active-card"
-                            key={reminder.id}
-                        >
-                            <div className="reminder-active-top">
-                                <span className="reminder-live-label">
-                                    ACTIVE
-                                </span>
-                                <span className="reminder-timer">
-                                    {formatCountdown(
-                                        getRemainingSeconds(reminder)
-                                    )}
-                                </span>
-                            </div>
+                    <div className="active-reminders-list">
+                        {activeReminders.map((reminder) => {
+                            const id = getReminderId(reminder);
+                            const remainingSeconds =
+                                getCountdownSeconds(reminder, currentTime);
 
-                            <h4>{reminder.customer_name}</h4>
-                            <p className="reminder-active-note">
-                                {reminder.note}
-                            </p>
-                            <p className="reminder-active-datetime">
-                                Date: {formatDate(reminder.reminder_date)}
-                                {" · "}
-                                Time: {formatTime(reminder.reminder_time)}
-                            </p>
+                            return (
+                                <div
+                                    className="active-reminder-card"
+                                    key={id}
+                                >
+                                    <div className="active-reminder-details">
+                                        <h3>{reminder.customer_name}</h3>
+                                        <p>
+                                            {reminder.note || reminder.notes}
+                                        </p>
 
-                            <button
-                                type="button"
-                                className="reminder-done-btn"
-                                onClick={() => handleDone(reminder.id)}
-                            >
-                                ✓ Done
-                            </button>
-                        </div>
-                    ))
+                                        <p>
+                                            Date:{" "}
+                                            {formatDate(reminder.reminder_date)}
+                                        </p>
+
+                                        <p>
+                                            Time:{" "}
+                                            {formatTime(reminder.reminder_time)}
+                                        </p>
+                                    </div>
+
+                                    <div className="active-reminder-timer">
+                                        <span>Time Remaining</span>
+
+                                        <strong>
+                                            {formatCountdown(remainingSeconds)}
+                                        </strong>
+
+                                        <button
+                                            type="button"
+                                            className="reminder-done-btn"
+                                            onClick={() => handleDone(id)}
+                                        >
+                                            ✓ Done
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 )}
             </section>
 
-            <section className="reminder-list-section">
-                <div className="reminder-section-heading">
-                    <h3>Customers &amp; Reminders</h3>
-                    <span className="reminder-count">
-                        {customerGroups.length}
-                    </span>
-                </div>
+            <section className="reminder-section">
+                <h2>Customer Groups</h2>
 
-                <div className="reminder-table-wrapper">
-                    <table className="reminder-table">
-                        <thead>
-                            <tr>
-                                <th>Customer Name</th>
-                                <th>Notes</th>
-                                <th>Reminder Date</th>
-                                <th>Reminder Time</th>
-                                <th>Latest Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {customerGroups.length === 0 ? (
+                {loading && reminders.length === 0 ? (
+                    <p>Loading reminders...</p>
+                ) : customerGroups.length === 0 ? (
+                    <p className="reminder-empty">
+                        No customer reminders found.
+                    </p>
+                ) : (
+                    <div className="reminder-table-wrapper">
+                        <table className="reminder-table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="6" className="reminder-no-data">
-                                        {loading
-                                            ? "Loading customers..."
-                                            : "No customers found. Click + New Customer."}
-                                    </td>
+                                    <th>Customer Name</th>
+                                    <th>Notes</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
-                            ) : (
-                                customerGroups.map((group) => {
-                                    const sorted = [...group.reminders].sort(
-                                        (a, b) => {
-                                            const dateA = new Date(
-                                                `${formatDate(a.reminder_date)}T${formatTime(a.reminder_time)}`
-                                            ).getTime();
+                            </thead>
 
-                                            const dateB = new Date(
-                                                `${formatDate(b.reminder_date)}T${formatTime(b.reminder_time)}`
-                                            ).getTime();
+                            <tbody>
+                                {customerGroups.map((group) => {
+                                    const latestReminder = [
+                                        ...group.reminders,
+                                    ].sort((a, b) => {
+                                        const dateA =
+                                            getReminderDateTime(a) || 0;
+                                        const dateB =
+                                            getReminderDateTime(b) || 0;
 
-                                            return dateB - dateA;
-                                        }
+                                        return dateB - dateA;
+                                    })[0];
+
+                                    const status = getReminderStatus(
+                                        latestReminder
                                     );
 
-                                    const latestReminder = sorted[0];
-                                    const key = group.customerName.toLowerCase();
-
                                     return (
-                                        <tr key={key}>
-                                            <td className="reminder-customer-name">
-                                                {group.customerName}
-                                            </td>
+                                        <tr key={group.customer}>
+                                            <td>{group.customer}</td>
 
-                                            <td className="reminder-notes">
-                {latestReminder?.notes ||
-                    latestReminder?.note ||
-                    "-"}
-            </td>
+                                            <td>
+                                                {latestReminder?.note ||
+                                                    latestReminder?.notes ||
+                                                    "-"}
+                                            </td>
 
                                             <td>
                                                 {formatDate(
@@ -498,21 +647,24 @@ await loadReminders();
                                             <td>
                                                 <span
                                                     className={`reminder-status ${getStatusClass(
-                                                        latestReminder?.status
+                                                        status
                                                     )}`}
                                                 >
-                                                    {latestReminder?.status || "Pending"}
+                                                    {status
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                        status.slice(1)}
                                                 </span>
                                             </td>
 
                                             <td>
-                                                <div className="reminder-action-buttons">
+                                                <div className="reminder-actions">
                                                     <button
                                                         type="button"
-                                                        className="reminder-refresh-btn"
+                                                        className="reminder-add-btn"
                                                         onClick={() =>
-                                                            openExistingCustomerForm(
-                                                                group.customerName
+                                                            handleAddForCustomer(
+                                                                group.customer
                                                             )
                                                         }
                                                     >
@@ -522,12 +674,19 @@ await loadReminders();
                                                     <button
                                                         type="button"
                                                         className="reminder-delete-btn"
-                                                        disabled={deletingCustomer === key}
+                                                        disabled={
+                                                            deletingCustomer ===
+                                                            group.customer
+                                                        }
                                                         onClick={() =>
-                                                            handleDeleteCustomer(group)
+                                                            handleDeleteCustomer(
+                                                                group.customer,
+                                                                group.reminders
+                                                            )
                                                         }
                                                     >
-                                                        {deletingCustomer === key
+                                                        {deletingCustomer ===
+                                                        group.customer
                                                             ? "Deleting..."
                                                             : "Delete"}
                                                     </button>
@@ -535,11 +694,59 @@ await loadReminders();
                                             </td>
                                         </tr>
                                     );
-                                })
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </section>
+
+            <section className="reminder-section">
+                <h2>Completed Reminders</h2>
+
+                {completedReminders.length === 0 ? (
+                    <p className="reminder-empty">
+                        No completed reminders.
+                    </p>
+                ) : (
+                    <div className="reminder-table-wrapper">
+                        <table className="reminder-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Note</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {completedReminders.map((reminder) => (
+                                    <tr key={getReminderId(reminder)}>
+                                        <td>{reminder.customer_name}</td>
+                                        <td>
+                                            {reminder.note ||
+                                                reminder.notes ||
+                                                "-"}
+                                        </td>
+                                        <td>
+                                            {formatDate(reminder.reminder_date)}
+                                        </td>
+                                        <td>
+                                            {formatTime(reminder.reminder_time)}
+                                        </td>
+                                        <td>
+                                            <span className="reminder-status completed">
+                                                Completed
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </section>
         </div>
     );
