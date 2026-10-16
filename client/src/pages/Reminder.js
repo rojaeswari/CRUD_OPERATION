@@ -7,7 +7,6 @@ const API = "https://smazo.onrender.com/api/reminders";
 
 const DEFAULT_REPEAT_MINUTES = 15;
 
-
 const getRows = (response) => {
     const data = response?.data;
 
@@ -138,8 +137,6 @@ function Reminder() {
     const [reminders, setReminders] = useState([]);
     const [currentTime, setCurrentTime] = useState(Date.now());
 
-    const [showAddForm, setShowAddForm] = useState(false);
-
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
     const [deletingCustomer, setDeletingCustomer] = useState("");
@@ -263,7 +260,6 @@ function Reminder() {
             setReminderDate(getLocalDateString(Date.now()));
             setReminderTime("");
             setRepeatMinutes("15");
-            setShowAddForm(false);
 
             await loadReminders();
         } catch (err) {
@@ -340,20 +336,19 @@ function Reminder() {
     };
 
     const handleAddForCustomer = (customer) => {
-    setCustomerName(customer);
-    setReminderDate(getLocalDateString(Date.now()));
-    setReminderTime("");
-    setNote("");
-    setRepeatMinutes("15");
-    setSuccess("");
-    setError("");
-    setShowAddForm(true);
+        setCustomerName(customer);
+        setReminderDate(getLocalDateString(Date.now()));
+        setReminderTime("");
+        setNote("");
+        setSuccess("");
+        setError("");
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-    });
-};
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
+
     const customerGroups = Object.values(
         reminders.reduce((groups, reminder) => {
             const customer =
@@ -385,61 +380,31 @@ function Reminder() {
         (reminder) => getReminderStatus(reminder) === "completed"
     );
 
-    
-return (
-    <div className="reminder-page">
-        {/* Header */}
-        <div className="reminder-header">
-            <div>
+    return (
+        <div className="reminder-page">
+            <div className="reminder-header">
                 <h1>RMA Reminder</h1>
                 <p>Manage customer reminders and follow-ups.</p>
             </div>
 
-            {!showAddForm && (
-                <button
-                    type="button"
-                    className="reminder-header-add-btn"
-                    onClick={() => {
-                        setCustomerName("");
-                        setNote("");
-                        setReminderDate(getLocalDateString(Date.now()));
-                        setReminderTime("");
-                        setRepeatMinutes("15");
-                        setError("");
-                        setSuccess("");
-                        setShowAddForm(true);
-                    }}
-                >
-                    + Add Reminder
-                </button>
+            {error && (
+                <div className="reminder-message reminder-error">
+                    {error}
+                </div>
             )}
-        </div>
 
-        {/* Error Message */}
-        {error && (
-            <div className="reminder-message reminder-error">
-                {error}
-            </div>
-        )}
+            {success && (
+                <div className="reminder-message reminder-success">
+                    {success}
+                </div>
+            )}
 
-        {/* Success Message */}
-        {success && (
-            <div className="reminder-message reminder-success">
-                {success}
-            </div>
-        )}
-
-        {/* Add Reminder Form */}
-        {showAddForm && (
             <section className="reminder-form-card">
                 <h2>Add Reminder</h2>
 
                 <form onSubmit={handleSubmit}>
                     <div className="reminder-field">
-                        <label htmlFor="customerName">
-                            Customer Name
-                        </label>
-
+                        <label htmlFor="customerName">Customer Name</label>
                         <input
                             id="customerName"
                             type="text"
@@ -453,16 +418,11 @@ return (
                     </div>
 
                     <div className="reminder-field">
-                        <label htmlFor="reminderNote">
-                            Note
-                        </label>
-
+                        <label htmlFor="reminderNote">Note</label>
                         <textarea
                             id="reminderNote"
                             value={note}
-                            onChange={(event) =>
-                                setNote(event.target.value)
-                            }
+                            onChange={(event) => setNote(event.target.value)}
                             placeholder="Enter reminder note"
                             rows={3}
                             required
@@ -501,9 +461,7 @@ return (
                                 }
                                 required
                             >
-                                <option value="">
-                                    Select Time
-                                </option>
+                                <option value="">Select Time</option>
 
                                 {timeOptions.map((time) => (
                                     <option
@@ -535,303 +493,263 @@ return (
                         />
 
                         <p className="reminder-hint">
-                            Set the repeat interval in minutes.
-                            Default: 15 minutes.
+                            Set the repeat interval in minutes. Default: 15 minutes.
                         </p>
                     </div>
 
-                    {/* Cancel and Add Buttons */}
-                    <div className="reminder-form-actions">
-                        <button
-                            type="button"
-                            className="reminder-cancel-btn"
-                            onClick={() => {
-                                setShowAddForm(false);
-                                setError("");
-                                setSuccess("");
-                            }}
-                        >
-                            Cancel
-                        </button>
-
-                        <button
-                            type="submit"
-                            className="reminder-submit-btn"
-                            disabled={saving}
-                        >
-                            {saving ? "Saving..." : "Add Reminder"}
-                        </button>
-                    </div>
+                    <button
+                        type="submit"
+                        className="reminder-submit-btn"
+                        disabled={saving}
+                    >
+                        {saving ? "Saving..." : "Add Reminder"}
+                    </button>
                 </form>
             </section>
-        )}
 
-        {/* Summary */}
-        <section className="reminder-summary">
-            <div className="reminder-summary-card">
-                <span>Pending</span>
-                <strong>{pendingReminders.length}</strong>
-            </div>
-
-            <div className="reminder-summary-card">
-                <span>Active</span>
-                <strong>{activeReminders.length}</strong>
-            </div>
-
-            <div className="reminder-summary-card">
-                <span>Completed</span>
-                <strong>{completedReminders.length}</strong>
-            </div>
-        </section>
-
-        {/* Active Reminders */}
-        <section className="reminder-section">
-            <h2>Active Reminders</h2>
-
-            {activeReminders.length === 0 ? (
-                <p className="reminder-empty">
-                    No active reminders.
-                </p>
-            ) : (
-                <div className="active-reminders-list">
-                    {activeReminders.map((reminder) => {
-                        const id = getReminderId(reminder);
-
-                        const remainingSeconds =
-                            getCountdownSeconds(reminder, currentTime);
-
-                        return (
-                            <div
-                                className="active-reminder-card"
-                                key={id}
-                            >
-                                <div className="active-reminder-details">
-                                    <h3>{reminder.customer_name}</h3>
-
-                                    <p>
-                                        {reminder.note ||
-                                            reminder.notes ||
-                                            "-"}
-                                    </p>
-
-                                    <p>
-                                        Date:{" "}
-                                        {formatDate(
-                                            reminder.reminder_date
-                                        )}
-                                    </p>
-
-                                    <p>
-                                        Time:{" "}
-                                        {formatTime(
-                                            reminder.reminder_time
-                                        )}
-                                    </p>
-                                </div>
-
-                                <div className="active-reminder-timer">
-                                    <span>Time Remaining</span>
-
-                                    <strong>
-                                        {formatCountdown(
-                                            remainingSeconds
-                                        )}
-                                    </strong>
-
-                                    <button
-                                        type="button"
-                                        className="reminder-done-btn"
-                                        onClick={() => handleDone(id)}
-                                    >
-                                        ✓ Done
-                                    </button>
-                                </div>
-                            </div>
-                        );
-                    })}
+            <section className="reminder-summary">
+                <div className="reminder-summary-card">
+                    <span>Pending</span>
+                    <strong>{pendingReminders.length}</strong>
                 </div>
-            )}
-        </section>
 
-        {/* Customer Groups */}
-        <section className="reminder-section">
-            <h2>Customer Groups</h2>
+                <div className="reminder-summary-card">
+                    <span>Active</span>
+                    <strong>{activeReminders.length}</strong>
+                </div>
 
-            {loading && reminders.length === 0 ? (
-                <p>Loading reminders...</p>
-            ) : customerGroups.length === 0 ? (
-                <p className="reminder-empty">
-                    No customer reminders found.
-                </p>
-            ) : (
-                <div className="reminder-table-wrapper">
-                    <table className="reminder-table">
-                        <thead>
-                            <tr>
-                                <th>Customer Name</th>
-                                <th>Notes</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
+                <div className="reminder-summary-card">
+                    <span>Completed</span>
+                    <strong>{completedReminders.length}</strong>
+                </div>
+            </section>
 
-                        <tbody>
-                            {customerGroups.map((group) => {
-                                // Use group.items, matching
-                                // the customerGroups data structure.
-                                const latestReminder = [
-                                    ...group.items,
-                                ].sort((a, b) => {
-                                    const dateA =
-                                        getReminderDateTime(a)?.getTime() || 0;
+            <section className="reminder-section">
+                <h2>Active Reminders</h2>
 
-                                    const dateB =
-                                        getReminderDateTime(b)?.getTime() || 0;
+                {activeReminders.length === 0 ? (
+                    <p className="reminder-empty">
+                        No active reminders.
+                    </p>
+                ) : (
+                    <div className="active-reminders-list">
+                        {activeReminders.map((reminder) => {
+                            const id = getReminderId(reminder);
+                            const remainingSeconds =
+                                getCountdownSeconds(reminder, currentTime);
 
-                                    return dateB - dateA;
-                                })[0];
+                            return (
+                                <div
+                                    className="active-reminder-card"
+                                    key={id}
+                                >
+                                    <div className="active-reminder-details">
+                                        <h3>{reminder.customer_name}</h3>
+                                        <p>
+                                            {reminder.note || reminder.notes}
+                                        </p>
 
-                                const status =
-                                    getReminderStatus(latestReminder);
+                                        <p>
+                                            Date:{" "}
+                                            {formatDate(reminder.reminder_date)}
+                                        </p>
 
-                                return (
-                                    <tr key={group.customer}>
-                                        <td>{group.customer}</td>
+                                        <p>
+                                            Time:{" "}
+                                            {formatTime(reminder.reminder_time)}
+                                        </p>
+                                    </div>
 
+                                    <div className="active-reminder-timer">
+                                        <span>Time Remaining</span>
+
+                                        <strong>
+                                            {formatCountdown(remainingSeconds)}
+                                        </strong>
+
+                                        <button
+                                            type="button"
+                                            className="reminder-done-btn"
+                                            onClick={() => handleDone(id)}
+                                        >
+                                            ✓ Done
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </section>
+
+            <section className="reminder-section">
+                <h2>Customer Groups</h2>
+
+                {loading && reminders.length === 0 ? (
+                    <p>Loading reminders...</p>
+                ) : customerGroups.length === 0 ? (
+                    <p className="reminder-empty">
+                        No customer reminders found.
+                    </p>
+                ) : (
+                    <div className="reminder-table-wrapper">
+                        <table className="reminder-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Notes</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {customerGroups.map((group) => {
+                                    const latestReminder = [
+                                        ...group.reminders,
+                                    ].sort((a, b) => {
+                                        const dateA =
+                                            getReminderDateTime(a) || 0;
+                                        const dateB =
+                                            getReminderDateTime(b) || 0;
+
+                                        return dateB - dateA;
+                                    })[0];
+
+                                    const status = getReminderStatus(
+                                        latestReminder
+                                    );
+
+                                    return (
+                                        <tr key={group.customer}>
+                                            <td>{group.customer}</td>
+
+                                            <td>
+                                                {latestReminder?.note ||
+                                                    latestReminder?.notes ||
+                                                    "-"}
+                                            </td>
+
+                                            <td>
+                                                {formatDate(
+                                                    latestReminder?.reminder_date
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                {formatTime(
+                                                    latestReminder?.reminder_time
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                <span
+                                                    className={`reminder-status ${getStatusClass(
+                                                        status
+                                                    )}`}
+                                                >
+                                                    {status
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                        status.slice(1)}
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <div className="reminder-actions">
+                                                    <button
+                                                        type="button"
+                                                        className="reminder-add-btn"
+                                                        onClick={() =>
+                                                            handleAddForCustomer(
+                                                                group.customer
+                                                            )
+                                                        }
+                                                    >
+                                                        + Add
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        className="reminder-delete-btn"
+                                                        disabled={
+                                                            deletingCustomer ===
+                                                            group.customer
+                                                        }
+                                                        onClick={() =>
+                                                            handleDeleteCustomer(
+                                                                group.customer,
+                                                                group.reminders
+                                                            )
+                                                        }
+                                                    >
+                                                        {deletingCustomer ===
+                                                        group.customer
+                                                            ? "Deleting..."
+                                                            : "Delete"}
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </section>
+
+            <section className="reminder-section">
+                <h2>Completed Reminders</h2>
+
+                {completedReminders.length === 0 ? (
+                    <p className="reminder-empty">
+                        No completed reminders.
+                    </p>
+                ) : (
+                    <div className="reminder-table-wrapper">
+                        <table className="reminder-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Note</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {completedReminders.map((reminder) => (
+                                    <tr key={getReminderId(reminder)}>
+                                        <td>{reminder.customer_name}</td>
                                         <td>
-                                            {latestReminder?.note ||
-                                                latestReminder?.notes ||
+                                            {reminder.note ||
+                                                reminder.notes ||
                                                 "-"}
                                         </td>
-
                                         <td>
-                                            {formatDate(
-                                                latestReminder?.reminder_date
-                                            )}
+                                            {formatDate(reminder.reminder_date)}
                                         </td>
-
                                         <td>
-                                            {formatTime(
-                                                latestReminder?.reminder_time
-                                            )}
+                                            {formatTime(reminder.reminder_time)}
                                         </td>
-
                                         <td>
-                                            <span
-                                                className={`reminder-status ${getStatusClass(
-                                                    status
-                                                )}`}
-                                            >
-                                                {status
-                                                    .charAt(0)
-                                                    .toUpperCase() +
-                                                    status.slice(1)}
+                                            <span className="reminder-status completed">
+                                                Completed
                                             </span>
                                         </td>
-
-                                        <td>
-                                            <div className="reminder-actions">
-                                                <button
-                                                    type="button"
-                                                    className="reminder-add-btn"
-                                                    onClick={() =>
-                                                        handleAddForCustomer(
-                                                            group.customer
-                                                        )
-                                                    }
-                                                >
-                                                    + Add
-                                                </button>
-
-                                                <button
-                                                    type="button"
-                                                    className="reminder-delete-btn"
-                                                    disabled={
-                                                        deletingCustomer ===
-                                                        group.customer
-                                                    }
-                                                    onClick={() =>
-                                                        handleDeleteCustomer(
-                                                            group.customer,
-                                                            group.items
-                                                        )
-                                                    }
-                                                >
-                                                    {deletingCustomer ===
-                                                    group.customer
-                                                        ? "Deleting..."
-                                                        : "Delete"}
-                                                </button>
-                                            </div>
-                                        </td>
                                     </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-            )}
-        </section>
-
-        {/* Completed Reminders */}
-        <section className="reminder-section">
-            <h2>Completed Reminders</h2>
-
-            {completedReminders.length === 0 ? (
-                <p className="reminder-empty">
-                    No completed reminders.
-                </p>
-            ) : (
-                <div className="reminder-table-wrapper">
-                    <table className="reminder-table">
-                        <thead>
-                            <tr>
-                                <th>Customer Name</th>
-                                <th>Note</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {completedReminders.map((reminder) => (
-                                <tr key={getReminderId(reminder)}>
-                                    <td>{reminder.customer_name}</td>
-
-                                    <td>
-                                        {reminder.note ||
-                                            reminder.notes ||
-                                            "-"}
-                                    </td>
-
-                                    <td>
-                                        {formatDate(
-                                            reminder.reminder_date
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        {formatTime(
-                                            reminder.reminder_time
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        <span className="reminder-status completed">
-                                            Completed
-                                        </span>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
-        </section>
-    </div>
-);
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </section>
+        </div>
+    );
 }
+
 export default Reminder;
