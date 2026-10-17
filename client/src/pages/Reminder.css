@@ -481,6 +481,58 @@
     background: #fee4e2;
 }
 
+
+/* Customer Groups heading alignment */
+.reminder-section:has(.reminder-table-wrapper) h2 {
+    text-align: left;
+    margin: 0 0 14px;
+    padding: 0;
+}
+
+/* Table layout */
+.reminder-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e1e9e3;
+    border-radius: 8px;
+}
+
+.reminder-table {
+    width: 100%;
+    min-width: 900px;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+/* Keep table headings and data aligned */
+.reminder-table th,
+.reminder-table td {
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* Buttons alignment */
+.reminder-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+    .reminder-table {
+        min-width: 900px;
+    }
+
+    .reminder-table th,
+    .reminder-table td {
+        padding: 10px;
+    }
+}
+
+
 /* Tablet */
 @media (max-width: 1024px) {
     .reminder-page {
