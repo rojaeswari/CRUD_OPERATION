@@ -4893,31 +4893,32 @@ setInterval(async () => {
 
         // 1. Expire active reminders whose timer has ended.
         // Do not restart their countdown.
-        const expired = await client.query(`
-            UPDATE reminders
-            SET status = 'Missed'
-            WHERE status = 'Active'
-              AND started_at IS NOT NULL
-              AND started_at
-                  + (repeat_minutes * INTERVAL '1 minute')
-                  <= CURRENT_TIMESTAMP
-            RETURNING id, repeat_minutes
-        `);
+        // 1. Mark expired active reminders as Missed
+const expired = await client.query(`
+    UPDATE reminders
+    SET status = 'Missed'
+    WHERE status = 'Active'
+      AND started_at IS NOT NULL
+      AND (
+          started_at + (repeat_minutes * INTERVAL '1 minute')
+      ) <= (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')
+    RETURNING id, repeat_minutes
+`);
 
-        for (const item of expired.rows) {
-            await client.query(
-                `INSERT INTO reminder_history
-                 (reminder_id, event_type, details)
-                 VALUES ($1, $2, $3)`,
-                [
-                    item.id,
-                    "Missed",
-                    `Reminder expired after ${item.repeat_minutes} minutes without Done`
-                ]
-            );
+for (const item of expired.rows) {
+    await client.query(
+        `INSERT INTO reminder_history
+         (reminder_id, event_type, details)
+         VALUES ($1, $2, $3)`,
+        [
+            item.id,
+            "Missed",
+            `Reminder expired after ${item.repeat_minutes} minutes without Done`
+        ]
+    );
 
-            console.log(`Reminder ${item.id} marked Missed.`);
-        }
+    console.log(`Reminder ${item.id} marked Missed.`);
+}
 
         // 2. Check if any active reminder remains.
         const active = await client.query(`
