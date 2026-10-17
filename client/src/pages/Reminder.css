@@ -248,24 +248,27 @@
     font-size: 14px;
 }
 
-/* Active Reminder Cards */
+
+/* Active Reminder Cards - Compact */
 .active-reminders-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    gap: 12px;
+    align-items: start;
 }
 
 .active-reminder-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    padding: 22px;
+    gap: 12px;
+    padding: 14px 16px;
     background: #f0fbf3;
     border: 1px solid #8bd3a0;
-    border-left: 5px solid #218644;
-    border-radius: 10px;
+    border-left: 4px solid #218644;
+    border-radius: 8px;
     animation: reminderPulse 2s ease-in-out infinite;
+    box-sizing: border-box;
 }
 
 .active-reminder-details {
@@ -274,17 +277,17 @@
 }
 
 .active-reminder-details h3 {
-    margin: 0 0 10px;
+    margin: 0 0 6px;
     color: #176b35;
-    font-size: 18px;
+    font-size: 16px;
     overflow-wrap: anywhere;
 }
 
 .active-reminder-details p {
-    margin: 6px 0;
+    margin: 4px 0;
     color: #4c5c51;
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 1.4;
     overflow-wrap: anywhere;
 }
 
@@ -293,23 +296,50 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    min-width: 125px;
+    gap: 7px;
+    min-width: 95px;
     text-align: center;
 }
 
 .active-reminder-timer span {
     color: #526356;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
 }
 
 .active-reminder-timer strong {
     color: #176b35;
-    font-size: 30px;
+    font-size: 24px;
     font-variant-numeric: tabular-nums;
-    letter-spacing: 1px;
+    letter-spacing: 0;
 }
+
+.reminder-done-btn {
+    padding: 7px 11px;
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    .active-reminders-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .active-reminder-card {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .active-reminder-timer {
+        min-width: 82px;
+    }
+
+    .active-reminder-timer strong {
+        font-size: 21px;
+    }
+}
+
 
 @keyframes reminderPulse {
     0%,
