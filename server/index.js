@@ -5030,6 +5030,45 @@ setInterval(async () => {
 
 
 
+/* =====================================
+   GET REMINDER HISTORY
+===================================== */
+
+app.get("/api/reminder-history", async (req, res) => {
+    try {
+        const result = await db.query(`
+            SELECT
+                h.id AS history_id,
+                h.reminder_id,
+                r.customer_name,
+                r.note,
+                h.event_type,
+                h.details,
+                h.created_at
+            FROM reminder_history h
+            LEFT JOIN reminders r
+                ON r.id = h.reminder_id
+            ORDER BY h.created_at DESC, h.id DESC
+        `);
+
+        res.json({
+            success: true,
+            data: result.rows
+        });
+    } catch (err) {
+        console.error("REMINDER HISTORY ERROR:", err);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to load reminder history"
+        });
+    }
+});
+
+
+
+
+
 
 
 const PORT = process.env.PORT || 5000;

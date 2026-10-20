@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import "./Reminder.css";
+import ReminderHistory from "./ReminderHistory";
 
 const API = "https://smazo.onrender.com/api/reminders";
 
@@ -146,6 +147,7 @@ function Reminder() {
 
     // Navigation state added
     const [showForm, setShowForm] = useState(false);
+    const [showHistory, setShowHistory] = useState(false);
 
     const timeOptions = getTimeOptions(reminderDate, currentTime);
 
@@ -698,6 +700,14 @@ function Reminder() {
                                                     </button>
 
                                                     <button
+    type="button"
+    className="reminder-add-btn"
+    onClick={() => setShowHistory(true)}
+>
+    History
+</button>
+
+                                                    <button
                                                         type="button"
                                                         className="reminder-delete-btn"
                                                         disabled={
@@ -772,6 +782,12 @@ function Reminder() {
                             </tbody>
                         </table>
                     </div>
+                )}
+
+                {showHistory && (
+                    <ReminderHistory
+                        onClose={() => setShowHistory(false)}
+                    />
                 )}
             </section>
         </div>
