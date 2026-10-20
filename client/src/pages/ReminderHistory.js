@@ -156,7 +156,7 @@ function ReminderHistory({ onBack }) {
                                     </td>
                                     <td>{item.details || "-"}</td>
                                     <td>
-                                        {formatDateTime(item.created_at)}
+                                        {formatDateTime(item.event_time)}
                                     </td>
                                 </tr>
                             ))}

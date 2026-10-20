@@ -5034,6 +5034,7 @@ setInterval(async () => {
    GET REMINDER HISTORY
 ===================================== */
 
+
 app.get("/api/reminder-history", async (req, res) => {
     try {
         const result = await db.query(`
@@ -5044,11 +5045,11 @@ app.get("/api/reminder-history", async (req, res) => {
                 r.note,
                 h.event_type,
                 h.details,
-                h.created_at
+                h.event_time
             FROM reminder_history h
             LEFT JOIN reminders r
                 ON r.id = h.reminder_id
-            ORDER BY h.created_at DESC, h.id DESC
+            ORDER BY h.event_time DESC, h.id DESC
         `);
 
         res.json({
@@ -5056,11 +5057,12 @@ app.get("/api/reminder-history", async (req, res) => {
             data: result.rows
         });
     } catch (err) {
-        console.error("REMINDER HISTORY ERROR:", err);
+        console.error("Failed to load reminder history:", err);
 
         res.status(500).json({
             success: false,
-            message: "Failed to load reminder history"
+            message: "Failed to load reminder history",
+            error: err.message
         });
     }
 });
