@@ -189,7 +189,11 @@ function App() {
 
 <Route
     path="/reminder-history"
-    element={<PrivateRoute><ReminderHistory /></PrivateRoute>}
+    element={
+        <PrivateRoute>
+            <ReminderHistory />
+        </PrivateRoute>
+    }
 />
 
 

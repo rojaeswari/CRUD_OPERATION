@@ -699,10 +699,10 @@ function Reminder() {
                                                         + Add
                                                     </button>
 
-      <button
+    <button
     type="button"
+    className="reminder-add-btn"
     onClick={() => navigate("/reminder-history")}
-    className="history-btn"
 >
     History
 </button>
