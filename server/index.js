@@ -4872,10 +4872,11 @@ app.post("/api/reminders/:id/done", async (req, res) => {
 // Background scheduler: run every 10 seconds
 
 
+
 /* =====================================
    REMINDER WORKER
-   Activate due reminders and expire
-   active reminders after their interval
+   Runs every 10 seconds
+   Missed -> save history -> restart same reminder
 ===================================== */
 
 let reminderWorkerRunning = false;
@@ -4884,43 +4885,78 @@ setInterval(async () => {
     if (reminderWorkerRunning) return;
 
     reminderWorkerRunning = true;
-
     let client;
 
     try {
         client = await db.connect();
         await client.query("BEGIN");
 
-        // 1. Expire active reminders whose timer has ended.
-        // Do not restart their countdown.
-        // 1. Mark expired active reminders as Missed
-const expired = await client.query(`
-    UPDATE reminders
-    SET status = 'Missed'
-    WHERE status = 'Active'
-      AND started_at IS NOT NULL
-      AND (
-          started_at + (repeat_minutes * INTERVAL '1 minute')
-      ) <= (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')
-    RETURNING id, repeat_minutes
-`);
+        // 1. Find active reminders whose 15-minute interval ended.
+        const expired = await client.query(`
+            SELECT id, customer_name, repeat_minutes
+            FROM reminders
+            WHERE status = 'Active'
+              AND started_at IS NOT NULL
+              AND started_at + (repeat_minutes * INTERVAL '1 minute')
+                  <= CURRENT_TIMESTAMP
+            ORDER BY started_at ASC, id ASC
+            FOR UPDATE SKIP LOCKED
+        `);
 
-for (const item of expired.rows) {
-    await client.query(
-        `INSERT INTO reminder_history
-         (reminder_id, event_type, details)
-         VALUES ($1, $2, $3)`,
-        [
-            item.id,
-            "Missed",
-            `Reminder expired after ${item.repeat_minutes} minutes without Done`
-        ]
-    );
+        // 2. Record Missed and restart the SAME reminder.
+        for (const item of expired.rows) {
+            const missed = await client.query(
+                `UPDATE reminders
+                 SET status = 'Missed'
+                 WHERE id = $1
+                   AND status = 'Active'
+                 RETURNING id`,
+                [item.id]
+            );
 
-    console.log(`Reminder ${item.id} marked Missed.`);
-}
+            if (missed.rows.length === 0) continue;
 
-        // 2. Check if any active reminder remains.
+            await client.query(
+                `INSERT INTO reminder_history
+                 (reminder_id, event_type, details)
+                 VALUES ($1, $2, $3)`,
+                [
+                    item.id,
+                    "Missed",
+                    `Not marked Done within ${item.repeat_minutes} minutes`
+                ]
+            );
+
+            // Restart immediately: same reminder, new 15-minute timer.
+            const restarted = await client.query(
+                `UPDATE reminders
+                 SET status = 'Active',
+                     started_at = CURRENT_TIMESTAMP
+                 WHERE id = $1
+                   AND status = 'Missed'
+                 RETURNING id, repeat_minutes`,
+                [item.id]
+            );
+
+            if (restarted.rows.length > 0) {
+                await client.query(
+                    `INSERT INTO reminder_history
+                     (reminder_id, event_type, details)
+                     VALUES ($1, $2, $3)`,
+                    [
+                        item.id,
+                        "Activated",
+                        `Reminder restarted for ${item.repeat_minutes} minutes after Missed`
+                    ]
+                );
+
+                console.log(
+                    `Reminder ${item.id} (${item.customer_name}) missed and restarted.`
+                );
+            }
+        }
+
+        // 3. If any reminder is still Active, don't activate another.
         const active = await client.query(`
             SELECT id
             FROM reminders
@@ -4929,7 +4965,7 @@ for (const item of expired.rows) {
             FOR UPDATE
         `);
 
-        // 3. If none is active, activate the next due reminder.
+        // 4. Otherwise activate the next due Pending reminder.
         if (active.rows.length === 0) {
             const next = await client.query(`
                 SELECT id
@@ -4937,11 +4973,9 @@ for (const item of expired.rows) {
                 WHERE status = 'Pending'
                   AND (reminder_date + reminder_time)
                       <= (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Kolkata')
-                ORDER BY reminder_date ASC,
-                         reminder_time ASC,
-                         id ASC
+                ORDER BY reminder_date ASC, reminder_time ASC, id ASC
                 LIMIT 1
-                FOR UPDATE
+                FOR UPDATE SKIP LOCKED
             `);
 
             if (next.rows.length > 0) {
@@ -4965,7 +4999,7 @@ for (const item of expired.rows) {
                         [
                             id,
                             "Activated",
-                            "Reminder became active"
+                            `Reminder activated for ${updated.rows[0].repeat_minutes} minutes`
                         ]
                     );
 
@@ -4982,20 +5016,17 @@ for (const item of expired.rows) {
             try {
                 await client.query("ROLLBACK");
             } catch (rollbackError) {
-                console.error(
-                    "REMINDER ROLLBACK ERROR:",
-                    rollbackError
-                );
+                console.error("REMINDER ROLLBACK ERROR:", rollbackError);
             }
         }
 
         console.error("REMINDER WORKER ERROR:", err);
     } finally {
         if (client) client.release();
-
         reminderWorkerRunning = false;
     }
 }, 10000);
+
 
 
 
