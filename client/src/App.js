@@ -42,7 +42,8 @@ import PrivateRoute from "./PrivateRoute";
 import SupporterView from "./pages/SupporterView";
 import Products from "./pages/Products";
 import Reminder from "./pages/Reminder";
-import ReminderHistory from "./ReminderHistory";
+import ReminderHistory from "./pages/ReminderHistory";
+
 
 
 function App() {
@@ -187,14 +188,7 @@ function App() {
   }
 />
 
-<Route
-    path="/reminder-history"
-    element={
-        <PrivateRoute>
-            <ReminderHistory />
-        </PrivateRoute>
-    }
-/>
+<Route path="/reminder-history" element={<PrivateRoute><ReminderHistory /></PrivateRoute>} />
 
 
 
