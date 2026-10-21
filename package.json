@@ -1,5 +1,13 @@
 {
   "dependencies": {
     "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6",
+    "electron": "^44.9.1",
+    "wait-on": "^9.5.1"
+  },
+  "scripts": {
+    "electron": ".\\node_modules\\electron\\dist\\electron.exe electron.js"
   }
 }

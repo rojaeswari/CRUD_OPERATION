@@ -46,6 +46,9 @@
     ]
   },
   "devDependencies": {
-    "cross-env": "^10.1.0"
+    "concurrently": "^10.0.6",
+    "cross-env": "^10.1.0",
+    "electron": "^44.9.1",
+    "wait-on": "^9.5.1"
   }
 }

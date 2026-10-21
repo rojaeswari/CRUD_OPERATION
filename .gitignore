@@ -2,3 +2,12 @@ node_modules/
 .env
 dist/
 build/
+# Environment secrets
+server/.env
+
+# Node dependencies
+server/node_modules/
+client/node_modules/
+
+# Build output
+client/build/

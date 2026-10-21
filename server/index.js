@@ -27,10 +27,110 @@ const dotenv = require("dotenv");
 //     port: 3307
 // })
 const { Pool } = require("pg");
+const webpush = require("web-push");
 require("dotenv").config();
+
+webpush.setVapidDetails(
+    process.env.VAPID_SUBJECT,
+    process.env.VAPID_PUBLIC_KEY,
+    process.env.VAPID_PRIVATE_KEY
+);
+
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// Get VAPID public key for browser subscription
+app.get("/api/push/vapid-public-key", (req, res) => {
+    res.json({
+        publicKey: process.env.VAPID_PUBLIC_KEY
+    });
+});
+
+// Save browser push subscription
+app.post("/api/push/subscribe", async (req, res) => {
+    try {
+        const subscription = req.body;
+
+        if (
+            !subscription ||
+            !subscription.endpoint ||
+            !subscription.keys ||
+            !subscription.keys.p256dh ||
+            !subscription.keys.auth
+        ) {
+            return res.status(400).json({
+                message: "Invalid push subscription"
+            });
+        }
+
+        await db.query(
+            `INSERT INTO push_subscriptions (endpoint, subscription)
+             VALUES ($1, $2::jsonb)
+             ON CONFLICT (endpoint)
+             DO UPDATE SET subscription = EXCLUDED.subscription`,
+            [
+                subscription.endpoint,
+                JSON.stringify(subscription)
+            ]
+        );
+
+        res.status(201).json({
+            message: "Push subscription saved successfully"
+        });
+    } catch (error) {
+        console.error("Push subscription error:", error);
+
+        res.status(500).json({
+            message: "Failed to save push subscription"
+        });
+    }
+});
+
+// Send push notification to all subscribed browsers
+async function sendPushToAll(title, body, tag = "rma-reminder") {
+    try {
+        const result = await db.query(
+            "SELECT id, subscription FROM push_subscriptions"
+        );
+
+        const payload = JSON.stringify({
+            title,
+            body,
+            tag,
+            url: "/"
+        });
+
+        for (const row of result.rows) {
+            try {
+                await webpush.sendNotification(
+                    row.subscription,
+                    payload
+                );
+            } catch (error) {
+                console.error(
+                    "Push notification failed for subscription:",
+                    row.id,
+                    error.statusCode || error.message
+                );
+
+                // Remove subscriptions that are no longer valid
+                if (
+                    error.statusCode === 404 ||
+                    error.statusCode === 410
+                ) {
+                    await db.query(
+                        "DELETE FROM push_subscriptions WHERE id = $1",
+                        [row.id]
+                    );
+                }
+            }
+        }
+    } catch (error) {
+        console.error("Error sending push notifications:", error);
+    }
+}
 
 const db = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -4953,6 +5053,12 @@ setInterval(async () => {
                 console.log(
                     `Reminder ${item.id} (${item.customer_name}) missed and restarted.`
                 );
+                // Notify all subscribed browsers when reminder restarts
+await sendPushToAll(
+    "RMA Reminder Active Again",
+    `Reminder for ${item.customer_name} is active again.`,
+    `rma-reminder-${item.id}`
+);
             }
         }
 
@@ -5004,8 +5110,15 @@ setInterval(async () => {
                     );
 
                     console.log(
-                        `Reminder ${id} activated for ${updated.rows[0].repeat_minutes} minutes.`
-                    );
+    `Reminder ${id} activated for ${updated.rows[0].repeat_minutes} minutes.`
+);
+
+// Send push notification when reminder becomes Active
+await sendPushToAll(
+    "RMA Reminder Active",
+    `Reminder ID: ${id} is now active. Please check your RMA Reminder page.`,
+    `rma-reminder-${id}`
+);
                 }
             }
         }

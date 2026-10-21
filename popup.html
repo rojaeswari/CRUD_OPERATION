@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RMA Reminder</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0fff4;
+            color: #173b28;
+            border: 2px solid #22a06b;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: #198754;
+            color: white;
+            -webkit-app-region: drag;
+        }
+
+        .header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .close-btn {
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 23px;
+            cursor: pointer;
+            -webkit-app-region: no-drag;
+        }
+
+        .content {
+            padding: 18px;
+        }
+
+        .active-label {
+            display: inline-block;
+            background: #d1fae5;
+            color: #047857;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 10px;
+        }
+
+        #customer {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        #note {
+            font-size: 14px;
+            color: #456253;
+            overflow-wrap: anywhere;
+            margin-bottom: 15px;
+        }
+
+        .countdown-label {
+            font-size: 12px;
+            color: #456253;
+        }
+
+        #countdown {
+            font-size: 29px;
+            font-weight: bold;
+            color: #198754;
+            margin-top: 4px;
+        }
+
+        .footer {
+            font-size: 11px;
+            color: #567463;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h3>🔔 RMA Reminder</h3>
+        <button class="close-btn" id="closeBtn" title="Close popup">×</button>
+    </div>
+
+    <div class="content">
+        <div class="active-label">● ACTIVE REMINDER</div>
+        <div id="customer">Loading...</div>
+        <div id="note"></div>
+
+        <div class="countdown-label">Time remaining</div>
+        <div id="countdown">15:00</div>
+
+        <div class="footer">
+            Close (×) to hide this popup. Reminder status will not change.
+        </div>
+    </div>
+
+    <script src="./popup.js"></script>
+</body>
+</html>
