@@ -5054,11 +5054,18 @@ setInterval(async () => {
                     `Reminder ${item.id} (${item.customer_name}) missed and restarted.`
                 );
                 // Notify all subscribed browsers when reminder restarts
+
 await sendPushToAll(
     "RMA Reminder Active Again",
     `Reminder for ${item.customer_name} is active again.`,
     `rma-reminder-${item.id}`
 );
+
+console.log(
+    "Restart push notification attempted for reminder:",
+    item.id
+);
+
             }
         }
 
@@ -5119,6 +5126,7 @@ await sendPushToAll(
     `Reminder ID: ${id} is now active. Please check your RMA Reminder page.`,
     `rma-reminder-${id}`
 );
+console.log("First activation push attempted:", id);
                 }
             }
         }
