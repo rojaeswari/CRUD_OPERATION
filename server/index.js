@@ -89,10 +89,18 @@ app.post("/api/push/subscribe", async (req, res) => {
 });
 
 // Send push notification to all subscribed browsers
+
 async function sendPushToAll(title, body, tag = "rma-reminder") {
     try {
         const result = await db.query(
             "SELECT id, subscription FROM push_subscriptions"
+        );
+
+        console.log(
+            "Push notification started. Subscriptions:",
+            result.rows.length,
+            "Title:",
+            title
         );
 
         const payload = JSON.stringify({
@@ -104,18 +112,27 @@ async function sendPushToAll(title, body, tag = "rma-reminder") {
 
         for (const row of result.rows) {
             try {
-                await webpush.sendNotification(
+                const response = await webpush.sendNotification(
                     row.subscription,
                     payload
                 );
+
+                console.log(
+                    "Push notification sent successfully:",
+                    row.id,
+                    "Status:",
+                    response.statusCode
+                );
             } catch (error) {
                 console.error(
-                    "Push notification failed for subscription:",
+                    "Push notification failed:",
                     row.id,
-                    error.statusCode || error.message
+                    "Status:",
+                    error.statusCode,
+                    "Error:",
+                    error.message
                 );
 
-                // Remove subscriptions that are no longer valid
                 if (
                     error.statusCode === 404 ||
                     error.statusCode === 410
@@ -124,11 +141,19 @@ async function sendPushToAll(title, body, tag = "rma-reminder") {
                         "DELETE FROM push_subscriptions WHERE id = $1",
                         [row.id]
                     );
+
+                    console.log(
+                        "Invalid push subscription deleted:",
+                        row.id
+                    );
                 }
             }
         }
     } catch (error) {
-        console.error("Error sending push notifications:", error);
+        console.error(
+            "Error sending push notifications:",
+            error.message
+        );
     }
 }
 
