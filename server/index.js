@@ -5079,7 +5079,7 @@ setInterval(async () => {
                     `Reminder ${item.id} (${item.customer_name}) missed and restarted.`
                 );
                 // Notify all subscribed browsers when reminder restarts
-
+   console.log("DEBUG: Restarted reminder - sending push now.");
 await sendPushToAll(
     "RMA Reminder Active Again",
     `Reminder for ${item.customer_name} is active again.`,
@@ -5146,6 +5146,7 @@ console.log(
 );
 
 // Send push notification when reminder becomes Active
+console.log("DEBUG: First activation - sending push now.");
 await sendPushToAll(
     "RMA Reminder Active",
     `Reminder ID: ${id} is now active. Please check your RMA Reminder page.`,
