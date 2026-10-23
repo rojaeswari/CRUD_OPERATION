@@ -112,6 +112,25 @@ async function registerPushNotifications() {
   }
 }
 
+console.log("RMA Push Debug: Browser page loaded.");
+
+if ("Notification" in window) {
+    console.log("Notification permission:", Notification.permission);
+}
+
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.ready.then((registration) => {
+        console.log("Service Worker ready:", registration.scope);
+
+        registration.pushManager.getSubscription().then((subscription) => {
+            console.log(
+                "Push subscription exists:",
+                Boolean(subscription)
+            );
+        });
+    });
+}
+
 registerPushNotifications();
 
 
