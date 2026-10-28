@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -8,38 +9,42 @@ function ReminderHistory() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    const params = new URLSearchParams(window.location.search);
+    const selectedCustomer = params.get("customer")?.trim() || "";
+
     useEffect(() => {
         const loadHistory = async () => {
             try {
-                const response = await axios.get(API);
+                setLoading(true);
+                setError("");
+
+                const response = await axios.get(API, {
+                    params: selectedCustomer
+                        ? { customer: selectedCustomer }
+                        : {}
+                });
+
                 const rows = response.data?.data;
                 setHistory(Array.isArray(rows) ? rows : []);
             } catch (err) {
                 console.error("Failed to load reminder history:", err);
-                setError("Failed to load history. Please check the backend API.");
+                setError(
+                    "Failed to load history. Please check the backend API."
+                );
             } finally {
                 setLoading(false);
             }
         };
 
         loadHistory();
-    }, []);
-
-    // Filter history using the customer name in the URL
-    const params = new URLSearchParams(window.location.search);
-    const selectedCustomer = params.get("customer");
-
-    const filteredHistory = selectedCustomer
-        ? history.filter(
-              (item) =>
-                  String(item.customer_name || "").trim().toLowerCase() ===
-                  selectedCustomer.trim().toLowerCase()
-          )
-        : history;
+    }, [selectedCustomer]);
 
     return (
         <div style={{ padding: "24px" }}>
-            <button onClick={() => window.history.back()}>
+            <button
+                type="button"
+                onClick={() => window.history.back()}
+            >
                 ← Back to Reminders
             </button>
 
@@ -50,7 +55,8 @@ function ReminderHistory() {
             </h2>
 
             {loading && <p>Loading history...</p>}
-            {error && <p>{error}</p>}
+
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
             {!loading && !error && (
                 <table
@@ -71,7 +77,7 @@ function ReminderHistory() {
                     </thead>
 
                     <tbody>
-                        {filteredHistory.map((item) => (
+                        {history.map((item) => (
                             <tr key={item.history_id ?? item.id}>
                                 <td>{item.customer_name || "-"}</td>
                                 <td>{item.note || "-"}</td>
@@ -79,16 +85,26 @@ function ReminderHistory() {
                                 <td>{item.details || "-"}</td>
                                 <td>
                                     {item.event_time
-                                        ? new Date(item.event_time).toLocaleString()
+                                        ? new Date(
+                                              item.event_time
+                                          ).toLocaleString()
                                         : "-"}
                                 </td>
                             </tr>
                         ))}
 
-                        {filteredHistory.length === 0 && (
+                        {history.length === 0 && (
                             <tr>
-                                <td colSpan="5">
-                                    No history records found for this customer.
+                                <td
+                                    colSpan={5}
+                                    style={{
+                                        textAlign: "center",
+                                        padding: "16px"
+                                    }}
+                                >
+                                    {selectedCustomer
+                                        ? "No history records found for this customer."
+                                        : "No history records found."}
                                 </td>
                             </tr>
                         )}

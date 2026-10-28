@@ -717,13 +717,19 @@ const handleAddForCustomer = (customer, existingReminder = null) => {
                                                         + Add
                                                     </button>
 
-    <button
+  
+<button
     type="button"
     className="reminder-add-btn"
-    onClick={() => navigate("/reminder-history")}
+    onClick={() =>
+        navigate(
+            `/reminder-history?customer=${encodeURIComponent(group.customer)}`
+        )
+    }
 >
     History
 </button>
+
 
                                                     <button
                                                         type="button"
