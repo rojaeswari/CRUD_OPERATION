@@ -769,17 +769,19 @@ return (
                                                     </button>
 
   
+
 <button
     type="button"
     className="reminder-add-btn"
     onClick={() =>
         navigate(
-            `/reminder-history?customer=${encodeURIComponent(group.customer)}`
+            `/reminder-history?reminderId=${getReminderId(latestReminder)}`
         )
     }
 >
     History
 </button>
+
 
 
                                                     <button
@@ -829,32 +831,51 @@ return (
                                     <th>Date</th>
                                     <th>Time</th>
                                     <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
 
-                            <tbody>
-                                {completedReminders.map((reminder) => (
-                                    <tr key={getReminderId(reminder)}>
-                                        <td>{reminder.customer_name}</td>
-                                        <td>
-                                            {reminder.note ||
-                                                reminder.notes ||
-                                                "-"}
-                                        </td>
-                                        <td>
-                                            {formatDate(reminder.reminder_date)}
-                                        </td>
-                                        <td>
-                                            {formatTime(reminder.reminder_time)}
-                                        </td>
-                                        <td>
-                                            <span className="reminder-status completed">
-                                                Completed
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
+                            
+<tbody>
+    {completedReminders.map((reminder) => (
+        <tr key={getReminderId(reminder)}>
+            <td>{reminder.customer_name}</td>
+
+            <td>
+                {reminder.note || reminder.notes || "-"}
+            </td>
+
+            <td>
+                {formatDate(reminder.reminder_date)}
+            </td>
+
+            <td>
+                {formatTime(reminder.reminder_time)}
+            </td>
+
+            <td>
+                <span className="reminder-status completed">
+                    Completed
+                </span>
+            </td>
+
+            <td>
+                <button
+                    type="button"
+                    className="reminder-add-btn"
+                    onClick={() =>
+                        navigate(
+                            `/reminder-history?reminderId=${getReminderId(reminder)}`
+                        )
+                    }
+                >
+                    History
+                </button>
+            </td>
+        </tr>
+    ))}
+</tbody>
+
                         </table>
                     </div>
                 )}

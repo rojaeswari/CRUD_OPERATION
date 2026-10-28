@@ -10,6 +10,7 @@ function ReminderHistory() {
     const [error, setError] = useState("");
 
     const params = new URLSearchParams(window.location.search);
+    const reminderId = params.get("reminderId") || "";
     const selectedCustomer = params.get("customer")?.trim() || "";
 
     useEffect(() => {
@@ -18,10 +19,14 @@ function ReminderHistory() {
                 setLoading(true);
                 setError("");
 
+                const queryParams = reminderId
+                    ? { reminderId }
+                    : selectedCustomer
+                    ? { customer: selectedCustomer }
+                    : {};
+
                 const response = await axios.get(API, {
-                    params: selectedCustomer
-                        ? { customer: selectedCustomer }
-                        : {}
+                    params: queryParams
                 });
 
                 const rows = response.data?.data;
@@ -37,7 +42,15 @@ function ReminderHistory() {
         };
 
         loadHistory();
-    }, [selectedCustomer]);
+    }, [reminderId, selectedCustomer]);
+
+    const title = history.length > 0
+        ? `${history[0].customer_name || "Customer"} - Reminder History`
+        : reminderId
+        ? "Reminder History"
+        : selectedCustomer
+        ? `${selectedCustomer} - Reminder History`
+        : "Reminder History";
 
     return (
         <div style={{ padding: "24px" }}>
@@ -48,11 +61,11 @@ function ReminderHistory() {
                 ← Back to Reminders
             </button>
 
-            <h2>
-                {selectedCustomer
-                    ? `${selectedCustomer} - Reminder History`
-                    : "Reminder History"}
-            </h2>
+            <h2>{title}</h2>
+
+            {reminderId && (
+                <p>Reminder ID: {reminderId}</p>
+            )}
 
             {loading && <p>Loading history...</p>}
 
@@ -102,9 +115,7 @@ function ReminderHistory() {
                                         padding: "16px"
                                     }}
                                 >
-                                    {selectedCustomer
-                                        ? "No history records found for this customer."
-                                        : "No history records found."}
+                                    No history records found for this reminder.
                                 </td>
                             </tr>
                         )}

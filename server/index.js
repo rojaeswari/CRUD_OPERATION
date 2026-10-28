@@ -5173,11 +5173,10 @@ setInterval(async () => {
    GET REMINDER HISTORY
 ===================================== */
 
-
-
 app.get("/api/reminder-history", async (req, res) => {
     try {
         const customer = req.query.customer?.trim();
+        const reminderId = req.query.reminderId;
 
         let query = `
             SELECT
@@ -5195,7 +5194,19 @@ app.get("/api/reminder-history", async (req, res) => {
 
         const values = [];
 
-        if (customer) {
+        if (reminderId !== undefined && reminderId !== "") {
+            const id = Number(reminderId);
+
+            if (!Number.isInteger(id) || id <= 0) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid reminder ID"
+                });
+            }
+
+            query += ` WHERE h.reminder_id = $1`;
+            values.push(id);
+        } else if (customer) {
             query += `
                 WHERE LOWER(TRIM(r.customer_name)) = LOWER(TRIM($1))
             `;
