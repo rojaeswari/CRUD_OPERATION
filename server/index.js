@@ -4998,10 +4998,11 @@ app.post("/api/reminders/:id/done", async (req, res) => {
 
 
 
+
 /* =====================================
    REMINDER WORKER
    Runs every 10 seconds
-   Missed -> save history -> restart same reminder
+   Every due reminder works independently
 ===================================== */
 
 let reminderWorkerRunning = false;
@@ -5010,15 +5011,17 @@ setInterval(async () => {
     if (reminderWorkerRunning) return;
 
     reminderWorkerRunning = true;
+
     let client;
+    const notificationsToSend = [];
 
     try {
         client = await db.connect();
         await client.query("BEGIN");
 
-        // 1. Find active reminders whose 15-minute interval ended.
+        // 1. Find ALL Active reminders whose repeat interval ended.
         const expired = await client.query(`
-            SELECT id, customer_name, repeat_minutes
+            SELECT id, customer_name, note, repeat_minutes
             FROM reminders
             WHERE status = 'Active'
               AND started_at IS NOT NULL
@@ -5028,7 +5031,7 @@ setInterval(async () => {
             FOR UPDATE SKIP LOCKED
         `);
 
-        // 2. Record Missed and restart the SAME reminder.
+        // 2. Restart each expired reminder independently.
         for (const item of expired.rows) {
             const missed = await client.query(
                 `UPDATE reminders
@@ -5052,14 +5055,13 @@ setInterval(async () => {
                 ]
             );
 
-            // Restart immediately: same reminder, new 15-minute timer.
             const restarted = await client.query(
                 `UPDATE reminders
                  SET status = 'Active',
                      started_at = CURRENT_TIMESTAMP
                  WHERE id = $1
                    AND status = 'Missed'
-                 RETURNING id, repeat_minutes`,
+                 RETURNING id`,
                 [item.id]
             );
 
@@ -5071,93 +5073,71 @@ setInterval(async () => {
                     [
                         item.id,
                         "Activated",
-                        `Reminder restarted for ${item.repeat_minutes} minutes after Missed`
+                        `Reminder restarted for ${item.repeat_minutes} minutes`
                     ]
                 );
 
+                notificationsToSend.push({
+                    title: "RMA Reminder Active Again",
+                    body: `Customer: ${item.customer_name}\nNote: ${item.note}`,
+                    tag: `rma-reminder-${item.id}`
+                });
+
                 console.log(
-                    `Reminder ${item.id} (${item.customer_name}) missed and restarted.`
+                    `Reminder ${item.id} restarted: ${item.customer_name}`
                 );
-                // Notify all subscribed browsers when reminder restarts
-   console.log("DEBUG: Restarted reminder - sending push now.");
-await sendPushToAll(
-    "RMA Reminder Active Again",
-    `Reminder for ${item.customer_name} is active again.`,
-    `rma-reminder-${item.id}`
-);
-
-console.log(
-    "Restart push notification attempted for reminder:",
-    item.id
-);
-
             }
         }
 
-        // 3. If any reminder is still Active, don't activate another.
-        const active = await client.query(`
-            SELECT id
+        // 3. Activate ALL due Pending reminders.
+        // Do not block them just because another reminder is Active.
+        const dueReminders = await client.query(`
+            SELECT id, customer_name, note, repeat_minutes
             FROM reminders
-            WHERE status = 'Active'
-            LIMIT 1
-            FOR UPDATE
+            WHERE status = 'Pending'
+              AND (reminder_date + reminder_time)
+                  <= (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Kolkata')
+            ORDER BY reminder_date ASC, reminder_time ASC, id ASC
+            FOR UPDATE SKIP LOCKED
         `);
 
-        // 4. Otherwise activate the next due Pending reminder.
-        if (active.rows.length === 0) {
-            const next = await client.query(`
-                SELECT id
-                FROM reminders
-                WHERE status = 'Pending'
-                  AND (reminder_date + reminder_time)
-                      <= (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Kolkata')
-                ORDER BY reminder_date ASC, reminder_time ASC, id ASC
-                LIMIT 1
-                FOR UPDATE SKIP LOCKED
-            `);
+        for (const item of dueReminders.rows) {
+            const updated = await client.query(
+                `UPDATE reminders
+                 SET status = 'Active',
+                     started_at = CURRENT_TIMESTAMP
+                 WHERE id = $1
+                   AND status = 'Pending'
+                 RETURNING id`,
+                [item.id]
+            );
 
-            if (next.rows.length > 0) {
-                const id = next.rows[0].id;
+            if (updated.rows.length === 0) continue;
 
-                const updated = await client.query(
-                    `UPDATE reminders
-                     SET status = 'Active',
-                         started_at = CURRENT_TIMESTAMP
-                     WHERE id = $1
-                       AND status = 'Pending'
-                     RETURNING id, repeat_minutes`,
-                    [id]
-                );
+            await client.query(
+                `INSERT INTO reminder_history
+                 (reminder_id, event_type, details)
+                 VALUES ($1, $2, $3)`,
+                [
+                    item.id,
+                    "Activated",
+                    `Reminder activated for ${item.repeat_minutes} minutes`
+                ]
+            );
 
-                if (updated.rows.length > 0) {
-                    await client.query(
-                        `INSERT INTO reminder_history
-                         (reminder_id, event_type, details)
-                         VALUES ($1, $2, $3)`,
-                        [
-                            id,
-                            "Activated",
-                            `Reminder activated for ${updated.rows[0].repeat_minutes} minutes`
-                        ]
-                    );
+            notificationsToSend.push({
+                title: "RMA Reminder Active",
+                body: `Customer: ${item.customer_name}\nNote: ${item.note}`,
+                tag: `rma-reminder-${item.id}`
+            });
 
-                    console.log(
-    `Reminder ${id} activated for ${updated.rows[0].repeat_minutes} minutes.`
-);
-
-// Send push notification when reminder becomes Active
-console.log("DEBUG: First activation - sending push now.");
-await sendPushToAll(
-    "RMA Reminder Active",
-    `Reminder ID: ${id} is now active. Please check your RMA Reminder page.`,
-    `rma-reminder-${id}`
-);
-console.log("First activation push attempted:", id);
-                }
-            }
+            console.log(
+                `Reminder ${item.id} activated: ${item.customer_name}`
+            );
         }
 
         await client.query("COMMIT");
+
     } catch (err) {
         if (client) {
             try {
@@ -5168,11 +5148,23 @@ console.log("First activation push attempted:", id);
         }
 
         console.error("REMINDER WORKER ERROR:", err);
+
     } finally {
         if (client) client.release();
         reminderWorkerRunning = false;
     }
+
+    // 4. Send notifications after the database transaction finishes.
+    for (const notification of notificationsToSend) {
+        await sendPushToAll(
+            notification.title,
+            notification.body,
+            notification.tag
+        );
+    }
+
 }, 10000);
+
 
 
 
