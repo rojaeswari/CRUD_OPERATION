@@ -342,20 +342,29 @@ function Reminder() {
         }
     };
 
-    const handleAddForCustomer = (customer) => {
-        setShowForm(true);
-        setCustomerName(customer);
-        setReminderDate(getLocalDateString(Date.now()));
-        setReminderTime("");
-        setNote("");
-        setSuccess("");
-        setError("");
+   
+const handleAddForCustomer = (customer, existingReminder = null) => {
+    setShowForm(true);
+    setCustomerName(customer);
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-    };
+    // Existing reminder details can be prefilled
+    setReminderDate(
+        getLocalDateString(Date.now())
+    );
+
+    setReminderTime("");
+    setNote(existingReminder?.note || existingReminder?.notes || "");
+    setRepeatMinutes("15");
+
+    setSuccess("");
+    setError("");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+    });
+};
+
 
     const customerGroups = Object.values(
         reminders.reduce((groups, reminder) => {
@@ -602,6 +611,15 @@ function Reminder() {
                                         >
                                             ✓ Done
                                         </button>
+                                        
+<button
+    type="button"
+    className="reminder-add-btn"
+    onClick={() => handleAddForCustomer(reminder.customer_name, reminder)}
+>
+    + Add
+</button>
+
                                     </div>
                                 </div>
                             );
