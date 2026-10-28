@@ -349,24 +349,22 @@ Entry Date: ${item.entry_date}
       item.model_number?.toLowerCase().includes(searchText)
     );
   })
-  .sort((a, b) => {
-
+ .sort((a, b) => {
     const statusA = a.status?.trim().toLowerCase();
     const statusB = b.status?.trim().toLowerCase();
 
-    // Completed first
-    if (statusA === "completed" && statusB !== "completed") {
-      return -1;
+    // Pending first
+    if (statusA === "pending" && statusB === "completed") {
+        return -1;
     }
 
-    // Pending after Completed
-    if (statusA !== "completed" && statusB === "completed") {
-      return 1;
+    if (statusA === "completed" && statusB === "pending") {
+        return 1;
     }
 
-    // Same status → latest RMA first
+    // Same status: latest RMA first
     return Number(b.rma_no) - Number(a.rma_no);
-  });
+});
 
     return (
         <div className="home-container">
