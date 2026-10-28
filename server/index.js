@@ -5174,9 +5174,12 @@ setInterval(async () => {
 ===================================== */
 
 
+
 app.get("/api/reminder-history", async (req, res) => {
     try {
-        const result = await db.query(`
+        const customer = req.query.customer?.trim();
+
+        let query = `
             SELECT
                 h.id AS history_id,
                 h.reminder_id,
@@ -5188,8 +5191,22 @@ app.get("/api/reminder-history", async (req, res) => {
             FROM reminder_history h
             LEFT JOIN reminders r
                 ON r.id = h.reminder_id
+        `;
+
+        const values = [];
+
+        if (customer) {
+            query += `
+                WHERE LOWER(TRIM(r.customer_name)) = LOWER(TRIM($1))
+            `;
+            values.push(customer);
+        }
+
+        query += `
             ORDER BY h.event_time DESC, h.id DESC
-        `);
+        `;
+
+        const result = await db.query(query, values);
 
         res.json({
             success: true,
