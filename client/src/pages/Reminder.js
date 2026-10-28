@@ -144,6 +144,7 @@ function Reminder() {
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [customerSearch, setCustomerSearch] = useState("");
 
     // Navigation state added
     const [showForm, setShowForm] = useState(false);
@@ -366,8 +367,15 @@ const handleAddForCustomer = (customer, existingReminder = null) => {
 };
 
 
-    const customerGroups = Object.values(
-        reminders.reduce((groups, reminder) => {
+    
+
+const customerGroups = Object.values(
+    reminders
+        .filter((reminder) => {
+            const status = getReminderStatus(reminder);
+            return status === "pending" || status === "active";
+        })
+        .reduce((groups, reminder) => {
             const customer =
                 String(reminder.customer_name || "").trim() ||
                 "Unknown Customer";
@@ -383,21 +391,45 @@ const handleAddForCustomer = (customer, existingReminder = null) => {
 
             return groups;
         }, {})
-    ).sort((a, b) => a.customer.localeCompare(b.customer));
+)
+    .map((group) => ({
+        ...group,
+        reminders: group.reminders.filter((reminder) => {
+            const status = getReminderStatus(reminder);
+            return status === "pending" || status === "active";
+        }),
+    }))
+    .filter((group) => group.reminders.length > 0)
+    .filter((group) => {
+        const search = customerSearch.trim().toLowerCase();
 
-    const activeReminders = reminders.filter(
-        (reminder) => getReminderStatus(reminder) === "active"
-    );
+        if (!search) return true;
 
-    const pendingReminders = reminders.filter(
-        (reminder) => getReminderStatus(reminder) === "pending"
-    );
+        return (
+            group.customer.toLowerCase().includes(search) ||
+            group.reminders.some((reminder) =>
+                String(reminder.note || "")
+                    .toLowerCase()
+                    .includes(search)
+            )
+        );
+    })
+    .sort((a, b) => a.customer.localeCompare(b.customer));
 
-    const completedReminders = reminders.filter(
-        (reminder) => getReminderStatus(reminder) === "completed"
-    );
+const activeReminders = reminders.filter(
+    (reminder) => getReminderStatus(reminder) === "active"
+);
 
-    return (
+const pendingReminders = reminders.filter(
+    (reminder) => getReminderStatus(reminder) === "pending"
+);
+
+const completedReminders = reminders.filter(
+    (reminder) => getReminderStatus(reminder) === "completed"
+);
+
+
+return (
         <div className="reminder-page">
             <div className="reminder-header">
                 <h1>RMA Reminder</h1>
@@ -630,6 +662,25 @@ const handleAddForCustomer = (customer, existingReminder = null) => {
 
             <section className="reminder-section">
                 <h2>Customer Groups</h2>
+                 <div className="customer-search-box">
+        <input
+            type="text"
+            placeholder="Search customer name or notes..."
+            value={customerSearch}
+            onChange={(e) => setCustomerSearch(e.target.value)}
+            className="customer-search-input"
+        />
+
+        {customerSearch && (
+            <button
+                type="button"
+                className="customer-search-clear"
+                onClick={() => setCustomerSearch("")}
+            >
+                Clear
+            </button>
+        )}
+    </div>
 
                 {loading && reminders.length === 0 ? (
                     <p>Loading reminders...</p>
