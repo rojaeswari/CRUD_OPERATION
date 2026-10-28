@@ -770,3 +770,20 @@
     cursor: pointer;
     white-space: nowrap;
 }
+
+.reminder-back-btn {
+    display: block;
+    margin-bottom: 15px;
+    padding: 9px 18px;
+    background: #16a34a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.reminder-back-btn:hover {
+    background: #15803d;
+}

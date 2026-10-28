@@ -429,22 +429,31 @@ const completedReminders = reminders.filter(
 );
 
 
-return (
-        <div className="reminder-page">
-            <div className="reminder-header">
-                <h1>RMA Reminder</h1>
-                <p>Manage customer reminders and follow-ups.</p>
 
-                {!showForm && (
-                    <button
-                        type="button"
-                        className="reminder-submit-btn"
-                        onClick={() => setShowForm(true)}
-                    >
-                        + Add Reminder
-                    </button>
-                )}
-            </div>
+return (
+    <div className="reminder-page">
+        <div className="reminder-header">
+            <button
+                type="button"
+                className="reminder-back-btn"
+                onClick={() => navigate("/dashboard")}
+            >
+                ← Back
+            </button>
+
+            <h1>RMA Reminder</h1>
+            <p>Manage customer reminders and follow-ups.</p>
+
+            {!showForm && (
+                <button
+                    type="button"
+                    className="reminder-submit-btn"
+                    onClick={() => setShowForm(true)}
+                >
+                    + Add Reminder
+                </button>
+            )}
+        </div>
 
             {error && (
                 <div className="reminder-message reminder-error">
