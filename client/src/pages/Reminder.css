@@ -653,3 +653,37 @@
         width: 100%;
     }
 }
+
+
+/* Smaller Customer Name box */
+.reminder-form-card .reminder-field:first-of-type input {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Smaller Date and Time boxes */
+.reminder-date-time .reminder-field input,
+.reminder-date-time .reminder-field select {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Smaller Repeat Interval box */
+.reminder-form-card > .reminder-field:last-of-type input {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Keep fields full-width on mobile */
+@media (max-width: 768px) {
+    .reminder-form-card .reminder-field:first-of-type input,
+    .reminder-date-time .reminder-field input,
+    .reminder-date-time .reminder-field select,
+    .reminder-form-card > .reminder-field:last-of-type input {
+        width: 100%;
+    }
+}
+
