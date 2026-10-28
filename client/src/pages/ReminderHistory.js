@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -17,7 +16,7 @@ function ReminderHistory() {
                 setHistory(Array.isArray(rows) ? rows : []);
             } catch (err) {
                 console.error("Failed to load reminder history:", err);
-                setError("History load ஆகவில்லை. Backend API-ஐ சரிபார்க்கவும்.");
+                setError("Failed to load history. Please check the backend API.");
             } finally {
                 setLoading(false);
             }
@@ -26,13 +25,29 @@ function ReminderHistory() {
         loadHistory();
     }, []);
 
+    // Filter history using the customer name in the URL
+    const params = new URLSearchParams(window.location.search);
+    const selectedCustomer = params.get("customer");
+
+    const filteredHistory = selectedCustomer
+        ? history.filter(
+              (item) =>
+                  String(item.customer_name || "").trim().toLowerCase() ===
+                  selectedCustomer.trim().toLowerCase()
+          )
+        : history;
+
     return (
         <div style={{ padding: "24px" }}>
             <button onClick={() => window.history.back()}>
                 ← Back to Reminders
             </button>
 
-            <h2>Reminder History</h2>
+            <h2>
+                {selectedCustomer
+                    ? `${selectedCustomer} - Reminder History`
+                    : "Reminder History"}
+            </h2>
 
             {loading && <p>Loading history...</p>}
             {error && <p>{error}</p>}
@@ -51,12 +66,12 @@ function ReminderHistory() {
                             <th>Note</th>
                             <th>Event</th>
                             <th>Details</th>
-                            <th>Date & Time</th>
+                            <th>Date &amp; Time</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        {history.map((item) => (
+                        {filteredHistory.map((item) => (
                             <tr key={item.history_id ?? item.id}>
                                 <td>{item.customer_name || "-"}</td>
                                 <td>{item.note || "-"}</td>
@@ -70,10 +85,10 @@ function ReminderHistory() {
                             </tr>
                         ))}
 
-                        {history.length === 0 && (
+                        {filteredHistory.length === 0 && (
                             <tr>
                                 <td colSpan="5">
-                                    History records எதுவும் இல்லை.
+                                    No history records found for this customer.
                                 </td>
                             </tr>
                         )}
