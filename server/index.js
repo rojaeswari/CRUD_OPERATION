@@ -5026,7 +5026,7 @@ setInterval(async () => {
             WHERE status = 'Active'
               AND started_at IS NOT NULL
               AND started_at + (repeat_minutes * INTERVAL '1 minute')
-                  <= CURRENT_TIMESTAMP
+    <= (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')
             ORDER BY started_at ASC, id ASC
             FOR UPDATE SKIP LOCKED
         `);
@@ -5058,7 +5058,7 @@ setInterval(async () => {
             const restarted = await client.query(
                 `UPDATE reminders
                  SET status = 'Active',
-                     started_at = CURRENT_TIMESTAMP
+                     started_at = (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')
                  WHERE id = $1
                    AND status = 'Missed'
                  RETURNING id`,
@@ -5105,7 +5105,7 @@ setInterval(async () => {
             const updated = await client.query(
                 `UPDATE reminders
                  SET status = 'Active',
-                     started_at = CURRENT_TIMESTAMP
+                     started_at = (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')
                  WHERE id = $1
                    AND status = 'Pending'
                  RETURNING id`,
