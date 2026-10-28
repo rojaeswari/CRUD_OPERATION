@@ -656,97 +656,85 @@
 
 
 
-/* Compact and aligned reminder page */
+/* Reduce the overall page width */
 .reminder-page {
-    max-width: 1450px;
-    padding: 20px;
-    margin: 0 auto;
+    width: 94% !important;
+    max-width: 1250px !important;
+    padding: 16px !important;
+    margin: 0 auto !important;
 }
 
-/* Compact form card */
+/* Reduce form card spacing */
 .reminder-form-card {
-    padding: 22px 26px;
+    padding: 18px !important;
 }
 
-/* Center form title */
-.reminder-form-card h2 {
-    text-align: center;
-    margin-bottom: 18px;
+/* Customer Name input */
+.reminder-form-card input[type="text"] {
+    width: 55% !important;
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
-/* Consistent field spacing */
-.reminder-form-card .reminder-field {
-    margin-bottom: 14px;
-    gap: 7px;
+/* Repeat Interval input */
+.reminder-form-card input[type="number"] {
+    width: 280px !important;
+    max-width: 100% !important;
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
-/* Customer Name box */
-.reminder-form-card .reminder-field:first-of-type input {
-    width: 60%;
-    margin: 0 auto;
+/* Date and Time fields */
+.reminder-date-time input,
+.reminder-date-time select {
+    width: 75% !important;
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
-/* Note box */
-.reminder-form-card .reminder-field textarea {
-    width: 100%;
-    min-height: 75px;
+/* Keep Note full width */
+.reminder-form-card textarea {
+    width: 100% !important;
+    box-sizing: border-box;
 }
 
-/* Date and Time alignment */
-.reminder-date-time {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-}
-
-.reminder-date-time .reminder-field {
-    width: 100%;
-}
-
-.reminder-date-time .reminder-field input,
-.reminder-date-time .reminder-field select {
-    width: 75%;
-    margin: 0 auto;
-}
-
-/* Repeat Interval box */
-.reminder-form-card > .reminder-field:last-of-type input {
-    width: 60%;
-    margin: 0 auto;
-}
-
-/* Consistent input heights */
-.reminder-field input,
-.reminder-field select {
-    min-height: 40px;
-    padding: 9px 12px;
-}
-
-/* Buttons */
-.reminder-submit-btn {
-    min-height: 42px;
-    margin-top: 2px;
-}
-
-/* Mobile alignment */
+/* Mobile */
 @media (max-width: 768px) {
     .reminder-page {
-        padding: 12px;
+        width: 100% !important;
+        padding: 10px !important;
     }
 
-    .reminder-form-card {
-        padding: 16px;
+    .reminder-form-card input[type="text"],
+    .reminder-date-time input,
+    .reminder-date-time select {
+        width: 100% !important;
     }
 
-    .reminder-form-card .reminder-field:first-of-type input,
-    .reminder-date-time .reminder-field input,
-    .reminder-date-time .reminder-field select,
-    .reminder-form-card > .reminder-field:last-of-type input {
-        width: 100%;
+    .reminder-form-card input[type="number"] {
+        width: 100% !important;
     }
+}
 
-    .reminder-date-time {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
+/* Keep Add, History and Delete buttons in one row */
+.reminder-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap;
+}
+
+.reminder-actions button {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 8px 10px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
 }
