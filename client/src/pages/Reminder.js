@@ -799,17 +799,23 @@ return (
 
                                             <td>
                                                 <div className="reminder-actions">
-                                                    <button
-                                                        type="button"
-                                                        className="reminder-add-btn"
-                                                        onClick={() =>
-                                                            handleAddForCustomer(
-                                                                group.customer
-                                                            )
-                                                        }
-                                                    >
-                                                        + Add
-                                                    </button>
+                                                   <button
+    type="button"
+    className="reminder-add-btn"
+    onClick={() => {
+        const activeReminder = group.reminders.find(
+            (reminder) =>
+                getReminderStatus(reminder) === "active"
+        );
+
+        handleAddForCustomer(
+            group.customer,
+            activeReminder || null
+        );
+    }}
+>
+    + Add
+</button>
 
   
 
