@@ -5021,7 +5021,7 @@ app.put("/api/reminders/:id", async (req, res) => {
     let client;
 
     try {
-        client = await pool.connect();
+        client = await db.connect();
         await client.query("BEGIN");
 
         const result = await client.query(
