@@ -17,7 +17,7 @@ self.addEventListener("push", (event) => {
         body: data.body || "A reminder is active.",
         icon: "/logo192.png",
         badge: "/favicon.ico",
-        tag: data.tag || "rma-reminder",
+        tag: data.tag || ("rma-reminder-" + Date.now()),
         data: {
             url: data.url || "/"
         },
