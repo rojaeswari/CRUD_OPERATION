@@ -27,6 +27,7 @@ const getLocalDateString = (timestamp) => {
     return `${year}-${month}-${day}`;
 };
 
+
 const getTimeOptions = (selectedDate, timestamp) => {
     const now = new Date(timestamp);
     const today = getLocalDateString(timestamp);
@@ -34,23 +35,25 @@ const getTimeOptions = (selectedDate, timestamp) => {
 
     const options = [];
 
-    for (let hour = 0; hour < 24; hour++) {
-        for (let minute = 0; minute < 60; minute += 10) {
-            const totalMinutes = hour * 60 + minute;
+    // காலை 09:00 முதல் மறுநாள் காலை 08:50 வரை
+    for (let i = 0; i < 144; i++) {
+        const totalMinutes = (9 * 60 + i * 10) % (24 * 60);
 
-            if (selectedDate === today && totalMinutes <= currentMinutes) {
-                continue;
-            }
+        const hour = Math.floor(totalMinutes / 60);
+        const minute = totalMinutes % 60;
 
-            const value =
-                `${String(hour).padStart(2, "0")}:` +
-                `${String(minute).padStart(2, "0")}`;
-
-            options.push({
-                value,
-                label: value,
-            });
+        if (selectedDate === today && totalMinutes <= currentMinutes) {
+            continue;
         }
+
+        const value =
+            `${String(hour).padStart(2, "0")}:` +
+            `${String(minute).padStart(2, "0")}`;
+
+        options.push({
+            value,
+            label: value,
+        });
     }
 
     return options;
