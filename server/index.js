@@ -4994,6 +4994,7 @@ app.post("/api/reminders/:id/done", async (req, res) => {
 
 
 
+
 app.put("/api/reminders/:id", async (req, res) => {
     const { id } = req.params;
     const {
@@ -5017,8 +5018,13 @@ app.put("/api/reminders/:id", async (req, res) => {
         });
     }
 
+    let client;
+
     try {
-        const result = await pool.query(
+        client = await pool.connect();
+        await client.query("BEGIN");
+
+        const result = await client.query(
             `UPDATE reminders
              SET customer_name = $1,
                  note = $2,
@@ -5041,21 +5047,50 @@ app.put("/api/reminders/:id", async (req, res) => {
         );
 
         if (result.rows.length === 0) {
+            await client.query("ROLLBACK");
+
             return res.status(404).json({
                 message: "Reminder not found."
             });
         }
 
+        const updatedReminder = result.rows[0];
+
+        await client.query(
+            `INSERT INTO reminder_history
+             (reminder_id, event_type, details)
+             VALUES ($1, $2, $3)`,
+            [
+                id,
+                "Updated",
+                `Reminder updated. Customer: ${customer_name.trim()}, Note: ${note.trim()}, Date: ${reminder_date}, Time: ${reminder_time}, Repeat: ${Number(repeat_minutes)} minutes`
+            ]
+        );
+
+        await client.query("COMMIT");
+
         return res.json({
-            message: "Reminder updated successfully.",
-            reminder: result.rows[0]
+            message: "Reminder and history updated successfully.",
+            reminder: updatedReminder
         });
+
     } catch (error) {
+        if (client) {
+            try {
+                await client.query("ROLLBACK");
+            } catch (rollbackError) {
+                console.error("Rollback error:", rollbackError);
+            }
+        }
+
         console.error("Update reminder error:", error);
 
         return res.status(500).json({
-            message: "Failed to update reminder."
+            message: "Failed to update reminder and history."
         });
+
+    } finally {
+        if (client) client.release();
     }
 });
 
