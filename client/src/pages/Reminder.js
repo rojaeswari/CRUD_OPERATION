@@ -499,7 +499,9 @@ return (
             {showForm && (
                 <section className="reminder-form-card">
                   <h2>
-    {editingReminderId !== null ? "Edit Reminder" : "Add Reminder"}
+    {editingReminderId !== null
+        ? "Update Reminder"
+        : "Add Reminder"}
 </h2>
                     <form onSubmit={handleSubmit}>
                         <div className="reminder-field">
@@ -799,18 +801,13 @@ return (
 
                                             <td>
                                                 <div className="reminder-actions">
-                                                   <button
+      <button
     type="button"
     className="reminder-add-btn"
     onClick={() => {
-        const activeReminder = group.reminders.find(
-            (reminder) =>
-                getReminderStatus(reminder) === "active"
-        );
-
         handleAddForCustomer(
             group.customer,
-            activeReminder || null
+            latestReminder
         );
     }}
 >
