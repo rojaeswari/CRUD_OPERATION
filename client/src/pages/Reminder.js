@@ -145,6 +145,7 @@ function Reminder() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [customerSearch, setCustomerSearch] = useState("");
+    const [editingReminderId, setEditingReminderId] = useState(null);
 
     // Navigation state added
     const [showForm, setShowForm] = useState(false);
@@ -205,82 +206,91 @@ function Reminder() {
         }
     }, [reminderDate, reminderTime, currentTime]);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    
+const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        setError("");
-        setSuccess("");
+    setError("");
+    setSuccess("");
 
-        const name = customerName.trim();
-        const reminderNote = note.trim();
-        const interval = Number(repeatMinutes);
+    const name = customerName.trim();
+    const reminderNote = note.trim();
+    const interval = Number(repeatMinutes);
 
-        if (!name || !reminderNote || !reminderDate || !reminderTime) {
-            setError("Please fill in all fields.");
-            return;
-        }
+    if (!name || !reminderNote || !reminderDate || !reminderTime) {
+        setError("Please fill in all fields.");
+        return;
+    }
 
-        if (!Number.isInteger(interval) || interval < 1) {
-            setError("Repeat interval must be at least 1 minute.");
-            return;
-        }
+    if (!Number.isInteger(interval) || interval < 1) {
+        setError("Repeat interval must be at least 1 minute.");
+        return;
+    }
 
-        const selectedDateTime = new Date(
-            `${reminderDate}T${reminderTime}:00`
-        ).getTime();
+    const selectedDateTime = new Date(
+        `${reminderDate}T${reminderTime}:00`
+    ).getTime();
 
-        if (
-            !Number.isFinite(selectedDateTime) ||
-            selectedDateTime <= Date.now()
-        ) {
-            setError("Please select a future date and time.");
-            setReminderTime("");
-            return;
-        }
+    if (
+        !Number.isFinite(selectedDateTime) ||
+        selectedDateTime <= Date.now()
+    ) {
+        setError("Please select a future date and time.");
+        setReminderTime("");
+        return;
+    }
 
-        const validSlot = getTimeOptions(
-            reminderDate,
-            Date.now()
-        ).some((option) => option.value === reminderTime);
+    const validSlot = getTimeOptions(
+        reminderDate,
+        Date.now()
+    ).some((option) => option.value === reminderTime);
 
-        if (!validSlot) {
-            setError("The selected time slot is no longer valid.");
-            setReminderTime("");
-            return;
-        }
+    if (!validSlot) {
+        setError("The selected time slot is no longer valid.");
+        setReminderTime("");
+        return;
+    }
 
-        try {
-            setSaving(true);
+    try {
+        setSaving(true);
 
-            await axios.post(API, {
-                customer_name: name,
-                note: reminderNote,
-                reminder_date: reminderDate,
-                reminder_time: reminderTime,
-                repeat_minutes: interval,
-            });
+        const payload = {
+            customer_name: name,
+            note: reminderNote,
+            reminder_date: reminderDate,
+            reminder_time: reminderTime,
+            repeat_minutes: interval,
+        };
 
+        if (editingReminderId !== null) {
+            await axios.put(`${API}/${editingReminderId}`, payload);
+            setSuccess("Reminder updated successfully.");
+        } else {
+            await axios.post(API, payload);
             setSuccess("Reminder added successfully.");
-            setShowForm(false);
-
-            setCustomerName("");
-            setNote("");
-            setReminderDate(getLocalDateString(Date.now()));
-            setReminderTime("");
-            setRepeatMinutes("15");
-
-            await loadReminders();
-        } catch (err) {
-            console.error("Failed to add reminder:", err);
-
-            setError(
-                err.response?.data?.message ||
-                "Failed to save reminder. Please check the backend."
-            );
-        } finally {
-            setSaving(false);
         }
-    };
+
+        setShowForm(false);
+        setEditingReminderId(null);
+
+        setCustomerName("");
+        setNote("");
+        setReminderDate(getLocalDateString(Date.now()));
+        setReminderTime("");
+        setRepeatMinutes("15");
+
+        await loadReminders();
+    } catch (err) {
+        console.error("Failed to save reminder:", err);
+
+        setError(
+            err.response?.data?.message ||
+            "Failed to save reminder. Please check the backend."
+        );
+    } finally {
+        setSaving(false);
+    }
+};
 
     const handleDone = async (id) => {
         if (!window.confirm("Mark this reminder as completed?")) {
@@ -344,28 +354,34 @@ function Reminder() {
     };
 
    
-const handleAddForCustomer = (customer, existingReminder = null) => {
-    setShowForm(true);
-    setCustomerName(customer);
 
-    // Existing reminder details can be prefilled
-    setReminderDate(
-        getLocalDateString(Date.now())
+const handleAddForCustomer = (customer, existingReminder = null) => {
+    setEditingReminderId(
+        existingReminder ? getReminderId(existingReminder) : null
     );
 
-    setReminderTime("");
+    setCustomerName(customer);
     setNote(existingReminder?.note || existingReminder?.notes || "");
-    setRepeatMinutes("15");
 
-    setSuccess("");
+    setReminderDate(
+        existingReminder?.reminder_date
+            ? String(existingReminder.reminder_date).slice(0, 10)
+            : getLocalDateString(Date.now())
+    );
+
+    setReminderTime(
+        existingReminder?.reminder_time
+            ? String(existingReminder.reminder_time).slice(0, 5)
+            : ""
+    );
+
+    setRepeatMinutes(String(existingReminder?.repeat_minutes || 15));
     setError("");
+    setSuccess("");
+    setShowForm(true);
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 };
-
 
     
 

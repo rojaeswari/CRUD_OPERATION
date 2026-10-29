@@ -4994,6 +4994,74 @@ app.post("/api/reminders/:id/done", async (req, res) => {
 
 
 
+app.put("/api/reminders/:id", async (req, res) => {
+    const { id } = req.params;
+    const {
+        customer_name,
+        note,
+        reminder_date,
+        reminder_time,
+        repeat_minutes
+    } = req.body;
+
+    if (
+        !customer_name?.trim() ||
+        !note?.trim() ||
+        !reminder_date ||
+        !reminder_time ||
+        !Number.isInteger(Number(repeat_minutes)) ||
+        Number(repeat_minutes) < 1
+    ) {
+        return res.status(400).json({
+            message: "Please provide valid reminder details."
+        });
+    }
+
+    try {
+        const result = await pool.query(
+            `UPDATE reminders
+             SET customer_name = $1,
+                 note = $2,
+                 reminder_date = $3,
+                 reminder_time = $4,
+                 repeat_minutes = $5,
+                 status = 'Pending',
+                 started_at = NULL,
+                 completed_at = NULL
+             WHERE id = $6
+             RETURNING *`,
+            [
+                customer_name.trim(),
+                note.trim(),
+                reminder_date,
+                reminder_time,
+                Number(repeat_minutes),
+                id
+            ]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                message: "Reminder not found."
+            });
+        }
+
+        return res.json({
+            message: "Reminder updated successfully.",
+            reminder: result.rows[0]
+        });
+    } catch (error) {
+        console.error("Update reminder error:", error);
+
+        return res.status(500).json({
+            message: "Failed to update reminder."
+        });
+    }
+});
+
+
+
+
 // Background scheduler: run every 10 seconds
 
 
