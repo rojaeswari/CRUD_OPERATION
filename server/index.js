@@ -103,12 +103,12 @@ async function sendPushToAll(title, body, tag = "rma-reminder") {
             title
         );
 
-        const payload = JSON.stringify({
-            title,
-            body,
-            tag,
-            url: "/"
-        });
+       const payload = JSON.stringify({
+    title,
+    body,
+    tag: `${tag}-${Date.now()}`,
+    url: "/"
+});
 
         for (const row of result.rows) {
             try {
