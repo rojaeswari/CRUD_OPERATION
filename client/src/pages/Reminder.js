@@ -467,7 +467,17 @@ return (
                 <button
                     type="button"
                     className="reminder-submit-btn"
-                    onClick={() => setShowForm(true)}
+                   onClick={() => {
+    setEditingReminderId(null);
+    setCustomerName("");
+    setNote("");
+    setReminderDate(getLocalDateString(Date.now()));
+    setReminderTime("");
+    setRepeatMinutes("15");
+    setError("");
+    setSuccess("");
+    setShowForm(true);
+}}
                 >
                     + Add Reminder
                 </button>
@@ -488,8 +498,9 @@ return (
 
             {showForm && (
                 <section className="reminder-form-card">
-                    <h2>Add Reminder</h2>
-
+                  <h2>
+    {editingReminderId !== null ? "Edit Reminder" : "Add Reminder"}
+</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="reminder-field">
                             <label htmlFor="customerName">Customer Name</label>
@@ -590,7 +601,11 @@ return (
                             className="reminder-submit-btn"
                             disabled={saving}
                         >
-                            {saving ? "Saving..." : "Add Reminder"}
+                            {saving
+    ? "Saving..."
+    : editingReminderId !== null
+    ? "Update Reminder"
+    : "Add Reminder"}
                         </button>
 
                         <button
