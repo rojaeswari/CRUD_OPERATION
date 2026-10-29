@@ -499,9 +499,7 @@ return (
             {showForm && (
                 <section className="reminder-form-card">
                   <h2>
-    {editingReminderId !== null
-        ? "Update Reminder"
-        : "Add Reminder"}
+    {editingReminderId !== null ? "Edit Reminder" : "Add Reminder"}
 </h2>
                     <form onSubmit={handleSubmit}>
                         <div className="reminder-field">
